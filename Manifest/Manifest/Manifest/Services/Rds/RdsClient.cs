@@ -61,7 +61,20 @@ namespace Manifest.Services.Rds
 
         public async Task<List<SubOccurance>> GetSubOccurances(string occuranceId)
         {
-            throw new NotImplementedException();
+            string url = BaseUrl + RdsConfig.actionAndTaskUrl + "/" + occuranceId;
+            try
+            {
+                HttpClient client = new HttpClient();
+                var response = await client.GetStringAsync(url);
+                SubOccuranceResponse SubOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
+                return SubOccuranceResponse.ToSubOccurances();
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                throw;
+            }
+           
         }
     }
 }
