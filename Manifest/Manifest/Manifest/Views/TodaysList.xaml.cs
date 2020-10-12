@@ -15,6 +15,7 @@ namespace Manifest.Views
         public TodaysList()
         {
             DataFactory.Instance.GetDataClient().GetSubOccurances("300-000049");
+            //Dummy comment
             InitializeComponent();
         }
     }
