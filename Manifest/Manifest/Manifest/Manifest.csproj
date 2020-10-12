@@ -7,6 +7,10 @@
 
   <ItemGroup>
     <None Remove="Images\calendarFive.svg" />
+    <None Remove="Images\fullsun.png" />
+    <None Remove="Images\moon.png" />
+    <None Remove="Images\sunriselow.png" />
+    <None Remove="Images\sunrisemid.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +22,10 @@
 
   <ItemGroup>
     <SharedImage Include="Images\calendarFive.svg" BaseSize="56,56" />
+    <SharedImage Include="Images\fullsun.png" BaseSize="48,48" />
+    <SharedImage Include="Images\moon.png" BaseSize="48,48" />
+    <SharedImage Include="Images\sunriselow.png" BaseSize="48,48" />
+    <SharedImage Include="Images\sunrisemid.png" BaseSize="48,48" />
   </ItemGroup>
 
   <ItemGroup>

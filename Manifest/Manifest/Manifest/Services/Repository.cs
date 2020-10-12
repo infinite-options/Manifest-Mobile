@@ -11,8 +11,8 @@ namespace Manifest.Services
         private static readonly Lazy<Repository> lazy = new Lazy<Repository>(() => new Repository());
         public static Repository Instance => lazy.Value;
 
-        private DataFactory facotry;
-        private IDataClient dataClient;
+        readonly private DataFactory facotry;
+        readonly private IDataClient dataClient;
         private User user = null;
         private List<Occurance> occurances = null;
 

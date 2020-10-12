@@ -22,17 +22,18 @@ namespace Manifest.Services.Rds
         public async Task<User> GetUser(string userId)
         {
             string url = BaseUrl + RdsConfig.aboutMeUrl + "/" + userId;
-            Debug.WriteLine("Making call to : "+url);
+            //Debug.WriteLine("Making call to : "+url);
             try
             {
                 HttpClient client = new HttpClient();
-                var response = await client.GetStringAsync(url);
-                Debug.WriteLine(response);
-                UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(response);
-                foreach(UserDto dto in userResponse.result)
-                {
-                    Debug.WriteLine(dto.relation_type);
-                }
+                var response = client.GetStringAsync(url);
+                response.Wait();
+                //Debug.WriteLine(response);
+                UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(response.Result);
+                //foreach(UserDto dto in userResponse.result)
+                //{
+                //    Debug.WriteLine(dto.relation_type);
+                //}
                 return userResponse.ToUser(userId);
             }
             catch (Exception e)
@@ -48,8 +49,9 @@ namespace Manifest.Services.Rds
             try
             {
                 HttpClient client = new HttpClient();
-                var response = await client.GetStringAsync(url);
-                OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
+                var response = client.GetStringAsync(url);
+                response.Wait();
+                OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response.Result);
                 return occuranceResponse.ToOccurances();
             }
             catch(Exception e)
