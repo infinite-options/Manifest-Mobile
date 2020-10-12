@@ -8,8 +8,6 @@ namespace Manifest
 {
     public partial class App : Application
     {
-        Repository repo = Repository.Instance;
-
         public App()
         {
             InitializeComponent();
