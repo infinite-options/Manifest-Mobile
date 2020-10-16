@@ -23,15 +23,11 @@ namespace Manifest.Views
             User userData = Manifest.Services.Repository.Instance.GetUser("100-000028");
             user.BindingContext = userData;
             importantPeople.ItemsSource = userData.ImportantPeople;
-            //TouchCommand = new Command(TapGestureRecognizer_Tapped);
-
         }
 
         public async void dialPhone(string phoneNumber)
         {
             viewModel.DialPhone(phoneNumber);
-            //Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXX");
-            //Console.WriteLine("Phone number of TA:" + phoneNumber);
         }
 
         void LogoutButton_Clicked(System.Object sender, System.EventArgs e)
@@ -42,35 +38,12 @@ namespace Manifest.Views
             //await Navigation.PushAsync(new LoginPage());
         }
 
-
-
-        //void TapGestureRecognizer_Tapped(object phoneNumber)
-        //{
-        //    dialPhone(phoneNumber.ToString());
-        //    Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXX");
-        //    Console.WriteLine("Phone number:" + phoneNumber.ToString());
-        //}
-
         void TapGestureRecognizer_Tapped(System.Object sender, EventArgs e)
         {
-            //TapGestureRecognizer tap = new TapGestureRecognizer();
-            //tap.Tapped += (sender, e) =>
-            //{
-            //    Image lblClicked = (Image)sender;
-            //    string phoneNumber = lblClicked.ToString();
-            //    Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXX");
-            //    Console.WriteLine("Phone number:" + phoneNumber);
-            //};
-
-            //  dialPhone(phoneNumber.ToString());
-            //string phNumber = (Image)sender;
             Image lblClicked = (Image)sender;
             var item = (TapGestureRecognizer)lblClicked.GestureRecognizers[0];
             var PhoneNumber = item.CommandParameter;
-
             dialPhone(PhoneNumber.ToString());
-            //Console.WriteLine("XXXXXXXXXXXXXXXXXXXXXX");
-            //Console.WriteLine("Phone number:" + PhoneNumber.ToString());
         }
     }
 }

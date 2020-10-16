@@ -31,7 +31,6 @@
                                 <CarouselView.ItemTemplate>
                                     <DataTemplate>
                                         <StackLayout>
-                                            <!--<StackLayout.GestureRecognizers> <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding dialPhone, Source={x:Static local:AboutPage}}"> </TapGestureRecognizer> </StackLayout.GestureRecognizers>-->
                                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                                                <Image Source="{Binding PicUrl}" Margin="0,0,0,0" HeightRequest="80" WidthRequest="80">
                                                    <Image.GestureRecognizers>
@@ -39,11 +38,14 @@
                                                    </Image.GestureRecognizers>
                                                </Image> 
                                             </StackLayout>
-                                            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" >
+                                            <Label HorizontalOptions="Center" FontSize="18" FontFamily="Inter" TextColor="Black" Text="{Binding Name}"  />
+<!---->                                     <!--Additional print statments for TA debug-->
+                                            <!--<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" >
                                                 <Label HorizontalOptions="Center" FontSize="18" FontFamily="Inter" TextColor="Black" Text="{Binding Name}"  />
                                                 <Label HorizontalOptions="Center" FontSize="18" FontFamily="Inter" TextColor="Black" Text="{Binding Id}"  />
                                                 <Label HorizontalOptions="Center" FontSize="18" FontFamily="Inter" TextColor="Black" Text="{Binding PhoneNumber}"  />
-                                            </StackLayout>
+                                            </StackLayout>-->
+
                                         </StackLayout>
                                     </DataTemplate>
                                 </CarouselView.ItemTemplate>
