@@ -10,9 +10,21 @@ namespace Manifest.ViewModels
         public AboutViewModel()
         {
             Title = "About";
-            OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamain-quickstart"));
+            //OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamain-quickstart"));
         }
 
-        public ICommand OpenWebCommand { get; }
+        //public ICommand OpenWebCommand { get; }
+
+        public async void DialPhone(string phoneNumber) {
+            if (phoneNumber == "") await Application.Current.MainPage.DisplayAlert("Sorry!", $"Hmmm... We don't have a phone number on file", "OK");
+            else
+            {
+                //PhoneDialer.Open(phoneNumber);
+                Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                Console.WriteLine("Phone number of TA:" + phoneNumber);
+                Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                await Launcher.OpenAsync(new Uri("tel:" + phoneNumber));
+            }
+        }
     }
 }

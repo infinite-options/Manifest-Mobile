@@ -14,5 +14,6 @@ namespace Manifest.Models
         public string PicUrl { get; set; }
         public string Relation { get; set; }
         public string UserId { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

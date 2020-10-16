@@ -27,11 +27,11 @@ namespace Manifest.Services.Rds
         public string email_id { get; set; }
         public string people_name { get; set; }
         public string have_pic { get; set; }
-        public string picture { get; set; }
+        public string ta_picture { get; set; }
         public string important { get; set; }
         public string user_unique_id { get; set; }
         public string relation_type { get; set; }
-
+        public string ta_phone { get; set; }
 
         internal User ToUser()
         {
@@ -43,7 +43,7 @@ namespace Manifest.Services.Rds
                 LastName = user_last_name,
                 Email = user_email_id,
                 HavePic = DataParser.ToBool(have_pic),
-                PicUrl = picture,
+                PicUrl = user_picture,
                 MessageCard = message_card,
                 MessageDay = message_day,
                 TimeSettings = ToTimeSettings()
@@ -59,7 +59,9 @@ namespace Manifest.Services.Rds
             {
                 Name = people_name,
                 Relation = relation_type,
-                PicUrl = picture
+                PicUrl = ta_picture,
+                Id = ta_people_id,
+                PhoneNumber = ta_phone
             };
         }
 
