@@ -22,7 +22,7 @@ namespace Manifest.Views
         internal SplashScreenViewModel ViewModel { get; set; } = new SplashScreenViewModel();
         protected override void OnAppearing()
         {
-            base.OnAppearing();
+            base.OnAppearing(); 
             ViewModel.Init();
         }
     }
