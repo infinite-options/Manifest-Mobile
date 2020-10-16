@@ -58,6 +58,7 @@ namespace Manifest.Services.Rds
             occurance.RepeatOccurences = repeat_occurences;
             if (!string.IsNullOrWhiteSpace(repeat_ends_on)) occurance.RepeatEndsOn = DataParser.ToDateTime(repeat_ends_on);
             occurance.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
+            occurance.UserId = user_id;
             return occurance;
         }
 

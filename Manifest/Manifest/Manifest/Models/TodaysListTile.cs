@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Manifest.Models
@@ -11,8 +12,9 @@ namespace Manifest.Models
     {
         Event, Occurance
     }
-    class TodaysListTile : IComparable<TodaysListTile>, INotifyPropertyChanged
+    public class TodaysListTile : IComparable<TodaysListTile>, INotifyPropertyChanged
     {
+        public string Id { get; set; }
         public TimeSpan AvailableStartTime { get; set; }
         public TimeSpan AvailableEndTime { get; set; }
         public string ActualStartTime { get; set; }
@@ -31,12 +33,14 @@ namespace Manifest.Models
         public string Title { get; set; }
         public TileType Type { get; set; }
         public string SubTitle { get; set; }
+        public bool IsSublistAvailable { get; set; }
         public string TimeDifference { get; set; }
 
         private bool inProgress;
         public bool InProgress { get { return this.inProgress; } set { this.inProgress = value; OnPropertyChanged(); } }
-
+        public bool IsPersistant { get; set; }
         public string Photo { get; set; }
+        public ICommand TouchCommand { get; set; }
 
         private bool isComplete;
         public bool IsComplete
@@ -70,14 +74,6 @@ namespace Manifest.Models
 
         public int CompareTo(TodaysListTile that)
         {
-            //if (AvailableStartTime < that.AvailableStartTime)
-            //{
-            //    return -1;
-            //}
-            //else if (AvailableStartTime > that.AvailableStartTime)
-            //{
-            //    return 1;
-            //}
             return AvailableStartTime.CompareTo(that.AvailableStartTime);
         }
     }

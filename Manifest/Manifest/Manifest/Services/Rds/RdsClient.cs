@@ -67,8 +67,9 @@ namespace Manifest.Services.Rds
             try
             {
                 HttpClient client = new HttpClient();
-                var response = await client.GetStringAsync(url);
-                SubOccuranceResponse SubOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
+                var response = client.GetStringAsync(url);
+                response.Wait();
+                SubOccuranceResponse SubOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response.Result);
                 return SubOccuranceResponse.ToSubOccurances();
             }
             catch(Exception e)
