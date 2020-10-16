@@ -13,6 +13,9 @@ namespace Manifest
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(SubOccuranceCarousalView), typeof(SubOccuranceCarousalView));
+            Routing.RegisterRoute(nameof(SubOccuranceListView), typeof(SubOccuranceListView));
+            Shell.SetNavBarIsVisible(this, false);
         }
 
     }

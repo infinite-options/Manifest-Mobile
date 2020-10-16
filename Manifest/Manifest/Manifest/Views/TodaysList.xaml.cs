@@ -1,5 +1,6 @@
 ﻿using Manifest.Models;
 using Manifest.Services;
+using Manifest.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,27 +25,53 @@ namespace Manifest.Views
 
         private TimeSettings TimeSettings;
         ObservableCollection<TodaysListTileGroup> Items { get; set; }
-
+        private readonly TodaysListViewModel ViewModel;
         readonly Repository repository = Repository.Instance;
         public TodaysList()
         {
             // Test Case: DataFactory.Instance.GetDataClient().GetSubOccurances("300-000049");
             InitializeComponent();
-            User user = repository.GetUser("100-000028");
+            ViewModel = new TodaysListViewModel(Navigation);
+            var task = repository.GetUser("100-000028");
+            task.Wait();
+            User user = task.Result;
             TimeSettings = user.TimeSettings;
-            LoadUI(repository.GetOccurance(user.Id));
+            BindingContext = ViewModel;
+            LoadUI(repository.GetAllOccurances(user.Id));
         }
 
         private async Task<TodaysListTile> ToTile(Occurance occurance)
         {
-            return new TodaysListTile(occurance.IsInProgress, occurance.IsComplete)
+            string subTitle;
+            string startTime = occurance.StartDayAndTime.ToString("hh:mm tt");
+            string endTime = occurance.EndDayAndTime.ToString("hh:mm tt");
+
+            TimeSpan TimeTaken = occurance.EndDayAndTime - occurance.StartDayAndTime;
+            if (occurance.IsPersistent)
             {
+                subTitle = "This takes: " + ((int)TimeTaken.TotalMinutes).ToString() + " minutes";
+            }
+            else
+            {
+                subTitle = "This is available from: \n" + startTime + " to " + endTime;
+            }
+
+            TodaysListTile tile = new TodaysListTile(occurance.IsInProgress, occurance.IsComplete)
+            {
+                Id = occurance.Id,
                 AvailableStartTime = occurance.StartDayAndTime.TimeOfDay,
                 AvailableEndTime = occurance.EndDayAndTime.TimeOfDay,
                 Title = occurance.Title,
+                SubTitle = subTitle,
+                IsSublistAvailable = occurance.IsSublistAvailable,
                 Type = TileType.Occurance,
-                Photo = occurance.PicUrl
+                Photo = occurance.PicUrl,
+                FrameBgColorComplete = Color.FromHex("#E9E8E8"),
+                FrameBgColorInComplete = Color.FromHex("#FFFFFF")
             };
+
+            tile.TouchCommand = new Command(async () => ViewModel.OnTileTapped(tile));
+            return tile;
         }
 
         private void FillGroup(TodaysListTile tile)
