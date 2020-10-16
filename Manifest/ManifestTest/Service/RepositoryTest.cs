@@ -13,7 +13,9 @@ namespace ManifestTest.Service
         [TestMethod]
         public void GetUserTest()
         {
-            User user  =  repo.GetUser("100-000028");
+            var task = repo.GetUser("100-000028");
+            task.Wait();
+            User user = task.Result;  
             Assert.IsNotNull(user);
         }
     }

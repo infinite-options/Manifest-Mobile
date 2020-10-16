@@ -35,9 +35,9 @@
         </DataTemplate>
         <DataTemplate x:Key="OccuranceTodaysListTemplate" x:DataType="model:TodaysListTile">
             <Frame BackgroundColor="{Binding FrameBgColor}" BorderColor="{Binding BorderColor}" HeightRequest="136" CornerRadius="10" HasShadow="False" Padding="0" Margin="0">
-                <!--<Frame.GestureRecognizers>
+                <Frame.GestureRecognizers>
                     <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding TouchCommand}"/>
-                </Frame.GestureRecognizers>-->
+                </Frame.GestureRecognizers>
                 <Grid Padding="0" Margin="20,1,20,1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -55,10 +55,10 @@
                             <Image BackgroundColor="White" Source="{Binding Photo}" HorizontalOptions="FillAndExpand" HeightRequest="56" WidthRequest="56" AutomationProperties.Name="Goal Incomplete Image" />
                         </Frame>
                     </Frame>
-                    <Image Source="yellowclockicon.png" IsVisible="{Binding InProgress}" HorizontalOptions="FillAndExpand" 
+                    <Image Source="yellowclock.png" IsVisible="{Binding InProgress}" HorizontalOptions="FillAndExpand" 
                            HeightRequest="56" WidthRequest="56" AutomationProperties.Name="In Progress Image" 
                            Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="1"/>
-                    <Image IsVisible="{Binding IsComplete}" Source="greencheckmarkicon.png" HorizontalOptions="FillAndExpand" BackgroundColor="{Binding FrameBgColor}"
+                    <Image IsVisible="{Binding IsComplete}" Source="greencheckmark.png" HorizontalOptions="FillAndExpand" BackgroundColor="{Binding FrameBgColor}"
                            HeightRequest="56" WidthRequest="56" AutomationProperties.Name="Goal Incomplete Image" 
                            Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="1"/>
                 </Grid>

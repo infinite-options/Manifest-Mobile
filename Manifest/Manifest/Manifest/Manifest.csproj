@@ -6,11 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\aboutme.png" />
+    <None Remove="Images\arrowLeft.png" />
     <None Remove="Images\calendarFive.svg" />
+    <None Remove="Images\exit.png" />
     <None Remove="Images\fullsun.png" />
+    <None Remove="Images\greencheckmark.png" />
+    <None Remove="Images\listview.png" />
     <None Remove="Images\moon.png" />
     <None Remove="Images\sunriselow.png" />
     <None Remove="Images\sunrisemid.png" />
+    <None Remove="Images\yellowclock.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,15 +27,30 @@
   </ItemGroup>
 
   <ItemGroup>
+    <SharedImage Include="Images\aboutme.png" BaseSize="30,30" />
+    <SharedImage Include="Images\arrowLeft.png" BaseSize="45,45" />
     <SharedImage Include="Images\calendarFive.svg" BaseSize="56,56" />
+    <SharedImage Include="Images\exit.png" BaseSize="45,45" />
     <SharedImage Include="Images\fullsun.png" BaseSize="48,48" />
+    <SharedImage Include="Images\greencheckmark.png" />
+    <SharedImage Include="Images\listview.png" BaseSize="30,30" />
     <SharedImage Include="Images\moon.png" BaseSize="48,48" />
     <SharedImage Include="Images\sunriselow.png" BaseSize="48,48" />
     <SharedImage Include="Images\sunrisemid.png" BaseSize="48,48" />
+    <SharedImage Include="Images\yellowclock.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Views\AboutMe.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SplashScreen.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SubOccuranceCarousalView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SubOccuranceListView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\TodaysList.xaml">

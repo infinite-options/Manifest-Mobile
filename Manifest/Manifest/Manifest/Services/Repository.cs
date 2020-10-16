@@ -1,7 +1,7 @@
 ﻿using Manifest.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Manifest.Services
@@ -14,33 +14,60 @@ namespace Manifest.Services
         readonly private DataFactory facotry;
         readonly private IDataClient dataClient;
         private User user = null;
-        private List<Occurance> occurances = null;
+        private Dictionary<String, Occurance> OccuranceIdOccurancePair = new Dictionary<String, Occurance>();
+        private Dictionary<String, List<SubOccurance>> OccuranceSubOccurancePair = new Dictionary<string, List<SubOccurance>>();
 
         private Repository()
         {
             facotry = DataFactory.Instance;
             dataClient = facotry.GetDataClient();
         }
-        public User GetUser(string userId)
+        public async Task<User> GetUser(string userId)
         {
             if (user == null)
             {
-                var userTask = dataClient.GetUser(userId);
-                userTask.Wait();
-                user = userTask.Result;
+                user = await dataClient.GetUser(userId);
+                //userTask.Wait();
+                //user = userTask.Result;
             }
             return user;
         }
 
-        public List<Occurance> GetOccurance(string userId)
+        public List<Occurance> GetAllOccurances(string userId)
         {
-            if (occurances == null)
+            if (OccuranceIdOccurancePair.Count == 0)
             {
                 var occurancesTask =  dataClient.GetOccurances(userId);
                 occurancesTask.Wait();
-                occurances = occurancesTask.Result;
+                foreach (Occurance occur in occurancesTask.Result)
+                {
+                    OccuranceIdOccurancePair.Add(occur.Id, occur);
+                }
             }
-            return occurances;
+            return OccuranceIdOccurancePair.Values.ToList();
+        }
+
+        public Occurance GetOccuranceById(string occuranceId)
+        {
+            return OccuranceIdOccurancePair[occuranceId];
+        }
+
+        public List<SubOccurance> GetSubOccurances(string occuranceId)
+        {
+            if (!OccuranceSubOccurancePair.ContainsKey(occuranceId))
+            {
+                var task = dataClient.GetSubOccurances(occuranceId);
+                task.Wait();
+                OccuranceSubOccurancePair.Add(occuranceId, task.Result);
+            }
+            return OccuranceSubOccurancePair[occuranceId];
+        }
+
+        public void ClearSession()
+        {
+            user = null;
+            OccuranceIdOccurancePair.Clear();
+            OccuranceSubOccurancePair.Clear();
         }
     }
 }

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Manifest.Views.SubOccuranceCarousalView"
+             xmlns:model="clr-namespace:Manifest.Models">
+    <ContentPage.Content>
+        <FlexLayout Direction="Column">
+            <StackLayout Orientation="Horizontal" Padding="5">
+                <Image Source="arrowLeft.png" HeightRequest="45" WidthRequest="45" AutomationProperties.Name="Back Button">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="GoToPrevScreen" />
+                    </Image.GestureRecognizers>
+                </Image>
+                <IndicatorView x:Name="indicatorView" IndicatorSize="8.0" IndicatorColor="Gray"
+                       SelectedIndicatorColor="Black" HorizontalOptions="FillAndExpand"/>
+                <Image Source="exit.png" HeightRequest="45" WidthRequest="45" AutomationProperties.Name="Exit Icon">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="GoToRootScreen" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+            <CarouselView x:Name="CarousalSubOccurance" HeightRequest="400" IndicatorView="indicatorView" x:DataType="model:SubOccuranceCarousalViewTile">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <FlexLayout Direction="Column" Padding="20,20,20,0">
+                            <Frame CornerRadius="30" HeightRequest="300" WidthRequest="300" FlexLayout.AlignSelf="Center" Padding="0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding PicUrl}" HeightRequest="300" WidthRequest="300"/>
+                                    <Image x:Name="CompletionStatus" IsVisible="{Binding IsComplete}" Source="greencheckmark.png" HeightRequest="300" WidthRequest="300"/>
+                                </Grid>
+                            </Frame>
+                            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="40" TextColor="Black"/>
+                            <Label Text="{Binding SubTitle}" Padding="24,0,0,0" FontSize="16" FontAttributes="Bold" TextColor= "#9EA0A4"/>
+                        </FlexLayout>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+            <Frame FlexLayout.Grow="1" HasShadow="False"></Frame>
+            <Button x:Name="NextButton" Text="Next" CornerRadius="20" BorderColor="Black" BorderWidth="1" TextColor="Black" Clicked="NextClicked"
+                    BackgroundColor="White" HeightRequest="40" WidthRequest="100" Padding="0" Margin="0,0,20,50" FlexLayout.AlignSelf="End"/>
+        </FlexLayout>
+    </ContentPage.Content>
+</ContentPage>

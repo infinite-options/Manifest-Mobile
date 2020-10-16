@@ -10,6 +10,7 @@ using Manifest.Services;
 
 namespace Manifest.ViewModels
 {
+    public delegate void InformStatus(int completed, int total);
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
