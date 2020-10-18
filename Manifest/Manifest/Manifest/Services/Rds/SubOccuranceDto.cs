@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Manifest.Models;
+using Newtonsoft.Json;
 
 namespace Manifest.Services.Rds
 {
@@ -45,6 +46,29 @@ namespace Manifest.Services.Rds
             Suboccurance.AvailableEndTime = DataParser.ToDateTime(available_end_time);
 
             return Suboccurance;
+        }
+
+        public class UpdateSubOccuranceDataType
+        {
+            public string id { get; set; }
+            public DateTime datetime_completed { get; set; }
+            public DateTime datetime_started { get; set; }
+            public bool is_in_progress { get; set; }
+            public bool is_complete { get; set; }
+
+        }
+
+        internal static string ToUpdateSubOccuranceString(SubOccurance occur)
+        {
+            var dto = new UpdateSubOccuranceDataType()
+            {
+                id = occur.Id,
+                datetime_completed = occur.DateTimeCompleted,
+                datetime_started = occur.DateTimeStarted,
+                is_in_progress = occur.IsInProgress,
+                is_complete = occur.IsComplete
+            };
+            return JsonConvert.SerializeObject(dto);
         }
     }
 }

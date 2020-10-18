@@ -13,7 +13,8 @@ namespace Manifest.ViewModels
     [QueryProperty("OccuranceId", "occuranceid")]
     public class SubOccuranceCarousalViewModel : BaseViewModel
     {
-        WeakReference<SubOccuranceCarousalView> MainPageWeakReference;
+        readonly WeakReference<SubOccuranceCarousalView> MainPageWeakReference;
+        readonly Repository repository = Repository.Instance;
         InformStatus informStatus;
         public SubOccuranceCarousalViewModel(WeakReference<SubOccuranceCarousalView> MainPageWeakReference, InformStatus informStatus) : base()
         {
@@ -87,13 +88,7 @@ namespace Manifest.ViewModels
 
         public async Task<SubOccurance> GetUpdatedItem(int index)
         {
-            SubOccurance subOccurance = SubOccurances[index];
-            if (subOccurance.IsComplete==true)
-            {
-                return subOccurance;
-            }
-            subOccurance.IsComplete = true;
-            Tiles[index].IsComplete = true;
+            SubOccurance subOccurance = MarkCompleted(index);
             completed += 1;
             informStatus?.Invoke(completed, SubOccurances.Count);
             if (completed == SubOccurances.Count)
@@ -101,6 +96,19 @@ namespace Manifest.ViewModels
                 MainPageWeakReference.TryGetTarget(out SubOccuranceCarousalView mainPage);
                 mainPage.ChangeButtonToDone();
             }
+            return subOccurance;
+        }
+
+        private SubOccurance MarkCompleted(int index)
+        {
+            SubOccurance subOccurance = SubOccurances[index];
+            Tiles[index].IsComplete = true;
+            if (subOccurance.IsComplete == true)
+            {
+                return subOccurance;
+            }
+            subOccurance.IsComplete = true;
+            _ = repository.UpdateSubOccurance(subOccurance);
             return subOccurance;
         }
     }

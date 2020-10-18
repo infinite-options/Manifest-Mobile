@@ -13,11 +13,11 @@
                     <StackLayout VerticalOptions="CenterAndExpand">
                         <StackLayout  x:Name="user" IsVisible="true" Margin="0,50,0,0">
                             <StackLayout Padding="0">
-                                <Frame CornerRadius="50" HeightRequest="100" WidthRequest="100" Padding="0" HorizontalOptions="Center" IsClippedToBounds="True">
+                                <Frame CornerRadius="50" HeightRequest="100" WidthRequest="100" Padding="0" HorizontalOptions="Center" HasShadow="False" IsClippedToBounds="True">
                                 <Image Source="{Binding PicUrl}" HeightRequest="140" WidthRequest="140" HorizontalOptions="Center" VerticalOptions="Center"></Image>
                                 </Frame>
-                            </StackLayout>
-                            <StackLayout>
+                            <!--</StackLayout>
+                            <StackLayout>-->
                                 <Label x:Name ="FirsName" Text="{Binding FirstName}"  TextColor="Black" FontSize="40" FontFamily="Inter" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 <Button x:Name= "LogoutButton" HorizontalOptions="Center" FontFamily= "Inter" Font="Smibold" BackgroundColor="White" Text="Log Out" TextColor="Black"  FontAttributes="Bold" FontSize="16"  BorderColor="Black" BorderWidth="1" CornerRadius="26" Padding="0" Margin="0" Clicked="LogoutButton_Clicked" HeightRequest="52" WidthRequest="172"/>
                                 <Label x:Name ="RecognizedPerson" Text="" TextColor="Black" FontSize="Large" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -31,13 +31,13 @@
                                 <CarouselView.ItemTemplate>
                                     <DataTemplate>
                                         <StackLayout>
-                                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                                               <Image Source="{Binding PicUrl}" Margin="0,0,0,0" HeightRequest="80" WidthRequest="80">
+                                            <!--<StackLayout Orientation="Horizontal" HorizontalOptions="Center">-->
+                                               <Image Source="{Binding PicUrl}" Margin="0,0,0,0" HeightRequest="80" WidthRequest="80" HorizontalOptions="Center">
                                                    <Image.GestureRecognizers>
                                                      <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding PhoneNumber}">  </TapGestureRecognizer>
                                                    </Image.GestureRecognizers>
                                                </Image> 
-                                            </StackLayout>
+                                            <!--</StackLayout>-->
                                             <Label HorizontalOptions="Center" FontSize="18" FontFamily="Inter" TextColor="Black" Text="{Binding Name}"  />
 <!---->                                     <!--Additional print statments for TA debug-->
                                             <!--<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" >

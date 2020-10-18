@@ -1,5 +1,7 @@
 ﻿using Manifest.Models;
+using Manifest.Services;
 using Manifest.Views;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -9,6 +11,7 @@ namespace Manifest.ViewModels
     public class TodaysListViewModel
     {
         private readonly INavigation Navigation;
+        private readonly Repository repository = Repository.Instance;
 
         public TodaysListViewModel(INavigation Navigation)
         {
@@ -34,19 +37,25 @@ namespace Manifest.ViewModels
                         if (completed == total) ChangeToComplete(tile);
                         else if (completed > 0) ChangeToInProgress(tile);
                     };
-                    //if(tile.IsPersistant) await Navigation.PushAsync(new SubOccuranceCarousalView(tile.Id, informStatus));
+                    //if (tile.IsPersistant) await Navigation.PushAsync(new SubOccuranceCarousalView(tile.Id, informStatus));
                     //else await Navigation.PushAsync(new SubOccuranceListView(tile.Id, informStatus));
                     await Navigation.PushAsync(new SubOccuranceCarousalView(tile.Id, informStatus));
+                    //await Navigation.PushAsync(new SubOccuranceListView(tile.Id, informStatus));
                 }
-                
+
             }
         }
 
         public void ChangeToInProgress(TodaysListTile tile)
         {
-            if (!tile.InProgress)
+            if (!tile.InProgress && !tile.IsComplete)
             {
                 tile.InProgress = true;
+                tile.ActualStartTime = DateTime.Now;
+                Occurance occurance = repository.GetOccuranceById(tile.Id);
+                occurance.IsInProgress = true;
+                occurance.DateTimeStarted = tile.ActualStartTime;
+                _ = repository.UpdateOccurance(occurance);
             }
         }
 
@@ -56,6 +65,13 @@ namespace Manifest.ViewModels
             {
                 tile.InProgress = false;
                 tile.IsComplete = true;
+                tile.ActualEndTime = DateTime.Now;
+                Occurance occurance = repository.GetOccuranceById(tile.Id);
+                occurance.IsInProgress = false;
+                occurance.IsInProgress = false;
+                occurance.DateTimeCompleted = tile.ActualEndTime;
+                tile.ActualStartTime = DateTime.Now;
+                _ = repository.UpdateOccurance(occurance);
             }
         }
     }

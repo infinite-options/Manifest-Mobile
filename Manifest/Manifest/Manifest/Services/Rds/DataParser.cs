@@ -54,5 +54,10 @@ namespace Manifest.Services.Rds
         {
             return ToDateTime(dateTimeString, new DateTime());
         }
+
+        internal static string BoolToString(bool b)
+        {
+            return (b) ? "true" : "false";
+        }
     }
 }

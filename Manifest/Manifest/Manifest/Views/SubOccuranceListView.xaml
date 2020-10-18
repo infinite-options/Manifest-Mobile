@@ -2,34 +2,50 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Manifest.Views.SubOccuranceListView"
-             xmlns:model="clr-namespace:Manifest.Models">
+             xmlns:model="clr-namespace:Manifest.Models"
+             BackgroundColor="#E9E8E8">
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
-            <StackLayout Orientation="Horizontal" Padding="5">
-                <Image Source="arrowLeft.png" HeightRequest="45" WidthRequest="45" AutomationProperties.Name="Back Button" />
-                <Label Text="Tama" HorizontalOptions="CenterAndExpand"/>
-                <Image Source="exit.png" HeightRequest="45" WidthRequest="45" AutomationProperties.Name="Exit Icon" />
-            </StackLayout>
-            <Image Source="greencheckmark.png" HeightRequest="300" WidthRequest="300" FlexLayout.AlignSelf="Center"/>
-            <Label Text="Top Label"/>
-            <Label Text="Expected Completion Time"/>
-            <CollectionView x:Name="SubOccuranceCollectionView" IsGrouped="False" x:DataType="model:SubOccurance">
-                <!--<CollectionView.Resources>
-                    <model:SubOccurance x:Key="0" Title="Eat Something" IsComplete="False"/>
-                    <model:SubOccurance x:Key="1" Title="Do Something" IsComplete="True"/>
-                    <model:SubOccurance x:Key="2" Title="Walk Something" IsComplete="True"/>
-                    <model:SubOccurance x:Key="3" Title="Talk Something" IsComplete="False"/>
-                </CollectionView.Resources>-->
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <FlexLayout Direction="Row">
-                            <Label Text="{Binding Title}" FlexLayout.Grow="1" FlexLayout.AlignSelf="Start"/>
-                            <Image IsVisible="{Binding IsComplete}" Source="greencheckmark.png"/>
-                        </FlexLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <Button Text="Done" BackgroundColor="Black" TextColor="White" WidthRequest="100" HorizontalOptions="Center"/>
-        </StackLayout>
+        <CollectionView x:Name="SubOccuranceCollectionView" IsGrouped="False" x:DataType="model:SubOccuranceListViewTile">
+            <CollectionView.Header>
+                <StackLayout Orientation="Vertical">
+                    <StackLayout Orientation="Horizontal" Padding="5">
+                        <Image Source="arrowLeft.png" HeightRequest="45" WidthRequest="45" AutomationProperties.Name="Back Button">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="GoToPrevScreen" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Label Text="{Binding OccuranceTitle}" HorizontalOptions="CenterAndExpand"/>
+                        <Image Source="exit.png" HeightRequest="45" WidthRequest="45" AutomationProperties.Name="Exit Icon">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="GoToPrevScreen" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+                    <Image Source="greencheckmark.png" HeightRequest="250" WidthRequest="250" FlexLayout.AlignSelf="Center"/>
+                    <Label Text="{Binding OccuranceTitle}" FontSize="40" Padding="28, 0, 28, 0" TextColor="#272E32"/>
+                    <Label Text="Expected Completion Time"/>
+                </StackLayout>
+            </CollectionView.Header>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame HasShadow="True" BorderColor="LightGray" Padding="0" Margin="0">
+                    <FlexLayout Direction="Row" HeightRequest="50" BackgroundColor="White">
+                        <Label Text="{Binding Title}" FlexLayout.Grow="1" FlexLayout.AlignSelf="Center" FontSize="15"
+                                            FontAttributes="Bold" TextColor="#272E32"/>
+                        <Image IsVisible="{Binding IsComplete}" Source="greencheckmark.png"
+                                   WidthRequest="33" HeightRequest="33"/>
+                    </FlexLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <Frame BackgroundColor="#E9E8E8" HasShadow="False">
+                    <Button x:Name="DoneButton" Clicked="GoToPrevScreen" Text="Go Back" BackgroundColor="Gray" TextColor="White" WidthRequest="100" HorizontalOptions="Center"/>
+                </Frame>
+            </CollectionView.Footer>
+        </CollectionView>
     </ContentPage.Content>
 </ContentPage>

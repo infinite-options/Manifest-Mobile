@@ -26,7 +26,7 @@ namespace Manifest.Models
         public int RepeatEvery { get; set; }
         public string RepeatFrequency { get; set; }
         public RepeatWeekDays RepeatWeekDays { get; set; }
-        public DateTime DatetimeStarted { get; set; }
+        public DateTime DateTimeStarted { get; set; }
         public DateTime DateTimeCompleted { get; set; }
         public TimeSpan ExpectedCompletionTime { get; set; }
         public Object Completed { get; set; }

@@ -17,8 +17,8 @@ namespace Manifest.Models
         public string Id { get; set; }
         public TimeSpan AvailableStartTime { get; set; }
         public TimeSpan AvailableEndTime { get; set; }
-        public string ActualStartTime { get; set; }
-        public string ActualEndTime { get; set; }
+        public DateTime ActualStartTime { get; set; }
+        public DateTime ActualEndTime { get; set; }
         public Color BorderColor
         {
             get

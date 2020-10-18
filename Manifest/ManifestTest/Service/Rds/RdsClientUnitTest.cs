@@ -44,5 +44,21 @@ namespace ManifestTest.Service.Rds
             Assert.IsTrue(subOccurances != null);
             Assert.IsTrue(subOccurances.Count > 0);
         }
+
+        [TestMethod]
+        public void TestUpdateOccurance()
+        {
+            Occurance occur = new Occurance()
+            {
+                Id = "300-000001",
+                DateTimeCompleted = DateTime.UtcNow,
+                DateTimeStarted = DateTime.UtcNow,
+                IsInProgress = false,
+                IsComplete = false
+            };
+
+            rdsClient.UpdateOccurance(occur);
+            Assert.IsTrue(true);
+        }
     }
 }

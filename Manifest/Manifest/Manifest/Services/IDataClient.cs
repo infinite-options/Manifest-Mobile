@@ -13,5 +13,9 @@ namespace Manifest.Services
         Task<List<Occurance>> GetOccurances(string userId);
 
         Task<List<SubOccurance>> GetSubOccurances(string occuranceId);
+
+        Task UpdateOccurance(Occurance occurance);
+
+        Task UpdateSubOccurance(SubOccurance subOccurance);
     }
 }

@@ -48,7 +48,7 @@ namespace Manifest.Services.Rds
             occurance.IsSublistAvailable = DataParser.ToBool(is_sublist_available);
             occurance.ExpectedCompletionTime = DataParser.ToTimeSpan(expected_completion_time);
             occurance.DateTimeCompleted = DataParser.ToDateTime(datetime_completed);
-            occurance.DatetimeStarted = DataParser.ToDateTime(datetime_started);
+            occurance.DateTimeStarted = DataParser.ToDateTime(datetime_started);
             occurance.StartDayAndTime = DataParser.ToDateTime(start_day_and_time);
             occurance.EndDayAndTime = DataParser.ToDateTime(end_day_and_time);
             occurance.Repeat = DataParser.ToBool(repeat);
@@ -75,6 +75,29 @@ namespace Manifest.Services.Rds
                 Debug.WriteLine(e);
             }
             return null;
+        }
+
+        public class UpdateOccuranceDataType
+        {
+            public string id { get; set; }
+            public DateTime datetime_completed { get; set; }
+            public DateTime datetime_started { get; set; }
+            public bool is_in_progress { get; set; }
+            public bool is_complete { get; set; }
+
+        }
+
+        internal static string ToUpdateOccuranceString(Occurance occur)
+        {
+            var dto = new UpdateOccuranceDataType()
+            {
+                id = occur.Id,
+                datetime_completed = occur.DateTimeCompleted,
+                datetime_started = occur.DateTimeStarted,
+                is_in_progress = occur.IsInProgress,
+                is_complete = occur.IsComplete
+            };
+            return JsonConvert.SerializeObject(dto);
         }
     }
 }
