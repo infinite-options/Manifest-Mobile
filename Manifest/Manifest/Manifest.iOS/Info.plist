@@ -34,5 +34,16 @@
 	<string>Manifest</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Google Auth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

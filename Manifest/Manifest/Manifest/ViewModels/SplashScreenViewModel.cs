@@ -1,6 +1,6 @@
 ﻿using Manifest.Services;
 using Manifest.Views;
-
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -11,7 +11,15 @@ namespace Manifest.ViewModels
         Repository repository = Repository.Instance;
         public async void Init()
         {
-            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+            if(Application.Current.Properties.ContainsKey("access_token")
+                && Application.Current.Properties.ContainsKey("refresh_token"))
+            {
+                await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+            }
         }
     }
 }

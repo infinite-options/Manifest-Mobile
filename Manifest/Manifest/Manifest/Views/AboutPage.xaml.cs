@@ -32,12 +32,14 @@ namespace Manifest.Views
             viewModel.DialPhone(phoneNumber);
         }
 
-        void LogoutButton_Clicked(System.Object sender, System.EventArgs e)
+        async void LogoutButton_Clicked(System.Object sender, System.EventArgs e)
         {
             //Application.Current.Properties.Remove("access_token");
             //Application.Current.Properties.Remove("refreshToken");
+            // MADE A CORRECTION FROM refreshToken to refresh_token
+            //Application.Current.Properties.Remove("refresh_token");
             //Application.Current.Properties.Remove("user_id");
-            //await Navigation.PushAsync(new LoginPage());
+            await Navigation.PushAsync(new LoginPage());
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, EventArgs e)
