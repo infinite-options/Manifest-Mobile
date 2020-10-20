@@ -40,6 +40,7 @@
         <ShellContent Title="Today's List" Icon="listview.png" Route="TodaysList" ContentTemplate="{DataTemplate local:TodaysList}" />
         <ShellContent Title="Sub Occurance" Icon="listview.png" Route="SubOccuranceListView" ContentTemplate="{DataTemplate local:SubOccuranceListView}" />
         <ShellContent Title="About Me" Icon="aboutme.png" ContentTemplate="{DataTemplate local:AboutPage}" />
+        <ShellContent Title="Accelerometer" Icon="aboutme.png" ContentTemplate="{DataTemplate local:AccelerometerPage}"/>
     </TabBar>
 
     <!--
