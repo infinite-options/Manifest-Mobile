@@ -11,7 +11,7 @@ namespace Manifest.ViewModels
         Repository repository = Repository.Instance;
         public async void Init()
         {
-            await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
+            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
     }
 }
