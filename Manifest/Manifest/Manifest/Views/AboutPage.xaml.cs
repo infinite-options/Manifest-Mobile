@@ -20,7 +20,7 @@ namespace Manifest.Views
         {
             InitializeComponent();
             viewModel = new AboutViewModel();
-            var  task = Manifest.Services.Repository.Instance.GetUser("100-000028");
+            var  task = Manifest.Services.Repository.Instance.GetUser("100-000029");
             task.Wait();
             User userData = task.Result;
             user.BindingContext = userData;

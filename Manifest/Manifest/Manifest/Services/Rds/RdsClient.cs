@@ -23,12 +23,13 @@ namespace Manifest.Services.Rds
         public async Task<User> GetUser(string userId)
         {
             string url = BaseUrl + RdsConfig.aboutMeUrl + "/" + userId;
-            //Debug.WriteLine("Making call to : "+url);
+
+            Debug.WriteLine("Making call to : " + url);
             try
             {
                 var response = client.GetStringAsync(url);
                 response.Wait();
-                //Debug.WriteLine(response);
+                Debug.WriteLine(response);
                 UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(response.Result);
                 //foreach(UserDto dto in userResponse.result)
                 //{
