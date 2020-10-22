@@ -27,8 +27,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>Apple Development: Ashutosh Mahala (254UVQ6R66)</CodesignKey>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
+    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -41,6 +41,8 @@
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <OptimizePNGs>true</OptimizePNGs>
+    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
+    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,12 +53,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Development: Ashutosh Mahala (254UVQ6R66)</CodesignKey>
+    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
     <MtouchFloat32>true</MtouchFloat32>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -66,10 +68,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchLink>SdkOnly</MtouchLink>
+    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -77,6 +80,8 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AppleSignIn\AppleSignInButtonRenderer.cs" />
+    <Compile Include="AppleSignIn\AppleSignInService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -165,5 +170,8 @@
       <Project>{C00B3915-682A-409F-92A2-B1F930CAC658}</Project>
       <Name>Manifest</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AppleSignIn\" />
   </ItemGroup>
 </Project>
