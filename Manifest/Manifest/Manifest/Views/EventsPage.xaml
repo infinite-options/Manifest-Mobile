@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Manifest.Views.EventsPage" BackgroundColor="White">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Events" HorizontalTextAlignment="Start" Font="Bold, 40"  TextColor="Black" Padding="20,50,0,0"></Label>
+            <Label Text="Title:" HorizontalTextAlignment="Start" Font="20"  TextColor="Black" Padding="20,30,0,0"></Label>
+            <Label Text="Time: " HorizontalTextAlignment="Start" Font="20"  TextColor="Black" Padding="20,30,0,0"></Label>
+            <Frame HasShadow="False">
+            <StackLayout> <BoxView Color="Black" HeightRequest="2"/> </StackLayout>
+            </Frame>
+            <Label Text="Created by: " HorizontalTextAlignment="Start" Font="20"  TextColor="Black" Padding="20,0,0,0"></Label>
+            <Frame HasShadow="False">
+            <StackLayout> <BoxView Color="Black" HeightRequest="2"/> </StackLayout>
+            </Frame>
+            <Label Text="Description: " HorizontalTextAlignment="Start" Font="20"  TextColor="Black" Padding="20,0,0,0"></Label>
+            <Label Text="Attendees: " HorizontalTextAlignment="Start" Font="20"  TextColor="Black" Padding="20,30,0,0"></Label>
+
+            <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+                 <Label Text="Namdev" VerticalOptions="Center"  Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Ashutosh" VerticalOptions="Center" Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Prashant" VerticalOptions="Center" Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Namdev" VerticalOptions="Center"  Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Ashutosh" VerticalOptions="Center" Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Prashant" VerticalOptions="Center" Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Namdev" VerticalOptions="Center"  Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Ashutosh" VerticalOptions="Center" Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Prashant" VerticalOptions="Center" Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Ashutosh" VerticalOptions="Center" Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+                 <Label Text="Prashant" VerticalOptions="Center" Font="20"  TextColor="Black" Padding="40,0,0,0"></Label>
+            </StackLayout>
+        </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -32,7 +32,7 @@ namespace Manifest.Views
             // Test Case: DataFactory.Instance.GetDataClient().GetSubOccurances("300-000049");
             InitializeComponent();
             ViewModel = new TodaysListViewModel(Navigation);
-            var task = repository.GetUser("100-000028");
+            var task = repository.GetUser("100-000029");
             task.Wait();
             User user = task.Result;
             TimeSettings = user.TimeSettings;

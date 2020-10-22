@@ -41,6 +41,7 @@
         <ShellContent Title="Sub Occurance" Icon="listview.png" Route="SubOccuranceListView" ContentTemplate="{DataTemplate local:SubOccuranceListView}" />
         <ShellContent Title="About Me" Icon="aboutme.png" ContentTemplate="{DataTemplate local:AboutPage}" />
         <ShellContent Title="Accelerometer" Icon="aboutme.png" ContentTemplate="{DataTemplate local:AccelerometerPage}"/>
+        <ShellContent Title="Events" Icon="aboutme.png" ContentTemplate="{DataTemplate local:EventsPage}"/>
     </TabBar>
 
     <!--
