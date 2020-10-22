@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Manifest.Models;
 using Manifest.ViewModels;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -38,8 +39,17 @@ namespace Manifest.Views
             //Application.Current.Properties.Remove("refreshToken");
             // MADE A CORRECTION FROM refreshToken to refresh_token
             //Application.Current.Properties.Remove("refresh_token");
-            //Application.Current.Properties.Remove("user_id");
-            await Navigation.PushAsync(new LoginPage());
+            //await SecureStorage.SetAsync(SplashScreenViewModel.AppleUserIdKey, "");
+
+            SecureStorage.RemoveAll();
+            Preferences.Clear();
+
+            Application.Current.Properties.Remove("access_token");
+            Application.Current.Properties.Remove("refresh_token");
+            Application.Current.Properties.Remove("user_id");
+
+            //await Navigation.PushAsync(new LoginPage());
+            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, EventArgs e)
