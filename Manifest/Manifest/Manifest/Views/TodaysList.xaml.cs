@@ -29,15 +29,27 @@ namespace Manifest.Views
         readonly Repository repository = Repository.Instance;
         public TodaysList()
         {
-            // Test Case: DataFactory.Instance.GetDataClient().GetSubOccurances("300-000049");
             InitializeComponent();
-            ViewModel = new TodaysListViewModel(Navigation);
-            var task = repository.GetUser("100-000029");
-            task.Wait();
-            User user = task.Result;
+            BindingContext = ViewModel = new TodaysListViewModel(Navigation);
+        }
+
+        protected override void OnAppearing()
+        {
+            var user = repository.LoadUserData();
             TimeSettings = user.TimeSettings;
-            BindingContext = ViewModel;
-            LoadUI(repository.GetAllOccurances(user.Id));
+            var OccurancesTask = repository.GetAllOccurances(user.Id);
+            _ = repository.GetEvents();
+            OccurancesTask.Wait();
+            LoadUI(OccurancesTask.Result);
+        }
+
+        private async Task ClearGroups()
+        {
+            EarlyMorning.Clear();
+            Morning.Clear();
+            AfterNoon.Clear();
+            Evening.Clear();
+            Night.Clear();
         }
 
         private async Task<TodaysListTile> ToTile(Occurance occurance)
@@ -153,6 +165,7 @@ namespace Manifest.Views
 
         private async void LoadUI(List<Occurance> occurances)
         {
+            await ClearGroups();
             await LoadTilesAsync(occurances);
             TodaysListCollectionView.Header = new Label
             {

@@ -52,6 +52,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Service\GoogleCalendar.cs" />
     <Compile Include="Service\Rds\RdsClientUnitTest.cs" />
     <Compile Include="Service\RepositoryTest.cs" />
     <Compile Include="UnitTest1.cs" />

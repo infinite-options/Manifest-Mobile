@@ -18,7 +18,7 @@ namespace Manifest.Login.Constants
         public static string FacebookAndroidRedirectUrl = "https://www.facebook.com/connect/login_success.html";
 
         // GOOGLE CONSTANTS
-        public static string GoogleScope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
+        public static string GoogleScope = "https://www.googleapis.com/auth/photoslibrary  https://www.googleapis.com/auth/calendar  https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
         public static string GoogleAuthorizeUrl = "https://accounts.google.com/o/oauth2/v2/auth";
         public static string GoogleAccessTokenUrl = "https://www.googleapis.com/oauth2/v4/token";
         public static string GoogleUserInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";

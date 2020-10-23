@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using Manifest.Models;
+using Manifest.Services;
 using Manifest.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -14,16 +16,18 @@ namespace Manifest.Views
 
         //public Person person;
         AboutViewModel viewModel;
-
+        private Repository repository = Repository.Instance;
         public ICommand TouchCommand { get; set; }
 
         public AboutPage()
         {
             InitializeComponent();
             viewModel = new AboutViewModel();
-            var  task = Manifest.Services.Repository.Instance.GetUser("100-000029");
-            task.Wait();
-            User userData = task.Result;
+        }
+
+        protected override void OnAppearing()
+        {
+            User userData = repository.LoadUserData();
             user.BindingContext = userData;
             importantPeople.ItemsSource = userData.ImportantPeople;
         }
@@ -43,10 +47,11 @@ namespace Manifest.Views
 
             SecureStorage.RemoveAll();
             Preferences.Clear();
-
-            Application.Current.Properties.Remove("access_token");
-            Application.Current.Properties.Remove("refresh_token");
-            Application.Current.Properties.Remove("user_id");
+            repository.ClearSession();
+            Debug.WriteLine(Application.Current.Properties.Count);
+            //Application.Current.Properties.Remove("access_token");
+            //Application.Current.Properties.Remove("refresh_token");
+            //Application.Current.Properties.Remove("user_id");
 
             //await Navigation.PushAsync(new LoginPage());
             await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");

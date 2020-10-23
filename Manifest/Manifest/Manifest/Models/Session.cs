@@ -24,6 +24,8 @@ namespace Manifest.Models
         public string user_picture { get; set; }
         public string google_auth_token { get; set; }
         public string google_refresh_token { get; set; }
+        public string mobile_auth_token { get; set; }
+        public string mobile_refresh_token { get; set; }
         public string morning_time { get; set; }
         public string afternoon_time { get; set; }
         public string evening_time { get; set; }

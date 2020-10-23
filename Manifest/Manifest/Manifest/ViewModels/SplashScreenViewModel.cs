@@ -1,6 +1,7 @@
 ﻿using Manifest.Login.Apple;
 using Manifest.Services;
 using Manifest.Views;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -19,9 +20,11 @@ namespace Manifest.ViewModels
         public async void Init()
         {
             OnStart();
-
-            if (Application.Current.Properties.ContainsKey("user_id"))
+            //repository.LoadSession();
+            //Application.Current.Properties.Clear();
+            if (repository.LoadSession())
             {
+                repository.LoadUserData();
                 await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
             }
             else

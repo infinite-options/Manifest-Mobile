@@ -34,7 +34,6 @@
 
 
     <ShellContent Route="SplashScreen" Shell.FlyoutBehavior="Flyout" ContentTemplate="{DataTemplate local:SplashScreen}" />
-    <ShellContent Route="LoginPage" Shell.FlyoutBehavior="Flyout" ContentTemplate="{DataTemplate local:LoginPage}" />
 
     <TabBar>
         <ShellContent Title="Today's List" Icon="listview.png" Route="TodaysList" ContentTemplate="{DataTemplate local:TodaysList}" />
@@ -48,6 +47,7 @@
         If you would like to navigate to this content you can do so by calling
         await Shell.Current.GoToAsync("//LoginPage");
     -->
+    <ShellContent Route="LoginPage" Shell.FlyoutBehavior="Flyout" ContentTemplate="{DataTemplate local:LoginPage}" />
 
 
 </Shell>
