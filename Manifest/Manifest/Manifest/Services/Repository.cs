@@ -105,6 +105,7 @@ namespace Manifest.Services
             OccuranceIdOccurancePair.Clear();
             OccuranceSubOccurancePair.Clear();
             Session = null;
+            Events = null;
             Application.Current.Properties.Clear();
         }
 
@@ -122,7 +123,7 @@ namespace Manifest.Services
         {
             if (Application.Current.Properties.ContainsKey("session"))
             {
-                string SessionString = (string)Application.Current.Properties["session"];
+                string SessionString = (string) Application.Current.Properties["session"];
                 Session = JsonConvert.DeserializeObject<Result>(SessionString);
                 //Session = new Result
                 //{

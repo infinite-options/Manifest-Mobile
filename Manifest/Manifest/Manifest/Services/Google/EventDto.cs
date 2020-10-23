@@ -94,10 +94,12 @@ namespace Manifest.Services.Google
             };
 
             List<Attendee>  attendees = new List<Attendee>();
-            
-            foreach(EventsAttendee eventsAttendee in Attendees)
+            if (Attendees != null)
             {
-                attendees.Add(eventsAttendee.ToAttendee());
+                foreach (EventsAttendee eventsAttendee in Attendees)
+                {
+                    attendees.Add(eventsAttendee.ToAttendee());
+                }
             }
             _event.Attendees = attendees;
 
@@ -146,9 +148,9 @@ namespace Manifest.Services.Google
             Attendee attendee = new Attendee()
             {
                 Name = DisplayName,
-                Organizer = (bool) Organizer,
+                Organizer = Organizer,
                 Email = Email,
-                Self = (bool) Self,
+                Self = Self,
                 ResponseStatus = ResponseStatus
             };
 

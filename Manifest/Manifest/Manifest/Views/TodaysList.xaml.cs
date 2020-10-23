@@ -37,10 +37,13 @@ namespace Manifest.Views
         {
             var user = repository.LoadUserData();
             TimeSettings = user.TimeSettings;
+            // Calling both the endpoint
             var OccurancesTask = repository.GetAllOccurances(user.Id);
-            _ = repository.GetEvents();
+            var EventsTask= repository.GetEvents();
+            // Waiting for those endpoints
             OccurancesTask.Wait();
-            LoadUI(OccurancesTask.Result);
+            EventsTask.Wait();
+            LoadUI(OccurancesTask.Result, EventsTask.Result);
         }
 
         private async Task ClearGroups()
@@ -86,6 +89,22 @@ namespace Manifest.Views
             return tile;
         }
 
+        private async Task<TodaysListTile> ToTile(Event _event)
+        {
+            TodaysListTile eventTile = new TodaysListTile()
+            {
+                Type = TileType.Event,
+                AvailableEndTime = _event.EndTime.LocalDateTime.TimeOfDay,
+                AvailableStartTime = _event.StartTime.LocalDateTime.TimeOfDay,
+                TimeDifference = _event.StartTime.LocalDateTime.ToString("h:mm tt") + " - " + _event.EndTime.LocalDateTime.ToString("h:mm tt"),
+                Title = _event.Title,
+                SubTitle = _event.Description,
+                Photo = "calendarFive.png"
+            };
+            eventTile.TouchCommand = new Command(async () => ViewModel.OnTileTapped(eventTile));
+            return eventTile;
+        }
+
         private void FillGroup(TodaysListTile tile)
         {
             if (tile.AvailableStartTime < TimeSettings.MorningStartTime)
@@ -127,6 +146,23 @@ namespace Manifest.Views
             return tiles;
         }
 
+        private async Task<List<TodaysListTile>> PopulateTilesAsync(List<Event> events)
+        {
+            List<TodaysListTile> tiles = new List<TodaysListTile>();
+
+            List<Task<TodaysListTile>> tasks = events.Select(occur => ToTile(occur)).ToList();
+
+            while (tasks.Count() > 0)
+            {
+                var completedTask = await Task.WhenAny(tasks).ConfigureAwait(false);
+
+                tasks.Remove(completedTask);
+                var tile = await completedTask;
+                tiles.Add(tile);
+            }
+            return tiles;
+        }
+
         private void MergeTiles(List<TodaysListTile> tiles1, List<TodaysListTile> tiles2)
         {
             foreach (TodaysListTile item in tiles1)
@@ -150,6 +186,21 @@ namespace Manifest.Views
 
         }
 
+        private async Task LoadTilesAsync(List<Event> events)
+        {
+            Task<List<TodaysListTile>> eventsTask = PopulateTilesAsync(events);
+
+            List<TodaysListTile> tiles = await eventsTask;
+
+            tiles.Sort();
+
+            foreach (TodaysListTile tile in tiles)
+            {
+                FillGroup(tile);
+            }
+
+        }
+
         private void LoadGroups(ObservableCollection<TodaysListTileGroup> groups)
         {
             if (EarlyMorning.Count > 0) groups.Add(EarlyMorning);
@@ -163,10 +214,13 @@ namespace Manifest.Views
             });
         }
 
-        private async void LoadUI(List<Occurance> occurances)
+        private async void LoadUI(List<Occurance> occurances, List<Event> events)
         {
             await ClearGroups();
-            await LoadTilesAsync(occurances);
+            var occuranceLoadtask = LoadTilesAsync(occurances);
+            var eventsloadTask = LoadTilesAsync(events);
+            await occuranceLoadtask;
+            await eventsloadTask;
             TodaysListCollectionView.Header = new Label
             {
                 Text = DateTime.Now.DayOfWeek.ToString(),
