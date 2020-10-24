@@ -27,7 +27,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
+    <CodesignKey>Apple Development: Ashutosh Mahala (254UVQ6R66)</CodesignKey>
     <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -68,11 +68,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
+    <CodesignKey>Apple Development: Ashutosh Mahala (254UVQ6R66)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchLink>SdkOnly</MtouchLink>
     <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
+    <OptimizePNGs>true</OptimizePNGs>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -171,7 +175,5 @@
       <Name>Manifest</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AppleSignIn\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
