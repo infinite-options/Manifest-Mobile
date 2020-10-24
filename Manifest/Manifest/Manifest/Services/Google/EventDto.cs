@@ -87,6 +87,7 @@ namespace Manifest.Services.Google
         {
             Event _event = new Event()
             {
+                Id = Id,
                 Description = Description,
                 Title = EventName,
                 StartTime = Start.DateTime,

@@ -1,6 +1,6 @@
 ﻿using Manifest.ViewModels;
 using System;
-
+using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -39,6 +39,11 @@ namespace Manifest.Views
         private async void GoToRootScreen(object sender, EventArgs e)
         {
             await Navigation.PopToRootAsync();
+        }
+
+        private void TileTapped(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Tile Tapped");
         }
     }
 }

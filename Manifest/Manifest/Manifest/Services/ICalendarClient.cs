@@ -8,6 +8,6 @@ namespace Manifest.Services
 {
     public interface ICalendarClient
     {
-        Task<List<Event>> GetEventsList(string accessToken, DateTimeOffset dateTimeOffset);
+        Task<List<Event>> GetEventsList(DateTimeOffset dateTimeOffset);
     }
 }

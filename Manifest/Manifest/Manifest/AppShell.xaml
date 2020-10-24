@@ -38,9 +38,8 @@
     <TabBar>
         <ShellContent Title="Today's List" Icon="listview.png" Route="TodaysList" ContentTemplate="{DataTemplate local:TodaysList}" />
         <!--<ShellContent Title="Sub Occurance" Icon="listview.png" Route="SubOccuranceListView" ContentTemplate="{DataTemplate local:SubOccuranceListView}" />-->
-        <ShellContent Title="About Me" Icon="aboutme.png" ContentTemplate="{DataTemplate local:AboutPage}" />
+        <ShellContent Title="About Me" Icon="aboutme.png" Route="About" ContentTemplate="{DataTemplate local:AboutPage}" />
         <ShellContent Title="Accelerometer" Icon="aboutme.png" ContentTemplate="{DataTemplate local:AccelerometerPage}"/>
-        <ShellContent Title="Events" Icon="aboutme.png" ContentTemplate="{DataTemplate local:EventsPage}"/>
     </TabBar>
 
     <!--
@@ -48,6 +47,7 @@
         await Shell.Current.GoToAsync("//LoginPage");
     -->
     <ShellContent Route="LoginPage" Shell.FlyoutBehavior="Flyout" ContentTemplate="{DataTemplate local:LoginPage}" />
+    <ShellContent Title="Events" Icon="aboutme.png" Route="EventsPage" ContentTemplate="{DataTemplate local:EventsPage}"/>
 
 
 </Shell>

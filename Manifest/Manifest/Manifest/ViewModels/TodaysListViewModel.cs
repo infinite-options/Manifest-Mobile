@@ -2,6 +2,7 @@
 using Manifest.Services;
 using Manifest.Views;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -24,8 +25,8 @@ namespace Manifest.ViewModels
         {
             if (tile.Type == TileType.Occurance)
             {
-                //await Shell.Current.GoToAsync($"SubOccuranceCarousalView?occuranceid={Tile.Id}");
-                if (!tile.IsSublistAvailable)
+                List<SubOccurance> subOccurances = repository.GetSubOccurances(tile.Id);
+                if (!tile.IsSublistAvailable || subOccurances.Count==0)
                 {
                     if (tile.IsNotComplete && tile.InProgress) ChangeToComplete(tile);
                     else if (tile.IsNotComplete && !tile.InProgress) ChangeToInProgress(tile);
@@ -37,12 +38,13 @@ namespace Manifest.ViewModels
                         if (completed == total) ChangeToComplete(tile);
                         else if (completed > 0) ChangeToInProgress(tile);
                     };
-                    //if (tile.IsPersistant) await Navigation.PushAsync(new SubOccuranceCarousalView(tile.Id, informStatus));
-                    //else await Navigation.PushAsync(new SubOccuranceListView(tile.Id, informStatus));
-                    await Navigation.PushAsync(new SubOccuranceCarousalView(tile.Id, informStatus));
-                    //await Navigation.PushAsync(new SubOccuranceListView(tile.Id, informStatus));
+                    if (tile.IsPersistant) await Navigation.PushAsync(new SubOccuranceCarousalView(tile.Id, informStatus));
+                    else await Navigation.PushAsync(new SubOccuranceListView(tile.Id, informStatus));
                 }
 
+            }else if( tile.Type == TileType.Event)
+            {
+                await Navigation.PushAsync(new EventsPage(tile.Id));
             }
         }
 

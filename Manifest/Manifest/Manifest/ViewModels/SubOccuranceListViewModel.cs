@@ -4,6 +4,7 @@ using Manifest.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -82,9 +83,9 @@ namespace Manifest.ViewModels
                 SubOccurance sub = subOccurances[i];
                 if (startIndex == -1 && !sub.IsComplete) { startIndex = i; }
                 if (sub.IsComplete) completed += 1;
-
-                Tiles.Add(new SubOccuranceListViewTile()
+                SubOccuranceListViewTile tile = new SubOccuranceListViewTile()
                 {
+                    TileId = ""+i,
                     Title = sub.Title,
                     PicUrl = sub.PicUrl,
                     IsComplete = sub.IsComplete,
@@ -92,9 +93,60 @@ namespace Manifest.ViewModels
                     SubTitle = Occurance.Title,
                     OccuranceTitle = Occurance.Title,
                     OccurancePicUrl = Occurance.PicUrl
-                });
+                };
+                tile.TouchCommand = new Command(() => { OnTouch(int.Parse(tile.TileId)); });
+                Tiles.Add(tile);
             }
             return startIndex >= 0 ? startIndex : subOccurances.Count - 1;
+        }
+
+
+        public async Task OnTouch(int index)
+        {
+            if (subOccurances[index].IsComplete) { return; }
+            MainPageWeakReference.TryGetTarget(out SubOccuranceListView mainPage);
+            if (index == 0)
+            {
+                bool success = await ChangeToComplete(index);
+                if (!success)
+                {
+                    await mainPage.DisplayAlert("Oops!", "Something Went wrong while updating the server. Please try again later", "OK");
+                }
+            }
+            else
+            {
+                if (!subOccurances[index - 1].IsComplete)
+                {
+                    await mainPage.DisplayAlert("Oops!", "Please complete all steps before marking this step as done", "OK");
+                    return;
+                }
+                bool success = await ChangeToComplete(index);
+                if (!success) {
+                    await mainPage.DisplayAlert("Oops!", "Something Went wrong while updating the server. Please try again later", "OK"); 
+                }
+            }
+            if (completed == subOccurances.Count)
+            {
+                mainPage.ChangeButtonToDone();
+            }
+            informStatus(completed, subOccurances.Count);
+        }
+
+        private async Task<bool> ChangeToComplete(int index)
+        {
+            try
+            {
+                subOccurances[index].IsComplete = true;
+                _ =  await Repository.UpdateSubOccurance(subOccurances[index]);
+                Tiles[index].IsComplete = true;
+                completed += 1;
+                return true;
+            }catch(Exception e)
+            {
+                subOccurances[index].IsComplete = false;
+                Debug.WriteLine(e.StackTrace);
+                return false;
+            }
         }
     }
 }

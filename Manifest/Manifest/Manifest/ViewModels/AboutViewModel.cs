@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -19,7 +20,7 @@ namespace Manifest.ViewModels
             {
                 //Phone number of TA
                 //Console.WriteLine("ZZZZZZZZZZZZZZZ");
-                //Console.WriteLine("Phone number of TA:" + phoneNumber);
+                Debug.WriteLine("Manifest.ViewModels.AboutViewModel: Dialing Number:" + phoneNumber);
                 //Console.WriteLine("ZZZZZZZZZZZZZZZ");
                 await Launcher.OpenAsync(new Uri("tel:" + phoneNumber));
             }

@@ -11,5 +11,6 @@ namespace Manifest.Models
         public string CreatedBy { get; set; }
         public string Description { get; set; }
         public  List <Attendee> Attendees { get; set; }
+        public string Id { get; set; }
     }
 }

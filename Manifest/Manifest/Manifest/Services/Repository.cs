@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Manifest.Services
@@ -23,7 +24,7 @@ namespace Manifest.Services
         private User user = null;
         private readonly Dictionary<String, Occurance> OccuranceIdOccurancePair = new Dictionary<String, Occurance>();
         private readonly Dictionary<String, List<SubOccurance>> OccuranceSubOccurancePair = new Dictionary<string, List<SubOccurance>>();
-        private List<Event> Events = null;
+        private Dictionary<string, Event> Events = new Dictionary<string, Event>();
         private Result Session = null;
 
         private Repository()
@@ -42,6 +43,13 @@ namespace Manifest.Services
             return user;
         }
 
+        public async Task<User> RefreshUser(string userId)
+        {
+            var userTask =  dataClient.GetUser(userId);
+            user = await userTask;
+            return user;
+        }
+
         public async Task<List<Occurance>> GetAllOccurances(string userId)
         {
             if (OccuranceIdOccurancePair.Count == 0)
@@ -52,6 +60,18 @@ namespace Manifest.Services
                 {
                     OccuranceIdOccurancePair.Add(occur.Id, occur);
                 }
+            }
+            return OccuranceIdOccurancePair.Values.ToList();
+        }
+
+        public async Task<List<Occurance>> GetAllFreshOccurances(string userId)
+        {
+            var occurancesTask = dataClient.GetOccurances(userId);
+            occurancesTask.Wait();
+            OccuranceIdOccurancePair.Clear();
+            foreach (Occurance occur in occurancesTask.Result)
+            {
+                OccuranceIdOccurancePair.Add(occur.Id, occur);
             }
             return OccuranceIdOccurancePair.Values.ToList();
         }
@@ -69,6 +89,15 @@ namespace Manifest.Services
                 task.Wait();
                 OccuranceSubOccurancePair.Add(occuranceId, task.Result);
             }
+            return OccuranceSubOccurancePair[occuranceId];
+        }
+
+        public List<SubOccurance> GetFreshSubOccurances(string occuranceId)
+        {
+            var task = dataClient.GetSubOccurances(occuranceId);
+            task.Wait();
+            OccuranceSubOccurancePair.Clear();
+            OccuranceSubOccurancePair.Add(occuranceId, task.Result);
             return OccuranceSubOccurancePair[occuranceId];
         }
 
@@ -101,22 +130,26 @@ namespace Manifest.Services
 
         public void ClearSession()
         {
+            SecureStorage.RemoveAll();
+            Preferences.Clear();
             user = null;
             OccuranceIdOccurancePair.Clear();
             OccuranceSubOccurancePair.Clear();
             Session = null;
-            Events = null;
+            Events.Clear();
             Application.Current.Properties.Clear();
         }
 
         public void SaveSession(Session session)
+        { 
+            SaveSession(session.result[0]);
+        }
+
+        private void SaveSession(Result session)
         {
-            Session = session.result[0];
+            Session = session;
             string SessionString = JsonConvert.SerializeObject(Session);
             Application.Current.Properties["session"] = SessionString;
-            //Application.Current.Properties["user_id"] = session.result[0].user_unique_id;
-            //Application.Current.Properties["google_access_token"] = session.result[0].google_auth_token;
-            //Application.Current.Properties["google_refresh_token"] = session.result[0].google_refresh_token;
         }
 
         public bool LoadSession()
@@ -125,12 +158,6 @@ namespace Manifest.Services
             {
                 string SessionString = (string) Application.Current.Properties["session"];
                 Session = JsonConvert.DeserializeObject<Result>(SessionString);
-                //Session = new Result
-                //{
-                //    user_unique_id = (string)Application.Current.Properties["user_id"],
-                //Session.google_auth_token = (string)Application.Current.Properties["google_access_token"];
-                //Session.google_refresh_token = (string)Application.Current.Properties["google_refresh_token"];
-                //};
                 return true;
             }
             return false;
@@ -150,6 +177,21 @@ namespace Manifest.Services
             }
         }
 
+        public User RefreshUserData()
+        {
+            try
+            {
+                var task = RefreshUser(Session.user_unique_id);
+                task.Wait();
+                return task.Result;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return null;
+            }
+        }
+
         public async Task<List<Event>> GetEvents()
         {
             if (calendarClient==null)
@@ -158,17 +200,66 @@ namespace Manifest.Services
             }
             try
             {
-                if (Events == null)
+                if (Events.Count == 0)
                 {
-                    var task = calendarClient.GetEventsList(Session.mobile_auth_token, DateTimeOffset.Now);
-                    Events = await task;
+                    var eventList = await calendarClient.GetEventsList(DateTimeOffset.Now);
+                    foreach(Event @event in eventList)
+                    {
+
+                        Events.Add(@event.Id, @event);
+                    }  
                 }
-                return Events;
+                return Events.Values.ToList<Event>();
             }catch(Exception e)
             {
                 Debug.WriteLine(e);
                 throw;
             }
         }
+
+        public async Task<List<Event>> GetFreshEvents()
+        {
+            if (calendarClient == null)
+            {
+                calendarClient = calendarFactory.GetClient(Session.user_social_media as string);
+            }
+            try
+            {
+                var eventList = await calendarClient.GetEventsList(DateTimeOffset.Now);
+                Events.Clear();
+                foreach (Event @event in eventList)
+                {
+                    Events.Add(@event.Id, @event);
+                }
+                return Events.Values.ToList<Event>();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<Event> GetEventById(string id)
+        {
+            return Events[id];
+        }
+
+        public void UpdateAccessToken(string accessToken)
+        {
+            Session.mobile_auth_token = accessToken;
+            SaveSession(Session);
+        }
+
+        public string GetAccessToken()
+        {
+            return Session.mobile_auth_token;
+        }
+
+        public string GetRefreshToken()
+        {
+            return Session.mobile_refresh_token;
+        }
+
     }
 }

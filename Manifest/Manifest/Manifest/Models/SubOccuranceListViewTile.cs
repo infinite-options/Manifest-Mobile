@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Manifest.Models
 {
     public class SubOccuranceListViewTile : IComparable<SubOccuranceListViewTile>, INotifyPropertyChanged
     {
+        public string TileId { get; set; }
         public string Title { get; set; }
         public string OccuranceTitle { get; set; }
         public string OccurancePicUrl { get; set; }
@@ -40,6 +42,7 @@ namespace Manifest.Models
                 }
             }
         }
+        public ICommand TouchCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

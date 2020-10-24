@@ -31,6 +31,7 @@ namespace Manifest.Views
         {
             InitializeComponent();
             BindingContext = ViewModel = new TodaysListViewModel(Navigation);
+            RefreshViewInstance.Command = new Command(async () => { await Refresh(); RefreshViewInstance.IsRefreshing = false; });
         }
 
         protected override void OnAppearing()
@@ -81,6 +82,7 @@ namespace Manifest.Views
                 IsSublistAvailable = occurance.IsSublistAvailable,
                 Type = TileType.Occurance,
                 Photo = occurance.PicUrl,
+                IsPersistant = occurance.IsPersistent,
                 FrameBgColorComplete = Color.FromHex("#E9E8E8"),
                 FrameBgColorInComplete = Color.FromHex("#FFFFFF")
             };
@@ -93,6 +95,7 @@ namespace Manifest.Views
         {
             TodaysListTile eventTile = new TodaysListTile()
             {
+                Id = _event.Id,
                 Type = TileType.Event,
                 AvailableEndTime = _event.EndTime.LocalDateTime.TimeOfDay,
                 AvailableStartTime = _event.StartTime.LocalDateTime.TimeOfDay,
@@ -229,6 +232,19 @@ namespace Manifest.Views
                 Margin = new Thickness(0, 40, 0, 0)
             };
             LoadGroups(new ObservableCollection<TodaysListTileGroup>());
+        }
+
+        private async Task Refresh()
+        {
+            var user = repository.RefreshUserData();
+            TimeSettings = user.TimeSettings;
+            // Calling both the endpoint
+            var OccurancesTask = repository.GetAllFreshOccurances(user.Id);
+            var EventsTask = repository.GetFreshEvents();
+            // Waiting for those endpoints
+            OccurancesTask.Wait();
+            EventsTask.Wait();
+            LoadUI(OccurancesTask.Result, EventsTask.Result);
         }
     }
 }

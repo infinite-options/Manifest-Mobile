@@ -45,10 +45,8 @@ namespace Manifest.Views
             //Application.Current.Properties.Remove("refresh_token");
             //await SecureStorage.SetAsync(SplashScreenViewModel.AppleUserIdKey, "");
 
-            SecureStorage.RemoveAll();
-            Preferences.Clear();
             repository.ClearSession();
-            Debug.WriteLine(Application.Current.Properties.Count);
+            Debug.WriteLine("Manifest.Views.AboutPage.LogoutButton_Clicked: Preferences cleared, new count: "+ Application.Current.Properties.Count);
             //Application.Current.Properties.Remove("access_token");
             //Application.Current.Properties.Remove("refresh_token");
             //Application.Current.Properties.Remove("user_id");

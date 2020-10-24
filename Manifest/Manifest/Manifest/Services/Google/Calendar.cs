@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 using Manifest.Config;
 using Manifest.Models;
+using Manifest.Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xamarin.Forms;
 
 namespace Manifest.Services.Google
 {
@@ -16,8 +18,100 @@ namespace Manifest.Services.Google
     {
         HttpClient client = new HttpClient();
 
-        public async Task<List<Event>> GetEventsList(string accessToken, DateTimeOffset dateTimeOffset)
+        public async Task<bool> UseAccessToken(string accessToken)
         {
+
+            //Make HTTP Request
+            var request = new HttpRequestMessage();
+            request.RequestUri = new Uri(Constants.GoogleUserInfoUrl);
+            request.Method = HttpMethod.Get;
+
+            //Format Headers of Request with included Token
+            string bearerString = string.Format("Bearer {0}", accessToken);
+            request.Headers.Add("Authorization", bearerString);
+            request.Headers.Add("Accept", "application/json");
+            var client = new HttpClient();
+            var task = client.SendAsync(request);
+            task.Wait();
+            HttpResponseMessage response = task.Result;
+            HttpContent content = response.Content;
+            var json = await content.ReadAsStringAsync();
+            JObject jsonParsed = JObject.Parse(json);
+
+            if (jsonParsed["error"] != null)
+                return false;
+
+            return true;
+        }
+
+
+        public async Task<bool> RefreshToken(string refreshToken)
+        {
+            string clientId = null;
+            string redirectUri = null;
+
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    clientId = Constants.GoogleiOSClientID;
+                    redirectUri = Constants.GoogleRedirectUrliOS;
+                    break;
+
+                case Device.Android:
+                    clientId = Constants.GoogleAndroidClientID;
+                    redirectUri = Constants.GoogleRedirectUrlAndroid;
+                    break;
+            }
+
+            var values = new Dictionary<string, string> {
+            { "refresh_token", refreshToken},
+            { "client_id", clientId },
+            { "grant_type", "refresh_token"}
+            };
+
+            var content = new FormUrlEncodedContent(values);
+
+
+            var client = new HttpClient();
+            var responseTask = client.PostAsync(Constants.GoogleAccessTokenUrl, content);
+            responseTask.Wait();
+            var response = responseTask.Result;
+            var json = await response.Content.ReadAsStringAsync();
+
+            JObject jsonParsed = JObject.Parse(json);
+
+            if (jsonParsed["error"] != null)
+            {
+                Console.WriteLine(jsonParsed.ToString());
+                System.Diagnostics.Trace.WriteLine(jsonParsed.ToString());
+                Repository.Instance.ClearSession();
+                await Shell.Current.GoToAsync($"//LoginPage");
+                return false;
+            }
+
+            try
+            {
+                Debug.WriteLine("Manifest.Services.Google.Calendar: Updating new access Token: " + jsonParsed["access_token"].ToString());
+
+                Repository.Instance.UpdateAccessToken(jsonParsed["access_token"].ToString());
+            }
+            catch (NullReferenceException e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Repository.Instance.ClearSession();
+                await Shell.Current.GoToAsync($"//LoginPage");
+                return false;
+            }
+
+            Debug.WriteLine("Manifest.Services.Google.Calendar: "+json);
+
+            return true;
+
+        }
+
+        public async Task<List<Event>> GetEventsList(DateTimeOffset dateTimeOffset)
+        {
+            string accessToken = Repository.Instance.GetAccessToken();
 
             int publicYear = dateTimeOffset.Year;
             int publicMonth = dateTimeOffset.Month;
@@ -71,8 +165,20 @@ namespace Manifest.Services.Google
             string timeMaxMin = String.Format("timeMax={0}-{1}-{2}T23%3A59%3A59-{3}%3A00&timeMin={0}-{1}-{2}T00%3A00%3A01-{3}%3A00", publicYear, monthString, dayString, paddedTimeZoneNum);
 
             string fullURI = baseUri + timeMaxMin;
-
-            string response = await MakeEventsRequest(fullURI, accessToken);
+            string response = "{}";
+            try
+            {
+                response = await MakeEventsRequest(fullURI, accessToken);
+            }
+            catch (InvalidAccessTokenException e)
+            {
+                Debug.WriteLine(e);
+                if (await RefreshToken(Repository.Instance.GetRefreshToken()))
+                {
+                    accessToken = Repository.Instance.GetAccessToken();
+                    response = await MakeEventsRequest(fullURI, accessToken);
+                }
+            }
             EventResponse eventResponse = JsonConvert.DeserializeObject<EventResponse>(response);
             List<Event> events = eventResponse.ToEvents();
             return events;
@@ -98,6 +204,12 @@ namespace Manifest.Services.Google
             HttpContent content = response.Content;
             var json = await content.ReadAsStringAsync();
             Debug.WriteLine("Manifest.Services.Google.Calendar.Response:\n" + json);
+            JObject jsonParsed = JObject.Parse(json);
+
+            if (jsonParsed.ContainsKey("error"))
+            {
+                throw new InvalidAccessTokenException();
+            }
             return json;
         }
     }

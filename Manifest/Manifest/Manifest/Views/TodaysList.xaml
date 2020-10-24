@@ -8,6 +8,9 @@
     <ContentPage.Resources>
         <DataTemplate x:Key="EventTodaysListTemplate" x:DataType="model:TodaysListTile">
             <Frame BackgroundColor="#C8D7E4" HeightRequest="136" CornerRadius="10" HasShadow="False" Padding="0" Margin="0">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding TouchCommand}"/>
+                </Frame.GestureRecognizers>
                 <Grid Padding="20,0,20,0" Margin="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -71,6 +74,7 @@
 
 
     <ContentPage.Content>
+        <RefreshView x:Name="RefreshViewInstance">
         <CollectionView x:Name="TodaysListCollectionView" BackgroundColor="#E9E8E8" IsGrouped="True" Margin="20,0,20,0" ItemTemplate="{StaticResource TodaysListTileSelector}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout ItemSpacing="15" Orientation="Vertical"/>
@@ -84,5 +88,6 @@
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
         </CollectionView>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>
