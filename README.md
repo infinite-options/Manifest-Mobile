@@ -64,7 +64,7 @@ Use following syntax to navigate within app. And always use await while navigati
     
 ## Common Questions
 ### How to add images?
-For mananging static pictures we use resizetizerNT https://github.com/Redth/ResizetizerNT
+For mananging static pictures we use resizetizerNT https://github.com/Redth/ResizetizerNT <br />
 Please use the following steps to add an image
 1. Paste image in images folder in common project
 2. Right click and go to properties of image you added and select "SharedImage" in Build Action
