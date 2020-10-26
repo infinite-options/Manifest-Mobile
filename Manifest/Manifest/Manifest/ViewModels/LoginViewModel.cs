@@ -187,7 +187,7 @@ namespace Manifest.ViewModels
                 else if (responseContent.Contains(Constant.AutheticatedSuccesful))
                 {
                     System.Diagnostics.Debug.WriteLine("WE WERE ABLE TO FIND YOUR ACOUNT IN OUR DATABASE");
-
+                    Repository.Instance.SaveSession(session);
                     Application.Current.Properties["user_id"] = session.result[0].user_unique_id;
                     await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
                 }
@@ -366,6 +366,7 @@ namespace Manifest.ViewModels
                     {
                         //Application.Current.MainPage = new HomePage();
                         Application.Current.Properties["user_id"] = session.result[0].user_unique_id;
+                        Repository.Instance.SaveSession(session);
                         await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
                     }
                 }
