@@ -29,25 +29,25 @@ An app to help people with memory imparement people
 2. Apple login is not available on android
 
 ## Overview
-This app uses MVVM architecture and built on xamarin Form. For navigation purpose xamarin Shell is used
+This app uses MVVM architecture and built on xamarin Form. For navigation purpose xamarin Shell is used <br />
 Basic Flow: App.xaml -> AppShell.xaml -> SplashScreen -> LoginPage.xaml (if not logged in) OR TodaysList.xaml (if logged in)
 
 ### Signin
-Login Page contains the basic login features. It uses all the files in present in the Login folder
+Login Page contains the basic login features. It uses all the files in present in the Login folder <br />
 Once login in complete Session (Models.Session Object) should be saved in Repository (Services.Repository)
 
 ### Services
-Services contains the parts dealing with rest apis or storage
-UI should talk to repository to make any calls to web
-Repository is a singleton class so to get an instance of it Repository.Instance
+Services contains the parts dealing with rest apis or storage <br />
+UI should talk to repository to make any calls to web <br />
+Repository is a singleton class so to get an instance of it Repository.Instance <br />
 
 ### Navigation
-Please Register the page App.xaml or App.xaml.cs
-e.g. Following code snippet is used to register LoginPage in AppShell.xaml
+Please Register the page App.xaml or App.xaml.cs <br />
+e.g. Following code snippet is used to register LoginPage in AppShell.xaml <br />
 ```
 <ShellContent Route="LoginPage" Shell.FlyoutBehavior="Flyout" ContentTemplate="{DataTemplate local:LoginPage}" />
 ```
-e.g. Following code snippet is used to register AubOccuranceListView in AppShell.xaml.cs
+e.g. Following code snippet is used to register AubOccuranceListView in AppShell.xaml.cs <br />
 ```
 Routing.RegisterRoute("SubOccuranceListView", typeof(SubOccuranceListView))
 ```
