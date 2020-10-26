@@ -18,7 +18,7 @@ An app to help people with memory imparement people
 2. config folder, Ask for config folder to be shared with you so that you can run the project
 
 ## Prepare
-1.Once cloned repository to the local system, paste the config folder at location: Manifest-Mobile/tree/master/Manifest/Manifest/Manifest
+1. Once cloned repository to the local system, paste the config folder at location: Manifest-Mobile/tree/master/Manifest/Manifest/Manifest
 2. run Manifest-Mobile/Manifest/Manifest.sln upon start you visual studio might ask you to install other packages. Please install those packages
 
 ## Optional Packages (Suggested)
