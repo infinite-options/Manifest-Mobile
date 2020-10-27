@@ -21,7 +21,7 @@ namespace Manifest.ViewModels
 
         public WeakReference<SubOccuranceListView> MainPageWeakReference { get; }
 
-        private InformStatus informStatus;
+        internal InformStatus informStatus;
 
         private readonly Repository Repository = Repository.Instance;
         private string occuranceId;
@@ -55,6 +55,11 @@ namespace Manifest.ViewModels
                 subOccurances = value;
                 OnPropertyChanged("SubOccurances");
             }
+        }
+
+        internal void InformParent()
+        {
+            informStatus?.Invoke(completed, subOccurances.Count);
         }
 
         public INavigation Navigation { get; internal set; }

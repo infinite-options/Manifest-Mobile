@@ -34,6 +34,7 @@ namespace Manifest.Views
         {
             if (NextButton.Text=="Done")
             {
+                _viewModel.InformParent();
                 GoToPrevScreen(null, null);
                 return;
             }
@@ -58,12 +59,12 @@ namespace Manifest.Views
 
         private async void GoToPrevScreen(object sender, EventArgs e)
         {
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
         }
 
         private async void GoToRootScreen(object sender, EventArgs e)
         {
-            await Navigation.PopToRootAsync();
+            await Shell.Current.GoToAsync("//TodaysList");
         }
     }
 }

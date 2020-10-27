@@ -32,6 +32,11 @@ namespace Manifest.ViewModels
             }
         }
 
+        internal void InformParent()
+        {
+            informStatus?.Invoke(completed, subOccurances.Count);
+        }
+
         private Occurance occurance = null;
         public Occurance Occurance {
             get { return occurance; }

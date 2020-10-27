@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Manifest.Views.SubOccuranceCarousalView"
-             xmlns:model="clr-namespace:Manifest.Models">
+             xmlns:model="clr-namespace:Manifest.Models"
+             Shell.PresentationMode="ModalAnimated"
+             Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <FlexLayout Direction="Column">
             <StackLayout Orientation="Horizontal" Padding="5">
@@ -36,7 +38,7 @@
                                 </Grid>
                             </Frame>
                             <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="40" TextColor="Black"/>
-                            <Label Text="{Binding SubTitle}" Padding="24,0,0,0" FontSize="16" FontAttributes="Bold" TextColor= "#9EA0A4"/>
+                            <Label Text="{Binding SubTitle}" FontSize="16" FontAttributes="Bold" TextColor= "#9EA0A4"/>
                         </FlexLayout>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>

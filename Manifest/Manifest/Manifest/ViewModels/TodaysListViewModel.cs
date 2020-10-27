@@ -38,8 +38,8 @@ namespace Manifest.ViewModels
                         if (completed == total) ChangeToComplete(tile);
                         else if (completed > 0) ChangeToInProgress(tile);
                     };
-                    if (tile.IsPersistant) await Navigation.PushAsync(new SubOccuranceCarousalView(tile.Id, informStatus));
-                    else await Navigation.PushAsync(new SubOccuranceListView(tile.Id, informStatus));
+                    if (tile.IsPersistant) await Navigation.PushModalAsync(new SubOccuranceListView(tile.Id, informStatus));
+                    else await Navigation.PushModalAsync(new SubOccuranceCarousalView(tile.Id, informStatus)); 
                 }
 
             }else if( tile.Type == TileType.Event)
@@ -70,7 +70,7 @@ namespace Manifest.ViewModels
                 tile.ActualEndTime = DateTime.Now;
                 Occurance occurance = repository.GetOccuranceById(tile.Id);
                 occurance.IsInProgress = false;
-                occurance.IsInProgress = false;
+                occurance.IsComplete = true;
                 occurance.DateTimeCompleted = tile.ActualEndTime;
                 tile.ActualStartTime = DateTime.Now;
                 _ = repository.UpdateOccurance(occurance);

@@ -1,6 +1,7 @@
 ﻿using Manifest.ViewModels;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,6 +23,10 @@ namespace Manifest.Views
         {
             SubOccuranceCollectionView.ItemsSource = viewModel.Tiles;
             SubOccuranceCollectionView.ScrollTo(index);
+            MainTitle.Text = viewModel.Occurance.Title;
+            MainHeading.Text = viewModel.Occurance.Title;
+            MainPicture.Source = viewModel.Occurance.PicUrl;
+            Timing.Text = (viewModel.Occurance.EndDayAndTime - viewModel.Occurance.StartDayAndTime).ToString(@"hh\:mm") + "hours";
         }
 
         public async void ChangeButtonToDone()
@@ -33,17 +38,26 @@ namespace Manifest.Views
 
         private async void GoToPrevScreen(object sender, EventArgs e)
         {
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
         }
 
         private async void GoToRootScreen(object sender, EventArgs e)
         {
-            await Navigation.PopToRootAsync();
+            await Shell.Current.GoToAsync("//TodaysList");
         }
 
         private void TileTapped(object sender, EventArgs e)
         {
             Debug.WriteLine("Tile Tapped");
+        }
+
+        private void DoneClicked(object sender, EventArgs e)
+        {
+            if(DoneButton.Text == "Done")
+            {
+                viewModel.InformParent();
+            }
+            GoToPrevScreen(null, null);
         }
     }
 }

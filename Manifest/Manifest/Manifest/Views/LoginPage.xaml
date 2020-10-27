@@ -16,18 +16,18 @@
                 <Label Text="Manifest" TextColor="Gray" FontSize="Title"></Label>
             </StackLayout>
             <StackLayout Grid.Row="1">
-                <Grid>
+                <Grid x:Name="IconGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <!--<ColumnDefinition x:Name="AppleGrid" Width="*"></ColumnDefinition>-->
                     </Grid.ColumnDefinitions>
                     <ImageButton Grid.Row="0" Grid.Column="0" Source="facebook_login.png" BackgroundColor="Transparent" Command="{Binding FacebookLoginCommand}"></ImageButton>
                     <ImageButton Grid.Row="0" Grid.Column="1" Source="google_login.png" BackgroundColor="Transparent" Command="{Binding GoogleLoginCommand}"></ImageButton>
-                    <ImageButton Grid.Row="0" Grid.Column="2" Source="apple_login.png" BackgroundColor="Transparent" Command="{Binding AppleLoginCommand}"></ImageButton>
+                    <!--<ImageButton x:Name="AppleIcon" Grid.Row="0" Grid.Column="2" Source="apple_login.png" BackgroundColor="Transparent" Command="{Binding AppleLoginCommand}"></ImageButton>-->
                 </Grid>
             </StackLayout>
         </Grid>
