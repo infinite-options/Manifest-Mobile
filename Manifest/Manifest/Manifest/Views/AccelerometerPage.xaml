@@ -3,7 +3,7 @@
     <ContentPage.Content>
           <Grid>
     <StackLayout>
-    <Label HorizontalTextAlignment="Center" Text="Accelerometer Values" Padding="0,50,0,0"/>
+    <Label HorizontalTextAlignment="Center" Text="Accelerometer Values" Padding="0,50,0,0" TextColor="Black"/>
     <Label Text="Xvalue: " TextColor="Black"/>
     <Label  Grid.Row="0" Grid.ColumnSpan="2" x:Name="LabelX" TextColor="Black"/>
     <Label Text="Yvalue: " TextColor="Black"/>
