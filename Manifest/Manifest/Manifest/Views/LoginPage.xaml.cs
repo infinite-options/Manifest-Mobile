@@ -11,19 +11,24 @@ using Xamarin.Forms.Xaml;
 namespace Manifest.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+    //Creates LoginPage class, that inherits ContentPage
     public partial class LoginPage : ContentPage
     {
         LoginViewModel viewModel;
+
+        //Constructor
         public LoginPage()
         {
             InitializeComponent();
             this.BindingContext = viewModel = new LoginViewModel();
+            //If the device is iOS, offers apple login
             if(Device.RuntimePlatform == Device.iOS)
             {
                 OnAppleDevice();
             }
         }
 
+        //Private function that displays the apple login button
         private void OnAppleDevice()
         {
             IconGrid.ColumnDefinitions.Add(new ColumnDefinition());
