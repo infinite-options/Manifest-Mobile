@@ -9,7 +9,7 @@ using System.Linq;
 using WindowsAzure.Messaging;
 using Xamarin.Essentials;   // Added so that Preferences would work
 
-namespace NotificationHubSample.Droid
+namespace Manifest.Droid
 {
     [Service]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
@@ -17,6 +17,7 @@ namespace NotificationHubSample.Droid
     {
         public override void OnNewToken(string token)
         {
+            Console.WriteLine("Entered OnNewToken");
             // TODO: save token instance locally, or log if desired
             Console.WriteLine("New Token:" + token);
             SendRegistrationToServer(token);
@@ -25,6 +26,7 @@ namespace NotificationHubSample.Droid
         // serving fresh code
         void SendRegistrationToServer(string token)
         {
+            //Console.WriteLine("SendRegistrationToServer called");
             if (Preferences.Get("guid", null) != null)
             {
                 var tag = Preferences.Get("guid", null);
@@ -51,6 +53,7 @@ namespace NotificationHubSample.Droid
             }
             catch (Exception e)
             {
+                Console.WriteLine($"Error registering device: {e.Message}");
                 Log.Error(AppConstants.DebugTag, $"Error registering device: {e.Message}");
             }
         }
@@ -81,6 +84,7 @@ namespace NotificationHubSample.Droid
 
         public override void OnMessageReceived(RemoteMessage message)
         {
+            Console.WriteLine("Message Received!");
             base.OnMessageReceived(message);
             string messageBody = string.Empty;
 
@@ -99,19 +103,19 @@ namespace NotificationHubSample.Droid
             SendLocalNotification(messageBody);
 
             // send the incoming message directly to the MainPage
-            SendMessageToMainPage(messageBody);
+            //SendMessageToMainPage(messageBody);
         }
 
         void SendLocalNotification(string body)
         {
-            var intent = new Intent(this, typeof(MainActivity));
+            var intent = new Intent(this, typeof(Manifest.Droid.MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
             intent.PutExtra("message", body);
             var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
 
             var notificationBuilder = new NotificationCompat.Builder(this, AppConstants.NotificationChannelName)
                 .SetContentTitle("XamarinNotify Message")
-                .SetSmallIcon(Resource.Drawable.ic_launcher)
+                .SetSmallIcon(Manifest.Droid.Resource.Drawable.ic_launcher)
                 .SetContentText(body)
                 .SetAutoCancel(true)
                 .SetShowWhen(false)
@@ -126,10 +130,10 @@ namespace NotificationHubSample.Droid
             notificationManager.Notify(0, notificationBuilder.Build());
         }
 
-        void SendMessageToMainPage(string body)
-        {
-            (App.Current.MainPage as MainPage)?.AddMessage(body);
-        }
+        //void SendMessageToMainPage(string body)
+        //{
+        //    (Manifest.App.Current.MainPage as Manifest.AppShell)?.AddMessage(body);
+        //}
 
 
     }
