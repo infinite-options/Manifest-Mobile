@@ -38,6 +38,9 @@ namespace Manifest.iOS
             base.FinishedLaunching(app, options);
 
             RegisterForRemoteNotifications();
+
+            //Added for in app notifications
+            UNUserNotificationCenter.Current.Delegate = new NotificationDelegate();
             return true;
             //return base.FinishedLaunching(app, options);
         }
@@ -151,6 +154,14 @@ namespace Manifest.iOS
             else
             {
                 Debug.WriteLine($"Received request to process notification but there was no payload.");
+            }
+        }
+        //Added for in app notifications
+        public class NotificationDelegate : UNUserNotificationCenterDelegate
+        {
+            public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+            {
+                completionHandler(UNNotificationPresentationOptions.Alert);
             }
         }
     }
