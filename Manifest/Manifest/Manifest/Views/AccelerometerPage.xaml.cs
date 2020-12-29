@@ -22,10 +22,10 @@ namespace Manifest.Views
         {
             try
             {
-                if (Accelerometer.IsMonitoring)
-                    return;
-                Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
-                Accelerometer.Start(SensorSpeed.UI);
+                //if (Accelerometer.IsMonitoring)
+                //    return;
+                //Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
+                //Accelerometer.Start(SensorSpeed.UI);
             }
             catch (FeatureNotSupportedException fnsEx)
             {

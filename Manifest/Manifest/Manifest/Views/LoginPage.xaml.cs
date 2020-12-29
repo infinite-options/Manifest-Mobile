@@ -20,7 +20,9 @@ namespace Manifest.Views
         public LoginPage()
         {
             InitializeComponent();
+            //This line binds the properties of the LoginPage class to the LoginViewModel class
             this.BindingContext = viewModel = new LoginViewModel();
+
             //If the device is iOS, offers apple login
             if(Device.RuntimePlatform == Device.iOS)
             {

@@ -8,6 +8,7 @@ using Manifest.ViewModels;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Threading.Tasks;
 
 namespace Manifest.Views
 {
@@ -45,6 +46,7 @@ namespace Manifest.Views
             //Application.Current.Properties.Remove("refresh_token");
             //await SecureStorage.SetAsync(SplashScreenViewModel.AppleUserIdKey, "");
 
+            System.Diagnostics.Debug.WriteLine("LOGGING OUT");
             repository.ClearSession();
             Debug.WriteLine("Manifest.Views.AboutPage.LogoutButton_Clicked: Preferences cleared, new count: "+ Application.Current.Properties.Count);
             //Application.Current.Properties.Remove("access_token");

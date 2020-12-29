@@ -261,5 +261,20 @@ namespace Manifest.Services
             return Session.mobile_refresh_token;
         }
 
+        /*//This function will call the storeGUID function in RdsClient
+        public async Task storeGUID(string guid, string uid)
+        {
+            try
+            {
+                await dataClient.storeGUID(guid, uid);
+                return;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return;
+            }
+        }*/
+
     }
 }

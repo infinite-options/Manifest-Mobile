@@ -30,6 +30,7 @@ namespace Manifest.Droid
             if (Preferences.Get("guid", null) != null)
             {
                 var tag = Preferences.Get("guid", null);
+                //GlobalVars.user_guid = tag;
                 Console.WriteLine("guid:" + tag);
                 Console.WriteLine("token:" + token);
                 return;
@@ -39,6 +40,10 @@ namespace Manifest.Droid
                 NotificationHub hub = new NotificationHub(AppConstants.NotificationHubName, AppConstants.ListenConnectionString, this);
                 var guid = Guid.NewGuid();
                 var tag = "guid_" + guid.ToString();
+                //Send guid to endpoint using following fornat
+                //{     "user_unique_id": "100-000045",     "guid": "ndbfndbfnbn",     "notification": "FALSE" }
+                //Endpoint  =  https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/updateGuid/add or replace add with update
+                //GlobalVars.user_guid = guid.ToString();
                 Console.WriteLine("guid:" + tag);
                 Console.WriteLine("token:" + token);
                 Preferences.Set("guid", tag);
@@ -57,30 +62,6 @@ namespace Manifest.Droid
                 Log.Error(AppConstants.DebugTag, $"Error registering device: {e.Message}");
             }
         }
-
-
-
-        // original working code
-        //void SendRegistrationToServer(string token)
-        //{
-        //    try
-        //    {
-        //        NotificationHub hub = new NotificationHub(AppConstants.NotificationHubName, AppConstants.ListenConnectionString, this);
-
-        //        // register device with Azure Notification Hub using the token from FCM
-        //        Registration registration = hub.Register(token, AppConstants.SubscriptionTags);
-
-        //        // subscribe to the SubscriptionTags list with a simple template.
-        //        string pnsHandle = registration.PNSHandle;
-        //        TemplateRegistration templateReg = hub.RegisterTemplate(pnsHandle, "defaultTemplate", AppConstants.FCMTemplateBody, AppConstants.SubscriptionTags);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Log.Error(AppConstants.DebugTag, $"Error registering device: {e.Message}");
-        //    }
-        //}
-
-
 
         public override void OnMessageReceived(RemoteMessage message)
         {
@@ -129,12 +110,6 @@ namespace Manifest.Droid
             var notificationManager = NotificationManager.FromContext(this);
             notificationManager.Notify(0, notificationBuilder.Build());
         }
-
-        //void SendMessageToMainPage(string body)
-        //{
-        //    (Manifest.App.Current.MainPage as Manifest.AppShell)?.AddMessage(body);
-        //}
-
 
     }
 }
