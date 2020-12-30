@@ -115,35 +115,35 @@ namespace Manifest.Services.Rds
         }
 
         //Below function will be called to store the GUID of a user
-        //public async Task storeGUID(string guid, string uid)
-        //{
-        //    string url = BaseUrl + RdsConfig.addGuid;
-        //    Console.WriteLine("guid = "+ guid +  ", uid = " + uid);
-        //    if (guid == null || guid == "")
-        //    {
-        //        return;
-        //    }
-        //    try
-        //    {
-        //        IDictionary<string, string> userDict = new Dictionary<string, string>();
-        //        userDict.Add("user_unique_id", uid);
-        //        userDict.Add("guid", guid);
-        //        userDict.Add("notification", "TRUE");
-        //        string json_data = JsonConvert.SerializeObject(userDict);
-        //        //Now, send a PUT request to the end point
-        //        var httpContent = new StringContent(json_data, Encoding.UTF8);
-        //        var response = await client.PostAsync(url, httpContent);
-        //        System.Diagnostics.Debug.WriteLine("IN GUID TRY BLOCK");
-        //        //response.Wait();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine("IN GUID CATCH BLOCK");
-        //        Debug.WriteLine(e);
-        //        throw;
-        //    }
-        //    //Below is format to post
-        //    //{     "user_unique_id": "100-000045",     "guid": "ndbfndbfnbn",     "notification": "FALSE" }
-        //}
+        public async Task storeGUID(string guid, string uid)
+        {
+            string url = BaseUrl + RdsConfig.addGuid;
+            Console.WriteLine("guid = " + guid + ", uid = " + uid);
+            if (guid == null || guid == "")
+            {
+                return;
+            }
+            try
+            {
+                IDictionary<string, string> userDict = new Dictionary<string, string>();
+                userDict.Add("user_unique_id", uid);
+                userDict.Add("guid", guid);
+                userDict.Add("notification", "TRUE");
+                string json_data = JsonConvert.SerializeObject(userDict);
+                //Now, send a PUT request to the end point
+                var httpContent = new StringContent(json_data, Encoding.UTF8);
+                var response = await client.PostAsync(url, httpContent);
+                System.Diagnostics.Debug.WriteLine("IN GUID TRY BLOCK");
+                //response.Wait();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("IN GUID CATCH BLOCK");
+                Debug.WriteLine(e);
+                throw;
+            }
+            //Below is format to post
+            //{     "user_unique_id": "100-000045",     "guid": "ndbfndbfnbn",     "notification": "FALSE" }
+        }
     }
 }

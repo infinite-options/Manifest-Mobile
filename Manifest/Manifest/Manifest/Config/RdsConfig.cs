@@ -16,7 +16,7 @@ namespace Manifest.Config
         public const string updateActionAndTask = "/api/v2/updateATWatchMobile";
 
         //Endpoints for guid update and add
-        //public const string updateGuid = "/api/v2/updateGuid/update";
-        //public const string addGuid = "/api/v2/updateGuid/add";
+        public const string updateGuid = "/api/v2/updateGuid/update";
+        public const string addGuid = "/api/v2/updateGuid/add";
     }
 }

@@ -35,7 +35,7 @@ namespace Manifest.ViewModels
         IAppleSignInService appleSignInService;
 
         //Adding a Repository object to push guid and uid to database as soon as login is verified
-        //private Repository Repository = Repository.Instance;
+        private Repository Repository = Repository.Instance;
 
         public LoginViewModel()
         {
@@ -195,7 +195,7 @@ namespace Manifest.ViewModels
                     Application.Current.Properties["user_id"] = session.result[0].user_unique_id;
                     //Before navigating to the TodaysList, store the guid and uid
                     //await Repository.storeGUID(Preferences.Get("guid", ""), session.result[0].user_unique_id);
-                    //await Repository.storeGUID(GlobalVars.user_guid, session.result[0].user_unique_id);
+                    await Repository.storeGUID(GlobalVars.user_guid, session.result[0].user_unique_id);
                     await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
                 }
             }
@@ -289,7 +289,7 @@ namespace Manifest.ViewModels
 
                         //Before navigating to the TodaysList, store the guid and uid
                         //await Repository.storeGUID(Preferences.Get("guid", ""), session.result[0].user_unique_id);
-                        //await Repository.storeGUID(GlobalVars.user_guid, session.result[0].user_unique_id);
+                        await Repository.storeGUID(GlobalVars.user_guid, session.result[0].user_unique_id);
                         await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
                     }
 
@@ -382,7 +382,7 @@ namespace Manifest.ViewModels
 
                         //Before navigating to the TodaysList, store the guid and uid
                         //await Repository.storeGUID(Preferences.Get("guid", ""), session.result[0].user_unique_id);
-                        //await Repository.storeGUID(GlobalVars.user_guid, session.result[0].user_unique_id);
+                        await Repository.storeGUID(GlobalVars.user_guid, session.result[0].user_unique_id);
                         await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
                     }
                 }

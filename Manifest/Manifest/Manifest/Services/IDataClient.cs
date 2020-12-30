@@ -18,6 +18,6 @@ namespace Manifest.Services
 
         Task UpdateSubOccurance(SubOccurance subOccurance);
 
-        //Task storeGUID(string guid, string uid);
+        Task storeGUID(string guid, string uid);
     }
 }

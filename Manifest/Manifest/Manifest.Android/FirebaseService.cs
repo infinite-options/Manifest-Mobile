@@ -30,7 +30,7 @@ namespace Manifest.Droid
             if (Preferences.Get("guid", null) != null)
             {
                 var tag = Preferences.Get("guid", null);
-                //GlobalVars.user_guid = tag;
+                GlobalVars.user_guid = tag;
                 Console.WriteLine("guid:" + tag);
                 Console.WriteLine("token:" + token);
                 return;
@@ -43,7 +43,7 @@ namespace Manifest.Droid
                 //Send guid to endpoint using following fornat
                 //{     "user_unique_id": "100-000045",     "guid": "ndbfndbfnbn",     "notification": "FALSE" }
                 //Endpoint  =  https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/updateGuid/add or replace add with update
-                //GlobalVars.user_guid = guid.ToString();
+                GlobalVars.user_guid = guid.ToString();
                 Console.WriteLine("guid:" + tag);
                 Console.WriteLine("token:" + token);
                 Preferences.Set("guid", tag);

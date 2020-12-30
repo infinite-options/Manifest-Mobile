@@ -261,7 +261,7 @@ namespace Manifest.Services
             return Session.mobile_refresh_token;
         }
 
-        /*//This function will call the storeGUID function in RdsClient
+        //This function will call the storeGUID function in RdsClient
         public async Task storeGUID(string guid, string uid)
         {
             try
@@ -274,7 +274,7 @@ namespace Manifest.Services
                 Debug.WriteLine(e);
                 return;
             }
-        }*/
+        }
 
     }
 }
