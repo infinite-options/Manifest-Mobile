@@ -16,7 +16,9 @@ namespace Manifest.Services.Rds
             if (result == null || result.Count == 0) return occurances;
             foreach (OccuranceDto dto in result)
             {
-                occurances.Add(dto.ToOccurance());
+                if (dto.is_displayed_today == "True"){
+                    occurances.Add(dto.ToOccurance());
+                }
             }
             return occurances;
         }
