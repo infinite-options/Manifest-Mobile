@@ -8,6 +8,7 @@ using UIKit;
 // Added for in-app notifications
 using UserNotifications;
 using WindowsAzure.Messaging;
+using Xamarin.Essentials;
 
 namespace Manifest.iOS
 {
@@ -102,7 +103,21 @@ namespace Manifest.iOS
                     return;
                 }
 
-                var tags = new NSSet(AppConstants.SubscriptionTags.ToArray());
+
+                //Carlos's code to get guid
+                var guid = Guid.NewGuid();
+                GlobalVars.user_guid = guid.ToString();
+                var tag = "guid_" + guid.ToString();
+                Debug.WriteLine("guid:" + tag);
+                Preferences.Set("guid", tag);
+                System.Diagnostics.Debug.WriteLine("This is the GUID from RegisteredForRemoteNotifications: " + Preferences.Get("guid", string.Empty));
+                var tags = new NSSet(AppConstants.SubscriptionTags.Append(tag).ToArray());
+                //End of Carlos's code
+
+
+                //var tags = new NSSet(AppConstants.SubscriptionTags.ToArray());
+                //Debug.WriteLine("tag = " + tags);
+                //Debug.WriteLine("token = " + deviceToken);
                 Hub.RegisterNative(deviceToken, tags, (errorCallback) =>
                 {
                     if (errorCallback != null)
