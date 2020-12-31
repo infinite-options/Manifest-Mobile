@@ -52,6 +52,9 @@ namespace Manifest.Services
 
         public async Task<List<Occurance>> GetAllOccurances(string userId)
         {
+            //Console.WriteLine("Printing userID and OccuranceIdOccurancePair.Count");
+            //Console.WriteLine(userId);
+            //Console.WriteLine(OccuranceIdOccurancePair.Count);
             if (OccuranceIdOccurancePair.Count == 0)
             {
                 var occurancesTask =  dataClient.GetOccurances(userId);
@@ -61,6 +64,8 @@ namespace Manifest.Services
                     OccuranceIdOccurancePair.Add(occur.Id, occur);
                 }
             }
+            //System.Diagnostics.Debug.WriteLine("GetAllOccurances");
+            //Console.WriteLine(OccuranceIdOccurancePair.ToString());
             return OccuranceIdOccurancePair.Values.ToList();
         }
 
@@ -73,6 +78,8 @@ namespace Manifest.Services
             {
                 OccuranceIdOccurancePair.Add(occur.Id, occur);
             }
+            //System.Diagnostics.Debug.WriteLine("GetAllFreshOccurances");
+            //System.Diagnostics.Debug.WriteLine(OccuranceIdOccurancePair.Values.ToList());
             return OccuranceIdOccurancePair.Values.ToList();
         }
 

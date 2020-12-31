@@ -53,6 +53,8 @@ namespace Manifest.Services.Rds
                 response.Wait();
                 OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response.Result);
                 System.Diagnostics.Debug.WriteLine("IN GET OCCURANCES TRY BLOCK");
+                //Console.WriteLine(occuranceResponse);
+                //Console.WriteLine(occuranceResponse.ToString());
                 return occuranceResponse.ToOccurances();
             }
             catch(Exception e)
