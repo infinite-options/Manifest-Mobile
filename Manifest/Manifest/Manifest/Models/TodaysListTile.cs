@@ -35,7 +35,7 @@ namespace Manifest.Models
         public string SubTitle { get; set; }
         public bool IsSublistAvailable { get; set; }
         public string TimeDifference { get; set; }
-
+        
         private bool inProgress;
         public bool InProgress { get { return this.inProgress; } set { this.inProgress = value; OnPropertyChanged(); } }
         public bool IsPersistant { get; set; }
