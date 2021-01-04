@@ -6,7 +6,7 @@
              Shell.PresentationMode="ModalAnimated"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
-        <FlexLayout Direction="Column">
+        <FlexLayout Direction="Column" BackgroundColor="#272E32">
             <StackLayout Orientation="Horizontal" Padding="5">
                 <Image Source="arrowLeft.png" HeightRequest="45" WidthRequest="45" AutomationProperties.Name="Back Button">
                     <Image.GestureRecognizers>
@@ -21,11 +21,11 @@
                     </Image.GestureRecognizers>
                 </Image>
             </StackLayout>
-            <CarouselView x:Name="CarousalSubOccurance" HeightRequest="400" IndicatorView="indicatorView" x:DataType="model:SubOccuranceCarousalViewTile">
+            <CarouselView x:Name="CarousalSubOccurance" HeightRequest="400" IndicatorView="indicatorView" x:DataType="model:SubOccuranceCarousalViewTile" BackgroundColor="#272E32">
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <FlexLayout Direction="Column" Padding="20,20,20,0">
-                            <Frame CornerRadius="30" HeightRequest="300" WidthRequest="300" FlexLayout.AlignSelf="Center" Padding="0">
+                            <Frame CornerRadius="30" HeightRequest="300" WidthRequest="300" FlexLayout.AlignSelf="Center" Padding="0" HasShadow="False" BorderColor="Transparent">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -37,15 +37,15 @@
                                     <Image x:Name="CompletionStatus" IsVisible="{Binding IsComplete}" Source="greencheckmark.png" HeightRequest="300" WidthRequest="300"/>
                                 </Grid>
                             </Frame>
-                            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="40" TextColor="Black"/>
-                            <Label Text="{Binding SubTitle}" FontSize="16" FontAttributes="Bold" TextColor= "#9EA0A4"/>
+                            <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="40" TextColor="White"/>
+                            <Label Text="{Binding SubTitle}" FontSize="16" FontAttributes="Bold" TextColor= "White"/>
                         </FlexLayout>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
-            <Frame FlexLayout.Grow="1" HasShadow="False"></Frame>
-            <Button x:Name="NextButton" Text="Next" CornerRadius="20" BorderColor="Black" BorderWidth="1" TextColor="Black" Clicked="NextClicked"
-                    BackgroundColor="White" HeightRequest="40" WidthRequest="100" Padding="0" Margin="0,0,20,50" FlexLayout.AlignSelf="End"/>
+            <Frame FlexLayout.Grow="1" HasShadow="False" BackgroundColor="#272E32"></Frame>
+            <Button x:Name="NextButton" Text="Next" CornerRadius="20" BorderColor="GhostWhite" BorderWidth="1" TextColor="NavajoWhite" Clicked="NextClicked"
+                    BackgroundColor="#272E32" HeightRequest="40" WidthRequest="100" Padding="0" Margin="0,0,20,50" FlexLayout.AlignSelf="End"/>
         </FlexLayout>
     </ContentPage.Content>
 </ContentPage>
