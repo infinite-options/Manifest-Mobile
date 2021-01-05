@@ -114,7 +114,7 @@
 
     <ContentPage.Content>
         <RefreshView x:Name="RefreshViewInstance">
-        <CollectionView x:Name="TodaysListCollectionView" BackgroundColor="#E9E8E8" IsGrouped="True" Margin="20,0,20,0" ItemTemplate="{StaticResource TodaysListTileSelector}">
+        <CollectionView x:Name="TodaysListCollectionView" BackgroundColor="#E9E8E8" IsGrouped="True" Margin="20,0,20,52" ItemTemplate="{StaticResource TodaysListTileSelector}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout ItemSpacing="15" Orientation="Vertical"/>
             </CollectionView.ItemsLayout>

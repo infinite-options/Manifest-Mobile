@@ -44,8 +44,12 @@
                 </CarouselView.ItemTemplate>
             </CarouselView>
             <Frame FlexLayout.Grow="1" HasShadow="False" BackgroundColor="#272E32"></Frame>
-            <Button x:Name="NextButton" Text="Next" CornerRadius="20" BorderColor="GhostWhite" BorderWidth="1" TextColor="NavajoWhite" Clicked="NextClicked"
-                    BackgroundColor="#272E32" HeightRequest="40" WidthRequest="100" Padding="0" Margin="0,0,20,50" FlexLayout.AlignSelf="End"/>
+            <Grid RowDefinitions="*" ColumnDefinitions="80,*,150">
+                <Button x:Name="VoiceButton" Text="Voice" Grid.Column="0" CornerRadius="30" BorderColor="GhostWhite" BorderWidth="4" TextColor="NavajoWhite" Clicked="NextClicked"
+                    BackgroundColor="#272E32" HeightRequest="60" WidthRequest="60" Padding="0" Margin="20,0,0,50" FlexLayout.AlignSelf="End"/>
+                <Button x:Name="NextButton" Text="Next" Grid.Column="2" CornerRadius="20" BorderColor="GhostWhite" BorderWidth="2" TextColor="GhostWhite" Clicked="NextClicked"
+                    BackgroundColor="#272E32" HeightRequest="40" WidthRequest="125" Padding="0" Margin="0,0,20,50" FlexLayout.AlignSelf="End"/>
+            </Grid>
         </FlexLayout>
     </ContentPage.Content>
 </ContentPage>
