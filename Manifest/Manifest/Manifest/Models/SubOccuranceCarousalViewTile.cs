@@ -12,6 +12,7 @@ namespace Manifest.Models
         public string Title { get; set; }
         public string PicUrl { get; set; }
         public string SubTitle { get; set; }
+        public string CompleteTime { get; set; }
         private bool isComplete;
         public bool IsComplete { get { return isComplete; } set 
             { 

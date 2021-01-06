@@ -85,7 +85,8 @@ namespace Manifest.ViewModels
                     Title = sub.Title,
                     PicUrl = sub.PicUrl,
                     IsComplete = sub.IsComplete,
-                    SubTitle = Occurance.Title
+                    SubTitle = Occurance.Title,
+                    CompleteTime = "This task takes: " + sub.ExpectedCompletionTime.ToString(@"hh\:mm") + "hours"
                 });
             }
             return startIndex >= 0 ? startIndex : subOccurances.Count - 1;

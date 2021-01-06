@@ -69,10 +69,8 @@ namespace Manifest.Views
             }
             else
             {
-                subTitle = "This is available from: \n" + startTime + " to " + endTime;
+                subTitle = "This is available from:\n" + startTime + " to " + endTime;
             }
-            //System.Diagnostics.Debug.WriteLine("Occurance " + occurance.IsSublistAvailable);
-            //System.Diagnostics.Debug.WriteLine("Persistant" + occurance.IsPersistent); 
             TodaysListTile tile = new TodaysListTile(occurance.IsInProgress, occurance.IsComplete)
             {
                 Id = occurance.Id,
