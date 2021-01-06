@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Manifest.Views.SubOccuranceListView"
              xmlns:model="clr-namespace:Manifest.Models"
-             BackgroundColor="#272E32"
+             BackgroundColor="DarkGray"
              Shell.PresentationMode="Modal"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <CollectionView x:Name="SubOccuranceCollectionView" IsGrouped="False" x:DataType="model:SubOccuranceListViewTile">
             <CollectionView.Header>
-                <StackLayout x:Name="HeaderStack" Orientation="Vertical">
+                <StackLayout x:Name="HeaderStack" Orientation="Vertical" Margin="0,10,0,0">
                     <StackLayout Orientation="Horizontal" Padding="5">
                         <Image Source="arrowLeft.png" HeightRequest="45" WidthRequest="45" AutomationProperties.Name="Back Button">
                             <Image.GestureRecognizers>
@@ -28,8 +28,8 @@
                             <Image x:Name="MainPicture"  BindingContext="vm:SubOccuranceListViewModel" HeightRequest="250" WidthRequest="250" FlexLayout.AlignSelf="Center"/>
                         </Frame>
                     </FlexLayout>
-                    <Label x:Name="MainTitle" FontSize="20" Padding="10, 0, 0, 0" TextColor="White"/>
-                    <Label x:Name="Timing" FontSize="15" Padding="10,0,0,0" FontAttributes="Bold" TextColor="White"/>
+                    <!--<Label x:Name="MainTitle" FontSize="20" Padding="10, 0, 0, 0" TextColor="White"/>-->
+                    <Label x:Name="Timing" FontSize="15" Padding="10,10,0,20" FontAttributes="Bold" TextColor="White"/>
                 </StackLayout>
             </CollectionView.Header>
             <CollectionView.ItemsLayout>
@@ -37,12 +37,12 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame HasShadow="False" BackgroundColor="#272E32" Padding="0" Margin="0">
+                    <Frame HasShadow="False" BackgroundColor="DarkGray" Padding="0" Margin="0">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding TouchCommand}"/>
                         </Frame.GestureRecognizers>
-                        <Frame BackgroundColor="#272E32" BorderColor="White" Margin="10,0,10,0" Padding="0" HasShadow="False" CornerRadius="15">
-                        <FlexLayout Direction="Row" HeightRequest="50" BackgroundColor="#272E32" Padding="0,0,20,0">
+                        <Frame BackgroundColor="DarkGray" BorderColor="White" Margin="10,0,10,0" Padding="0" HasShadow="False" CornerRadius="15">
+                        <FlexLayout Direction="Row" HeightRequest="50" BackgroundColor="DarkGray" Padding="0,0,20,0">
                             <Label Text="{Binding Title}" FlexLayout.Grow="1" FlexLayout.AlignSelf="Center" FontSize="15" Padding="30, 15, 10, 15"
                                             FontAttributes="Bold" TextColor="White"/>
                             <Image IsVisible="{Binding IsComplete}" Source="greencheckmark.png" FlexLayout.AlignSelf="Center"
@@ -53,7 +53,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.Footer>
-                <Frame BackgroundColor="#272E32" HasShadow="False">
+                <Frame BackgroundColor="DarkGray" HasShadow="False">
                     <Button x:Name="DoneButton" Clicked="DoneClicked" Text="Go Back" BackgroundColor="Gray" TextColor="White" WidthRequest="100" HorizontalOptions="Center"/>
                 </Frame>
             </CollectionView.Footer>

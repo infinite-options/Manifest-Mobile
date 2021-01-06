@@ -23,10 +23,10 @@ namespace Manifest.Views
         {
             SubOccuranceCollectionView.ItemsSource = viewModel.Tiles;
             SubOccuranceCollectionView.ScrollTo(index);
-            MainTitle.Text = viewModel.Occurance.Title;
+            //MainTitle.Text = viewModel.Occurance.Title;
             MainHeading.Text = viewModel.Occurance.Title;
             MainPicture.Source = viewModel.Occurance.PicUrl;
-            Timing.Text = (viewModel.Occurance.EndDayAndTime - viewModel.Occurance.StartDayAndTime).ToString(@"hh\:mm") + "hours";
+            Timing.Text = "This task takes: " + (viewModel.Occurance.EndDayAndTime - viewModel.Occurance.StartDayAndTime).ToString(@"hh\:mm") + "hours";
         }
 
         public async void ChangeButtonToDone()
