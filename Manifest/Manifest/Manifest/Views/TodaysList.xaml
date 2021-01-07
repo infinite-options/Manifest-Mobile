@@ -77,6 +77,12 @@
                         </MultiTrigger>
                         <MultiTrigger TargetType="Image">
                             <MultiTrigger.Conditions>
+                                <BindingCondition Binding="{Binding IsSublistAvailable}" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Source" Value="" />
+                        </MultiTrigger>
+                        <MultiTrigger TargetType="Image">
+                            <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
                                 <BindingCondition Binding="{Binding IsPersistant}" Value="False"/>
                             </MultiTrigger.Conditions>
