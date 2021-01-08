@@ -227,8 +227,8 @@ namespace Manifest.Views
             {
                 Text = DateTime.Now.DayOfWeek.ToString(),
                 FontSize = 40,
-                Padding = new Thickness(0, 40, 0, 0),
-                Margin = new Thickness(0, 40, 0, 0)
+                Padding = new Thickness(0, 80, 0, 0),
+                //Margin = new Thickness(0, 80, 0, 0)
             };
             LoadGroups(new ObservableCollection<TodaysListTileGroup>());
         }
