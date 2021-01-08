@@ -69,12 +69,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Distribution: Infinite Options, LLC (8V66NC2T37)</CodesignKey>
+    <CodesignKey>Apple Development: Adarsh Sekar (PT73NK835V)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchLink>SdkOnly</MtouchLink>
     <OptimizePNGs>true</OptimizePNGs>
-    <CodesignProvision>Manifest My Life (Distribution)</CodesignProvision>
+    <CodesignProvision>VS: com.infiniteoptions-manifestmy.life Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />

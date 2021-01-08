@@ -11,7 +11,8 @@ namespace Manifest.Views
 {
     public partial class AccelerometerPage : ContentPage
     {
-        string uri = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/addCoordinates";
+        string uri = "https://gyn3vgy3fb.execute-api.us-west-1.amazonaws.com/dev/api/v2/addCoordinates";
+        //string uri = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/addCoordinates";
         long counter = 0;
         public AccelerometerPage()
         {
