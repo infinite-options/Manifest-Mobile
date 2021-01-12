@@ -11,7 +11,6 @@
     <None Remove="Images\aboutme.png" />
     <None Remove="Images\arrowLeft.png" />
     <None Remove="Images\calendarFive.svg" />
-    <None Remove="Images\exit.png" />
     <None Remove="Images\fullsun.png" />
     <None Remove="Images\greencheckmark.png" />
     <None Remove="Images\listview.png" />
@@ -20,7 +19,8 @@
     <None Remove="Images\sunrisemid.png" />
     <None Remove="Images\yellowclock.png" />
     <None Remove="Images\sublist.png" />
-    <None Remove="Images\AudioAccompaniment.png"/>
+    <None Remove="Images\AudioAccompaniment.png" />
+    <None Remove="Images\exit.png"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +36,6 @@
     <SharedImage Include="Images\aboutme.png" BaseSize="30,30" />
     <SharedImage Include="Images\arrowLeft.png" BaseSize="45,45" />
     <SharedImage Include="Images\calendarFive.svg" BaseSize="56,56" />
-    <SharedImage Include="Images\exit.png" BaseSize="45,45" />
     <SharedImage Include="Images\fullsun.png" BaseSize="48,48" />
     <SharedImage Include="Images\greencheckmark.png" />
     <SharedImage Include="Images\listview.png" BaseSize="30,30" />
@@ -47,6 +46,7 @@
     <SharedImage Include="Images\sublist.png" BaseSize="56,56" />
     <SharedImage Include="Images\dots.png" BaseSize="56,56" />
     <SharedImage Include="Images\AudioAccompaniment.png" BaseSize="60,60" />
+    <SharedImage Include="Images\exit.png" BaseSize="45,45"/>
   </ItemGroup>
 
   <ItemGroup>
