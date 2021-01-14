@@ -39,13 +39,13 @@
 			<string>Google Auth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb</string>
+				<string>com.googleusercontent.apps.717980399518-knjetk4e5iraggbl066tl9jmp8rigdj3</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleShortVersionString</key>
 	<string>2</string>
 	<key>CFBundleVersion</key>
-	<string>1.3</string>
+	<string>1.4</string>
 </dict>
 </plist>
