@@ -7,7 +7,8 @@
              Shell.PresentationMode="Modal"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
-        <CollectionView x:Name="SubOccuranceCollectionView" IsGrouped="False" x:DataType="model:SubOccuranceListViewTile">
+        <Grid RowDefinitions="*,100" ColumnDefinitions="*,*,150">
+        <CollectionView x:Name="SubOccuranceCollectionView" Grid.Row="0" Grid.ColumnSpan="3" IsGrouped="False" x:DataType="model:SubOccuranceListViewTile">
             <CollectionView.Header>
                 <StackLayout x:Name="HeaderStack" Orientation="Vertical" Margin="0,10,0,0">
                     <StackLayout Orientation="Horizontal" Padding="5">
@@ -23,11 +24,11 @@
                             </Image.GestureRecognizers>
                         </Image>
                     </StackLayout>
-                    <FlexLayout Direction="Column" Padding="20,20,20,0">
+                    <!--<FlexLayout Direction="Column" Padding="20,20,20,0">
                         <Frame CornerRadius="30" HeightRequest="300" WidthRequest="300" FlexLayout.AlignSelf="Center" Padding="0" HasShadow="False" BorderColor="Transparent" BackgroundColor="White">
                             <Image x:Name="MainPicture"  BindingContext="vm:SubOccuranceListViewModel" HeightRequest="250" WidthRequest="250" FlexLayout.AlignSelf="Center"/>
                         </Frame>
-                    </FlexLayout>
+                    </FlexLayout>-->
                     <!--<Label x:Name="MainTitle" FontSize="20" Padding="10, 0, 0, 0" TextColor="White"/>-->
                     <Label x:Name="Timing" FontSize="15" Padding="10,10,0,20" FontAttributes="Bold" TextColor="White"/>
                 </StackLayout>
@@ -53,11 +54,13 @@
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            <CollectionView.Footer>
-                <Frame BackgroundColor="DarkGray" HasShadow="False">
-                    <Button x:Name="DoneButton" Clicked="DoneClicked" Text="Go Back" BackgroundColor="Gray" TextColor="White" WidthRequest="100" HorizontalOptions="Center"/>
-                </Frame>
-            </CollectionView.Footer>
         </CollectionView>
+        <Image Source="AudioAccompaniment.png" Grid.Row="1" Grid.Column="0" Aspect="AspectFill" HeightRequest="60" WidthRequest="60" Margin="20,0,0,50" AutomationProperties.Name="Audio Button">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer/>
+            </Image.GestureRecognizers>
+        </Image>
+        <Button x:Name="DoneButton" Grid.Row="1" Grid.Column="2" Margin="0,0,20,50" Clicked="DoneClicked" Text="Go Back" BackgroundColor="Gray" TextColor="White" HeightRequest="50" WidthRequest="100" HorizontalOptions="Center"/>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

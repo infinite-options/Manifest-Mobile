@@ -25,7 +25,7 @@ namespace Manifest.Views
             SubOccuranceCollectionView.ScrollTo(index);
             //MainTitle.Text = viewModel.Occurance.Title;
             MainHeading.Text = viewModel.Occurance.Title;
-            MainPicture.Source = viewModel.Occurance.PicUrl;
+            //MainPicture.Source = viewModel.Occurance.PicUrl;
             Timing.Text = "This task takes: " + (viewModel.Occurance.EndDayAndTime - viewModel.Occurance.StartDayAndTime).ToString(@"hh\:mm") + "hours";
         }
 
