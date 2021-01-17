@@ -52,6 +52,7 @@
                                 </CarouselView.ItemTemplate>
                             </CarouselView>
                         </StackLayout>
+                        <Label Text="2.1.6" HorizontalOptions="Center" FontSize="18" TextColor="Black"/>
                         <IndicatorView  Margin="0,10,0,50" x:Name="indicatorView"
                             IndicatorColor="LightGray"
                             SelectedIndicatorColor="DarkGray"
