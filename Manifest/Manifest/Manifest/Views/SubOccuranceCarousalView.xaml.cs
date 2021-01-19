@@ -20,8 +20,10 @@ namespace Manifest.Views
         public SubOccuranceCarousalView(string id, InformStatus informStatus)
         {
             InitializeComponent();
+            System.Diagnostics.Debug.WriteLine("IN SUBOCCURANCE CAROUSAL VIEW INITIALIZER");
             BindingContext = _viewModel = new SubOccuranceCarousalViewModel(new WeakReference<SubOccuranceCarousalView>(this, false), informStatus);
             _viewModel.OccuranceId = id;
+
         }
 
         public void LoadUI(int index)

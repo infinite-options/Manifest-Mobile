@@ -23,6 +23,7 @@ namespace Manifest.ViewModels
                 Debug.WriteLine("Manifest.ViewModels.AboutViewModel: Dialing Number:" + phoneNumber);
                 //Console.WriteLine("ZZZZZZZZZZZZZZZ");
                 await Launcher.OpenAsync(new Uri("tel:" + phoneNumber));
+                System.Diagnostics.Debug.WriteLine("IN ABOUTVIEWMODEL. LAUNCHING PHONE");
             }
         }
     }

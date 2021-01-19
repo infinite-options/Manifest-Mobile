@@ -9,6 +9,7 @@ namespace Manifest.Views
         public ItemDetailPage()
         {
             InitializeComponent();
+            System.Diagnostics.Debug.WriteLine("IN ITEM DETAIL PAGE INITIALIZER");
             BindingContext = new ItemDetailViewModel();
         }
     }

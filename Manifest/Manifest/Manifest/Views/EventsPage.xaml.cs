@@ -15,6 +15,7 @@ namespace Manifest.Views
         public EventsPage(string id)
         {
             InitializeComponent();
+            System.Diagnostics.Debug.WriteLine("IN EVENTS PAGE INITIALIZER");
             var task = Repository.Instance.GetEventById(id);
             Event = task.Result;
             LoadUI();

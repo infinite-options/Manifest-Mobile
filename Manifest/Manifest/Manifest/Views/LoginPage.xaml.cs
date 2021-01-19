@@ -20,6 +20,7 @@ namespace Manifest.Views
         public LoginPage()
         {
             InitializeComponent();
+            System.Diagnostics.Debug.WriteLine("IN LOGIN PAGE INITALIZER");
             //This line binds the properties of the LoginPage class to the LoginViewModel class
             this.BindingContext = viewModel = new LoginViewModel();
 
@@ -28,6 +29,7 @@ namespace Manifest.Views
             {
                 OnAppleDevice();
             }
+            System.Diagnostics.Debug.WriteLine("IN LOGIN PAGE INITIALIZER");
         }
 
         //Private function that displays the apple login button

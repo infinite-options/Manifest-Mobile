@@ -17,6 +17,7 @@ namespace Manifest.Views
         public AccelerometerPage()
         {
             InitializeComponent();
+            System.Diagnostics.Debug.WriteLine("IN ACCLEROMETER PAGE INTIALIZER");
         }
 
         void ButtonStart_Clicked(System.Object sender, System.EventArgs e)

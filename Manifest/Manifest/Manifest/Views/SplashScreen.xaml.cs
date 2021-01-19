@@ -17,6 +17,7 @@ namespace Manifest.Views
         public SplashScreen()
         {
             InitializeComponent();
+            System.Diagnostics.Debug.WriteLine("IN SPLASH SCREEN INITIALIZER");
         }
 
         internal SplashScreenViewModel ViewModel { get; set; } = new SplashScreenViewModel();

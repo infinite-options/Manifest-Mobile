@@ -14,6 +14,7 @@ namespace Manifest.Views
         public SubOccuranceListView(string id, InformStatus informStatus)
         {
             InitializeComponent();
+            System.Diagnostics.Debug.WriteLine("IN SUBOCCURANCE LIST VIEW INITIALIZER");
             BindingContext = viewModel = new SubOccuranceListViewModel(new WeakReference<SubOccuranceListView>(this, false), informStatus);
             viewModel.OccuranceId = id;
             viewModel.Navigation = Navigation;

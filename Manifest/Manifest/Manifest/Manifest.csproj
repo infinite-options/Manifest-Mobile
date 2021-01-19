@@ -20,7 +20,7 @@
     <None Remove="Images\yellowclock.png" />
     <None Remove="Images\sublist.png" />
     <None Remove="Images\AudioAccompaniment.png" />
-    <None Remove="Images\exit.png"/>
+    <None Remove="Images\exit.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,7 +46,7 @@
     <SharedImage Include="Images\sublist.png" BaseSize="56,56" />
     <SharedImage Include="Images\dots.png" BaseSize="56,56" />
     <SharedImage Include="Images\AudioAccompaniment.png" BaseSize="60,60" />
-    <SharedImage Include="Images\exit.png" BaseSize="45,45"/>
+    <SharedImage Include="Images\exit.png" BaseSize="45,45" />
   </ItemGroup>
 
   <ItemGroup>

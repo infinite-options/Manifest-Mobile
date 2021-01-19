@@ -55,7 +55,8 @@ namespace Manifest.ViewModels
 
         public async void OnAndroidApple()
         {
-            await Shell.Current.DisplayAlert("Service", "Apple log in is not avaible in this platform yet. Please use Google or Facebook to log in!", "OK");
+            await Shell.Current.DisplayAlert("Service", "Apple log in is not available in this platform yet. Please use Google or Facebook to log in!", "OK");
+            System.Diagnostics.Debug.WriteLine("Apple okay registered");
         }
 
         public async void OnFacebookClicked(object obj)
@@ -93,7 +94,7 @@ namespace Manifest.ViewModels
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             // await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
             // Console.WriteLine("YOU HAVE CLICKED THE GOOGLE SIGN IN BUTTON");
-
+            System.Diagnostics.Debug.WriteLine("Google clicked");
             string clientId = string.Empty;
             string redirectUri = string.Empty;
 
@@ -174,7 +175,6 @@ namespace Manifest.ViewModels
 
             var RDSResponse = await client.PostAsync(Constant.LogInUrl, postContent);
             var responseContent = await RDSResponse.Content.ReadAsStringAsync();
-
             Session session = JsonConvert.DeserializeObject<Session>(responseContent);
             System.Diagnostics.Debug.WriteLine(responseContent);
             System.Diagnostics.Debug.WriteLine(RDSResponse.IsSuccessStatusCode);
@@ -184,8 +184,9 @@ namespace Manifest.ViewModels
                 if (responseContent.Contains(Constant.EmailNotFound))
                 {
                     System.Diagnostics.Debug.WriteLine("HERE IS WHERE WE NEED TO PUT A DISPLAY ALERT MESSAGE");
+                    Console.WriteLine(responseContent);
 
-                    string message = "It looks like you don't have an account yet. Please contact your persona TA to create your account!";
+                    string message = "It looks like you don't have an account yet. Please contact your personal TA to create your account!";
                     await Shell.Current.DisplayAlert("Message", message, "OK");
                 }
                 else if (responseContent.Contains(Constant.AutheticatedSuccesful))
@@ -264,7 +265,8 @@ namespace Manifest.ViewModels
 
             var RDSResponse = await client.PostAsync(Constant.LogInUrl, postContent);
             var responseContent = await RDSResponse.Content.ReadAsStringAsync();
-
+            System.Diagnostics.Debug.WriteLine("responseContent");
+            Console.WriteLine(responseContent);
             Session session = JsonConvert.DeserializeObject<Session>(responseContent);
 
             System.Diagnostics.Debug.WriteLine(responseContent);

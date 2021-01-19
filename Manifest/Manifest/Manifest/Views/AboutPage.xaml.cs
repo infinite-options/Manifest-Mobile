@@ -24,6 +24,7 @@ namespace Manifest.Views
         {
             InitializeComponent();
             viewModel = new AboutViewModel();
+            System.Diagnostics.Debug.WriteLine("IN ABOUT PAGE INITIALIZER");
         }
 
         protected override void OnAppearing()

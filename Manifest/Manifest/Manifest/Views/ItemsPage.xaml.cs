@@ -11,7 +11,7 @@ namespace Manifest.Views
         public ItemsPage()
         {
             InitializeComponent();
-
+            System.Diagnostics.Debug.WriteLine("IN ITEMS PAGE INITIALIZER");
             BindingContext = _viewModel = new ItemsViewModel();
         }
 
