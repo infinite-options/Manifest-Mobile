@@ -164,6 +164,7 @@ namespace Manifest.Views
 
             while (tasks.Count() > 0)
             {
+                System.Diagnostics.Debug.WriteLine("Continuously called");
                 var completedTask = await Task.WhenAny(tasks).ConfigureAwait(false);
 
                 tasks.Remove(completedTask);
