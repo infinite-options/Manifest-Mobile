@@ -87,11 +87,12 @@ namespace Manifest.LogIn.Apple
                 {
                     if (responseContent.Contains(Constant.EmailNotFound))
                     {
-                        var signUp = await Application.Current.MainPage.DisplayAlert("Message", "It looks like you don't have a Serving Fresh account. Please sign up!", "OK", "Cancel");
-                        if (signUp)
-                        {
-                            Application.Current.MainPage = new SocialSignUp(appleId, userName, "", appleUserEmail, appleToken, appleToken, "APPLE");
-                        }
+                        var signUp = await Application.Current.MainPage.DisplayAlert("Message", "It looks like you don't have a Manifest account. Please sign up!", "OK", "Cancel");
+                        //var signUp = await Application.Current.MainPage.DisplayAlert("Message", "It looks like you don't have a Serving Fresh account. Please sign up!", "OK", "Cancel");
+                        //if (signUp)
+                        //{
+                        //    Application.Current.MainPage = new SocialSignUp(appleId, userName, "", appleUserEmail, appleToken, appleToken, "APPLE");
+                        //}
                     }
                     if (responseContent.Contains(Constant.AutheticatedSuccesful))
                     {
@@ -143,7 +144,8 @@ namespace Manifest.LogIn.Apple
                                 Application.Current.Properties["user_longitude"] = AppleUserData.result[0].customer_long;
 
                                 _ = Application.Current.SavePropertiesAsync();
-                                Application.Current.MainPage = new SelectionPage();
+                                await Application.Current.MainPage.DisplayAlert("User",AppleUserData.result[0].ToString(), "OK", "Cancel");
+                                //Application.Current.MainPage = new SelectionPage();
                             }
                             else
                             {

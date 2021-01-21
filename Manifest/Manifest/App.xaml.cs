@@ -28,7 +28,8 @@ namespace Manifest
 
                     if (today <= expTime)
                     {
-                        MainPage = new SelectionPage();
+                        //MainPage = new SelectionPage();
+                        System.Diagnostics.Debug.WriteLine("SelectionPage navigation");
                     }
                     else                                                                            // Could use an else if statment here
                     {

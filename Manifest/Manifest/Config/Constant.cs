@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ServingFresh.Config
+namespace Manifest.Config
 {
     public class Constant
     {
