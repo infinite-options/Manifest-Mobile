@@ -9,44 +9,36 @@ namespace Manifest.Config
         public static string FacebookAccessTokenUrl = "https://www.facebook.com/connect/login_success.html";
         public static string FacebookUserInfoUrl = "https://graph.facebook.com/me?fields=email,name,picture&access_token=";
 
-        // FACEBOOK ID 
-        public static string FacebookAndroidClientID = "257223515515874";
-        public static string FacebookiOSClientID = "257223515515874";
+        // FACEBOOK ID Manifest Myspace
+        public static string FacebookAndroidClientID = "343871123534886";
+        public static string FacebookiOSClientID = "343871123534886";
 
-        // FACEBOOK REDIRECT
+        // FACEBOOK REDIRECT Manifest Myspace
         public static string FacebookiOSRedirectUrl = "https://www.facebook.com/connect/login_success.html:/oauth2redirect";
         public static string FacebookAndroidRedirectUrl = "https://www.facebook.com/connect/login_success.html";
 
         // GOOGLE CONSTANTS
-        public static string GoogleScope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
+        public static string GoogleScope = "https://www.googleapis.com/auth/photoslibrary  https://www.googleapis.com/auth/calendar  https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
         public static string GoogleAuthorizeUrl = "https://accounts.google.com/o/oauth2/v2/auth";
         public static string GoogleAccessTokenUrl = "https://www.googleapis.com/oauth2/v4/token";
         public static string GoogleUserInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
+        public const string GoogleCalendarUrl = "https://www.googleapis.com/calendar/v3/calendars/primary/events";
 
-        // GOOGLE ID
-        public static string GoogleiOSClientID = "97916302968-f22boafqno1dicq4a0eolpr6qj8hkvbm.apps.googleusercontent.com";
-        public static string GoogleAndroidClientID = "97916302968-7una3voi6tjhf92jmvf87rdaeblaaf3s.apps.googleusercontent.com";
+        // GOOGLE ID Manifest Myspace
+        public static string GoogleiOSClientID = "287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb.apps.googleusercontent.com";
+        public static string GoogleAndroidClientID = "287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg.apps.googleusercontent.com";
 
-        // GOOGLE REDIRECT
-        public static string GoogleRedirectUrliOS = "com.googleusercontent.apps.97916302968-f22boafqno1dicq4a0eolpr6qj8hkvbm:/oauth2redirect";
-        public static string GoogleRedirectUrlAndroid = "com.googleusercontent.apps.97916302968-7una3voi6tjhf92jmvf87rdaeblaaf3s:/oauth2redirect";
+        // GOOGLE REDIRECT Manifest Myspace
+        public static string GoogleRedirectUrliOS = "com.googleusercontent.apps.287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb:/oauth2redirect";
+        public static string GoogleRedirectUrlAndroid = "com.googleusercontent.apps.287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg:/oauth2redirect";
 
-        // ENDPOINTS SF
-        public static string AccountSaltUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/AccountSalt";
-        public static string LogInUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/Login/";
-        public static string SignUpUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/createAccount"; 
-        // public static string SignUpUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/SignUp";  Note: For some reason does not work for iOS
-        public static string UpdateTokensUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/token_fetch_update/update_mobile";
-        public static string GetUserInfoUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/token_fetch_update/get";
+        // ENDPOINTS Manifest Myspace
+        public static string AccountSaltUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/accountsalt";
+        public static string LogInUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/login";
+        public static string SignUpUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/signup";
+        public static string UpdateTokensUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/access_refresh_update";
 
-        // public static string ZoneUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/Categorical_Options/";
-        public static string ZoneUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/categoricalOptions/";
-        public static string PurchaseUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/purchase_Data_SF";
-        public static string GetItemsUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems";
-        public static string GetHistoryUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/history/";
-        public static string NotificationsUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/update_guid_notification/customer";
-        public static string EmailVerificationUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/email_verification";
-        public static string UpdateCouponUrl = "https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/update_Coupons/subtract";
+        //Session
 
         // RDS CODES
         public static string EmailNotFound = "404";
@@ -62,13 +54,5 @@ namespace Manifest.Config
 
         // EXTENDED TIME
         public static double days = 14;
-
-        // SERVICE FEES
-        public static double deliveryFee = 5.00;
-        public static double serviceFee = 1.50;
-
-        // STRIPE KEYS
-        public static string StipeKey = "sk_test_fe99fW2owhFEGTACgW3qaykd006gHUwj1j";
-        public static string Contry = "US";
     }
 }

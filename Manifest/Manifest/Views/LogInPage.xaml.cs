@@ -140,124 +140,124 @@ namespace Manifest.Views
         //}
 
 
-        private async Task<AccountSalt> RetrieveAccountSalt(string userEmail)
-        {
-            try
-            {
-                // Take in email
-                System.Diagnostics.Debug.WriteLine("In LogInPage.xaml.cs > RetrieveAccountSalt function");
-                System.Diagnostics.Debug.WriteLine("user_email: " + userEmail);
-                // System.Diagnostics.Debug.WriteLine(userEmail);
+        //private async Task<AccountSalt> RetrieveAccountSalt(string userEmail)
+        //{
+        //    try
+        //    {
+        //        // Take in email
+        //        System.Diagnostics.Debug.WriteLine("In LogInPage.xaml.cs > RetrieveAccountSalt function");
+        //        System.Diagnostics.Debug.WriteLine("user_email: " + userEmail);
+        //        // System.Diagnostics.Debug.WriteLine(userEmail);
 
-                // Store email in saltPost                                                                              // This is a Login Class in Login > Classes
-                SaltPost saltPost = new SaltPost();                                                                     // Creates a new object saltPost of class SaltPost.  In English it would read:  "of type SaltPost, create a new object called saltPost and set equal to an object of that type"
-                saltPost.email = userEmail;                                                                             // Sets value of saltPost.email = userEmail  
-                System.Diagnostics.Debug.WriteLine("saltPost_email: " + saltPost.email);                                // Now we can call a property of that class using dot notation
+        //        // Store email in saltPost                                                                              // This is a Login Class in Login > Classes
+        //        SaltPost saltPost = new SaltPost();                                                                     // Creates a new object saltPost of class SaltPost.  In English it would read:  "of type SaltPost, create a new object called saltPost and set equal to an object of that type"
+        //        saltPost.email = userEmail;                                                                             // Sets value of saltPost.email = userEmail  
+        //        System.Diagnostics.Debug.WriteLine("saltPost_email: " + saltPost.email);                                // Now we can call a property of that class using dot notation
 
-                // Create JSON object to send in endpoint
-                var saltPostSerilizedObject = JsonConvert.SerializeObject(saltPost);                                    // JSONifies everything is saltPost (Serialize)
-                var saltPostContent = new StringContent(saltPostSerilizedObject, Encoding.UTF8, "application/json");    // converts JSON object into a string (Stringify)
-                System.Diagnostics.Debug.WriteLine("JSON object: " + saltPostSerilizedObject);
-                // System.Diagnostics.Debug.WriteLine(saltPostSerilizedObject);
-                System.Diagnostics.Debug.WriteLine("JSON string: " + saltPostContent);                                  // Encodes JSON object.  Only prints: System.Net.Http.StringContent
+        //        // Create JSON object to send in endpoint
+        //        var saltPostSerilizedObject = JsonConvert.SerializeObject(saltPost);                                    // JSONifies everything is saltPost (Serialize)
+        //        var saltPostContent = new StringContent(saltPostSerilizedObject, Encoding.UTF8, "application/json");    // converts JSON object into a string (Stringify)
+        //        System.Diagnostics.Debug.WriteLine("JSON object: " + saltPostSerilizedObject);
+        //        // System.Diagnostics.Debug.WriteLine(saltPostSerilizedObject);
+        //        System.Diagnostics.Debug.WriteLine("JSON string: " + saltPostContent);                                  // Encodes JSON object.  Only prints: System.Net.Http.StringContent
 
-                // Setup, call and receive Endpoint message
-                var client = new HttpClient();                                                                          // Endpoint call is httpClient with URL and stringified JSON Object                        
-                var DRSResponse = await client.PostAsync(Constant.AccountSaltUrl, saltPostContent);                     // Calls endpoint with JSON object.
-                var DRSMessage = await DRSResponse.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine("DRSResponse :" + DRSResponse);                                      // Response is a non-useful JSON object
-                System.Diagnostics.Debug.WriteLine("DRSMessage:" + DRSMessage);                                         // Message is backend response with Success/Fail codes & contains Salt info
-                //System.Diagnostics.Debug.WriteLine(DRSMessage);   
+        //        // Setup, call and receive Endpoint message
+        //        var client = new HttpClient();                                                                          // Endpoint call is httpClient with URL and stringified JSON Object                        
+        //        var DRSResponse = await client.PostAsync(Constant.AccountSaltUrl, saltPostContent);                     // Calls endpoint with JSON object.
+        //        var DRSMessage = await DRSResponse.Content.ReadAsStringAsync();
+        //        System.Diagnostics.Debug.WriteLine("DRSResponse :" + DRSResponse);                                      // Response is a non-useful JSON object
+        //        System.Diagnostics.Debug.WriteLine("DRSMessage:" + DRSMessage);                                         // Message is backend response with Success/Fail codes & contains Salt info
+        //        //System.Diagnostics.Debug.WriteLine(DRSMessage);   
 
 
-                // Route based on Endpoint message
-                AccountSalt userInformation = null;                                                                     // Initializes AccountSalt object.  All properties set to null
-                                                                                                                        // TRY PRINTING userInformation.password_algorithm
-                if (DRSResponse.IsSuccessStatusCode)
-                {
-                    var result = await DRSResponse.Content.ReadAsStringAsync();                                         // result is the same as DRSMessage
-                                                                                                                        // This is a Login Class in Login > Classes                                                  
-                    AcountSaltCredentials data = new AcountSaltCredentials();                                           // Creates a new object data of class AcountSaltCredentials
-                    data = JsonConvert.DeserializeObject<AcountSaltCredentials>(result);                                // Deserialize JSON object.  Definition is given by Class Definition. data contains JSON object
-                    System.Diagnostics.Debug.WriteLine("data: " + data);
+        //        // Route based on Endpoint message
+        //        AccountSalt userInformation = null;                                                                     // Initializes AccountSalt object.  All properties set to null
+        //                                                                                                                // TRY PRINTING userInformation.password_algorithm
+        //        if (DRSResponse.IsSuccessStatusCode)
+        //        {
+        //            var result = await DRSResponse.Content.ReadAsStringAsync();                                         // result is the same as DRSMessage
+        //                                                                                                                // This is a Login Class in Login > Classes                                                  
+        //            AcountSaltCredentials data = new AcountSaltCredentials();                                           // Creates a new object data of class AcountSaltCredentials
+        //            data = JsonConvert.DeserializeObject<AcountSaltCredentials>(result);                                // Deserialize JSON object.  Definition is given by Class Definition. data contains JSON object
+        //            System.Diagnostics.Debug.WriteLine("data: " + data);
 
-                    // If accidentally using Direct Login for Social Media Login
-                    if (DRSMessage.Contains(Constant.UseSocialMediaLogin))                                              // code 401
-                    {
-                        createAccount = true;
-                        System.Diagnostics.Debug.WriteLine("Error:" + Constant.UseSocialMediaLogin);
-                        System.Diagnostics.Debug.WriteLine("DRSMessage:" + DRSMessage);
-                        // System.Diagnostics.Debug.WriteLine(DRSMessage);
-                        await DisplayAlert("Oops!", data.message, "OK");
-                    }
+        //            // If accidentally using Direct Login for Social Media Login
+        //            if (DRSMessage.Contains(Constant.UseSocialMediaLogin))                                              // code 401
+        //            {
+        //                createAccount = true;
+        //                System.Diagnostics.Debug.WriteLine("Error:" + Constant.UseSocialMediaLogin);
+        //                System.Diagnostics.Debug.WriteLine("DRSMessage:" + DRSMessage);
+        //                // System.Diagnostics.Debug.WriteLine(DRSMessage);
+        //                await DisplayAlert("Oops!", data.message, "OK");
+        //            }
 
-                    // If accidentally using and email that is not registered
-                    else if (DRSMessage.Contains(Constant.EmailNotFound))                                               // code 404
-                    {
-                        await DisplayAlert("Oops!", "Our records show that you don't have an account. Please sign up!", "OK");
-                    }
+        //            // If accidentally using and email that is not registered
+        //            else if (DRSMessage.Contains(Constant.EmailNotFound))                                               // code 404
+        //            {
+        //                await DisplayAlert("Oops!", "Our records show that you don't have an account. Please sign up!", "OK");
+        //            }
 
-                    // Finally returning Account Salt info
-                    else
-                    {
-                        userInformation = new AccountSalt                                                               // userInformation is the variable ultimately returned
-                        {
-                            password_algorithm = data.result[0].password_algorithm,
-                            password_salt = data.result[0].password_salt
-                        };
-                    }
-                }
+        //            // Finally returning Account Salt info
+        //            else
+        //            {
+        //                userInformation = new AccountSalt                                                               // userInformation is the variable ultimately returned
+        //                {
+        //                    password_algorithm = data.result[0].password_algorithm,
+        //                    password_salt = data.result[0].password_salt
+        //                };
+        //            }
+        //        }
 
-                System.Diagnostics.Debug.WriteLine("result :" + userInformation);                                       // Print result before returning from RetrieveAccountSalt function
-                return userInformation;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);                                                         // Is there a way to test this
-                return null;
-            }
-        }
+        //        System.Diagnostics.Debug.WriteLine("result :" + userInformation);                                       // Print result before returning from RetrieveAccountSalt function
+        //        return userInformation;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine(ex.Message);                                                         // Is there a way to test this
+        //        return null;
+        //    }
+        //}
 
-        public async Task<LogInResponse> LogInUser(string userEmail, string userPassword, AccountSalt accountSalt)
-        {
-            try
-            {
-                SHA512 sHA512 = new SHA512Managed();                                                                    // Calls Xamarin Class.  Why SHA512 and SHA512Managed?
-                var client = new HttpClient();
-                byte[] data = sHA512.ComputeHash(Encoding.UTF8.GetBytes(userPassword + accountSalt.password_salt));     // Calls actual hashing.  What does accountSalt.password_salt mean?
-                string hashedPassword = BitConverter.ToString(data).Replace("-", string.Empty).ToLower();               // Stores hashedPassword
+        //public async Task<LogInResponse> LogInUser(string userEmail, string userPassword, AccountSalt accountSalt)
+        //{
+        //    try
+        //    {
+        //        SHA512 sHA512 = new SHA512Managed();                                                                    // Calls Xamarin Class.  Why SHA512 and SHA512Managed?
+        //        var client = new HttpClient();
+        //        byte[] data = sHA512.ComputeHash(Encoding.UTF8.GetBytes(userPassword + accountSalt.password_salt));     // Calls actual hashing.  What does accountSalt.password_salt mean?
+        //        string hashedPassword = BitConverter.ToString(data).Replace("-", string.Empty).ToLower();               // Stores hashedPassword
 
-                LogInPost loginPostContent = new LogInPost();                                                           // Calls LogInPost Class and sets variables in loginPostContent
-                loginPostContent.email = userEmail;
-                loginPostContent.password = hashedPassword;
-                loginPostContent.social_id = "";
-                loginPostContent.signup_platform = "";
+        //        LogInPost loginPostContent = new LogInPost();                                                           // Calls LogInPost Class and sets variables in loginPostContent
+        //        loginPostContent.email = userEmail;
+        //        loginPostContent.password = hashedPassword;
+        //        loginPostContent.social_id = "";
+        //        loginPostContent.signup_platform = "";
 
-                string loginPostContentJson = JsonConvert.SerializeObject(loginPostContent);                            // Serialize
+        //        string loginPostContentJson = JsonConvert.SerializeObject(loginPostContent);                            // Serialize
 
-                var httpContent = new StringContent(loginPostContentJson, Encoding.UTF8, "application/json");           // Stringify
-                var response = await client.PostAsync(Constant.LogInUrl, httpContent);                                  // Post Response
-                var message = await response.Content.ReadAsStringAsync();                                               // Post Message
-                System.Diagnostics.Debug.WriteLine("message:" + message);
+        //        var httpContent = new StringContent(loginPostContentJson, Encoding.UTF8, "application/json");           // Stringify
+        //        var response = await client.PostAsync(Constant.LogInUrl, httpContent);                                  // Post Response
+        //        var message = await response.Content.ReadAsStringAsync();                                               // Post Message
+        //        System.Diagnostics.Debug.WriteLine("message:" + message);
 
-                if (message.Contains(Constant.AutheticatedSuccesful))                                                   // code 200
-                {
+        //        if (message.Contains(Constant.AutheticatedSuccesful))                                                   // code 200
+        //        {
 
-                    var responseContent = await response.Content.ReadAsStringAsync();                                   // Stores message in responseContent
-                    var loginResponse = JsonConvert.DeserializeObject<LogInResponse>(responseContent);                  // JSONifies loginResponse (or message)
-                    return loginResponse;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception message: " + e.Message);                                  // Is there a way to test this?
-                return null;
-            }
-        }
+        //            var responseContent = await response.Content.ReadAsStringAsync();                                   // Stores message in responseContent
+        //            var loginResponse = JsonConvert.DeserializeObject<LogInResponse>(responseContent);                  // JSONifies loginResponse (or message)
+        //            return loginResponse;
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine("Exception message: " + e.Message);                                  // Is there a way to test this?
+        //        return null;
+        //    }
+        //}
 
 
         // Facebook
@@ -376,7 +376,8 @@ namespace Manifest.Views
                             var requestSelializedObject = JsonConvert.SerializeObject(request);
                             var requestContent = new StringContent(requestSelializedObject, Encoding.UTF8, "application/json");
 
-                            var clientRequest = await client.PostAsync(Constant.GetUserInfoUrl, requestContent);
+                            //var clientRequest = await client.PostAsync(Constant.GetUserInfoUrl, requestContent);
+                            var clientRequest = await client.PostAsync(Constant.UpdateTokensUrl, requestContent);
 
                             if (clientRequest.IsSuccessStatusCode)
                             {
@@ -562,7 +563,8 @@ namespace Manifest.Views
                             var requestSelializedObject = JsonConvert.SerializeObject(GoogleRequest);
                             var requestContent = new StringContent(requestSelializedObject, Encoding.UTF8, "application/json");
 
-                            var clientRequest = await client.PostAsync(Constant.GetUserInfoUrl, requestContent);
+                            //var clientRequest = await client.PostAsync(Constant.GetUserInfoUrl, requestContent);
+                            var clientRequest = await client.PostAsync(Constant.UpdateTokensUrl, requestContent);
 
                             if (clientRequest.IsSuccessStatusCode)
                             {

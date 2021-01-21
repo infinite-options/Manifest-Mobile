@@ -118,7 +118,8 @@ namespace Manifest.LogIn.Apple
                             var requestSelializedObject = JsonConvert.SerializeObject(AppleRequest);
                             var requestContent = new StringContent(requestSelializedObject, Encoding.UTF8, "application/json");
 
-                            var clientRequest = await client.PostAsync(Constant.GetUserInfoUrl, requestContent);
+                            //var clientRequest = await client.PostAsync(Constant.GetUserInfoUrl, requestContent);
+                            var clientRequest = await client.PostAsync(Constant.UpdateTokensUrl, requestContent);
 
                             if (clientRequest.IsSuccessStatusCode)
                             {

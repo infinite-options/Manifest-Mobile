@@ -5,17 +5,17 @@
             HorizontalOptions="Fill"
             VerticalOptions="Fill"
             BackgroundColor="WhiteSmoke">
-            <Image
+            <!--<Image
                 Source="welcomeBackground.png"
                 Aspect="Fill">
-            </Image>
+            </Image>-->
             <StackLayout
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                 RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
                 <Frame BackgroundColor="Transparent" HasShadow="False">
-                    <Image
+                    <!--<Image
                         Source="servingFreshIcon.png">
-                    </Image>
+                    </Image>-->
                     <Frame.Padding>
                         <OnPlatform x:TypeArguments="Thickness">
                             <On Platform="Android" Value="50,0,50,0"></On>
@@ -54,7 +54,7 @@
                         <ImageButton
                             Grid.Row="0"
                             Grid.Column="0"
-                            Source="facebookIcon.png"
+                            Source="facebook_login.png"
                             Padding="0,0,25,0"
                             BackgroundColor="Transparent"
                             Clicked="FacebookLogInClick">
@@ -62,7 +62,7 @@
                         <ImageButton
                             Grid.Row="0"
                             Grid.Column="1"
-                            Source="googleIcon.png"
+                            Source="google_login.png"
                             Padding="10,0,10,0"
                             BackgroundColor="Transparent"
                             Clicked="GoogleLogInClick">
@@ -71,7 +71,7 @@
                             x:Name="appleLogInButton"
                             Grid.Row="0"
                             Grid.Column="2"
-                            Source="appleIcon.png"
+                            Source="apple_login.png"
                             Padding="25,0,0,0"
                             BackgroundColor="Transparent"
                             Clicked="AppleLogInClick"
