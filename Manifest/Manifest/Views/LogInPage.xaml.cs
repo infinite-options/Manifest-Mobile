@@ -556,7 +556,7 @@ namespace Manifest.Views
                         ////await Repository.storeGUID(GlobalVars.user_guid, session.result[0].user_unique_id);
                         //await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
                         System.Diagnostics.Debug.WriteLine("SUCCESSFUL LOGIN THROUGH GOOGLE. NAVIGATE TO NEXT PAGE");
-                        Application.Current.MainPage = new TodaysListTest();
+                        Application.Current.MainPage = new TodaysListTest(session);
                     }
 
                 }
