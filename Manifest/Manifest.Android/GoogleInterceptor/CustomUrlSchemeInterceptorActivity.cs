@@ -15,13 +15,20 @@ using Manifest.LogIn.Classes;
 
 namespace Manifest.Droid.GoogleInterceptor
 {
+    //SF endpoint
+    //[Activity(Label = "CustomUrlSchemeInterceptorActivity", NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
+    //[IntentFilter(
+    //new[] { Intent.ActionView },
+    //Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
+    //DataSchemes = new[] { "com.googleusercontent.apps.97916302968-7una3voi6tjhf92jmvf87rdaeblaaf3s" },
+    //DataPath = "/oauth2redirect")]
+
     [Activity(Label = "CustomUrlSchemeInterceptorActivity", NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
     [IntentFilter(
     new[] { Intent.ActionView },
     Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-    DataSchemes = new[] { "com.googleusercontent.apps.97916302968-7una3voi6tjhf92jmvf87rdaeblaaf3s" },
+    DataSchemes = new[] { "com.googleusercontent.apps.287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg" },
     DataPath = "/oauth2redirect")]
-
     public class CustomUrlSchemeInterceptorActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
