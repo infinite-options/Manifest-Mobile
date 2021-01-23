@@ -17,13 +17,16 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid HorizontalOptions="Center" Padding="15,5,5,0" BackgroundColor="LightPink">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="checkSubOccurance" NumberOfTapsRequired="1"/>
+                                </Grid.GestureRecognizers>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="150"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Grid Padding="0,10,0,10" BackgroundColor="LightBlue">
+                                <Grid BackgroundColor="LightBlue" Padding="0,10,0,10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="70"></RowDefinition>
                                         <RowDefinition Height="30"></RowDefinition>

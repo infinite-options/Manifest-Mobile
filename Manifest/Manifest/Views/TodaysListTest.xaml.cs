@@ -180,5 +180,19 @@ namespace Manifest.Views
         {
             Debug.WriteLine("Button 1 pressed");
         }
+
+        //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
+        void checkSubOccurance(object sender, EventArgs args)
+        {
+            Debug.WriteLine("Tapped");
+            Debug.WriteLine(sender);
+            Debug.WriteLine(args);
+            Grid myvar = (Grid)sender;
+            //Button b = (Button)sender;
+            Occurance currOccurance = myvar.BindingContext as Occurance;
+            //ms.MealQuantity++;
+            //var currOccurance = (Occurance)sender;
+            Debug.WriteLine(currOccurance.Id);
+        }
     }
 }
