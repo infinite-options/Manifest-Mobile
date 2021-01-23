@@ -150,13 +150,6 @@ namespace Manifest.Views
             return new TimeSpan();
         }
 
-        private void CreateList()
-        {
-            for (int i = 0; i < todaysOccurances.Count; i++) {
-                this.datagrid.Add(todaysOccurances[i]);
-            }
-        }
-
         //This function convert a string to a DateTime
         private DateTime ToDateTime(string dateString)
         {
@@ -169,6 +162,14 @@ namespace Manifest.Views
                 Debug.WriteLine("Error in ToDateTime function in TodaysList class");
             }
             return new DateTime();
+        }
+
+        private void CreateList()
+        {
+            for (int i = 0; i < todaysOccurances.Count; i++)
+            {
+                this.datagrid.Add(todaysOccurances[i]);
+            }
         }
 
         void Button_Clicked_2(System.Object sender, System.EventArgs e)
@@ -193,6 +194,11 @@ namespace Manifest.Views
             //ms.MealQuantity++;
             //var currOccurance = (Occurance)sender;
             Debug.WriteLine(currOccurance.Id);
+            //If there is a sublist available, navigate to the sublist page
+            if (currOccurance.IsSublistAvailable)
+            {
+                Application.Current.MainPage = new SubListPage(currOccurance.Id);
+            }
         }
     }
 }
