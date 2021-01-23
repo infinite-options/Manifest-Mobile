@@ -6,6 +6,8 @@ using Manifest.Config;
 using Manifest.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Manifest.Views
 {
@@ -47,6 +49,7 @@ namespace Manifest.Views
             public string expected_completion_time { get; set; }
             public object completed { get; set; }
         }
+        public ObservableCollection<Occurance> datagrid = new ObservableCollection<Occurance>();
 
         public TodaysListTest(Session userInfo)
         {
@@ -68,6 +71,8 @@ namespace Manifest.Views
             OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
             //Debug.WriteLine(occuranceResponse);
             ToOccurances(occuranceResponse);
+            taskList.ItemsSource = datagrid;
+            CreateList();
         }
 
         //This function takes the response from the endpoint, and formats it into Occurances
@@ -92,6 +97,7 @@ namespace Manifest.Views
                     toAdd.IsComplete = ToBool(dto.is_complete);
                     toAdd.IsSublistAvailable = ToBool(dto.is_sublist_available);
                     toAdd.ExpectedCompletionTime = ToTimeSpan(dto.expected_completion_time);
+                    toAdd.CompletionTime = dto.expected_completion_time;
                     toAdd.DateTimeCompleted = ToDateTime(dto.datetime_completed);
                     toAdd.DateTimeStarted = ToDateTime(dto.datetime_started);
                     toAdd.StartDayAndTime = ToDateTime(dto.start_day_and_time);
@@ -142,6 +148,13 @@ namespace Manifest.Views
                 Debug.WriteLine("Error in ToTimeSpan function in TodaysList class");
             }
             return new TimeSpan();
+        }
+
+        private void CreateList()
+        {
+            for (int i = 0; i < todaysOccurances.Count; i++) {
+                this.datagrid.Add(todaysOccurances[i]);
+            }
         }
 
         //This function convert a string to a DateTime

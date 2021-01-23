@@ -29,6 +29,7 @@ namespace Manifest.Models
         public DateTime DateTimeStarted { get; set; }
         public DateTime DateTimeCompleted { get; set; }
         public TimeSpan ExpectedCompletionTime { get; set; }
+        public string CompletionTime { get; set; }
         public Object Completed { get; set; }
     }
 }
