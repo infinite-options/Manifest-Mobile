@@ -8,6 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Manifest.Views
 {
@@ -16,13 +17,14 @@ namespace Manifest.Views
         HttpClient client = new HttpClient();
         public List<Occurance> todaysOccurances;
 
+        public event PropertyChangedEventHandler PropertyChanged;
         class OccuranceResponse
         {
             public string message { get; set; }
             public List<OccuranceDto> result { get; set; }
         }
 
-            private class OccuranceDto
+        private class OccuranceDto
         {
             public string gr_unique_id { get; set; }
             public string gr_title { get; set; }
@@ -119,7 +121,7 @@ namespace Manifest.Views
         //This function converts a string to a bool
         private bool ToBool(string boolString)
         {
-            if (String.IsNullOrEmpty(boolString)){
+            if (String.IsNullOrEmpty(boolString)) {
                 return false;
             }
             try
@@ -144,7 +146,7 @@ namespace Manifest.Views
             {
                 return TimeSpan.Parse(timeString);
             }
-            catch (Exception e){
+            catch (Exception e) {
                 Debug.WriteLine("Error in ToTimeSpan function in TodaysList class");
             }
             return new TimeSpan();
@@ -182,22 +184,82 @@ namespace Manifest.Views
             Debug.WriteLine("Button 1 pressed");
         }
 
+        //Used to update UI
+        public void OnPropertyChanged(string propertyName)
+        {
+            this.PropertyChanged?.Invoke(this, new
+            PropertyChangedEventArgs(propertyName));
+        }
+
+        public class UpdateOccuranceDataType
+        {
+            public string id { get; set; }
+            public DateTime datetime_completed { get; set; }
+            public DateTime datetime_started { get; set; }
+            public bool is_in_progress { get; set; }
+            public bool is_complete { get; set; }
+        }
+
+        //This function returns a string that we can send to an endpoint to update the status of a goal/routine
+        private string updateOccurance(Occurance toUpdate)
+        {
+            var toSend = new UpdateOccuranceDataType()
+            {
+                id = toUpdate.Id,
+                datetime_completed = toUpdate.DateTimeCompleted,
+                datetime_started = toUpdate.DateTimeStarted,
+                is_in_progress = toUpdate.IsInProgress,
+                is_complete = toUpdate.IsComplete
+            };
+            return JsonConvert.SerializeObject(toSend);
+        }
+
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
-        void checkSubOccurance(object sender, EventArgs args)
+        async void checkSubOccurance(object sender, EventArgs args)
         {
             Debug.WriteLine("Tapped");
             Debug.WriteLine(sender);
             Debug.WriteLine(args);
             Grid myvar = (Grid)sender;
-            //Button b = (Button)sender;
             Occurance currOccurance = myvar.BindingContext as Occurance;
-            //ms.MealQuantity++;
-            //var currOccurance = (Occurance)sender;
             Debug.WriteLine(currOccurance.Id);
+            var currSession = (Session)Application.Current.Properties["session"];
+            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
             //If there is a sublist available, navigate to the sublist page
             if (currOccurance.IsSublistAvailable)
             {
                 Application.Current.MainPage = new SubListPage(currOccurance.Id);
+            }
+            else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
+            {
+                currOccurance.IsInProgress = true;
+                OnPropertyChanged(nameof(currOccurance.IsInProgress));
+                currOccurance.DateTimeStarted = DateTime.Now;
+                Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+                string toSend = updateOccurance(currOccurance);
+                var content = new StringContent(toSend);
+                var res = await client.PostAsync(url, content);
+                if (res.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Wrote to the datebase");
+                }
+                else
+                {
+                    Debug.WriteLine("Some error");
+                    Debug.WriteLine(toSend);
+                    Debug.WriteLine(res.ToString());
+                }
+            }
+            else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
+            {
+                Debug.WriteLine("Should be changed to in complete");
+                currOccurance.IsInProgress = false;
+                currOccurance.IsComplete = true;
+                currOccurance.DateTimeCompleted = DateTime.Now;
+                string toSend = updateOccurance(currOccurance);
+                var content = new StringContent(toSend);
+                _ = await client.PostAsync(url, content);
+
             }
         }
     }
