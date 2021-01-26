@@ -47,6 +47,7 @@ namespace Manifest.Views
         {
             InitializeComponent();
             subTasks = new List<SubOccurance>();
+            subTaskList.ItemsSource = datagrid;
             initializeSubTasks(occuranceID);
         }
 
@@ -57,6 +58,7 @@ namespace Manifest.Views
             var response = await client.GetStringAsync(url);
             SubOccuranceResponse subOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
             ToSubOccurances(subOccuranceResponse);
+            CreateList();
         }
 
         //This function converts the response we got from the endpoint to a list of SubOccurance's
@@ -88,6 +90,7 @@ namespace Manifest.Views
                 toAdd.AvailableStartTime = ToDateTime(dto.available_start_time);
                 toAdd.AvailableEndTime = ToDateTime(dto.available_end_time);
                 subTasks.Add(toAdd);
+                Debug.WriteLine(toAdd.Id);
             }
         }
 
@@ -147,6 +150,11 @@ namespace Manifest.Views
             {
                 this.datagrid.Add(subTasks[i]);
             }
+        }
+
+        private void goToTodaysList(object sender, EventArgs args)
+        {
+            Application.Current.MainPage = new TodaysListTest((Session)Application.Current.Properties["session"]);
         }
     }
 }

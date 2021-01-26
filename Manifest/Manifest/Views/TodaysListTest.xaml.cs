@@ -57,6 +57,7 @@ namespace Manifest.Views
             todaysOccurances = new List<Occurance>();
             Debug.WriteLine(userInfo);
             string userID = userInfo.result[0].user_unique_id;
+            taskList.ItemsSource = datagrid;
             initialiseTodaysOccurances(userID);
             Debug.WriteLine(todaysOccurances);
         }
@@ -71,7 +72,6 @@ namespace Manifest.Views
             OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
             //Debug.WriteLine(occuranceResponse);
             ToOccurances(occuranceResponse);
-            taskList.ItemsSource = datagrid;
             CreateList();
         }
 

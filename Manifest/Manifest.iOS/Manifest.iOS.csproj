@@ -142,5 +142,6 @@
     <BundleResource Include="Resources\apple_login.png" />
     <BundleResource Include="Resources\facebook_login.png" />
     <BundleResource Include="Resources\google_login.png" />
+    <BundleResource Include="Resources\arrowLeft.png" />
   </ItemGroup>
 </Project>
