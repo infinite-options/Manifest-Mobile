@@ -184,12 +184,6 @@ namespace Manifest.Views
             Debug.WriteLine("Button 1 pressed");
         }
 
-        //Used to update UI
-        public void OnPropertyChanged(string propertyName)
-        {
-            this.PropertyChanged?.Invoke(this, new
-            PropertyChangedEventArgs(propertyName));
-        }
 
         public class UpdateOccuranceDataType
         {
@@ -232,8 +226,7 @@ namespace Manifest.Views
             }
             else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
             {
-                currOccurance.IsInProgress = true;
-                OnPropertyChanged(nameof(currOccurance.IsInProgress));
+                currOccurance.updateIsInProgress(true);
                 currOccurance.DateTimeStarted = DateTime.Now;
                 Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
                 string toSend = updateOccurance(currOccurance);
@@ -253,8 +246,8 @@ namespace Manifest.Views
             else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
             {
                 Debug.WriteLine("Should be changed to in complete");
-                currOccurance.IsInProgress = false;
-                currOccurance.IsComplete = true;
+                currOccurance.updateIsInProgress(false);
+                currOccurance.updateIsComplete(true);
                 currOccurance.DateTimeCompleted = DateTime.Now;
                 string toSend = updateOccurance(currOccurance);
                 var content = new StringContent(toSend);

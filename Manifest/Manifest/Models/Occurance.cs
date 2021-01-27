@@ -1,11 +1,12 @@
 ﻿//This class is used to store Goals and Routines.
 
 using System;
-
+using System.ComponentModel;
 namespace Manifest.Models
 {
-    public class Occurance
+    public class Occurance : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public string Id { get; set; }
         public string Title { get; set; }
         public string UserId { get; set; }
@@ -31,5 +32,17 @@ namespace Manifest.Models
         public TimeSpan ExpectedCompletionTime { get; set; }
         public string CompletionTime { get; set; }
         public Object Completed { get; set; }
+
+        public void updateIsInProgress(bool updatedVal)
+        {
+            IsInProgress = updatedVal;
+            PropertyChanged(this, new PropertyChangedEventArgs("IsInProgress"));
+        }
+
+        public void updateIsComplete(bool updatedVal)
+        {
+            IsComplete = updatedVal;
+            PropertyChanged(this, new PropertyChangedEventArgs("IsComplete"));
+        }
     }
 }
