@@ -8,7 +8,6 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.ComponentModel;
 
 namespace Manifest.Views
 {
@@ -17,7 +16,6 @@ namespace Manifest.Views
         HttpClient client = new HttpClient();
         public List<Occurance> todaysOccurances;
 
-        public event PropertyChangedEventHandler PropertyChanged;
         class OccuranceResponse
         {
             public string message { get; set; }
@@ -185,28 +183,28 @@ namespace Manifest.Views
         }
 
 
-        public class UpdateOccuranceDataType
-        {
-            public string id { get; set; }
-            public DateTime datetime_completed { get; set; }
-            public DateTime datetime_started { get; set; }
-            public bool is_in_progress { get; set; }
-            public bool is_complete { get; set; }
-        }
+        //public class UpdateOccuranceDataType
+        //{
+        //    public string id { get; set; }
+        //    public DateTime datetime_completed { get; set; }
+        //    public DateTime datetime_started { get; set; }
+        //    public bool is_in_progress { get; set; }
+        //    public bool is_complete { get; set; }
+        //}
 
-        //This function returns a string that we can send to an endpoint to update the status of a goal/routine
-        private string updateOccurance(Occurance toUpdate)
-        {
-            var toSend = new UpdateOccuranceDataType()
-            {
-                id = toUpdate.Id,
-                datetime_completed = toUpdate.DateTimeCompleted,
-                datetime_started = toUpdate.DateTimeStarted,
-                is_in_progress = toUpdate.IsInProgress,
-                is_complete = toUpdate.IsComplete
-            };
-            return JsonConvert.SerializeObject(toSend);
-        }
+        ////This function returns a string that we can send to an endpoint to update the status of a goal/routine
+        //public string updateOccurance(Occurance toUpdate)
+        //{
+        //    var toSend = new UpdateOccuranceDataType()
+        //    {
+        //        id = toUpdate.Id,
+        //        datetime_completed = toUpdate.DateTimeCompleted,
+        //        datetime_started = toUpdate.DateTimeStarted,
+        //        is_in_progress = toUpdate.IsInProgress,
+        //        is_complete = toUpdate.IsComplete
+        //    };
+        //    return JsonConvert.SerializeObject(toSend);
+        //}
 
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
         async void checkSubOccurance(object sender, EventArgs args)
@@ -222,14 +220,22 @@ namespace Manifest.Views
             //If there is a sublist available, navigate to the sublist page
             if (currOccurance.IsSublistAvailable)
             {
-                Application.Current.MainPage = new SubListPage(currOccurance.Id);
+                Application.Current.MainPage = new SubListPage(currOccurance);
             }
             else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
             {
                 currOccurance.updateIsInProgress(true);
                 currOccurance.DateTimeStarted = DateTime.Now;
                 Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
-                string toSend = updateOccurance(currOccurance);
+                //string toSend = updateOccurance(currOccurance);
+                UpdateOccurance updateOccur = new UpdateOccurance(){
+                    id = currOccurance.Id,
+                    datetime_completed = currOccurance.DateTimeCompleted,
+                    datetime_started = currOccurance.DateTimeStarted,
+                    is_in_progress = currOccurance.IsInProgress,
+                    is_complete = currOccurance.IsComplete
+                };
+                string toSend = updateOccur.updateOccurance();
                 var content = new StringContent(toSend);
                 var res = await client.PostAsync(url, content);
                 if (res.IsSuccessStatusCode)
@@ -249,7 +255,15 @@ namespace Manifest.Views
                 currOccurance.updateIsInProgress(false);
                 currOccurance.updateIsComplete(true);
                 currOccurance.DateTimeCompleted = DateTime.Now;
-                string toSend = updateOccurance(currOccurance);
+                UpdateOccurance updateOccur = new UpdateOccurance()
+                {
+                    id = currOccurance.Id,
+                    datetime_completed = currOccurance.DateTimeCompleted,
+                    datetime_started = currOccurance.DateTimeStarted,
+                    is_in_progress = currOccurance.IsInProgress,
+                    is_complete = currOccurance.IsComplete
+                };
+                string toSend = updateOccur.updateOccurance();
                 var content = new StringContent(toSend);
                 _ = await client.PostAsync(url, content);
 

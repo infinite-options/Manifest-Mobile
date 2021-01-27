@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
+
 namespace Manifest.Models
 {
-    public class SubOccurance
+    public class SubOccurance : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public string Id { get; set; }
         public string Title { get; set; }
         public string GoalRoutineID { get; set; }
@@ -19,5 +22,17 @@ namespace Manifest.Models
         public TimeSpan ExpectedCompletionTime { get; set; }
         public DateTime AvailableStartTime { get; set; }
         public DateTime AvailableEndTime { get; set; }
+
+        public void updateIsInProgress(bool updatedVal)
+        {
+            IsInProgress = updatedVal;
+            PropertyChanged(this, new PropertyChangedEventArgs("IsInProgress"));
+        }
+
+        public void updateIsComplete(bool updatedVal)
+        {
+            IsComplete = updatedVal;
+            PropertyChanged(this, new PropertyChangedEventArgs("IsComplete"));
+        }
     }
 }

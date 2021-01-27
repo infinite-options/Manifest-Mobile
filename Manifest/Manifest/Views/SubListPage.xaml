@@ -22,16 +22,16 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid HorizontalOptions="Center" Padding="15,5,5,0" BackgroundColor="LightGray">
-                                <!--<Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="checkSubOccurance" NumberOfTapsRequired="1"/>
-                                </Grid.GestureRecognizers>-->
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="subOccuranceTapped" NumberOfTapsRequired="1"/>
+                                </Grid.GestureRecognizers>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="150"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Grid BackgroundColor="LightBlue" Padding="0,10,0,10">
+                                <Grid BackgroundColor="White" Padding="0,10,0,10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="70"></RowDefinition>
                                         <RowDefinition Height="30"></RowDefinition>
@@ -45,6 +45,8 @@
                                     <Label Grid.Row="1" Grid.Column="0" Text="{Binding Id}"></Label>
                                     <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding CompletionTime}"></Label>-->
                                     <Image Grid.Column="1" Source="{Binding PicUrl}"></Image>
+                                    <Image Grid.Column="1" Source="yellowclock.png" IsVisible="{Binding IsInProgress}"></Image> 
+                                    <Image Grid.Column="1" Source="greencheckmark.png" IsVisible="{Binding IsComplete}"></Image>
                                 </Grid>
                             </Grid>
                         </DataTemplate>

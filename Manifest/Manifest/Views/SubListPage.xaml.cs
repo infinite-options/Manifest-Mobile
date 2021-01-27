@@ -43,9 +43,18 @@ namespace Manifest.Views
 
         public ObservableCollection<SubOccurance> datagrid = new ObservableCollection<SubOccurance>();
 
-        public SubListPage(string occuranceID)
+        public int numTasks;
+        public int numCompleted;
+
+        public Occurance parent;
+
+        public SubListPage(Occurance occurance)
         {
             InitializeComponent();
+            parent = occurance;
+            numTasks = 0;
+            numCompleted = 0;
+            string occuranceID = occurance.Id;
             subTasks = new List<SubOccurance>();
             subTaskList.ItemsSource = datagrid;
             initializeSubTasks(occuranceID);
@@ -72,6 +81,7 @@ namespace Manifest.Views
             }
             foreach (SubOccuranceDto dto in subOccuranceResponse.result)
             {
+                numTasks++;
                 SubOccurance toAdd= new SubOccurance();
                 toAdd.Id = dto.at_unique_id;
                 toAdd.Title = dto.at_title;
@@ -79,6 +89,10 @@ namespace Manifest.Views
                 toAdd.AtSequence = dto.at_sequence;
                 toAdd.IsAvailable = ToBool(dto.is_available);
                 toAdd.IsComplete = ToBool(dto.is_complete);
+                if (toAdd.IsComplete)
+                {
+                    numCompleted++;
+                }
                 toAdd.IsInProgress = ToBool(dto.is_in_progress);
                 toAdd.IsSublistAvailable = ToBool(dto.is_sublist_available);
                 toAdd.IsMustDo = ToBool(dto.is_must_do);
@@ -155,6 +169,158 @@ namespace Manifest.Views
         private void goToTodaysList(object sender, EventArgs args)
         {
             Application.Current.MainPage = new TodaysListTest((Session)Application.Current.Properties["session"]);
+        }
+
+        //public class UpdateSubOccuranceDataType
+        //{
+        //    public string id { get; set; }
+        //    public DateTime datetime_completed { get; set; }
+        //    public DateTime datetime_started { get; set; }
+        //    public bool is_in_progress { get; set; }
+        //    public bool is_complete { get; set; }
+
+        //}
+
+        //private string updateSubOccurance(SubOccurance toUpdate)
+        //{
+        //    var toSend = new UpdateSubOccuranceDataType()
+        //    {
+        //        id = toUpdate.Id,
+        //        datetime_completed = toUpdate.DateTimeCompleted,
+        //        datetime_started = toUpdate.DateTimeStarted,
+        //        is_in_progress = toUpdate.IsInProgress,
+        //        is_complete = toUpdate.IsComplete
+        //    };
+        //    return JsonConvert.SerializeObject(toSend);
+        //}
+
+
+        //This function will be called whenever a subOccurance is tapped. It will set the subOccurance to InProgress or IsComplete.
+        //If all subOccurance's are complete, it sets the parent occurance to IsComplete
+        async void subOccuranceTapped(object sender, EventArgs args)
+        {
+            Debug.WriteLine("Task tapped");
+            Grid myvar = (Grid)sender;
+            SubOccurance currOccurance = myvar.BindingContext as SubOccurance;
+            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            //if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
+            //{
+            //    currOccurance.updateIsInProgress(true);
+            //    currOccurance.DateTimeStarted = DateTime.Now;
+            //    Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+            //    UpdateOccurance updateOccur = new UpdateOccurance()
+            //    {
+            //        id = currOccurance.Id,
+            //        datetime_completed = currOccurance.DateTimeCompleted,
+            //        datetime_started = currOccurance.DateTimeStarted,
+            //        is_in_progress = currOccurance.IsInProgress,
+            //        is_complete = currOccurance.IsComplete
+            //    };
+            //    string toSend = updateOccur.updateOccurance();
+            //    var content = new StringContent(toSend);
+            //    var res = await client.PostAsync(url, content);
+            //    if (res.IsSuccessStatusCode)
+            //    {
+            //        Debug.WriteLine("Wrote to the datebase");
+            //    }
+            //    else
+            //    {
+            //        Debug.WriteLine("Some error");
+            //        Debug.WriteLine(toSend);
+            //        Debug.WriteLine(res.ToString());
+            //    }
+            //    parent.updateIsInProgress(true);
+            //    UpdateOccurance parentOccur = new UpdateOccurance()
+            //    {
+            //        id = parent.Id,
+            //        datetime_completed = parent.DateTimeCompleted,
+            //        datetime_started = parent.DateTimeStarted,
+            //        is_in_progress = parent.IsInProgress,
+            //        is_complete = parent.IsComplete
+            //    };
+            //    string toSendParent = parentOccur.updateOccurance();
+            //    var parentContent = new StringContent(toSendParent);
+            //    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            //    res = await client.PostAsync(parenturl, parentContent);
+            //    if (res.IsSuccessStatusCode)
+            //    {
+            //        Debug.WriteLine("Parent is now inProgress");
+            //    }
+            //    else
+            //    {
+            //        Debug.WriteLine("Error updating parent");
+            //    }
+            //}
+            if (currOccurance.IsComplete == false)
+            {
+                Debug.WriteLine("Should be changed to in complete");
+                currOccurance.updateIsInProgress(false);
+                currOccurance.updateIsComplete(true);
+                numCompleted++;
+                currOccurance.DateTimeCompleted = DateTime.Now;
+                UpdateOccurance updateOccur = new UpdateOccurance()
+                {
+                    id = currOccurance.Id,
+                    datetime_completed = currOccurance.DateTimeCompleted,
+                    datetime_started = currOccurance.DateTimeStarted,
+                    is_in_progress = currOccurance.IsInProgress,
+                    is_complete = currOccurance.IsComplete
+                };
+                string toSend = updateOccur.updateOccurance();
+                var content = new StringContent(toSend);
+                _ = await client.PostAsync(url, content);
+
+                if (numCompleted == numTasks)
+                {
+                    parent.updateIsInProgress(false);
+                    parent.updateIsComplete(true);
+                    UpdateOccurance parentOccur = new UpdateOccurance()
+                    {
+                        id = parent.Id,
+                        datetime_completed = parent.DateTimeCompleted,
+                        datetime_started = parent.DateTimeStarted,
+                        is_in_progress = parent.IsInProgress,
+                        is_complete = parent.IsComplete
+                    };
+                    string toSendParent = parentOccur.updateOccurance();
+                    var parentContent = new StringContent(toSendParent);
+                    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                    var res = await client.PostAsync(parenturl, parentContent);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Parent is now complete");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Error updating parent");
+                    }
+                }
+                else if (parent.IsInProgress == false)
+                {
+                    parent.updateIsInProgress(true);
+                    UpdateOccurance parentOccur = new UpdateOccurance()
+                    {
+                        id = parent.Id,
+                        datetime_completed = parent.DateTimeCompleted,
+                        datetime_started = parent.DateTimeStarted,
+                        is_in_progress = parent.IsInProgress,
+                        is_complete = parent.IsComplete
+                    };
+                    string toSendParent = parentOccur.updateOccurance();
+                    var parentContent = new StringContent(toSendParent);
+                    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                    var res = await client.PostAsync(parenturl, parentContent);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Parent is now in progress");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Error updating parent");
+                    }
+                }
+
+            }
         }
     }
 }
