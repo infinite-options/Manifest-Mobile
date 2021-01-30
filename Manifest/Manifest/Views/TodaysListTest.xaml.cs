@@ -8,6 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Manifest.RDS;
 
 namespace Manifest.Views
 {
@@ -55,6 +56,7 @@ namespace Manifest.Views
         {
             InitializeComponent();
             todaysOccurances = new List<Occurance>();
+            RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
             Debug.WriteLine(userInfo);
             //string userID = userInfo.result[0].user_unique_id;
             string userID = userInfo;

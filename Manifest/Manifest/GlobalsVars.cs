@@ -1,10 +1,8 @@
 ﻿using System;
 namespace Manifest
 {
-    public class GlobalsVars
+    public class GlobalVars
     {
-        public GlobalsVars()
-        {
-        }
+        public static string user_guid = "";
     }
 }
