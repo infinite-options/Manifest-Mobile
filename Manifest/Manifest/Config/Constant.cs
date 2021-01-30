@@ -25,18 +25,24 @@ namespace Manifest.Config
         public const string GoogleCalendarUrl = "https://www.googleapis.com/calendar/v3/calendars/primary/events";
 
         // GOOGLE ID Manifest Myspace
-        public static string GoogleiOSClientID = "287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb.apps.googleusercontent.com";
-        public static string GoogleAndroidClientID = "287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg.apps.googleusercontent.com";
+        public static string GoogleiOSClientID = "717980399518-knjetk4e5iraggbl066tl9jmp8rigdj3.apps.googleusercontent.com";
+        public static string GoogleAndroidClientID = "717980399518-et85o29943m1lmkv5fmf8g0tiglp966u.apps.googleusercontent.com";
 
         // GOOGLE REDIRECT Manifest Myspace
-        public static string GoogleRedirectUrliOS = "com.googleusercontent.apps.287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb:/oauth2redirect";
-        public static string GoogleRedirectUrlAndroid = "com.googleusercontent.apps.287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg:/oauth2redirect";
+        public static string GoogleRedirectUrliOS = "com.googleusercontent.apps.717980399518-knjetk4e5iraggbl066tl9jmp8rigdj3:/oauth2redirect";
+        public static string GoogleRedirectUrlAndroid = "com.googleusercontent.apps.717980399518-et85o29943m1lmkv5fmf8g0tiglp966u:/oauth2redirect";
 
-        // ENDPOINTS Manifest Myspace
-        public static string AccountSaltUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/accountsalt";
-        public static string LogInUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/login";
-        public static string SignUpUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/signup";
-        public static string UpdateTokensUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/access_refresh_update";
+        // ENDPOINTS Manifest MyLife
+        public static string AccountSaltUrl = "https://gyn3vgy3fb.execute-api.us-west-1.amazonaws.com/dev/api/v2/accountsalt";
+        public static string LogInUrl = "https://gyn3vgy3fb.execute-api.us-west-1.amazonaws.com/dev/api/v2/login";
+        public static string SignUpUrl = "https://gyn3vgy3fb.execute-api.us-west-1.amazonaws.com/dev/api/v2/signup";
+        public static string UpdateTokensUrl = "https://gyn3vgy3fb.execute-api.us-west-1.amazonaws.com/dev/api/v2/access_refresh_update";
+
+        // ENDPOINTS Manifest MySpace
+        //public static string AccountSaltUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/accountsalt";
+        //public static string LogInUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/login";
+        //public static string SignUpUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/signup";
+        //public static string UpdateTokensUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/access_refresh_update";
 
         //Session
 
@@ -50,7 +56,7 @@ namespace Manifest.Config
         // PLATFORM
         public static string Google = "GOOGLE";
         public static string Facebook = "FACEBOOK";
-        public static string Apple = "APPLE";
+        public static string Apple = "Apple";
 
         // EXTENDED TIME
         public static double days = 14;

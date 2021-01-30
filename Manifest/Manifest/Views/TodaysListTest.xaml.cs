@@ -51,12 +51,13 @@ namespace Manifest.Views
         }
         public ObservableCollection<Occurance> datagrid = new ObservableCollection<Occurance>();
 
-        public TodaysListTest(Session userInfo)
+        public TodaysListTest(String userInfo)
         {
             InitializeComponent();
             todaysOccurances = new List<Occurance>();
             Debug.WriteLine(userInfo);
-            string userID = userInfo.result[0].user_unique_id;
+            //string userID = userInfo.result[0].user_unique_id;
+            string userID = userInfo;
             taskList.ItemsSource = datagrid;
             initialiseTodaysOccurances(userID);
             Debug.WriteLine(todaysOccurances);
@@ -155,11 +156,13 @@ namespace Manifest.Views
         {
             try
             {
+                Debug.WriteLine(dateString);
                 return DateTime.Parse(dateString);
             }
             catch (Exception e)
             {
                 Debug.WriteLine("Error in ToDateTime function in TodaysList class");
+                Debug.WriteLine(dateString);
             }
             return new DateTime();
         }
@@ -172,9 +175,9 @@ namespace Manifest.Views
             }
         }
 
-        void Button_Clicked_2(System.Object sender, System.EventArgs e)
+        void navigateToAboutMe(System.Object sender, System.EventArgs e)
         {
-            Debug.WriteLine("Button 2 pressed");
+            Application.Current.MainPage = new AboutMePage();
         }
 
         void Button_Clicked_1(System.Object sender, System.EventArgs e)
