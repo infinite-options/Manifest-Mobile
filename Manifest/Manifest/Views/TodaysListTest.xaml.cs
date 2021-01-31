@@ -187,30 +187,6 @@ namespace Manifest.Views
             Debug.WriteLine("Button 1 pressed");
         }
 
-
-        //public class UpdateOccuranceDataType
-        //{
-        //    public string id { get; set; }
-        //    public DateTime datetime_completed { get; set; }
-        //    public DateTime datetime_started { get; set; }
-        //    public bool is_in_progress { get; set; }
-        //    public bool is_complete { get; set; }
-        //}
-
-        ////This function returns a string that we can send to an endpoint to update the status of a goal/routine
-        //public string updateOccurance(Occurance toUpdate)
-        //{
-        //    var toSend = new UpdateOccuranceDataType()
-        //    {
-        //        id = toUpdate.Id,
-        //        datetime_completed = toUpdate.DateTimeCompleted,
-        //        datetime_started = toUpdate.DateTimeStarted,
-        //        is_in_progress = toUpdate.IsInProgress,
-        //        is_complete = toUpdate.IsComplete
-        //    };
-        //    return JsonConvert.SerializeObject(toSend);
-        //}
-
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
         async void checkSubOccurance(object sender, EventArgs args)
         {
