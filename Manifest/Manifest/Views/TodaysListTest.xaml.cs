@@ -16,6 +16,7 @@ namespace Manifest.Views
     {
         HttpClient client = new HttpClient();
         public List<Occurance> todaysOccurances;
+        public List<Occurance> todaysEvents;
 
         class OccuranceResponse
         {
@@ -50,12 +51,126 @@ namespace Manifest.Views
             public string expected_completion_time { get; set; }
             public object completed { get; set; }
         }
+
+        //public partial class EventResponse
+        //{
+        //    [JsonProperty("kind")]
+        //    public string Kind { get; set; }
+
+        //    [JsonProperty("etag")]
+        //    public string Etag { get; set; }
+
+        //    [JsonProperty("summary")]
+        //    public string Summary { get; set; }
+
+        //    [JsonProperty("updated")]
+        //    public DateTime Updated { get; set; }
+
+        //    [JsonProperty("timeZone")]
+        //    public string TimeZone { get; set; }
+
+        //    [JsonProperty("accessRole")]
+        //    public string AccessRole { get; set; }
+
+        //    [JsonProperty("defaultReminders")]
+        //    public List<EventsDefaultReminder> DefaultReminders { get; set; }
+
+        //    [JsonProperty("nextPageToken")]
+        //    public string NextPageToken { get; set; }
+
+        //    [JsonProperty("nextSyncToken")]
+        //    public string NextSyncToken { get; set; }
+
+        //    [JsonProperty("items")]
+        //    public List<EventDto> Items { get; set; }
+        //}
+
+        //public class EventDto
+        //{
+        //    [JsonProperty("kind")]
+        //    public string Kind { get; set; }
+
+        //    [JsonProperty("etag")]
+        //    public string Etag { get; set; }
+
+        //    [JsonProperty("id")]
+        //    public string Id { get; set; }
+
+        //    [JsonProperty("status")]
+        //    public string Status { get; set; }
+
+        //    [JsonProperty("htmlLink", NullValueHandling = NullValueHandling.Ignore)]
+        //    public string HtmlLink { get; set; }
+
+        //    [JsonProperty("created", NullValueHandling = NullValueHandling.Ignore)]
+        //    public DateTimeOffset Created { get; set; }
+
+        //    [JsonProperty("updated", NullValueHandling = NullValueHandling.Ignore)]
+        //    public DateTimeOffset Updated { get; set; }
+
+        //    [JsonProperty("summary", NullValueHandling = NullValueHandling.Ignore)]
+        //    public string EventName { get; set; }
+
+        //    [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
+        //    public string Description { get; set; }
+
+        //    [JsonProperty("location", NullValueHandling = NullValueHandling.Ignore)]
+        //    public string Location { get; set; }
+
+        //    [JsonProperty("colorId", NullValueHandling = NullValueHandling.Ignore)]
+        //    public string ColorID { get; set; }
+
+        //    [JsonProperty("creator", NullValueHandling = NullValueHandling.Ignore)]
+        //    public EventsCreator Creator { get; set; }
+
+        //    [JsonProperty("organizer", NullValueHandling = NullValueHandling.Ignore)]
+        //    public EventsCreator Organizer { get; set; }
+
+        //    [JsonProperty("start", NullValueHandling = NullValueHandling.Ignore)]
+        //    public EventsEnd Start { get; set; }
+
+        //    [JsonProperty("end", NullValueHandling = NullValueHandling.Ignore)]
+        //    public EventsEnd End { get; set; }
+
+        //    [JsonProperty("iCalUID", NullValueHandling = NullValueHandling.Ignore)]
+        //    public string ICalUid { get; set; }
+
+        //    [JsonProperty("sequence", NullValueHandling = NullValueHandling.Ignore)]
+        //    public long? Sequence { get; set; }
+
+        //    [JsonProperty("attendees", NullValueHandling = NullValueHandling.Ignore)]
+        //    public List<EventsAttendee> Attendees { get; set; }
+
+        //    [JsonProperty("hangoutLink", NullValueHandling = NullValueHandling.Ignore)]
+        //    public Uri HangoutLink { get; set; }
+
+        //    [JsonProperty("conferenceData", NullValueHandling = NullValueHandling.Ignore)]
+        //    public EventsConferenceData ConferenceData { get; set; }
+
+        //    [JsonProperty("guestsCanModify", NullValueHandling = NullValueHandling.Ignore)]
+        //    public bool? GuestsCanModify { get; set; }
+
+        //    [JsonProperty("reminders", NullValueHandling = NullValueHandling.Ignore)]
+        //    public EventsReminders Reminders { get; set; }
+
+        //    [JsonProperty("recurrence", NullValueHandling = NullValueHandling.Ignore)]
+        //    public string[] Recurrence { get; set; }
+
+        //    [JsonProperty("recurringEventId", NullValueHandling = NullValueHandling.Ignore)]
+        //    public string RecurringEventId { get; set; }
+
+        //    [JsonProperty("originalStartTime", NullValueHandling = NullValueHandling.Ignore)]
+        //    public EventsOriginalStartTime OriginalStartTime { get; set; }
+        //}
+
+
         public ObservableCollection<Occurance> datagrid = new ObservableCollection<Occurance>();
 
         public TodaysListTest(String userInfo)
         {
             InitializeComponent();
             todaysOccurances = new List<Occurance>();
+            todaysEvents = new List<Occurance>();
             RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
             Debug.WriteLine(userInfo);
             //string userID = userInfo.result[0].user_unique_id;
@@ -75,6 +190,7 @@ namespace Manifest.Views
             OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
             //Debug.WriteLine(occuranceResponse);
             ToOccurances(occuranceResponse);
+            await GetEvents();
             CreateList();
         }
 
@@ -113,6 +229,7 @@ namespace Manifest.Views
                     toAdd.RepeatEndsOn = ToDateTime(dto.repeat_ends_on);
                     //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
                     toAdd.UserId = dto.user_id;
+                    toAdd.IsEvent = false;
                     todaysOccurances.Add(toAdd);
                 }
             }
@@ -163,17 +280,139 @@ namespace Manifest.Views
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Error in ToDateTime function in TodaysList class");
+                Debug.WriteLine("Error in ToDateTime function in TodaysList class. " + e.ToString());
                 Debug.WriteLine(dateString);
             }
             return new DateTime();
         }
 
+        //In this function, we merge our events and goals/routines
         private void CreateList()
         {
-            for (int i = 0; i < todaysOccurances.Count; i++)
+            int i = 0;
+            int j = 0;
+            //Debug.WriteLine("Num occurances = " + todaysOccurances.Count);
+            //Debug.WriteLine("Num Event = " + todaysEvents.Count);
+            while (i < todaysOccurances.Count || j < todaysEvents.Count)
             {
-                this.datagrid.Add(todaysOccurances[i]);
+                Debug.WriteLine(i.ToString() + j.ToString());
+                if (i >= todaysOccurances.Count && j < todaysEvents.Count)
+                {
+                    this.datagrid.Add(todaysEvents[j]);
+                    j++;
+                    continue;
+                }
+                else if (i < todaysOccurances.Count && j >= todaysEvents.Count)
+                {
+                    this.datagrid.Add(todaysOccurances[i]);
+                    i++;
+                    continue;
+                }
+                else if (todaysOccurances[i].StartDayAndTime <= todaysEvents[j].StartDayAndTime)
+                {
+                    this.datagrid.Add(todaysOccurances[i]);
+                    i++;
+                }
+                else
+                {
+                    this.datagrid.Add(todaysEvents[j]);
+                    j++;
+                }
+            }
+        }
+
+        private async Task GetEvents()
+        {
+            DateTimeOffset dateTimeOffset = DateTimeOffset.Now;
+            string url = Constant.GoogleCalendarUrl + "?orderBy=startTime&singleEvents=true&";
+            Session currSession = (Session)Application.Current.Properties["session"];
+            string authToken = currSession.result[0].mobile_auth_token;
+
+            int publicYear = dateTimeOffset.Year;
+            int publicMonth = dateTimeOffset.Month;
+            int publicDay = dateTimeOffset.Day;
+
+            string timeZoneOffset = dateTimeOffset.ToString();
+            string[] timeZoneOffsetParsed = timeZoneOffset.Split('-');
+            int timeZoneNum = Int32.Parse(timeZoneOffsetParsed[1].Substring(0, 2));
+            string monthString;
+            string dayString;
+            string paddedTimeZoneNum;
+            if (timeZoneNum < 10)
+            {
+                paddedTimeZoneNum = timeZoneNum.ToString().PadLeft(2, '0');
+
+            }
+            else
+            {
+                paddedTimeZoneNum = timeZoneNum.ToString();
+            }
+
+            if (publicMonth < 10)
+            {
+                monthString = publicMonth.ToString().PadLeft(2, '0');
+
+            }
+            else
+            {
+                monthString = publicMonth.ToString();
+            }
+
+            if (publicDay < 10)
+            {
+                dayString = publicDay.ToString().PadLeft(2, '0');
+
+            }
+            else
+            {
+                dayString = publicDay.ToString();
+            }
+
+            string timeMaxMin = String.Format("timeMax={0}-{1}-{2}T23%3A59%3A59-{3}%3A00&timeMin={0}-{1}-{2}T00%3A00%3A01-{3}%3A00", publicYear, monthString, dayString, paddedTimeZoneNum);
+            string fullURI = url + timeMaxMin;
+
+            //Set up the request
+            var request = new HttpRequestMessage();
+            request.RequestUri = new Uri(fullURI);
+            request.Method = HttpMethod.Get;
+
+            //Format Headers of Request with included Token
+            string bearerString = string.Format("Bearer {0}", authToken);
+            request.Headers.Add("Authorization", bearerString);
+            request.Headers.Add("Accept", "application/json");
+
+            Debug.WriteLine("Manifest.Services.Google.Calendar: Making request to " + fullURI);
+
+            var response = await client.SendAsync(request);
+            var json = await response.Content.ReadAsStringAsync();
+            //var json = response.Content;
+            Debug.WriteLine("Calendars response:\n" + json);
+            //var serializer = new JavaScriptSerializer(); //using System.Web.Script.Serialization;
+
+            EventResponse eventResponse = JsonConvert.DeserializeObject<EventResponse>(json);
+            List<Event> events = eventResponse.ToEvents();
+            Debug.WriteLine("Converted to Events");
+            EventsToOccurances(events);
+            //foreach (KeyValuePair<dynamic, dynamic> kvp in values)
+            //{
+            //    Debug.WriteLine(kvp.ToString());
+            //}
+            //var values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
+        }
+
+        private void EventsToOccurances(List<Event> events)
+        {
+            todaysEvents.Clear();
+            foreach (Event dto in events)
+            {
+                Occurance toAdd = new Occurance();
+                toAdd.Title = dto.Title;
+                toAdd.Description = dto.Description;
+                toAdd.StartDayAndTime = dto.StartTime.LocalDateTime;
+                toAdd.EndDayAndTime = dto.EndTime.LocalDateTime;
+                toAdd.Id = dto.Id;
+                toAdd.IsEvent = true;
+                todaysEvents.Add(toAdd);
             }
         }
 

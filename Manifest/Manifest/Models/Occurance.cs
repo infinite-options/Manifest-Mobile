@@ -32,6 +32,9 @@ namespace Manifest.Models
         public TimeSpan ExpectedCompletionTime { get; set; }
         public string CompletionTime { get; set; }
         public Object Completed { get; set; }
+        //Added so that we can convert events to the same datatype
+        public bool IsEvent { get; set; }
+        public string Description { get; set; }
 
         public void updateIsInProgress(bool updatedVal)
         {
