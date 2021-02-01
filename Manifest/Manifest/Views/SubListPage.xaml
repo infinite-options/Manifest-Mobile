@@ -1,27 +1,35 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.SubListPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.SubListPage" BackgroundColor="LightGray">
     <ContentPage.Content>
+        <StackLayout>
+
+            <BoxView HeightRequest="40"/>
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" BackgroundColor="LightGray">
+                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="arrowLeft.png">
+                    <Image Grid.Column="0" Source="arrowLeft.png" Margin="15,0,0,0">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="goToTodaysList"></TapGestureRecognizer>
                         </Image.GestureRecognizers>
                     </Image>
+
+                    <StackLayout Grid.Column="1" VerticalOptions="Center">
+                    <Label x:Name="occuranceName" Text="Occurance" FontSize="30" HorizontalOptions="Start" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,0"/>
+                    </StackLayout>
                 </Grid>
                 <StackLayout Grid.Row="1">
-                <CollectionView x:Name="subTaskList"  BackgroundColor="LightGray" SelectionMode="None">
+                <CollectionView x:Name="subTaskList" SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid HorizontalOptions="Center" Padding="15,5,5,0" BackgroundColor="LightGray">
+                            <Grid HorizontalOptions="Center" Padding="15,5,15,0" BackgroundColor="LightGray">
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="subOccuranceTapped" NumberOfTapsRequired="1"/>
                                 </Grid.GestureRecognizers>
@@ -31,7 +39,8 @@
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Grid BackgroundColor="White" Padding="0,10,0,10">
+                                <Frame CornerRadius="30" HasShadow="False" Padding="15">
+                                <Grid BackgroundColor="White">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="70"></RowDefinition>
                                         <RowDefinition Height="30"></RowDefinition>
@@ -41,18 +50,22 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="100"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Title}"></Label>
-                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding Id}"></Label>
+                                    <StackLayout Grid.Row="0" Grid.Column="0">
+                                    <Label Text="{Binding Title}" FontAttributes="Bold" TextColor="Black" FontSize="25" LineBreakMode="WordWrap" MaxLines="2"></Label>
+                                    </StackLayout>
+                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding ExpectedCompletionTime}" TextColor="Black" FontSize="15"></Label>
                                     <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding CompletionTime}"></Label>-->
                                     <Image Grid.Column="1" Source="{Binding PicUrl}"></Image>
                                     <Image Grid.Column="1" Source="yellowclock.png" IsVisible="{Binding IsInProgress}"></Image> 
                                     <Image Grid.Column="1" Source="greencheckmark.png" IsVisible="{Binding IsComplete}"></Image>
                                 </Grid>
+                                    </Frame>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </StackLayout>
             </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -25,7 +25,12 @@ namespace Manifest.Views
             Application.Current.MainPage = new LogInPage();
         }
 
-        void Button_Clicked_1(System.Object sender, System.EventArgs e)
+        void navigateToAboutMe(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new AboutMePage();
+        }
+
+        void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
         }

@@ -119,7 +119,7 @@ namespace Manifest.Views
             }
             foreach (OccuranceDto dto in occuranceResponse.result)
             {
-                if (dto.is_displayed_today == "True")
+                if (dto.is_displayed_today == "True" && (ToDateTime(dto.start_day_and_time) >= ToDateTime(morningStart) || ToDateTime(dto.end_day_and_time) > ToDateTime(morningStart)))
                 {
                     Occurance toAdd = new Occurance();
                     toAdd.Id = dto.gr_unique_id;
@@ -144,6 +144,7 @@ namespace Manifest.Views
                     //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
                     toAdd.UserId = dto.user_id;
                     //todaysOccurances.Add(toAdd);
+                    Debug.WriteLine("title: " + toAdd.Title);
                     Debug.WriteLine("expected completion time: " + dto.expected_completion_time);
                     Debug.WriteLine("imageTriggers: " + dto.is_sublist_available + " persistent: " + dto.is_persistent);
 
@@ -215,21 +216,33 @@ namespace Manifest.Views
                 this.datagrid.Add(todaysOccurances[i]);
             }
 
-            stack1.HeightRequest = 15 + 50 + (todaysOccurances.Count * 160);
+            Debug.WriteLine("todaysOccurances.Count: " + todaysOccurances.Count.ToString());
+            //stack1.HeightRequest = 15 + 50 + (todaysOccurances.Count * 180);
+            //stack1.HeightRequest = 15 + 50 + taskList.Height;
+            taskList.HeightRequest = (todaysOccurances.Count * 160);
+            if (todaysOccurances.Count == 0)
+                stack1.IsVisible = false;
 
             for (int i = 0; i < todaysOccurancesAfternoon.Count; i++)
             {
                 this.datagridAfternoon.Add(todaysOccurancesAfternoon[i]);
             }
 
-            stack2.HeightRequest = 15 + 50 + (todaysOccurancesAfternoon.Count * 160);
+            //stack2.HeightRequest = 15 + 50 + (todaysOccurancesAfternoon.Count * 160);
+            taskListAfternoon.HeightRequest = (todaysOccurancesAfternoon.Count * 170);
+            if (todaysOccurancesAfternoon.Count == 0)
+                stack2.IsVisible = false;
 
             for (int i = 0; i < todaysOccurancesEvening.Count; i++)
             {
                 this.datagridEvening.Add(todaysOccurancesEvening[i]);
             }
 
-            stack3.HeightRequest = 15 + 50 + (todaysOccurancesEvening.Count * 160);
+            Debug.WriteLine("evening occurances: " + todaysOccurancesEvening.Count.ToString());
+            //stack3.HeightRequest = 15 + 50 + (todaysOccurancesEvening.Count * 160);
+            taskListEvening.HeightRequest = (todaysOccurancesEvening.Count * 170);
+            if (todaysOccurancesEvening.Count == 0)
+                stack3.IsVisible = false;
         }
 
         void navigateToAboutMe(System.Object sender, System.EventArgs e)
@@ -237,9 +250,9 @@ namespace Manifest.Views
             Application.Current.MainPage = new AboutMePage();
         }
 
-        void Button_Clicked_1(System.Object sender, System.EventArgs e)
+        void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
-            Debug.WriteLine("Button 1 pressed");
+            Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
         }
 
 

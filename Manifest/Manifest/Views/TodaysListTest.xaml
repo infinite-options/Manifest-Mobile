@@ -80,7 +80,7 @@
                                 <MultiTrigger TargetType="Image">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                <BindingCondition Binding="{Binding IsPersistant}" Value="True"/>
+                                <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Source" Value="sublist.png" />
                             <Setter Property="HeightRequest" Value="30"/>
@@ -95,7 +95,7 @@
                         <MultiTrigger TargetType="Image">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                <BindingCondition Binding="{Binding IsPersistant}" Value="False"/>
+                                <BindingCondition Binding="{Binding IsPersistent}" Value="False"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Source" Value="dots.png"/>
                             <Setter Property="HeightRequest" Value="30"/>
@@ -166,7 +166,7 @@
                                 <MultiTrigger TargetType="Image">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                <BindingCondition Binding="{Binding IsPersistant}" Value="True"/>
+                                <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Source" Value="sublist.png" />
                             <Setter Property="HeightRequest" Value="30"/>
@@ -181,7 +181,7 @@
                         <MultiTrigger TargetType="Image">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                <BindingCondition Binding="{Binding IsPersistant}" Value="False"/>
+                                <BindingCondition Binding="{Binding IsPersistent}" Value="False"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Source" Value="dots.png"/>
                             <Setter Property="HeightRequest" Value="30"/>
@@ -212,7 +212,7 @@
                         <Label Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Evening" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
                     </Grid>
 
-                <CollectionView x:Name="taskListEvening" SelectionMode="None" Margin="0,0,0,-300">
+                <CollectionView x:Name="taskListEvening" SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid HorizontalOptions="Center" Padding="0, 5">
@@ -251,7 +251,7 @@
                                 <MultiTrigger TargetType="Image">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                <BindingCondition Binding="{Binding IsPersistant}" Value="True"/>
+                                <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Source" Value="sublist.png" />
                             <Setter Property="HeightRequest" Value="30"/>
@@ -266,7 +266,7 @@
                         <MultiTrigger TargetType="Image">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                <BindingCondition Binding="{Binding IsPersistant}" Value="False"/>
+                                <BindingCondition Binding="{Binding IsPersistent}" Value="False"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Source" Value="dots.png"/>
                             <Setter Property="HeightRequest" Value="30"/>
@@ -302,7 +302,7 @@
                         <Image Grid.Row="0" Grid.Column="1" Source="aboutme.png" HeightRequest="20"/>
                         <Label Grid.Row="1" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="Black" FontSize="12"/>
 
-                    <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="Button_Clicked_1"></Button>
+                    <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="navigatetoTodaysList"></Button>
                     <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigateToAboutMe"></Button>
                 </Grid>
             </Grid>
