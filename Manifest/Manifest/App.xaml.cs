@@ -5,6 +5,7 @@ using Manifest.Views;
 using Manifest.Config;
 using Xamarin.Essentials;
 using Manifest.LogIn.Apple;
+using Manifest.Models;
 
 namespace Manifest
 {
@@ -17,10 +18,20 @@ namespace Manifest
         public App()
         {
             InitializeComponent();
-            // Application.Current.Properties.Clear();                                              // Resets user info in the app.  Use for debug
-            // SecureStorage.RemoveAll();                                                           // Allows Xamarin to reset Apple security storage info stored in hardware.  Use for debug
-            if (Application.Current.Properties.ContainsKey("user_id"))                              // Additional parameters defined in LoginPage.xaml.cs.  You can add more on the fly
+            if (Application.Current.Properties.ContainsKey("userID"))
             {
+                System.Diagnostics.Debug.WriteLine(Application.Current.Properties["userID"]);
+                
+            }
+            if (Application.Current.Properties.ContainsKey("time_stamp"))
+            {
+                System.Diagnostics.Debug.WriteLine(Application.Current.Properties["time_stamp"]);
+            }
+                // Application.Current.Properties.Clear();                                              // Resets user info in the app.  Use for debug
+                // SecureStorage.RemoveAll();                                                           // Allows Xamarin to reset Apple security storage info stored in hardware.  Use for debug
+                if (Application.Current.Properties.ContainsKey("userID"))                              // Additional parameters defined in LoginPage.xaml.cs.  You can add more on the fly
+            {
+                System.Diagnostics.Debug.WriteLine("Session available");
                 if (Application.Current.Properties.ContainsKey("time_stamp"))
                 {
                     DateTime today = DateTime.Now;
@@ -28,7 +39,7 @@ namespace Manifest
 
                     if (today <= expTime)
                     {
-                        //MainPage = new SelectionPage();
+                        MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
                         System.Diagnostics.Debug.WriteLine("SelectionPage navigation");
                     }
                     else                                                                            // Could use an else if statment here
@@ -46,6 +57,7 @@ namespace Manifest
                             }
                             else if (socialPlatform.Equals(Constant.Google))
                             {
+                                //MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
                                 client.GoogleLogInClick(new object(), new EventArgs());
                             }
                             else if (socialPlatform.Equals(Constant.Apple))

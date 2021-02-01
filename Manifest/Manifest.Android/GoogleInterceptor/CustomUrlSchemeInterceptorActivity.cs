@@ -27,7 +27,7 @@ namespace Manifest.Droid.GoogleInterceptor
     [IntentFilter(
     new[] { Intent.ActionView },
     Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-    DataSchemes = new[] { "com.googleusercontent.apps.287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg" },
+    DataSchemes = new[] { "com.googleusercontent.apps.717980399518-et85o29943m1lmkv5fmf8g0tiglp966u" },
     DataPath = "/oauth2redirect")]
     public class CustomUrlSchemeInterceptorActivity : Activity
     {

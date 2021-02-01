@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "933643945554",
+    "project_id": "manifest-mylife",
+    "storage_bucket": "manifest-mylife.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933643945554:android:1dcbfec30e782e92a7818b",
+        "android_client_info": {
+          "package_name": "com.infiniteoptions_manifestmy.life"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933643945554-us6f587cekdjmrbiatmo2acut1tlqpa1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ7adjsPqs_HlVVqcYrhHrsoRN-T7flGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933643945554-us6f587cekdjmrbiatmo2acut1tlqpa1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

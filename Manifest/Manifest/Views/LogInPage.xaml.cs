@@ -405,7 +405,7 @@ namespace Manifest.Views
 
                                 _ = Application.Current.SavePropertiesAsync();
                                 await DisplayAlert("User", FacebookUserData.result[0].ToString(), "OK", "Cancel");
-                                //Application.Current.MainPage = new SelectionPage();
+                                //Application.Current.MainPage = new TodaysListTest();
                             }
                             else
                             {
@@ -542,7 +542,7 @@ namespace Manifest.Views
                     {
                         System.Diagnostics.Debug.WriteLine("HERE IS WHERE WE NEED TO PUT A DISPLAY ALERT MESSAGE");
 
-                        string message = "It looks like you don't have an account yet. Please contact your persona TA to create your account!";
+                        string message = "It looks like you don't have an account yet. Please contact your personal TA to create your account!";
                         //await Shell.Current.DisplayAlert("Message", message, "OK");
                     }
                     else if (responseContent.Contains(Constant.AutheticatedSuccesful))
@@ -557,7 +557,12 @@ namespace Manifest.Views
                         //await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
                         System.Diagnostics.Debug.WriteLine("SUCCESSFUL LOGIN THROUGH GOOGLE. NAVIGATE TO NEXT PAGE");
                         Application.Current.Properties["session"] = session;
-                        Application.Current.MainPage = new TodaysListTest(session);
+                        Application.Current.Properties["userID"] = session.result[0].user_unique_id;
+                        Application.Current.Properties["platform"] = Constant.Google;
+                        DateTime today = DateTime.Now;
+                        var expDate = today.AddDays(Constant.days); 
+                        Application.Current.Properties["time_stamp"] = expDate;
+                        Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
                     }
 
                 }

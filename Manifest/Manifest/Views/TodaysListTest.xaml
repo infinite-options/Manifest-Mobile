@@ -134,8 +134,8 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Text="Button1" BackgroundColor="Red" Clicked="Button_Clicked_1"></Button>
-                    <Button Grid.Column="1" Text="Button2" BackgroundColor="Green" Clicked="Button_Clicked_2"></Button>
+                    <Button Grid.Column="0" Text="TodaysList" BackgroundColor="Red" Clicked="Button_Clicked_1"></Button>
+                    <Button Grid.Column="1" Text="AboutMe" BackgroundColor="Green" Clicked="navigateToAboutMe"></Button>
                 </Grid>
             </Grid>
     </ContentPage.Content>

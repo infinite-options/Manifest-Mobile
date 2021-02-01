@@ -8,6 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Manifest.RDS;
 
 namespace Manifest.Views
 {
@@ -51,12 +52,14 @@ namespace Manifest.Views
         }
         public ObservableCollection<Occurance> datagrid = new ObservableCollection<Occurance>();
 
-        public TodaysListTest(Session userInfo)
+        public TodaysListTest(String userInfo)
         {
             InitializeComponent();
             todaysOccurances = new List<Occurance>();
+            RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
             Debug.WriteLine(userInfo);
-            string userID = userInfo.result[0].user_unique_id;
+            //string userID = userInfo.result[0].user_unique_id;
+            string userID = userInfo;
             taskList.ItemsSource = datagrid;
             initialiseTodaysOccurances(userID);
             Debug.WriteLine(todaysOccurances);
@@ -155,11 +158,13 @@ namespace Manifest.Views
         {
             try
             {
+                Debug.WriteLine(dateString);
                 return DateTime.Parse(dateString);
             }
             catch (Exception e)
             {
                 Debug.WriteLine("Error in ToDateTime function in TodaysList class");
+                Debug.WriteLine(dateString);
             }
             return new DateTime();
         }
@@ -172,39 +177,15 @@ namespace Manifest.Views
             }
         }
 
-        void Button_Clicked_2(System.Object sender, System.EventArgs e)
+        void navigateToAboutMe(System.Object sender, System.EventArgs e)
         {
-            Debug.WriteLine("Button 2 pressed");
+            Application.Current.MainPage = new AboutMePage();
         }
 
         void Button_Clicked_1(System.Object sender, System.EventArgs e)
         {
             Debug.WriteLine("Button 1 pressed");
         }
-
-
-        //public class UpdateOccuranceDataType
-        //{
-        //    public string id { get; set; }
-        //    public DateTime datetime_completed { get; set; }
-        //    public DateTime datetime_started { get; set; }
-        //    public bool is_in_progress { get; set; }
-        //    public bool is_complete { get; set; }
-        //}
-
-        ////This function returns a string that we can send to an endpoint to update the status of a goal/routine
-        //public string updateOccurance(Occurance toUpdate)
-        //{
-        //    var toSend = new UpdateOccuranceDataType()
-        //    {
-        //        id = toUpdate.Id,
-        //        datetime_completed = toUpdate.DateTimeCompleted,
-        //        datetime_started = toUpdate.DateTimeStarted,
-        //        is_in_progress = toUpdate.IsInProgress,
-        //        is_complete = toUpdate.IsComplete
-        //    };
-        //    return JsonConvert.SerializeObject(toSend);
-        //}
 
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
         async void checkSubOccurance(object sender, EventArgs args)

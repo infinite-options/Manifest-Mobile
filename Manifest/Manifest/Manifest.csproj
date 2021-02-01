@@ -24,5 +24,6 @@
     <Folder Include="LogIn\" />
     <Folder Include="LogIn\Apple\" />
     <Folder Include="LogIn\Classes\" />
+    <Folder Include="RDS\" />
   </ItemGroup>
 </Project>
