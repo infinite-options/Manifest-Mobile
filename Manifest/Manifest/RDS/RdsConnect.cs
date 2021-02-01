@@ -5,7 +5,6 @@ using Manifest.Config;
 using Newtonsoft.Json;
 using System.Text;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Manifest.RDS
 {
@@ -13,7 +12,6 @@ namespace Manifest.RDS
     {
         static HttpClient client = new HttpClient();
 
-        //Use this function to send the guid of a user to the database
         public static async void storeGUID(string guid, string uid)
         {
             string url = RdsConfig.BaseUrl + RdsConfig.addGuid;
@@ -43,14 +41,6 @@ namespace Manifest.RDS
             }
             //Below is format to post
             //{     "user_unique_id": "100-000045",     "guid": "ndbfndbfnbn",     "notification": "FALSE" }
-        }
-
-        //
-        public static async Task<string> getUser(string uid)
-        {
-            string url = RdsConfig.BaseUrl + RdsConfig.aboutMeUrl + "/" + uid;
-            var res = await client.GetStringAsync(url);
-            return res;
         }
     }
 }

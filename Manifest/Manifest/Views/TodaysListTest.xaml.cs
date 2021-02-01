@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Manifest.RDS;
+using Xamarin.Essentials;
 
 namespace Manifest.Views
 {
@@ -16,6 +17,8 @@ namespace Manifest.Views
     {
         HttpClient client = new HttpClient();
         public List<Occurance> todaysOccurances;
+        public List<Occurance> todaysOccurancesAfternoon;
+        public List<Occurance> todaysOccurancesEvening;
 
         class OccuranceResponse
         {
@@ -51,18 +54,42 @@ namespace Manifest.Views
             public object completed { get; set; }
         }
         public ObservableCollection<Occurance> datagrid = new ObservableCollection<Occurance>();
+        public ObservableCollection<Occurance> datagridAfternoon = new ObservableCollection<Occurance>();
+        public ObservableCollection<Occurance> datagridEvening = new ObservableCollection<Occurance>();
+        DateTime today;
+        string todayDate;
+        string morningStart;
+        string afternoonStart;
+        string eveningStart;
+        double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
+        double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
 
         public TodaysListTest(String userInfo)
         {
+            today = DateTime.Today;
+            todayDate = today.ToString("d");
+            morningStart = todayDate + ", 12:00:00 AM";
+            afternoonStart = todayDate + ", 11:00:00 AM";
+            eveningStart = todayDate + ", 6:00:00 PM";
+            Debug.WriteLine("dotw: " + today.ToString("dddd"));
+
             InitializeComponent();
             todaysOccurances = new List<Occurance>();
+            todaysOccurancesAfternoon = new List<Occurance>();
+            todaysOccurancesEvening = new List<Occurance>();
             RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
             Debug.WriteLine(userInfo);
             //string userID = userInfo.result[0].user_unique_id;
             string userID = userInfo;
             taskList.ItemsSource = datagrid;
+            taskListAfternoon.ItemsSource = datagridAfternoon;
+            taskListEvening.ItemsSource = datagridEvening;
             initialiseTodaysOccurances(userID);
             Debug.WriteLine(todaysOccurances);
+
+            Debug.WriteLine("device height: " + deviceHeight.ToString());
+            Debug.WriteLine("device width: " + deviceWidth.ToString());
+            dotw.Text = today.ToString("dddd");
         }
 
         private async void initialiseTodaysOccurances(string userID)
@@ -73,7 +100,8 @@ namespace Manifest.Views
             Debug.WriteLine("Getting user. User info below:");
             //Debug.WriteLine(response);
             OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
-            //Debug.WriteLine(occuranceResponse);
+            Debug.WriteLine("occuranceResponse: ");
+            Debug.WriteLine(occuranceResponse);
             ToOccurances(occuranceResponse);
             CreateList();
         }
@@ -83,6 +111,8 @@ namespace Manifest.Views
         {
             //Clear the occurances, as we are going to get new one now
             todaysOccurances.Clear();
+            todaysOccurancesAfternoon.Clear();
+            todaysOccurancesEvening.Clear();
             if (occuranceResponse.result == null || occuranceResponse.result.Count == 0)
             {
                 DisplayAlert("No tasks today", "OK", "Cancel");
@@ -100,7 +130,7 @@ namespace Manifest.Views
                     toAdd.IsComplete = ToBool(dto.is_complete);
                     toAdd.IsSublistAvailable = ToBool(dto.is_sublist_available);
                     toAdd.ExpectedCompletionTime = ToTimeSpan(dto.expected_completion_time);
-                    toAdd.CompletionTime = dto.expected_completion_time;
+                    toAdd.CompletionTime = "Time to complete: " + dto.expected_completion_time;
                     toAdd.DateTimeCompleted = ToDateTime(dto.datetime_completed);
                     toAdd.DateTimeStarted = ToDateTime(dto.datetime_started);
                     toAdd.StartDayAndTime = ToDateTime(dto.start_day_and_time);
@@ -113,7 +143,16 @@ namespace Manifest.Views
                     toAdd.RepeatEndsOn = ToDateTime(dto.repeat_ends_on);
                     //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
                     toAdd.UserId = dto.user_id;
-                    todaysOccurances.Add(toAdd);
+                    //todaysOccurances.Add(toAdd);
+                    Debug.WriteLine("expected completion time: " + dto.expected_completion_time);
+                    Debug.WriteLine("imageTriggers: " + dto.is_sublist_available + " persistent: " + dto.is_persistent);
+
+                    Debug.WriteLine("start day and time: " + dto.start_day_and_time);
+                    if (toAdd.StartDayAndTime < ToDateTime(afternoonStart))
+                        todaysOccurances.Add(toAdd);
+                    else if (toAdd.StartDayAndTime < ToDateTime(eveningStart))
+                        todaysOccurancesAfternoon.Add(toAdd);
+                    else todaysOccurancesEvening.Add(toAdd);
                 }
             }
             return;
@@ -175,6 +214,22 @@ namespace Manifest.Views
             {
                 this.datagrid.Add(todaysOccurances[i]);
             }
+
+            stack1.HeightRequest = 15 + 50 + (todaysOccurances.Count * 160);
+
+            for (int i = 0; i < todaysOccurancesAfternoon.Count; i++)
+            {
+                this.datagridAfternoon.Add(todaysOccurancesAfternoon[i]);
+            }
+
+            stack2.HeightRequest = 15 + 50 + (todaysOccurancesAfternoon.Count * 160);
+
+            for (int i = 0; i < todaysOccurancesEvening.Count; i++)
+            {
+                this.datagridEvening.Add(todaysOccurancesEvening[i]);
+            }
+
+            stack3.HeightRequest = 15 + 50 + (todaysOccurancesEvening.Count * 160);
         }
 
         void navigateToAboutMe(System.Object sender, System.EventArgs e)
@@ -186,6 +241,30 @@ namespace Manifest.Views
         {
             Debug.WriteLine("Button 1 pressed");
         }
+
+
+        //public class UpdateOccuranceDataType
+        //{
+        //    public string id { get; set; }
+        //    public DateTime datetime_completed { get; set; }
+        //    public DateTime datetime_started { get; set; }
+        //    public bool is_in_progress { get; set; }
+        //    public bool is_complete { get; set; }
+        //}
+
+        ////This function returns a string that we can send to an endpoint to update the status of a goal/routine
+        //public string updateOccurance(Occurance toUpdate)
+        //{
+        //    var toSend = new UpdateOccuranceDataType()
+        //    {
+        //        id = toUpdate.Id,
+        //        datetime_completed = toUpdate.DateTimeCompleted,
+        //        datetime_started = toUpdate.DateTimeStarted,
+        //        is_in_progress = toUpdate.IsInProgress,
+        //        is_complete = toUpdate.IsComplete
+        //    };
+        //    return JsonConvert.SerializeObject(toSend);
+        //}
 
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
         async void checkSubOccurance(object sender, EventArgs args)
