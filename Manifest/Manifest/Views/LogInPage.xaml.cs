@@ -556,12 +556,16 @@ namespace Manifest.Views
                         ////await Repository.storeGUID(GlobalVars.user_guid, session.result[0].user_unique_id);
                         //await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
                         System.Diagnostics.Debug.WriteLine("SUCCESSFUL LOGIN THROUGH GOOGLE. NAVIGATE TO NEXT PAGE");
-                        Application.Current.Properties["session"] = session;
+                        Application.Current.Properties["session"] = session.result[0].mobile_auth_token;
                         Application.Current.Properties["userID"] = session.result[0].user_unique_id;
+                        System.Diagnostics.Debug.WriteLine(Application.Current.Properties["userID"]);
                         Application.Current.Properties["platform"] = Constant.Google;
+                        System.Diagnostics.Debug.WriteLine(Application.Current.Properties["platform"]);
                         DateTime today = DateTime.Now;
                         var expDate = today.AddDays(Constant.days); 
                         Application.Current.Properties["time_stamp"] = expDate;
+                        //_ = Application.Current.SavePropertiesAsync();
+                        System.Diagnostics.Debug.WriteLine(Application.Current.Properties["time_stamp"].ToString());
                         Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
                     }
 

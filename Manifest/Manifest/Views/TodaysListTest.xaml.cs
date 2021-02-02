@@ -275,9 +275,9 @@ namespace Manifest.Views
         {
             DateTimeOffset dateTimeOffset = DateTimeOffset.Now;
             string url = Constant.GoogleCalendarUrl + "?orderBy=startTime&singleEvents=true&";
-            Session currSession = (Session)Application.Current.Properties["session"];
-            string authToken = currSession.result[0].mobile_auth_token;
-
+            var currSession = (String)Application.Current.Properties["session"];
+            //string authToken = currSession.result[0].mobile_auth_token;
+            string authToken = currSession;
             int publicYear = dateTimeOffset.Year;
             int publicMonth = dateTimeOffset.Month;
             int publicDay = dateTimeOffset.Day;
@@ -357,7 +357,7 @@ namespace Manifest.Views
                 toAdd.EndDayAndTime = dto.EndTime.LocalDateTime;
                 toAdd.Id = dto.Id;
                 toAdd.IsEvent = true;
-                toAdd.PicUrl = "calendarFive.svg";
+                toAdd.PicUrl = "calendarFive.png"; //Image must be a png
                 todaysEvents.Add(toAdd);
             }
         }
@@ -369,6 +369,7 @@ namespace Manifest.Views
 
         void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
+            Debug.WriteLine(Application.Current.Properties["userID"]);
             Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
         }
 
@@ -385,7 +386,7 @@ namespace Manifest.Views
                 return;
             }
             Debug.WriteLine(currOccurance.Id);
-            var currSession = (Session)Application.Current.Properties["session"];
+            //var currSession = (Session)Application.Current.Properties["session"];
             string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
             //If there is a sublist available, navigate to the sublist page
             if (currOccurance.IsSublistAvailable)

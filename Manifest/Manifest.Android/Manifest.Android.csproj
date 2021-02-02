@@ -176,7 +176,11 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
-    <AndroidResource Include="Resources\drawable\calendarFive.svg">
+    <AndroidResource Include="Resources\drawable\appstore.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\calendarFive.png">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

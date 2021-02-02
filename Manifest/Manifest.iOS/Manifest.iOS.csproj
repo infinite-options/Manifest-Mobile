@@ -141,6 +141,6 @@
     <BundleResource Include="Resources\sublist.png" />
     <BundleResource Include="Resources\aboutme.png" />
     <BundleResource Include="Resources\listview.png" />
-    <BundleResource Include="Resources\calendarFive.svg" />
+    <BundleResource Include="Resources\calendarFive.png" />
   </ItemGroup>
 </Project>

@@ -139,6 +139,9 @@ namespace Manifest.Views
         public void logUserOut(object sender, EventArgs args)
         {
             Application.Current.Properties.Remove("session");
+            Debug.WriteLine(Application.Current.Properties["userID"]);
+            Debug.WriteLine(Application.Current.Properties["platform"]);
+            Debug.WriteLine(Application.Current.Properties["time_stamp"]);
             Application.Current.Properties.Remove("userID");
             Application.Current.Properties.Remove("platform");
             Application.Current.Properties.Remove("time_stamp");

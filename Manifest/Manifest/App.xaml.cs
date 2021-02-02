@@ -18,18 +18,32 @@ namespace Manifest
         public App()
         {
             InitializeComponent();
+
+            foreach (string key in Application.Current.Properties.Keys)
+            {
+                System.Diagnostics.Debug.WriteLine(key);
+            }
+
             if (Application.Current.Properties.ContainsKey("userID"))
             {
                 System.Diagnostics.Debug.WriteLine(Application.Current.Properties["userID"]);
                 
             }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("No userID stored");
+            }
             if (Application.Current.Properties.ContainsKey("time_stamp"))
             {
                 System.Diagnostics.Debug.WriteLine(Application.Current.Properties["time_stamp"]);
             }
-                // Application.Current.Properties.Clear();                                              // Resets user info in the app.  Use for debug
-                // SecureStorage.RemoveAll();                                                           // Allows Xamarin to reset Apple security storage info stored in hardware.  Use for debug
-                if (Application.Current.Properties.ContainsKey("userID"))                              // Additional parameters defined in LoginPage.xaml.cs.  You can add more on the fly
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("No time_stamp stored");
+            }
+            // Application.Current.Properties.Clear();                                              // Resets user info in the app.  Use for debug
+            // SecureStorage.RemoveAll();                                                           // Allows Xamarin to reset Apple security storage info stored in hardware.  Use for debug
+            if (Application.Current.Properties.ContainsKey("userID"))                              // Additional parameters defined in LoginPage.xaml.cs.  You can add more on the fly
             {
                 System.Diagnostics.Debug.WriteLine("Session available");
                 if (Application.Current.Properties.ContainsKey("time_stamp"))
@@ -117,6 +131,21 @@ namespace Manifest
 
         protected override void OnResume()
         {
+        }
+
+        async void testing()
+        {
+            if (Application.Current.Properties.ContainsKey("userID"))
+            {
+                var userID = (Application.Current.Properties["userID"]);
+                await Application.Current.MainPage.DisplayAlert("Ooops", userID.ToString(), "OK");
+
+            }
+            if (Application.Current.Properties.ContainsKey("time_stamp"))
+            {
+                var time_stamp = (Application.Current.Properties["time_stamp"]);
+                await Application.Current.MainPage.DisplayAlert("Ooops", time_stamp.ToString(), "OK");
+            }
         }
     }
 }
