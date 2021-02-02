@@ -160,5 +160,7 @@
     <BundleResource Include="Resources\sunrisemid.png" />
     <BundleResource Include="Resources\dots.png" />
     <BundleResource Include="Resources\sublist.png" />
+    <BundleResource Include="Resources\aboutme.png" />
+    <BundleResource Include="Resources\listview.png" />
   </ItemGroup>
 </Project>

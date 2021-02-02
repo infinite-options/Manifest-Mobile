@@ -214,23 +214,27 @@ namespace Manifest.Views
                 if (i >= todaysOccurances.Count && j < todaysEvents.Count)
                 {
                     merged.Add(todaysEvents[j]);
+                    Debug.WriteLine(todaysEvents[j].Title + " start time: " + todaysEvents[j].StartDayAndTime);
                     j++;
                     continue;
                 }
                 else if (i < todaysOccurances.Count && j >= todaysEvents.Count)
                 {
                     merged.Add(todaysOccurances[i]);
+                    Debug.WriteLine(todaysOccurances[i].Title + " start time: " + todaysOccurances[i].StartDayAndTime);
                     i++;
                     continue;
                 }
-                else if (todaysOccurances[i].StartDayAndTime <= todaysEvents[j].StartDayAndTime)
+                else if (todaysOccurances[i].StartDayAndTime < todaysEvents[j].StartDayAndTime)
                 {
                     merged.Add(todaysOccurances[i]);
+                    Debug.WriteLine(todaysOccurances[i].Title + " start time: " + todaysOccurances[i].StartDayAndTime);
                     i++;
                 }
                 else
                 {
                     merged.Add(todaysEvents[j]);
+                    Debug.WriteLine(todaysEvents[j].Title + " start time: " + todaysEvents[j].StartDayAndTime);
                     j++;
                 }
             }
@@ -374,6 +378,10 @@ namespace Manifest.Views
             Debug.WriteLine(args);
             Grid myvar = (Grid)sender;
             Occurance currOccurance = myvar.BindingContext as Occurance;
+            if (currOccurance.IsEvent)
+            {
+                return;
+            }
             Debug.WriteLine(currOccurance.Id);
             var currSession = (Session)Application.Current.Properties["session"];
             string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;

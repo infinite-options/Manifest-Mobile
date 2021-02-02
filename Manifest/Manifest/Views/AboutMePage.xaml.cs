@@ -71,6 +71,7 @@ namespace Manifest.Views
             ToUser(userResponse);
             userID.Text = (String)Application.Current.Properties["userID"];
             userName.Text = user.FirstName + " " + user.LastName;
+            userImage.Source = user.PicUrl;
             CreateList();
 
         }
@@ -144,7 +145,12 @@ namespace Manifest.Views
             Application.Current.MainPage = new LogInPage();
         }
 
-        void navigateToTodaysList(System.Object sender, System.EventArgs e)
+        void navigateToAboutMe(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new AboutMePage();
+        }
+
+        void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
         }

@@ -4,10 +4,11 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="100"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="150"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
             </Grid.RowDefinitions>
             <StackLayout Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">
+                <Image x:Name="userImage" HeightRequest="80" WidthRequest="80"></Image>
                 <Label x:Name="userName" Text="" TextColor="Black" FontSize="24" HorizontalOptions="Center" VerticalOptions="Center"></Label>
                 <Label x:Name="userID" Text="" TextColor="Black" FontSize="20"  HorizontalOptions="Center" VerticalOptions="Center"></Label>
                 <Button HorizontalOptions="Center" VerticalOptions="Center" Text="Logout" HeightRequest="40" WidthRequest="100" Clicked="logUserOut" BackgroundColor="DarkGray"></Button>
@@ -20,8 +21,8 @@
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout>
-                                <Image Source="{Binding PicUrl}" HorizontalOptions="Center" VerticalOptions="Center"></Image>
-                                <Label Text="{Binding Name}" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                                <Image Source="{Binding PicUrl}" VerticalOptions="Center" HeightRequest="80" WidthRequest="80"></Image>
+                                <Label Text="{Binding Name}" VerticalOptions="Center" HorizontalOptions="Center"></Label>
                             </StackLayout>
                         </DataTemplate>
                     </CarouselView.ItemTemplate>
@@ -33,11 +34,21 @@
             </StackLayout>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Text="TodaysList" BackgroundColor="Red" Clicked="navigateToTodaysList"></Button>
-                <Button Grid.Column="1" Text="AboutMe" BackgroundColor="Green"></Button>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Grid.Column="0" Source="listview.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Grid.Column="0" Text="Today's List" HorizontalOptions="Center" TextColor="Black" FontSize="12"/>
+
+                        <Image Grid.Row="0" Grid.Column="1" Source="aboutme.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="Black" FontSize="12"/>
+
+                    <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="navigatetoTodaysList" BackgroundColor="Transparent"></Button>
+                    <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigateToAboutMe" BackgroundColor="Transparent"></Button>
             </Grid>
         </Grid>
     </ContentPage.Content>

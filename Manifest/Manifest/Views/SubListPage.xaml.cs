@@ -58,6 +58,7 @@ namespace Manifest.Views
             subTasks = new List<SubOccurance>();
             subTaskList.ItemsSource = datagrid;
             initializeSubTasks(occuranceID);
+            occuranceName.Text = occurance.Title;
         }
 
         //This function makes a call to the database to get all the sub tasks for the given occurance, and displays it on the device

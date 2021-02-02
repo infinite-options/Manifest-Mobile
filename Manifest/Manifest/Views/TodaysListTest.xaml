@@ -302,8 +302,8 @@
                         <Image Grid.Row="0" Grid.Column="1" Source="aboutme.png" HeightRequest="20"/>
                         <Label Grid.Row="1" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="Black" FontSize="12"/>
 
-                    <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="navigatetoTodaysList"></Button>
-                    <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigateToAboutMe"></Button>
+                    <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="navigatetoTodaysList" BackgroundColor="Transparent"></Button>
+                    <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigateToAboutMe" BackgroundColor="Transparent"></Button>
                 </Grid>
             </Grid>
     </ContentPage.Content>
