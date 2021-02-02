@@ -357,6 +357,7 @@ namespace Manifest.Views
                 toAdd.EndDayAndTime = dto.EndTime.LocalDateTime;
                 toAdd.Id = dto.Id;
                 toAdd.IsEvent = true;
+                toAdd.PicUrl = "calendarFive.svg";
                 todaysEvents.Add(toAdd);
             }
         }
