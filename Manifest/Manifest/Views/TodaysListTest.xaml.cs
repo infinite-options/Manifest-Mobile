@@ -205,6 +205,12 @@ namespace Manifest.Views
         {
             int i = 0;
             int j = 0;
+            //First sort todaysOccurances
+            todaysOccurances.Sort(delegate (Occurance a, Occurance b)
+            {
+                if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
+                else return 1;
+            });
             List<Occurance> merged = new List<Occurance>();
             //Debug.WriteLine("Num occurances = " + todaysOccurances.Count);
             //Debug.WriteLine("Num Event = " + todaysEvents.Count);
@@ -225,7 +231,7 @@ namespace Manifest.Views
                     i++;
                     continue;
                 }
-                else if (todaysOccurances[i].StartDayAndTime < todaysEvents[j].StartDayAndTime)
+                else if (todaysOccurances[i].StartDayAndTime.TimeOfDay < todaysEvents[j].StartDayAndTime.TimeOfDay)
                 {
                     merged.Add(todaysOccurances[i]);
                     Debug.WriteLine(todaysOccurances[i].Title + " start time: " + todaysOccurances[i].StartDayAndTime);
@@ -325,23 +331,18 @@ namespace Manifest.Views
             request.Headers.Add("Authorization", bearerString);
             request.Headers.Add("Accept", "application/json");
 
-            Debug.WriteLine("Manifest.Services.Google.Calendar: Making request to " + fullURI);
+            //Debug.WriteLine("Manifest.Services.Google.Calendar: Making request to " + fullURI);
 
             var response = await client.SendAsync(request);
             var json = await response.Content.ReadAsStringAsync();
             //var json = response.Content;
-            Debug.WriteLine("Calendars response:\n" + json);
+            //Debug.WriteLine("Calendars response:\n" + json);
             //var serializer = new JavaScriptSerializer(); //using System.Web.Script.Serialization;
 
             EventResponse eventResponse = JsonConvert.DeserializeObject<EventResponse>(json);
             List<Event> events = eventResponse.ToEvents();
-            Debug.WriteLine("Converted to Events");
+            //Debug.WriteLine("Converted to Events");
             EventsToOccurances(events);
-            //foreach (KeyValuePair<dynamic, dynamic> kvp in values)
-            //{
-            //    Debug.WriteLine(kvp.ToString());
-            //}
-            //var values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
         }
 
         private void EventsToOccurances(List<Event> events)
