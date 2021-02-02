@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Manifest.RDS;
+using Xamarin.Essentials;
 
 namespace Manifest.Views
 {
@@ -16,6 +17,9 @@ namespace Manifest.Views
     {
         HttpClient client = new HttpClient();
         public List<Occurance> todaysOccurances;
+        public List<Occurance> todaysOccurancesMorning;
+        public List<Occurance> todaysOccurancesAfternoon;
+        public List<Occurance> todaysOccurancesEvening;
         public List<Occurance> todaysEvents;
 
         class OccuranceResponse
@@ -52,130 +56,40 @@ namespace Manifest.Views
             public object completed { get; set; }
         }
 
-        //public partial class EventResponse
-        //{
-        //    [JsonProperty("kind")]
-        //    public string Kind { get; set; }
-
-        //    [JsonProperty("etag")]
-        //    public string Etag { get; set; }
-
-        //    [JsonProperty("summary")]
-        //    public string Summary { get; set; }
-
-        //    [JsonProperty("updated")]
-        //    public DateTime Updated { get; set; }
-
-        //    [JsonProperty("timeZone")]
-        //    public string TimeZone { get; set; }
-
-        //    [JsonProperty("accessRole")]
-        //    public string AccessRole { get; set; }
-
-        //    [JsonProperty("defaultReminders")]
-        //    public List<EventsDefaultReminder> DefaultReminders { get; set; }
-
-        //    [JsonProperty("nextPageToken")]
-        //    public string NextPageToken { get; set; }
-
-        //    [JsonProperty("nextSyncToken")]
-        //    public string NextSyncToken { get; set; }
-
-        //    [JsonProperty("items")]
-        //    public List<EventDto> Items { get; set; }
-        //}
-
-        //public class EventDto
-        //{
-        //    [JsonProperty("kind")]
-        //    public string Kind { get; set; }
-
-        //    [JsonProperty("etag")]
-        //    public string Etag { get; set; }
-
-        //    [JsonProperty("id")]
-        //    public string Id { get; set; }
-
-        //    [JsonProperty("status")]
-        //    public string Status { get; set; }
-
-        //    [JsonProperty("htmlLink", NullValueHandling = NullValueHandling.Ignore)]
-        //    public string HtmlLink { get; set; }
-
-        //    [JsonProperty("created", NullValueHandling = NullValueHandling.Ignore)]
-        //    public DateTimeOffset Created { get; set; }
-
-        //    [JsonProperty("updated", NullValueHandling = NullValueHandling.Ignore)]
-        //    public DateTimeOffset Updated { get; set; }
-
-        //    [JsonProperty("summary", NullValueHandling = NullValueHandling.Ignore)]
-        //    public string EventName { get; set; }
-
-        //    [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
-        //    public string Description { get; set; }
-
-        //    [JsonProperty("location", NullValueHandling = NullValueHandling.Ignore)]
-        //    public string Location { get; set; }
-
-        //    [JsonProperty("colorId", NullValueHandling = NullValueHandling.Ignore)]
-        //    public string ColorID { get; set; }
-
-        //    [JsonProperty("creator", NullValueHandling = NullValueHandling.Ignore)]
-        //    public EventsCreator Creator { get; set; }
-
-        //    [JsonProperty("organizer", NullValueHandling = NullValueHandling.Ignore)]
-        //    public EventsCreator Organizer { get; set; }
-
-        //    [JsonProperty("start", NullValueHandling = NullValueHandling.Ignore)]
-        //    public EventsEnd Start { get; set; }
-
-        //    [JsonProperty("end", NullValueHandling = NullValueHandling.Ignore)]
-        //    public EventsEnd End { get; set; }
-
-        //    [JsonProperty("iCalUID", NullValueHandling = NullValueHandling.Ignore)]
-        //    public string ICalUid { get; set; }
-
-        //    [JsonProperty("sequence", NullValueHandling = NullValueHandling.Ignore)]
-        //    public long? Sequence { get; set; }
-
-        //    [JsonProperty("attendees", NullValueHandling = NullValueHandling.Ignore)]
-        //    public List<EventsAttendee> Attendees { get; set; }
-
-        //    [JsonProperty("hangoutLink", NullValueHandling = NullValueHandling.Ignore)]
-        //    public Uri HangoutLink { get; set; }
-
-        //    [JsonProperty("conferenceData", NullValueHandling = NullValueHandling.Ignore)]
-        //    public EventsConferenceData ConferenceData { get; set; }
-
-        //    [JsonProperty("guestsCanModify", NullValueHandling = NullValueHandling.Ignore)]
-        //    public bool? GuestsCanModify { get; set; }
-
-        //    [JsonProperty("reminders", NullValueHandling = NullValueHandling.Ignore)]
-        //    public EventsReminders Reminders { get; set; }
-
-        //    [JsonProperty("recurrence", NullValueHandling = NullValueHandling.Ignore)]
-        //    public string[] Recurrence { get; set; }
-
-        //    [JsonProperty("recurringEventId", NullValueHandling = NullValueHandling.Ignore)]
-        //    public string RecurringEventId { get; set; }
-
-        //    [JsonProperty("originalStartTime", NullValueHandling = NullValueHandling.Ignore)]
-        //    public EventsOriginalStartTime OriginalStartTime { get; set; }
-        //}
-
-
         public ObservableCollection<Occurance> datagrid = new ObservableCollection<Occurance>();
+        public ObservableCollection<Occurance> datagridMorning = new ObservableCollection<Occurance>();
+        public ObservableCollection<Occurance> datagridAfternoon = new ObservableCollection<Occurance>();
+        public ObservableCollection<Occurance> datagridEvening = new ObservableCollection<Occurance>();
+        DateTime today;
+        string todayDate;
+        string morningStart;
+        string afternoonStart;
+        string eveningStart;
+        double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
+        double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
 
         public TodaysListTest(String userInfo)
         {
+            today = DateTime.Today;
+            todayDate = today.ToString("d");
+            morningStart = todayDate + ", 12:00:00 AM";
+            afternoonStart = todayDate + ", 11:00:00 AM";
+            eveningStart = todayDate + ", 6:00:00 PM";
+            Debug.WriteLine("dotw: " + today.ToString("dddd"));
+
             InitializeComponent();
             todaysOccurances = new List<Occurance>();
             todaysEvents = new List<Occurance>();
+            todaysOccurancesAfternoon = new List<Occurance>();
+            todaysOccurancesEvening = new List<Occurance>();
+
             RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
             Debug.WriteLine(userInfo);
             //string userID = userInfo.result[0].user_unique_id;
             string userID = userInfo;
-            taskList.ItemsSource = datagrid;
+            taskListMorning.ItemsSource = datagridMorning;
+            taskListAfternoon.ItemsSource = datagridAfternoon;
+            taskListEvening.ItemsSource = datagridEvening;
             initialiseTodaysOccurances(userID);
             Debug.WriteLine(todaysOccurances);
         }
@@ -291,33 +205,59 @@ namespace Manifest.Views
         {
             int i = 0;
             int j = 0;
+            List<Occurance> merged = new List<Occurance>();
             //Debug.WriteLine("Num occurances = " + todaysOccurances.Count);
             //Debug.WriteLine("Num Event = " + todaysEvents.Count);
             while (i < todaysOccurances.Count || j < todaysEvents.Count)
             {
-                Debug.WriteLine(i.ToString() + j.ToString());
+                //xDebug.WriteLine(i.ToString() + j.ToString());
                 if (i >= todaysOccurances.Count && j < todaysEvents.Count)
                 {
-                    this.datagrid.Add(todaysEvents[j]);
+                    merged.Add(todaysEvents[j]);
                     j++;
                     continue;
                 }
                 else if (i < todaysOccurances.Count && j >= todaysEvents.Count)
                 {
-                    this.datagrid.Add(todaysOccurances[i]);
+                    merged.Add(todaysOccurances[i]);
                     i++;
                     continue;
                 }
                 else if (todaysOccurances[i].StartDayAndTime <= todaysEvents[j].StartDayAndTime)
                 {
-                    this.datagrid.Add(todaysOccurances[i]);
+                    merged.Add(todaysOccurances[i]);
                     i++;
                 }
                 else
                 {
-                    this.datagrid.Add(todaysEvents[j]);
+                    merged.Add(todaysEvents[j]);
                     j++;
                 }
+            }
+            initialiseDataGrids(merged);
+        }
+
+        //This function is going to initialise our three data grids
+        private void initialiseDataGrids(List<Occurance> todaysTasks)
+        {
+            datagridMorning.Clear();
+            datagridAfternoon.Clear();
+            datagridEvening.Clear();
+            int i = 0;
+            while (i < todaysTasks.Count && todaysTasks[i].StartDayAndTime < ToDateTime(afternoonStart) )
+            {
+                datagridMorning.Add(todaysTasks[i]);
+                i++;
+            }
+            while (i < todaysTasks.Count && todaysTasks[i].StartDayAndTime < ToDateTime(eveningStart))
+            {
+                datagridAfternoon.Add(todaysTasks[i]);
+                i++;
+            }
+            while (i < todaysTasks.Count)
+            {
+                datagridEvening.Add(todaysTasks[i]);
+                i++;
             }
         }
 
@@ -421,9 +361,9 @@ namespace Manifest.Views
             Application.Current.MainPage = new AboutMePage();
         }
 
-        void Button_Clicked_1(System.Object sender, System.EventArgs e)
+        void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
-            Debug.WriteLine("Button 1 pressed");
+            Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
         }
 
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any

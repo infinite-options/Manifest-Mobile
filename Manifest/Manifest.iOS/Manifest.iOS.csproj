@@ -154,5 +154,11 @@
     <BundleResource Include="Resources\arrowLeft.png" />
     <BundleResource Include="Resources\greencheckmark.png" />
     <BundleResource Include="Resources\yellowclock.png" />
+    <BundleResource Include="Resources\fullsun.png" />
+    <BundleResource Include="Resources\moon.png" />
+    <BundleResource Include="Resources\sunriselow.png" />
+    <BundleResource Include="Resources\sunrisemid.png" />
+    <BundleResource Include="Resources\dots.png" />
+    <BundleResource Include="Resources\sublist.png" />
   </ItemGroup>
 </Project>
