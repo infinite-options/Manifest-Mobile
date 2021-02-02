@@ -92,6 +92,10 @@ namespace Manifest.Views
             taskListEvening.ItemsSource = datagridEvening;
             initialiseTodaysOccurances(userID);
             Debug.WriteLine(todaysOccurances);
+
+            Debug.WriteLine("device height: " + deviceHeight.ToString());
+            Debug.WriteLine("device width: " + deviceWidth.ToString());
+            dotw.Text = today.ToString("dddd");
         }
 
         private async void initialiseTodaysOccurances(string userID)
@@ -254,21 +258,44 @@ namespace Manifest.Views
             datagridAfternoon.Clear();
             datagridEvening.Clear();
             int i = 0;
+            int morningTaskCount = 0;
+            int afternoonTaskCount = 0;
+            int eveningTaskCount = 0;
             while (i < todaysTasks.Count && todaysTasks[i].StartDayAndTime < ToDateTime(afternoonStart) )
             {
                 datagridMorning.Add(todaysTasks[i]);
+                morningTaskCount++;
                 i++;
             }
             while (i < todaysTasks.Count && todaysTasks[i].StartDayAndTime < ToDateTime(eveningStart))
             {
                 datagridAfternoon.Add(todaysTasks[i]);
+                afternoonTaskCount++;
                 i++;
             }
             while (i < todaysTasks.Count)
             {
                 datagridEvening.Add(todaysTasks[i]);
+                eveningTaskCount++;
                 i++;
             }
+
+            Debug.WriteLine("morningCount: " + morningTaskCount.ToString());
+            Debug.WriteLine("afternoonCount: " + afternoonTaskCount.ToString());
+            Debug.WriteLine("eveningCount: " + eveningTaskCount.ToString());
+
+            taskListMorning.HeightRequest = (morningTaskCount * 160);
+            if (morningTaskCount == 0)
+                taskListEvening.HeightRequest = 60;
+                //stack1.IsVisible = false;
+            taskListAfternoon.HeightRequest = (afternoonTaskCount * 160);
+            if (afternoonTaskCount == 0)
+                taskListEvening.HeightRequest = 60;
+                //stack2.IsVisible = false;
+            taskListEvening.HeightRequest = (eveningTaskCount * 160);
+            if (eveningTaskCount == 0)
+                taskListEvening.HeightRequest = 60;
+                //stack3.IsVisible = false;
         }
 
         private async Task GetEvents()
