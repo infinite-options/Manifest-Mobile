@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Manifest</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.infiniteoptions-manifestmy.life</string>
+	<string>com.infiniteoptions-manifestmy.space</string>
 	<key>CFBundleVersion</key>
 	<string>1.8</string>
 	<key>UILaunchStoryboardName</key>
@@ -41,7 +41,7 @@
 			<string>GoogleAuth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.717980399518-knjetk4e5iraggbl066tl9jmp8rigdj3</string>
+				<string>com.googleusercontent.apps.287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb</string>
 			</array>
 		</dict>
 	</array>
