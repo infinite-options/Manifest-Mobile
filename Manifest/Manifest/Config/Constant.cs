@@ -54,5 +54,6 @@ namespace Manifest.Config
 
         // EXTENDED TIME
         public static double days = 14;
+
     }
 }
