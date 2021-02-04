@@ -134,11 +134,17 @@ namespace Manifest.Views
                     toAdd.IsComplete = ToBool(dto.is_complete);
                     toAdd.IsSublistAvailable = ToBool(dto.is_sublist_available);
                     toAdd.ExpectedCompletionTime = ToTimeSpan(dto.expected_completion_time);
-                    toAdd.CompletionTime = dto.expected_completion_time;
+                    toAdd.CompletionTime = "This takes " + dto.expected_completion_time;
                     toAdd.DateTimeCompleted = ToDateTime(dto.datetime_completed);
                     toAdd.DateTimeStarted = ToDateTime(dto.datetime_started);
                     toAdd.StartDayAndTime = ToDateTime(dto.start_day_and_time);
                     toAdd.EndDayAndTime = ToDateTime(dto.end_day_and_time);
+                    toAdd.TimeInterval = DateTime.Parse(dto.start_day_and_time).ToString("t") + "-" + DateTime.Parse(dto.end_day_and_time).ToString("t");
+
+                    if (DateTime.Now.TimeOfDay >= toAdd.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAdd.EndDayAndTime.TimeOfDay)
+                        toAdd.StatusColor = Color.FromHex("#FFBD27");
+                    else toAdd.StatusColor = Color.FromHex("#9DB2CB");
+
                     toAdd.Repeat = ToBool(dto.repeat);
                     toAdd.RepeatEvery = dto.repeat_every;
                     toAdd.RepeatFrequency = dto.repeat_frequency;
@@ -284,15 +290,15 @@ namespace Manifest.Views
             Debug.WriteLine("afternoonCount: " + afternoonTaskCount.ToString());
             Debug.WriteLine("eveningCount: " + eveningTaskCount.ToString());
 
-            taskListMorning.HeightRequest = (morningTaskCount * 160);
+            taskListMorning.HeightRequest = (morningTaskCount * 115) + 60;
             if (morningTaskCount == 0)
                 taskListEvening.HeightRequest = 60;
                 //stack1.IsVisible = false;
-            taskListAfternoon.HeightRequest = (afternoonTaskCount * 160);
+            taskListAfternoon.HeightRequest = (afternoonTaskCount * 115) + 60;
             if (afternoonTaskCount == 0)
                 taskListEvening.HeightRequest = 60;
                 //stack2.IsVisible = false;
-            taskListEvening.HeightRequest = (eveningTaskCount * 160);
+            taskListEvening.HeightRequest = (eveningTaskCount * 115) + 60;
             if (eveningTaskCount == 0)
                 taskListEvening.HeightRequest = 60;
                 //stack3.IsVisible = false;
@@ -382,6 +388,12 @@ namespace Manifest.Views
                 toAdd.Description = dto.Description;
                 toAdd.StartDayAndTime = dto.StartTime.LocalDateTime;
                 toAdd.EndDayAndTime = dto.EndTime.LocalDateTime;
+                toAdd.TimeInterval = dto.StartTime.LocalDateTime.ToString("t") + "-" + dto.EndTime.LocalDateTime.ToString("t");
+
+                if (DateTime.Now.TimeOfDay >= toAdd.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAdd.EndDayAndTime.TimeOfDay)
+                    toAdd.StatusColor = Color.FromHex("#FFBD27");
+                else toAdd.StatusColor = Color.FromHex("#9DB2CB");
+
                 toAdd.Id = dto.Id;
                 toAdd.IsEvent = true;
                 toAdd.PicUrl = "calendarFive.png"; //Image must be a png
@@ -392,6 +404,12 @@ namespace Manifest.Views
         void navigateToAboutMe(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new AboutMePage();
+        }
+
+        //temporary for testing
+        void navigateToGoals(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new Goals();
         }
 
         void navigatetoTodaysList(System.Object sender, System.EventArgs e)

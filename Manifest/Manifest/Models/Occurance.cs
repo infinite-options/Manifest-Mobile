@@ -2,6 +2,8 @@
 
 using System;
 using System.ComponentModel;
+using Xamarin.Forms;
+
 namespace Manifest.Models
 {
     public class Occurance : INotifyPropertyChanged
@@ -20,6 +22,8 @@ namespace Manifest.Models
         public string PicUrl { get; set; }
         public DateTime StartDayAndTime { get; set; }
         public DateTime EndDayAndTime { get; set; }
+        public string TimeInterval { get; set; }
+        public Color StatusColor { get; set; }
         public bool Repeat { get; set; }
         public string RepeatType { get; set; }
         public DateTime RepeatEndsOn { get; set; }

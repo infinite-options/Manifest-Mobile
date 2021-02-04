@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.Goals" BackgroundColor="#F2F7FC">
+
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Text="HEADING" BackgroundColor="#9DB2CB" HorizontalOptions="Fill" VerticalOptions="Fill" FontSize="25" FontAttributes="Bold"/>
+
+            <AbsoluteLayout Grid.Column="1" VerticalOptions="Fill">
+                <Button HeightRequest="20" WidthRequest="20" BorderColor="#ADBCCE" BackgroundColor="Black" CornerRadius="10" AbsoluteLayout.LayoutBounds="0,0,15,15" Clicked="navigatetoTodaysList"/>
+                <Button HeightRequest="100" WidthRequest="100" BorderColor="#ADBCCE" BackgroundColor="Blue" CornerRadius="50" AbsoluteLayout.LayoutBounds="50,30"/>
+            </AbsoluteLayout>
+
+        </Grid>
+
+    </ContentPage.Content>
+
+</ContentPage>
