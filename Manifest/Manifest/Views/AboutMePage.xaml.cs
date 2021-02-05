@@ -168,11 +168,13 @@ namespace Manifest.Views
                 Grid tempGrid = new Grid
                 {
                     RowDefinitions =
-                        {
-                        new RowDefinition{ Height = new GridLength(60, GridUnitType.Absolute)},
-                        new RowDefinition{ Height = new GridLength(40, GridUnitType.Absolute)}
-                        },
+                    {
+                        new RowDefinition { Height = new GridLength(60, GridUnitType.Absolute) },
+                        new RowDefinition { Height = new GridLength(40, GridUnitType.Absolute) }
+                    },
                     ColumnSpacing = 20.0,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center
 
                 };
                 int col = 0;
@@ -182,7 +184,9 @@ namespace Manifest.Views
                 {
                     toAdd = 3;
                 }
-                while (i < Math.Min(i+toAdd, importantPeople.Count)){
+                int min = Math.Min(i + toAdd, importantPeople.Count);
+                Debug.WriteLine("min = " + min);
+                while (i < min){
                     tempGrid.ColumnDefinitions.Add(new ColumnDefinition
                     { Width = new GridLength(smallCircleHW, GridUnitType.Absolute) });
                     tempGrid.Children.Add(new Frame{
@@ -203,6 +207,9 @@ namespace Manifest.Views
                     col++;
                     i++;
                 }
+                Debug.WriteLine("i = " + i);
+                userAdvisors.Children.Add(tempGrid);
+                row++;
                 //else
                 //{
                 //    while (i < Math.Min(i + 2, importantPeople.Count))
@@ -230,9 +237,10 @@ namespace Manifest.Views
                 //    }
                 //}
                 //this.datagrid.Add(tempGrid);
-                userAdvisors.Children.Add(tempGrid);
-                row++;
+                //userAdvisors.Children.Add(tempGrid);
+                //row++;
             }
+            Debug.WriteLine("Num elements in stack: " + userAdvisors.Children.Count);
             //for (int i = 0; i < importantPeople.Count; i++)
             //{
             //    this.datagrid.Add(importantPeople[i]);

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.AboutMePage">
     <ContentPage.Content>
-        <Grid>
+        <Grid BackgroundColor="#F2F7FC">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="70"></RowDefinition>
@@ -10,6 +10,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.8*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -46,8 +47,11 @@
                          </Button>
                          </Frame>
                 </Grid>
-                <StackLayout x:Name="userAdvisors" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center">
-                </StackLayout>
+                <Label Grid.Row="2" Text="People in my life" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Large" TextColor="#0C1E21"/>
+                <ScrollView Grid.Row="3">
+                    <StackLayout x:Name="userAdvisors" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Orientation="Vertical" Padding="0,10,0,0">
+                    </StackLayout>
+                </ScrollView>
                 <!--<CollectionView x:Name="userAdvisors" Grid.Row="2">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
