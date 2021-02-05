@@ -8,6 +8,7 @@ using Manifest.RDS;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Collections.ObjectModel;
+using Xamarin.Essentials;
 
 namespace Manifest.Views
 {
@@ -51,11 +52,32 @@ namespace Manifest.Views
 
         public User user;
         List<Person> importantPeople = new List<Person>();
+        double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
+        double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
+
+        float bigCircleHW;
+        float smallCircleHW;
+        float bigCircleRadius;
+        float smallCircleRadius;
+
         public ObservableCollection<Grid> datagrid = new ObservableCollection<Grid>();
 
         public AboutMePage()
         {
             InitializeComponent();
+            bigCircleHW = (float)(deviceWidth * 0.107);
+            bigCircleRadius = (float)(bigCircleHW * 0.75);
+            smallCircleHW = (float)(deviceWidth * 0.08);
+            smallCircleRadius = (float)(smallCircleHW * 0.5);
+            userImageFrame.CornerRadius = bigCircleRadius;
+            userImageFrame.HeightRequest = bigCircleHW;
+            userImageFrame.WidthRequest = bigCircleHW;
+            whoAmIButton.CornerRadius = bigCircleRadius;
+            whoAmIButton.HeightRequest = bigCircleHW;
+            whoAmIButton.WidthRequest = bigCircleHW;
+            whatMotivatesMeButton.CornerRadius = bigCircleRadius;
+            whatMotivatesMeButton.HeightRequest = bigCircleHW;
+            whatMotivatesMeButton.WidthRequest = bigCircleHW;
             Debug.WriteLine("In aboutME page");
             //Debug.WriteLine(Application.Current.Properties["userID"]);
             //Debug.WriteLine(Application.Current.Properties["time_stamp"]);
@@ -155,56 +177,58 @@ namespace Manifest.Views
                 };
                 int col = 0;
                 //Even rows
+                int toAdd = 2;
                 if (row % 2 == 0)
                 {
-                    while (i < Math.Min(i+3, importantPeople.Count)){
-                        tempGrid.ColumnDefinitions.Add(new ColumnDefinition
-                        { Width = new GridLength(60, GridUnitType.Absolute) });
-                        tempGrid.Children.Add(new Frame{
-                            CornerRadius = 30,
-                            HeightRequest = 60,
-                            WidthRequest = 60,
-                            IsClippedToBounds = true,
-                            //Padding = new Thickness(10.0,0.0,10.0,0.0),
-                            Content =  new Image{
-                                Source = importantPeople[i].PicUrl,
-                            }
-                        }, col, 0);
-                        tempGrid.Children.Add(new Label
-                        {
-                            Text = importantPeople[i].Name,
-                            TextColor = Color.Black
-                        }, col, 1);
-                        col++;
-                        i++;
-                    }
+                    toAdd = 3;
                 }
-                else
-                {
-                    while (i < Math.Min(i + 2, importantPeople.Count))
+                while (i < Math.Min(i+toAdd, importantPeople.Count)){
+                    tempGrid.ColumnDefinitions.Add(new ColumnDefinition
+                    { Width = new GridLength(smallCircleHW, GridUnitType.Absolute) });
+                    tempGrid.Children.Add(new Frame{
+                        CornerRadius = smallCircleRadius,
+                        HeightRequest = smallCircleHW,
+                        WidthRequest = smallCircleHW,
+                        IsClippedToBounds = true,
+                        //Padding = new Thickness(10.0,0.0,10.0,0.0),
+                        Content =  new Image{
+                            Source = importantPeople[i].PicUrl,
+                        }
+                    }, col, 0);
+                    tempGrid.Children.Add(new Label
                     {
-                        tempGrid.ColumnDefinitions.Add(new ColumnDefinition
-                        { Width = new GridLength(60, GridUnitType.Absolute) });
-                        tempGrid.Children.Add(new Frame
-                        {
-                            CornerRadius = 30,
-                            HeightRequest = 60,
-                            WidthRequest = 60,
-                            IsClippedToBounds = true,
-                            Content = new Image
-                            {
-                                Source = importantPeople[i].PicUrl,
-                            }
-                        }, col, 0);
-                        tempGrid.Children.Add(new Label
-                        {
-                            Text = importantPeople[i].Name,
-                            TextColor = Color.Black
-                        }, col, 1);
-                        col++;
-                        i++;
-                    }
+                        Text = importantPeople[i].Name,
+                        TextColor = Color.Black
+                    }, col, 1);
+                    col++;
+                    i++;
                 }
+                //else
+                //{
+                //    while (i < Math.Min(i + 2, importantPeople.Count))
+                //    {
+                //        tempGrid.ColumnDefinitions.Add(new ColumnDefinition
+                //        { Width = new GridLength(smallCircleHW, GridUnitType.Absolute) });
+                //        tempGrid.Children.Add(new Frame
+                //        {
+                //            CornerRadius = smallCircleRadius,
+                //            HeightRequest = smallCircleHW,
+                //            WidthRequest = smallCircleHW,
+                //            IsClippedToBounds = true,
+                //            Content = new Image
+                //            {
+                //                Source = importantPeople[i].PicUrl,
+                //            }
+                //        }, col, 0);
+                //        tempGrid.Children.Add(new Label
+                //        {
+                //            Text = importantPeople[i].Name,
+                //            TextColor = Color.Black
+                //        }, col, 1);
+                //        col++;
+                //        i++;
+                //    }
+                //}
                 //this.datagrid.Add(tempGrid);
                 userAdvisors.Children.Add(tempGrid);
                 row++;

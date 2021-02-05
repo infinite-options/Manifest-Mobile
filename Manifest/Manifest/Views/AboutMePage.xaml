@@ -18,7 +18,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Frame Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Frame x:Name="userImageFrame" Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center">
                        <Image x:Name="userImage" Source="aboutme.png"/>
                     </Frame>
                     <Grid Grid.Column="1">
@@ -37,10 +37,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                     <Frame Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
+                     <Frame x:Name="whoAmIButton" Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
                          <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Who Am I?" FontAttributes="Bold" TextColor="#0C1E21"/>
                          </Frame>
-                    <Frame Grid.Column="1" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
+                    <Frame x:Name="whatMotivatesMeButton" Grid.Column="1" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
                          <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Whats Important to me?" FontAttributes="Bold" TextColor="#0C1E21">
                              <FlexLayout.AlignSelf/>
                          </Button>
