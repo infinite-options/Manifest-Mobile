@@ -51,7 +51,7 @@ namespace Manifest.Views
 
         public User user;
         List<Person> importantPeople = new List<Person>();
-        public ObservableCollection<Person> datagrid = new ObservableCollection<Person>();
+        public ObservableCollection<Grid> datagrid = new ObservableCollection<Grid>();
 
         public AboutMePage()
         {
@@ -60,16 +60,20 @@ namespace Manifest.Views
             //Debug.WriteLine(Application.Current.Properties["userID"]);
             //Debug.WriteLine(Application.Current.Properties["time_stamp"]);
             initializeUser((String)Application.Current.Properties["userID"]);
-            myAdvisors.ItemsSource = datagrid;
+            //userAdvisors.ItemTemplate = datagrid;
 
         }
 
         private async void initializeUser(string uid)
         {
             string res = await RdsConnect.getUser(uid);
+            if (res == "Failure")
+            {
+                await DisplayAlert("Alert", "Error in getUser() in initializeUser() in AboutMePage", "OK");
+            }
             UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(res);
             ToUser(userResponse);
-            userID.Text = (String)Application.Current.Properties["userID"];
+            //userID.Text = (String)Application.Current.Properties["userID"];
             userName.Text = user.FirstName + " " + user.LastName;
             userImage.Source = user.PicUrl;
             CreateList();
@@ -108,6 +112,10 @@ namespace Manifest.Views
                             Id = dto.ta_people_id,
                             PhoneNumber = dto.ta_phone
                         };
+                        if (toAdd.PicUrl == null || toAdd.PicUrl == "")
+                        {
+                            toAdd.PicUrl = "aboutme.png";
+                        }
                         importantPeople.Add(toAdd);
                     }
                     
@@ -130,10 +138,81 @@ namespace Manifest.Views
 
         private void CreateList()
         {
-            for (int i = 0; i < importantPeople.Count; i++)
+            int i = 0;
+            int row = 0;
+            while (i < importantPeople.Count)
             {
-                this.datagrid.Add(importantPeople[i]);
+                //ObservableCollection<Person> temp = new ObservableCollection<Person>();
+                Grid tempGrid = new Grid
+                {
+                    RowDefinitions =
+                        {
+                        new RowDefinition{ Height = new GridLength(60, GridUnitType.Absolute)},
+                        new RowDefinition{ Height = new GridLength(40, GridUnitType.Absolute)}
+                        },
+                    ColumnSpacing = 20.0,
+
+                };
+                int col = 0;
+                //Even rows
+                if (row % 2 == 0)
+                {
+                    while (i < Math.Min(i+3, importantPeople.Count)){
+                        tempGrid.ColumnDefinitions.Add(new ColumnDefinition
+                        { Width = new GridLength(60, GridUnitType.Absolute) });
+                        tempGrid.Children.Add(new Frame{
+                            CornerRadius = 30,
+                            HeightRequest = 60,
+                            WidthRequest = 60,
+                            IsClippedToBounds = true,
+                            //Padding = new Thickness(10.0,0.0,10.0,0.0),
+                            Content =  new Image{
+                                Source = importantPeople[i].PicUrl,
+                            }
+                        }, col, 0);
+                        tempGrid.Children.Add(new Label
+                        {
+                            Text = importantPeople[i].Name,
+                            TextColor = Color.Black
+                        }, col, 1);
+                        col++;
+                        i++;
+                    }
+                }
+                else
+                {
+                    while (i < Math.Min(i + 2, importantPeople.Count))
+                    {
+                        tempGrid.ColumnDefinitions.Add(new ColumnDefinition
+                        { Width = new GridLength(60, GridUnitType.Absolute) });
+                        tempGrid.Children.Add(new Frame
+                        {
+                            CornerRadius = 30,
+                            HeightRequest = 60,
+                            WidthRequest = 60,
+                            IsClippedToBounds = true,
+                            Content = new Image
+                            {
+                                Source = importantPeople[i].PicUrl,
+                            }
+                        }, col, 0);
+                        tempGrid.Children.Add(new Label
+                        {
+                            Text = importantPeople[i].Name,
+                            TextColor = Color.Black
+                        }, col, 1);
+                        col++;
+                        i++;
+                    }
+                }
+                //this.datagrid.Add(tempGrid);
+                userAdvisors.Children.Add(tempGrid);
+                row++;
             }
+            //for (int i = 0; i < importantPeople.Count; i++)
+            //{
+            //    this.datagrid.Add(importantPeople[i]);
+            //}
         }
 
         public void logUserOut(object sender, EventArgs args)

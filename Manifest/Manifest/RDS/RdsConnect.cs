@@ -48,9 +48,17 @@ namespace Manifest.RDS
         //
         public static async Task<string> getUser(string uid)
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.aboutMeUrl + "/" + uid;
-            var res = await client.GetStringAsync(url);
-            return res;
+            try
+            {
+                string url = RdsConfig.BaseUrl + RdsConfig.aboutMeUrl + "/" + uid;
+                var res = await client.GetStringAsync(url);
+                return res;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return "Failure";
+            }
         }
     }
 }

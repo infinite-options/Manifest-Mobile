@@ -4,6 +4,93 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.8*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Frame Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center">
+                       <Image x:Name="userImage" Source="aboutme.png"/>
+                    </Frame>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label x:Name="userName" Grid.Row="0" FontSize="Title" FontAttributes="Bold" Text="" VerticalOptions="End" HorizontalOptions="StartAndExpand" Padding="0,20,10,0" TextDecorations="Underline" TextColor="#0C1E21">
+                        </Label>
+                        <Label x:Name="userBirthday" Grid.Row="1" Text="Date of Birth: 4th July 1998" VerticalOptions="Start" HorizontalOptions="StartAndExpand" Padding="0,0,10,0">
+                        </Label>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                     <Frame Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
+                         <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Who Am I?" FontAttributes="Bold" TextColor="#0C1E21"/>
+                         </Frame>
+                    <Frame Grid.Column="1" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
+                         <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Whats Important to me?" FontAttributes="Bold" TextColor="#0C1E21">
+                             <FlexLayout.AlignSelf/>
+                         </Button>
+                         </Frame>
+                </Grid>
+                <StackLayout x:Name="userAdvisors" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center">
+                </StackLayout>
+                <!--<CollectionView x:Name="userAdvisors" Grid.Row="2">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="60"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Frame Grid.Row="0" CornerRadius="45" HeightRequest="60" WidthRequest="60" IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center">
+                                        <Image Source="{Binding PicUrl}"/>
+                                    </Frame>
+                                    <Label Grid.Row="1" Text="{Binding Name}"/>
+                                </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>-->
+            </Grid>
+            <Grid Grid.Row="1" BackgroundColor="#ff7555">
+                <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+                        <Image Grid.Row="1" Grid.Column="0" Source="listview.png" HeightRequest="20"/>
+                        <Label Grid.Row="2" Grid.Column="0" Text="Today's List" HorizontalOptions="Center" TextColor="Black" FontSize="12"/>
+
+                        <Image Grid.Row="1" Grid.Column="1" Source="aboutme.png" HeightRequest="20"/>
+                        <Label Grid.Row="2" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="Black" FontSize="12"/>
+
+                    <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="navigatetoTodaysList" BackgroundColor="Transparent"></Button>
+                    <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigateToAboutMe" BackgroundColor="Transparent"></Button>
+            </Grid>
+        </Grid>
+        <!--<Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="150"></RowDefinition>
                 <RowDefinition Height="70"></RowDefinition>
             </Grid.RowDefinitions>
@@ -15,9 +102,9 @@
             </StackLayout>
             <StackLayout Grid.Row="1">
                 <CarouselView x:Name="myAdvisors" Margin="0,0,0,25" IndicatorView="indicatorView">
-                    <!--<CollectionView.ItemsLayout>
+                    <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Horizontal"></LinearItemsLayout>
-                    </CollectionView.ItemsLayout>-->
+                    </CollectionView.ItemsLayout>
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout>
@@ -50,6 +137,6 @@
                     <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="navigatetoTodaysList" BackgroundColor="Transparent"></Button>
                     <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigateToAboutMe" BackgroundColor="Transparent"></Button>
             </Grid>
-        </Grid>
+        </Grid>-->
     </ContentPage.Content>
 </ContentPage>
