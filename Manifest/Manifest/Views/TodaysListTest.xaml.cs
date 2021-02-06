@@ -21,6 +21,7 @@ namespace Manifest.Views
         public List<Occurance> todaysOccurancesAfternoon;
         public List<Occurance> todaysOccurancesEvening;
         public List<Occurance> todaysEvents;
+        public List<Event> eventsToday;
 
         class OccuranceResponse
         {
@@ -71,6 +72,11 @@ namespace Manifest.Views
         public TodaysListTest(String userInfo)
         {
             InitializeComponent();
+            //If any of the below conditions are true, navigate to the login page
+            if (Application.Current.Properties["userID"] == null || (String)Application.Current.Properties["userID"] == "" || Application.Current.Properties["mobile_auth_token"] == null || (String)Application.Current.Properties["mobile_auth_token"] == "")
+            {
+                Application.Current.MainPage = new LogInPage();
+            }
             try
             {
                 today = DateTime.Today;
@@ -338,9 +344,8 @@ namespace Manifest.Views
             {
                 DateTimeOffset dateTimeOffset = DateTimeOffset.Now;
                 string url = Constant.GoogleCalendarUrl + "?orderBy=startTime&singleEvents=true&";
-                var currSession = (String)Application.Current.Properties["session"];
-                //string authToken = currSession.result[0].mobile_auth_token;
-                string authToken = currSession;
+                var authToken = (String)Application.Current.Properties["mobile_auth_token"];
+                Debug.WriteLine("AuthToken: " + authToken);
                 int publicYear = dateTimeOffset.Year;
                 int publicMonth = dateTimeOffset.Month;
                 int publicDay = dateTimeOffset.Day;
@@ -403,9 +408,10 @@ namespace Manifest.Views
                 //var serializer = new JavaScriptSerializer(); //using System.Web.Script.Serialization;
 
                 EventResponse eventResponse = JsonConvert.DeserializeObject<EventResponse>(json);
-                List<Event> events = eventResponse.ToEvents();
+                //List<Event> events = eventResponse.ToEvents();
+                eventsToday = eventResponse.ToEvents();
                 //Debug.WriteLine("Converted to Events");
-                EventsToOccurances(events);
+                EventsToOccurances(eventsToday);
             }
             catch (Exception e)
             {
@@ -448,6 +454,29 @@ namespace Manifest.Views
             Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
         }
 
+        async void goToEventsPage(Occurance eventOccurance)
+        {
+            //First find the event
+            Event currEvent = null;
+            foreach (Event dto in eventsToday)
+            {
+                if (dto.Id == eventOccurance.Id)
+                {
+                    currEvent = dto;
+                    break;
+                }
+            }
+
+            if (currEvent == null)
+            {
+                await DisplayAlert("Error!", "There seems to be a problem displaying the current event", "OK");
+            }
+            else
+            {
+                Application.Current.MainPage = new EventsPage(currEvent);
+            }
+        }
+
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
         async void checkSubOccurance(object sender, EventArgs args)
         {
@@ -460,6 +489,7 @@ namespace Manifest.Views
                 Occurance currOccurance = myvar.BindingContext as Occurance;
                 if (currOccurance.IsEvent)
                 {
+                    goToEventsPage(currOccurance);
                     return;
                 }
                 Debug.WriteLine(currOccurance.Id);

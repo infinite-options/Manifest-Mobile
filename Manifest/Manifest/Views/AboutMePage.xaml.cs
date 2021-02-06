@@ -255,7 +255,7 @@ namespace Manifest.Views
 
         public void logUserOut(object sender, EventArgs args)
         {
-            Application.Current.Properties.Remove("session");
+            Application.Current.Properties.Remove("mobile_auth_token");
             Debug.WriteLine(Application.Current.Properties["userID"]);
             Debug.WriteLine(Application.Current.Properties["platform"]);
             Debug.WriteLine(Application.Current.Properties["time_stamp"]);

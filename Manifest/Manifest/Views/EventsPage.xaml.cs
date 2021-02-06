@@ -9,14 +9,32 @@ namespace Manifest.Views
 {
     public partial class EventsPage : ContentPage
     {
-        public ObservableCollection<Event> datagrid = new ObservableCollection<Event>();
+        public ObservableCollection<Attendee> datagrid = new ObservableCollection<Attendee>();
 
         public EventsPage(Event newEvent)
         {
             InitializeComponent();
             eventName.Text = newEvent.Title;
             eventInfo.ItemsSource = datagrid;
-            datagrid.Add(newEvent);
+            //datagrid.Add(newEvent);
+            initialiseAttendees(newEvent.Attendees);
+
+        }
+
+        private void initialiseAttendees(List<Attendee> attendees)
+        {
+            foreach (Attendee attendee in attendees)
+            {
+                if (attendee.HavePic == false)
+                {
+                    attendee.PicUrl = "aboutme.png";
+                }
+                if (attendee.Name == "" || attendee.Name == null)
+                {
+                    attendee.Name = "Anonymous";
+                }
+                datagrid.Add(attendee);
+            }
 
         }
 
