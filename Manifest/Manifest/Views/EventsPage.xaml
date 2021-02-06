@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.EventsPage">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <BoxView HeightRequest="40"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="arrowLeft.png" Margin="15,0,0,0">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="goToTodaysList"></TapGestureRecognizer>
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <StackLayout Grid.Column="1" VerticalOptions="Center">
+                    <Label x:Name="eventName" Text="Event" FontSize="30" HorizontalOptions="Start" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,0"/>
+                    </StackLayout>
+                </Grid>
+                <StackLayout Grid.Row="1">
+                    <CollectionView x:Name="eventInfo" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Text="{Binding Title}"/>
+                                    <Label Grid.Row="1" Text="{Binding StartTime}"/>
+                                    <Label Grid.Row="2" Text="{Binding EndTime}"/>
+                                    <Label Grid.Row="3" Text="{Binding Description}"/>
+                                    <Label Grid.Row="4" Text="{Binding Attendees}"/>
+                                    <Label Grid.Row="5" Text="{Binding ID}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

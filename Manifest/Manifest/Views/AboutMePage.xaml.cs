@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Collections.ObjectModel;
 using Xamarin.Essentials;
+using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace Manifest.Views
 {
@@ -162,6 +164,10 @@ namespace Manifest.Views
         {
             int i = 0;
             int row = 0;
+            TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.NumberOfTapsRequired = 1;
+            //tapGestureRecognizer.SetBinding(TapGestureRecognizer.CommandProperty, "callAdvisor");
+            tapGestureRecognizer.Tapped += callAdvisor;
             while (i < importantPeople.Count)
             {
                 //ObservableCollection<Person> temp = new ObservableCollection<Person>();
@@ -185,11 +191,12 @@ namespace Manifest.Views
                     toAdd = 3;
                 }
                 int min = Math.Min(i + toAdd, importantPeople.Count);
-                Debug.WriteLine("min = " + min);
+                //Debug.WriteLine("min = " + min);
                 while (i < min){
                     tempGrid.ColumnDefinitions.Add(new ColumnDefinition
                     { Width = new GridLength(smallCircleHW, GridUnitType.Absolute) });
                     tempGrid.Children.Add(new Frame{
+                        BindingContext = importantPeople[i],
                         CornerRadius = smallCircleRadius,
                         HeightRequest = smallCircleHW,
                         WidthRequest = smallCircleHW,
@@ -197,7 +204,11 @@ namespace Manifest.Views
                         //Padding = new Thickness(10.0,0.0,10.0,0.0),
                         Content =  new Image{
                             Source = importantPeople[i].PicUrl,
-                        }
+                            HeightRequest = smallCircleHW*2,
+                            WidthRequest = smallCircleHW*2,
+                            Aspect = Aspect.AspectFill
+                        },
+                        GestureRecognizers = { tapGestureRecognizer }
                     }, col, 0);
                     tempGrid.Children.Add(new Label
                     {
@@ -207,44 +218,39 @@ namespace Manifest.Views
                     col++;
                     i++;
                 }
-                Debug.WriteLine("i = " + i);
+                //Debug.WriteLine("i = " + i);
                 userAdvisors.Children.Add(tempGrid);
                 row++;
-                //else
-                //{
-                //    while (i < Math.Min(i + 2, importantPeople.Count))
-                //    {
-                //        tempGrid.ColumnDefinitions.Add(new ColumnDefinition
-                //        { Width = new GridLength(smallCircleHW, GridUnitType.Absolute) });
-                //        tempGrid.Children.Add(new Frame
-                //        {
-                //            CornerRadius = smallCircleRadius,
-                //            HeightRequest = smallCircleHW,
-                //            WidthRequest = smallCircleHW,
-                //            IsClippedToBounds = true,
-                //            Content = new Image
-                //            {
-                //                Source = importantPeople[i].PicUrl,
-                //            }
-                //        }, col, 0);
-                //        tempGrid.Children.Add(new Label
-                //        {
-                //            Text = importantPeople[i].Name,
-                //            TextColor = Color.Black
-                //        }, col, 1);
-                //        col++;
-                //        i++;
-                //    }
-                //}
-                //this.datagrid.Add(tempGrid);
-                //userAdvisors.Children.Add(tempGrid);
-                //row++;
             }
             Debug.WriteLine("Num elements in stack: " + userAdvisors.Children.Count);
-            //for (int i = 0; i < importantPeople.Count; i++)
-            //{
-            //    this.datagrid.Add(importantPeople[i]);
-            //}
+        }
+
+        public async void callAdvisor(object sender, EventArgs args)
+        {
+            Debug.WriteLine("Tap registered");
+            Frame myvar = (Frame)sender;
+            Person advisor = myvar.BindingContext as Person;
+            string phoneNumber = advisor.PhoneNumber;
+            if (phoneNumber == "")
+            {
+                await Application.Current.MainPage.DisplayAlert("Sorry!", $"Hmmm... We don't have a phone number on file", "OK");
+            }
+            else
+            {
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                Debug.WriteLine("Manifest.ViewModels.AboutViewModel: Dialing Number:" + phoneNumber);
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                try
+                {
+                    PhoneDialer.Open(phoneNumber);
+                    Debug.WriteLine("IN ABOUTVIEWMODEL. LAUNCHING PHONE");
+                }
+                catch (Exception e)
+                {
+                    await DisplayAlert("Error", "Unable to perform a phone call", "OK");
+                }
+                //await Launcher.OpenAsync(new Uri("tel:" + phoneNumber));
+            }
         }
 
         public void logUserOut(object sender, EventArgs args)
