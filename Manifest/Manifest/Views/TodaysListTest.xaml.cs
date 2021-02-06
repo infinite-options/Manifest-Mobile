@@ -67,6 +67,7 @@ namespace Manifest.Views
         string eveningStart;
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
+        List<Occurance> commonOccur;
 
         public TodaysListTest(String userInfo)
         {
@@ -82,6 +83,7 @@ namespace Manifest.Views
             todaysEvents = new List<Occurance>();
             todaysOccurancesAfternoon = new List<Occurance>();
             todaysOccurancesEvening = new List<Occurance>();
+            commonOccur = new List<Occurance>();
 
             RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
             Debug.WriteLine(userInfo);
@@ -103,15 +105,17 @@ namespace Manifest.Views
             //Need to add userID
             string url = RdsConfig.BaseUrl + RdsConfig.goalsAndRoutinesUrl + "/" + userID;
             var response = await client.GetStringAsync(url);
-            Debug.WriteLine("Getting user. User info below:");
+            Debug.WriteLine(userID.ToString() + " Getting user. User info below:");
             //Debug.WriteLine(response);
             OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
-            //Debug.WriteLine(occuranceResponse);
+            Debug.WriteLine(occuranceResponse);
+            Debug.WriteLine(occuranceResponse.message);
             ToOccurances(occuranceResponse);
             await GetEvents();
             CreateList();
         }
 
+        bool firstRunPassed = false;
         //This function takes the response from the endpoint, and formats it into Occurances
         private void ToOccurances(OccuranceResponse occuranceResponse)
         {
@@ -123,8 +127,10 @@ namespace Manifest.Views
             }
             foreach (OccuranceDto dto in occuranceResponse.result)
             {
+                Debug.WriteLine("occurance tracked: " + dto.gr_title);
                 if (dto.is_displayed_today == "True")
                 {
+                    Debug.WriteLine("occurance tracked");
                     Occurance toAdd = new Occurance();
                     toAdd.Id = dto.gr_unique_id;
                     toAdd.Title = dto.gr_title;
@@ -145,6 +151,8 @@ namespace Manifest.Views
                         toAdd.StatusColor = Color.FromHex("#FFBD27");
                     else toAdd.StatusColor = Color.FromHex("#9DB2CB");
 
+                    Debug.WriteLine("start time: " + dto.start_day_and_time);
+
                     toAdd.Repeat = ToBool(dto.repeat);
                     toAdd.RepeatEvery = dto.repeat_every;
                     toAdd.RepeatFrequency = dto.repeat_frequency;
@@ -154,16 +162,91 @@ namespace Manifest.Views
                     //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
                     toAdd.UserId = dto.user_id;
                     toAdd.IsEvent = false;
-                    todaysOccurances.Add(toAdd);
+
+                    if (firstRunPassed == false && toAdd.IsPersistent == false)
+                    {
+                        commonOccur.Add(toAdd);
+                        firstRunPassed = true;
+                    }
+                    else if (toAdd.IsPersistent == false && commonOccur.Count != 0 && commonOccur[0].StartDayAndTime.ToString("t") == toAdd.StartDayAndTime.ToString("t")
+                        && commonOccur[0].EndDayAndTime.ToString("t") == toAdd.EndDayAndTime.ToString("t"))
+                    {
+                        commonOccur.Add(toAdd);
+                    }
+                    else if (toAdd.IsPersistent == false && commonOccur.Count > 1 && (commonOccur[0].StartDayAndTime.ToString("t") != toAdd.StartDayAndTime.ToString("t")
+                        || commonOccur[0].EndDayAndTime.ToString("t") != toAdd.EndDayAndTime.ToString("t")))
+                    {
+                        Occurance toAddPursue = new Occurance();
+                        toAddPursue.Title = "Pursue A Goal";
+                        toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
+                        toAddPursue.EndDayAndTime = commonOccur[0].EndDayAndTime;
+                        toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
+                        toAddPursue.IsEvent = false;
+
+                        if (DateTime.Now.TimeOfDay >= toAddPursue.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAddPursue.EndDayAndTime.TimeOfDay)
+                            toAddPursue.StatusColor = Color.FromHex("#FFBD27");
+                        else toAddPursue.StatusColor = Color.FromHex("#9DB2CB");
+
+                        List<Occurance> holder = new List<Occurance>(commonOccur);
+                        Debug.WriteLine("holder count before: " + holder.Count);
+                        toAddPursue.commonTimeOccurs = holder;
+                        todaysOccurances.Add(toAddPursue);
+                        commonOccur.Clear();
+                        commonOccur.Add(toAdd);
+                        Debug.WriteLine("holder count after: " + holder.Count);
+                    }
+                    else if (toAdd.IsPersistent == false && commonOccur.Count == 1 && (commonOccur[0].StartDayAndTime.ToString("t") != toAdd.StartDayAndTime.ToString("t")
+                        || commonOccur[0].EndDayAndTime.ToString("t") != toAdd.EndDayAndTime.ToString("t")))
+                    {
+                        todaysOccurances.Add(commonOccur[0]);
+                        commonOccur.Clear();
+                        commonOccur.Add(toAdd);
+                    }
+                    else
+                    {
+                        todaysOccurances.Add(toAdd);
+                    }
+
+                    //todaysOccurances.Add(toAdd);
+                    //need a isPursueAGoal variable to know if the thing being clicked needs to be navigated to
+                    //send in list of goals for the pursue a goal into goals page instead of calling the endpoint again
+                    //
+                    //store the incoming occurance in listOccur, if it doesn't have the same time as the last occurance, clear listOccur,
+                    //if the incoming occurance is at the same hour and minutes as the one in listOccur, add the time to listTime (that will be passed to goals.xaml.cs)
                 }
             }
+
+            if (commonOccur.Count > 1 && commonOccur[0].IsPersistent == false)
+            {
+                Occurance toAddPursue = new Occurance();
+                toAddPursue.Title = "Pursue A Goal";
+                toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
+                toAddPursue.EndDayAndTime = commonOccur[0].EndDayAndTime;
+                toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
+                toAddPursue.IsEvent = false;
+
+                if (DateTime.Now.TimeOfDay >= toAddPursue.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAddPursue.EndDayAndTime.TimeOfDay)
+                    toAddPursue.StatusColor = Color.FromHex("#FFBD27");
+                else toAddPursue.StatusColor = Color.FromHex("#9DB2CB");
+
+                List<Occurance> holder = new List<Occurance>(commonOccur);
+                Debug.WriteLine("holder count before: " + holder.Count);
+                toAddPursue.commonTimeOccurs = holder;
+                todaysOccurances.Add(toAddPursue);
+            }
+            else if (commonOccur.Count == 1 && commonOccur[0].IsPersistent == false)
+            {
+                todaysOccurances.Add(commonOccur[0]);
+            }
+
             return;
         }
 
         //This function converts a string to a bool
         private bool ToBool(string boolString)
         {
-            if (String.IsNullOrEmpty(boolString)) {
+            if (String.IsNullOrEmpty(boolString))
+            {
                 return false;
             }
             try
@@ -188,7 +271,8 @@ namespace Manifest.Views
             {
                 return TimeSpan.Parse(timeString);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Debug.WriteLine("Error in ToTimeSpan function in TodaysList class");
             }
             return new TimeSpan();
@@ -267,7 +351,7 @@ namespace Manifest.Views
             int morningTaskCount = 0;
             int afternoonTaskCount = 0;
             int eveningTaskCount = 0;
-            while (i < todaysTasks.Count && todaysTasks[i].StartDayAndTime < ToDateTime(afternoonStart) )
+            while (i < todaysTasks.Count && todaysTasks[i].StartDayAndTime < ToDateTime(afternoonStart))
             {
                 datagridMorning.Add(todaysTasks[i]);
                 morningTaskCount++;
@@ -293,15 +377,15 @@ namespace Manifest.Views
             taskListMorning.HeightRequest = (morningTaskCount * 115) + 60;
             if (morningTaskCount == 0)
                 taskListEvening.HeightRequest = 60;
-                //stack1.IsVisible = false;
+            //stack1.IsVisible = false;
             taskListAfternoon.HeightRequest = (afternoonTaskCount * 115) + 60;
             if (afternoonTaskCount == 0)
                 taskListEvening.HeightRequest = 60;
-                //stack2.IsVisible = false;
+            //stack2.IsVisible = false;
             taskListEvening.HeightRequest = (eveningTaskCount * 115) + 60;
             if (eveningTaskCount == 0)
                 taskListEvening.HeightRequest = 60;
-                //stack3.IsVisible = false;
+            //stack3.IsVisible = false;
         }
 
         private async Task GetEvents()
@@ -409,7 +493,7 @@ namespace Manifest.Views
         //temporary for testing
         void navigateToGoals(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new Goals();
+            //Application.Current.MainPage = new Goals();
         }
 
         void navigatetoTodaysList(System.Object sender, System.EventArgs e)
@@ -433,10 +517,10 @@ namespace Manifest.Views
             Debug.WriteLine(currOccurance.Id);
             //var currSession = (Session)Application.Current.Properties["session"];
             string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-            //If there is a sublist available, navigate to the sublist page
-            if (currOccurance.IsSublistAvailable)
+            //If there is a sublist available, go to goals page if its a Pursue A Goal
+            if (currOccurance.Title == "Pursue A Goal")
             {
-                Application.Current.MainPage = new SubListPage(currOccurance);
+                Application.Current.MainPage = new Goals(currOccurance.commonTimeOccurs);
             }
             else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
             {
@@ -444,7 +528,8 @@ namespace Manifest.Views
                 currOccurance.DateTimeStarted = DateTime.Now;
                 Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
                 //string toSend = updateOccurance(currOccurance);
-                UpdateOccurance updateOccur = new UpdateOccurance(){
+                UpdateOccurance updateOccur = new UpdateOccurance()
+                {
                     id = currOccurance.Id,
                     datetime_completed = currOccurance.DateTimeCompleted,
                     datetime_started = currOccurance.DateTimeStarted,

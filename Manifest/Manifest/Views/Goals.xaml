@@ -5,16 +5,28 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="400"/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Text="HEADING" BackgroundColor="#9DB2CB" HorizontalOptions="Fill" VerticalOptions="Fill" FontSize="25" FontAttributes="Bold"/>
+            <Label Grid.Row="0" Text="HEADING" BackgroundColor="#9DB2CB" HorizontalOptions="Fill" VerticalOptions="Fill" FontSize="25" FontAttributes="Bold" Margin="0,20,0,0"/>
 
-            <AbsoluteLayout Grid.Column="1" VerticalOptions="Fill">
-                <Button HeightRequest="20" WidthRequest="20" BorderColor="#ADBCCE" BackgroundColor="Black" CornerRadius="10" AbsoluteLayout.LayoutBounds="0,0,15,15" Clicked="navigatetoTodaysList"/>
-                <Button HeightRequest="100" WidthRequest="100" BorderColor="#ADBCCE" BackgroundColor="Blue" CornerRadius="50" AbsoluteLayout.LayoutBounds="50,30"/>
+            <AbsoluteLayout Grid.Row="1" VerticalOptions="Fill" BackgroundColor="LightBlue">
+                <Button x:Name="first" BorderColor="#ADBCCE" BackgroundColor="Black" AbsoluteLayout.LayoutBounds="0.05,0.05" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoTodaysList"/>
+                <Button x:Name="second" BorderColor="#ADBCCE" BackgroundColor="Blue" AbsoluteLayout.LayoutBounds="0.3,0.25" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
             </AbsoluteLayout>
+
+            <StackLayout Grid.Row="2" x:Name="tempStack" HorizontalOptions="Center" BackgroundColor="LightBlue">
+                <!--<Label x:Name="one" FontSize="15" FontAttributes="Bold" TextColor="Black"/>
+                <Label x:Name="two" FontSize="15" FontAttributes="Bold" TextColor="Black"/>
+                <Label x:Name="three" FontSize="15" FontAttributes="Bold" TextColor="Black"/>
+                <Label x:Name="four" FontSize="15" FontAttributes="Bold" TextColor="Black"/>
+                <Label x:Name="five" FontSize="15" FontAttributes="Bold" TextColor="Black"/>
+                <Label x:Name="six" FontSize="15" FontAttributes="Bold" TextColor="Black"/>
+                <Label x:Name="seven" FontSize="15" FontAttributes="Bold" TextColor="Black"/>
+                <Label x:Name="eight" FontSize="15" FontAttributes="Bold" TextColor="Black"/>-->
+            </StackLayout>
 
         </Grid>
 

@@ -317,7 +317,7 @@
 
                     <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="navigatetoTodaysList" BackgroundColor="Transparent"></Button>
                     <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigateToAboutMe" BackgroundColor="Transparent"></Button>
-                    <Button Grid.Column="2" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigateToGoals" BackgroundColor="Transparent"></Button>
+                    <Button Grid.Column="2" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  BackgroundColor="Transparent"></Button>
                 </Grid>
                 </Frame>
             </Grid>

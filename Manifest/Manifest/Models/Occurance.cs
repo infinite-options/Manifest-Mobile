@@ -1,6 +1,7 @@
 ﻿//This class is used to store Goals and Routines.
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Xamarin.Forms;
 
@@ -24,6 +25,7 @@ namespace Manifest.Models
         public DateTime EndDayAndTime { get; set; }
         public string TimeInterval { get; set; }
         public Color StatusColor { get; set; }
+        public List<Occurance> commonTimeOccurs { get; set; }
         public bool Repeat { get; set; }
         public string RepeatType { get; set; }
         public DateTime RepeatEndsOn { get; set; }
