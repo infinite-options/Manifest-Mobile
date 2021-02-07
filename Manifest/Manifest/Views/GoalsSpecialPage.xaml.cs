@@ -5,12 +5,12 @@ using Xamarin.Forms;
 
 namespace Manifest.Views
 {
-    public partial class AboutMePage : ContentPage
+    public partial class GoalsSpecialPage : ContentPage
     {
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
-        public AboutMePage()
+        public GoalsSpecialPage()
         {
             InitializeComponent();
             setting = false;
@@ -18,22 +18,24 @@ namespace Manifest.Views
             lastRowHeight = barStackLayoutRow.Height;
 
             frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
-            title.Text = "About me";
-
+            title.Text = "Goals";
+            subTitle.Text = "Get crafty";
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
-            barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
-        }
 
-        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage = new MainPage();
+
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new LogInPage();
+            Navigation.PushAsync(new GoalStepsPage(),false);
+        }
+
+        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PopAsync(false);
         }
     }
 }

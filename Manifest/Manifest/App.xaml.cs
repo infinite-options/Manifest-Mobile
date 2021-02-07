@@ -18,77 +18,67 @@ namespace Manifest
         public App()
         {
             InitializeComponent();
+            //MainPage = new LogInPage();
 
-            foreach (string key in Application.Current.Properties.Keys)
-            {
-                System.Diagnostics.Debug.WriteLine(key);
-            }
+            
+            //foreach (string key in Application.Current.Properties.Keys)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(key);
+            //}
 
-            if (Application.Current.Properties.ContainsKey("userID"))
-            {
-                System.Diagnostics.Debug.WriteLine(Application.Current.Properties["userID"]);
-                
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("No userID stored");
-            }
-            if (Application.Current.Properties.ContainsKey("time_stamp"))
-            {
-                System.Diagnostics.Debug.WriteLine(Application.Current.Properties["time_stamp"]);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("No time_stamp stored");
-            }
+        
             // Application.Current.Properties.Clear();                                              // Resets user info in the app.  Use for debug
             // SecureStorage.RemoveAll();                                                           // Allows Xamarin to reset Apple security storage info stored in hardware.  Use for debug
-            if (Application.Current.Properties.ContainsKey("userID"))                              // Additional parameters defined in LoginPage.xaml.cs.  You can add more on the fly
+            if (Application.Current.Properties.ContainsKey("userId"))                              // Additional parameters defined in LoginPage.xaml.cs.  You can add more on the fly
             {
-                System.Diagnostics.Debug.WriteLine("Session available");
-                if (Application.Current.Properties.ContainsKey("time_stamp"))
-                {
-                    DateTime today = DateTime.Now;
-                    DateTime expTime = (DateTime)Application.Current.Properties["time_stamp"];      // DateTime) is casting the data in Date Time format
+                //System.Diagnostics.Debug.WriteLine("Session available");
 
-                    if (today <= expTime)
-                    {
-                        MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
-                        System.Diagnostics.Debug.WriteLine("SelectionPage navigation");
-                    }
-                    else                                                                            // Could use an else if statment here
-                    {
-                        LogInPage client = new LogInPage();                                         // Why not simply MainPage = new LogInPage();  What is the advantage of client?
-                        MainPage = client;                                                          // Perhaps need client to check client.* below
+                MainPage = new MainPage();
+                //if (Application.Current.Properties.ContainsKey("timeStamp"))
+                //{
+                //    //MainPage = new MainPage();
+                //    //DateTime today = DateTime.Now;
+                //    //DateTime expTime = (DateTime)Application.Current.Properties["time_stamp"];      // DateTime) is casting the data in Date Time format
 
-                        if (Application.Current.Properties.ContainsKey("platform"))                 // Check for Platform
-                        {
-                            string socialPlatform = (string)Application.Current.Properties["platform"];
+                //    //if (today <= expTime)
+                //    //{
+                //    //    //MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
+                //    //    MainPage = new TemplatedPage();
+                //    //    System.Diagnostics.Debug.WriteLine("SelectionPage navigation");
+                //    //}
+                //    //else                                                                            // Could use an else if statment here
+                //    //{
+                //    //    LogInPage client = new LogInPage();                                         // Why not simply MainPage = new LogInPage();  What is the advantage of client?
+                //    //    MainPage = client;                                                          // Perhaps need client to check client.* below
 
-                            if (socialPlatform.Equals(Constant.Facebook))                           // Compares two strings.  Same as "Facebook".Equals"Facebook".  C# syntax
-                            {
-                                client.FacebookLogInClick(new object(), new EventArgs());           // Event Handlers.  Calls *LogInClick Function in LogInPage.xaml.cs as if clicked
-                            }
-                            else if (socialPlatform.Equals(Constant.Google))
-                            {
-                                //MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
-                                client.GoogleLogInClick(new object(), new EventArgs());
-                            }
-                            else if (socialPlatform.Equals(Constant.Apple))
-                            {
-                                client.AppleLogInClick(new object(), new EventArgs());
-                            }
-                            else
-                            {
-                                MainPage = new LogInPage();
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    MainPage = new LogInPage();
-                }
+                //    //    if (Application.Current.Properties.ContainsKey("platform"))                 // Check for Platform
+                //    //    {
+                //    //        string socialPlatform = (string)Application.Current.Properties["platform"];
+
+                //    //        if (socialPlatform.Equals(Constant.Facebook))                           // Compares two strings.  Same as "Facebook".Equals"Facebook".  C# syntax
+                //    //        {
+                //    //            client.FacebookLogInClick(new object(), new EventArgs());           // Event Handlers.  Calls *LogInClick Function in LogInPage.xaml.cs as if clicked
+                //    //        }
+                //    //        else if (socialPlatform.Equals(Constant.Google))
+                //    //        {
+                //    //            //MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
+                //    //            client.GoogleLogInClick(new object(), new EventArgs());
+                //    //        }
+                //    //        else if (socialPlatform.Equals(Constant.Apple))
+                //    //        {
+                //    //            client.AppleLogInClick(new object(), new EventArgs());
+                //    //        }
+                //    //        else
+                //    //        {
+                //    //            MainPage = new LogInPage();
+                //    //        }
+                //    //    }
+                //    //}
+                //}
+                //else
+                //{
+                //    //MainPage = new LogInPage();
+                //}
             }
             else
             {

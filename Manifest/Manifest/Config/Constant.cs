@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Manifest.Config
 {
-    public class Constants
+    public class Constant
     {
         // FACEBOOK CONSTANTS
         public static string FacebookScope = "email";
@@ -54,6 +54,5 @@ namespace Manifest.Config
 
         // EXTENDED TIME
         public static double days = 14;
-        //
     }
 }

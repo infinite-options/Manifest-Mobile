@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.AboutMePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.RoutinePage">
     <ContentPage.Content>
         <Grid BackgroundColor="#F2F7FC" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -29,8 +29,8 @@
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                                 </Label.GestureRecognizers>
                             </Label>
-                            <Label Grid.Column="1" Text="" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                            <ImageButton Grid.Column="2" Source="settingsIcon.png" ></ImageButton>
+                            <Label Grid.Column="1" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
                         <Grid Grid.Row="2">
@@ -42,14 +42,14 @@
                             <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
                         </Grid>
                         <Grid Grid.Row="3">
-                             <Label Padding="0,0,0,0" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="16" FontAttributes="Bold"></Label>
+                             <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
                         </Grid>
                     </Grid>
  
             </Frame>
-            <StackLayout Grid.Row="1" >
+            <StackLayout Grid.Row="1">
                 <!--NEW UI GOES HERE-->
-                <Button Text="Sign Out" Clicked="Button_Clicked"></Button>
+                <Button Text="? instructions" Clicked="Button_Clicked"></Button>
             </StackLayout>
             <StackLayout Grid.Row="2">
 
@@ -69,7 +69,7 @@
                 </Frame>
             </StackLayout>
             <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
-                <Button Text="Next" WidthRequest="100" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#9DB2CB"></Button>
+                <Button Text="Next" HorizontalOptions="Center" VerticalOptions="Center"></Button>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

@@ -47,5 +47,7 @@
 	</array>
 	<key>CFBundleShortVersionString</key>
 	<string>2</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<true/>
 </dict>
 </plist>

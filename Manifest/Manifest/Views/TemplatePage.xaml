@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.AboutMePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.TemplatePage">
     <ContentPage.Content>
         <Grid BackgroundColor="#F2F7FC" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -26,7 +26,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Text="Back Icon" TextColor="White">
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                    <TapGestureRecognizer></TapGestureRecognizer>
                                 </Label.GestureRecognizers>
                             </Label>
                             <Label Grid.Column="1" Text="" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
@@ -48,8 +48,7 @@
  
             </Frame>
             <StackLayout Grid.Row="1" >
-                <!--NEW UI GOES HERE-->
-                <Button Text="Sign Out" Clicked="Button_Clicked"></Button>
+               
             </StackLayout>
             <StackLayout Grid.Row="2">
 
