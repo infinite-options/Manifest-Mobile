@@ -291,6 +291,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
@@ -304,6 +305,8 @@
 
                     <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="navigatetoTodaysList" BackgroundColor="Transparent"></Button>
                     <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigateToAboutMe" BackgroundColor="Transparent"></Button>
+                    <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="navigatetoTodaysList" BackgroundColor="Transparent"></Button>
+                    <Button Grid.Column="2" Grid.RowSpan="2" Text="Routines" TextColor="Black" HorizontalOptions="Fill" VerticalOptions="Fill"  Clicked="navigatetoRoutines" BackgroundColor="Transparent"></Button>
                 </Grid>
             </Grid>
     </ContentPage.Content>

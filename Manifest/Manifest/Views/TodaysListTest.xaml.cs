@@ -454,6 +454,12 @@ namespace Manifest.Views
             Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
         }
 
+        void navigatetoRoutines(System.Object sender, System.EventArgs e)
+        {
+            Debug.WriteLine(Application.Current.Properties["userID"]);
+            Application.Current.MainPage = new RoutinesPage((String)Application.Current.Properties["userID"]);
+        }
+
         async void goToEventsPage(Occurance eventOccurance)
         {
             //First find the event
