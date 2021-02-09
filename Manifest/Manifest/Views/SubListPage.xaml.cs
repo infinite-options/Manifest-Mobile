@@ -15,31 +15,31 @@ namespace Manifest.Views
         public List<SubOccurance> subTasks;
         HttpClient client = new HttpClient();
 
-        class SubOccuranceDto
-        {
-            public string at_unique_id { get; set; }
-            public string at_title { get; set; }
-            public string goal_routine_id { get; set; }
-            public int at_sequence { get; set; }
-            public string is_available { get; set; }
-            public string is_complete { get; set; }
-            public string is_in_progress { get; set; }
-            public string is_sublist_available { get; set; }
-            public string is_must_do { get; set; }
-            public string photo { get; set; }
-            public string is_timed { get; set; }
-            public string datetime_completed { get; set; }
-            public string datetime_started { get; set; }
-            public string expected_completion_time { get; set; }
-            public string available_start_time { get; set; }
-            public string available_end_time { get; set; }
-        }
+        //class SubOccuranceDto
+        //{
+        //    public string at_unique_id { get; set; }
+        //    public string at_title { get; set; }
+        //    public string goal_routine_id { get; set; }
+        //    public int at_sequence { get; set; }
+        //    public string is_available { get; set; }
+        //    public string is_complete { get; set; }
+        //    public string is_in_progress { get; set; }
+        //    public string is_sublist_available { get; set; }
+        //    public string is_must_do { get; set; }
+        //    public string photo { get; set; }
+        //    public string is_timed { get; set; }
+        //    public string datetime_completed { get; set; }
+        //    public string datetime_started { get; set; }
+        //    public string expected_completion_time { get; set; }
+        //    public string available_start_time { get; set; }
+        //    public string available_end_time { get; set; }
+        //}
 
-        class SubOccuranceResponse
-        {
-            public string message { get; set; }
-            public List<SubOccuranceDto> result { get; set; }
-        }
+        //class SubOccuranceResponse
+        //{
+        //    public string message { get; set; }
+        //    public List<SubOccuranceDto> result { get; set; }
+        //}
 
         public ObservableCollection<SubOccurance> datagrid = new ObservableCollection<SubOccurance>();
 

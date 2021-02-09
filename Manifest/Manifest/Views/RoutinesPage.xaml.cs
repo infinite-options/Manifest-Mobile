@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Manifest.Config;
 using Manifest.Models;
 using Newtonsoft.Json;
@@ -25,7 +26,7 @@ namespace Manifest.Views
         {
             InitializeComponent();
             todaysRoutines = new List<Occurance>();
-            rowHeight = (float)(deviceHeight * 0.1);
+            rowHeight = (float)(deviceHeight * 0.06);
             initialiseTodaysOccurances(userID);
 
         }
@@ -110,7 +111,7 @@ namespace Manifest.Views
             });
         }
 
-        private void CreateList()
+        private async void CreateList()
         {
             foreach (Occurance toAdd in todaysRoutines)
             {
@@ -119,10 +120,11 @@ namespace Manifest.Views
                     RowDefinitions = {
                         new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute)}
                     },
-                    Padding = 10,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
+                    RowSpacing = 10
                 };
+                newGrid.BindingContext = toAdd;
                 Grid gridToAdd =
                     new Grid {
                         BackgroundColor = Color.FromHex("#FFBD27"),
@@ -137,13 +139,15 @@ namespace Manifest.Views
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)}
                         }
                     };
+                float fontsize = rowHeight / 4;
                 gridToAdd.Children.Add(
                     new Label
                     {
                         Text = toAdd.Title,
                         FontAttributes = FontAttributes.Bold,
                         TextColor = Color.White,
-                        TextDecorations = TextDecorations.Underline
+                        TextDecorations = TextDecorations.Underline,
+                        FontSize = fontsize
                     }, 0, 0);
                 gridToAdd.Children.Add(
                     new Label
@@ -155,10 +159,131 @@ namespace Manifest.Views
                     }, 0, 1);
                 gridToAdd.Children.Add(
                     new Image {
-                        Source = toAdd.PicUrl
-                    }, 1, 0);
-                routines.Children.Add(gridToAdd);
+                        Source = toAdd.PicUrl,
+                        HeightRequest = rowHeight,
+                        Aspect = Aspect.AspectFit
+                    }, 1, 2, 0, 2);
+                Frame gridFrame = new Frame {
+                    BackgroundColor = Color.FromHex("#FFBD27"),
+                    CornerRadius = 30,
+                    Content = gridToAdd
+                };
+                newGrid.Children.Add(gridFrame,0,0);
+                int rowToAdd = 1;
+                //Now, we have to get the subtasks and add them to our grid
+                var subTasks = await initializeSubTasks(toAdd.Id);
+                foreach (SubOccurance subTask in subTasks)
+                {
+                    float subGridHeight = rowHeight / (float)1.5;
+                    newGrid.RowDefinitions.Add(new RowDefinition
+                    {
+                        Height = new GridLength(subGridHeight, GridUnitType.Absolute)
+                    });
+                    Grid subGrid =
+                    new Grid
+                    {
+                        RowDefinitions =
+                        {
+                            //new RowDefinition { Height = new GridLength(3, GridUnitType.Star)},
+                            new RowDefinition { Height = new GridLength(1, GridUnitType.Star)}
+                        },
+                        ColumnDefinitions =
+                        {
+                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
+                            new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star)}
+                        }
+                    };
+                    Grid icons = new Grid
+                    {
+                        ColumnDefinitions =
+                        {
+                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
+                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)}
+                        }
+                    };
+                    icons.Children.Add(
+                        new Image
+                        {
+                            Source = "greencheckmark.png",
+                        },0,0
+                    );
+                    icons.Children.Add(
+                        new Image
+                        {
+                            Source = "dots.png"
+                        },1,0);
+                    subGrid.Children.Add(icons, 0, 0);
+                    subGrid.Children.Add(
+                        new Frame
+                        {
+                            CornerRadius = 15,
+                            BackgroundColor = Color.FromHex("#FFBD27"),
+                            Content =
+                            new Label
+                            {
+                                Text = subTask.Title,
+                                TextColor = Color.Black,
+                                BackgroundColor = Color.FromHex("#FFBD27")
+                            }
+                        }
+                        ,1,0
+                        );
+                    newGrid.Children.Add(subGrid, 0, rowToAdd);
+                    rowToAdd++;
+
+                }
+                routines.Children.Add(newGrid);
             }
+        }
+
+        //This function makes a call to the database to get all the sub tasks for the given occurance, and displays it on the device
+        private async Task<List<SubOccurance>> initializeSubTasks(string occuranceID)
+        {
+            string url = RdsConfig.BaseUrl + RdsConfig.actionAndTaskUrl + '/' + occuranceID;
+            var response = await client.GetStringAsync(url);
+            SubOccuranceResponse subOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
+            var toReturn = ToSubOccurances(subOccuranceResponse);
+            return toReturn;
+
+        }
+
+        //This function converts the response we got from the endpoint to a list of SubOccurance's
+        private List<SubOccurance> ToSubOccurances(SubOccuranceResponse subOccuranceResponse)
+        {
+            //Clear the occurances, as we are going to get new one now
+            List<SubOccurance> subTasks = new List<SubOccurance>();
+            //if (subOccuranceResponse.result == null || subOccuranceResponse.result.Count == 0)
+            //{
+            //    DisplayAlert("No tasks today", "OK", "Cancel");
+            //}
+            foreach (SubOccuranceDto dto in subOccuranceResponse.result)
+            {
+                //numTasks++;
+                SubOccurance toAdd = new SubOccurance();
+                toAdd.Id = dto.at_unique_id;
+                toAdd.Title = dto.at_title;
+                toAdd.GoalRoutineID = dto.goal_routine_id;
+                toAdd.AtSequence = dto.at_sequence;
+                toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
+                toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
+                //if (toAdd.IsComplete)
+                //{
+                //    numCompleted++;
+                //}
+                toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
+                toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
+                toAdd.IsMustDo = DataParser.ToBool(dto.is_must_do);
+                toAdd.PicUrl = dto.photo;
+                toAdd.IsTimed = DataParser.ToBool(dto.is_timed);
+                toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
+                toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
+                toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
+                toAdd.AvailableStartTime = DataParser.ToDateTime(dto.available_start_time);
+                toAdd.AvailableEndTime = DataParser.ToDateTime(dto.available_end_time);
+                subTasks.Add(toAdd);
+                Debug.WriteLine(toAdd.Id);
+            }
+            return subTasks;
         }
 
         private void goToTodaysList(object sender, EventArgs args)
