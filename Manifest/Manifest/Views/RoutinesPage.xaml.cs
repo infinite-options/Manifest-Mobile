@@ -240,6 +240,14 @@ namespace Manifest.Views
                         }
                         ,1,0
                         );
+                    Image isComplete = new Image();
+                    isComplete.BindingContext = subTask;
+                    isComplete.Source = "greencheckmark.png";
+                    isComplete.IsVisible = subTask.IsComplete;
+                    isComplete.HorizontalOptions = LayoutOptions.End;
+                    subGrid.Children.Add(
+                        isComplete, 1, 0
+                        );
                     newGrid.Children.Add(subGrid, 0, rowToAdd);
                     rowToAdd++;
 
@@ -254,6 +262,10 @@ namespace Manifest.Views
             string url = RdsConfig.BaseUrl + RdsConfig.actionAndTaskUrl + '/' + occuranceID;
             var response = await client.GetStringAsync(url);
             SubOccuranceResponse subOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
+            //if (subOccuranceResponse.result == null || subOccuranceResponse.result.Count == 0)
+            //{
+            //    await DisplayAlert("No tasks today", "OK", "Cancel");
+            //}
             var toReturn = ToSubOccurances(subOccuranceResponse);
             return toReturn;
 
@@ -264,10 +276,10 @@ namespace Manifest.Views
         {
             //Clear the occurances, as we are going to get new one now
             List<SubOccurance> subTasks = new List<SubOccurance>();
-            //if (subOccuranceResponse.result == null || subOccuranceResponse.result.Count == 0)
-            //{
-            //    DisplayAlert("No tasks today", "OK", "Cancel");
-            //}
+            if (subOccuranceResponse.result == null || subOccuranceResponse.result.Count == 0)
+            {
+                return subTasks;
+            }
             foreach (SubOccuranceDto dto in subOccuranceResponse.result)
             {
                 //numTasks++;
