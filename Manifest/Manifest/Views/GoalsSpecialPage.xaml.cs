@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Manifest.Views
 {
-    public partial class Actions : ContentPage
+    public partial class GoalsSpecialPage : ContentPage
     {
         public List<SubOccurance> subTasks;
         HttpClient client = new HttpClient();
@@ -52,7 +52,7 @@ namespace Manifest.Views
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
 
-        public Actions(Occurance occurance)
+        public GoalsSpecialPage(Occurance occurance)
         {
             InitializeComponent();
 

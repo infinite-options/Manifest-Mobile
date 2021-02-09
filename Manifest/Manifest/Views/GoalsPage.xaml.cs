@@ -328,7 +328,7 @@ namespace Manifest.Views
             Button receiving = (Button)sender;
 
             if (occuranceDict[receiving.Text].IsSublistAvailable == true)
-                Application.Current.MainPage = new Actions(occuranceDict[receiving.Text]);
+                Application.Current.MainPage = new GoalsSpecialPage(occuranceDict[receiving.Text]);
             else DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
         }
     }
