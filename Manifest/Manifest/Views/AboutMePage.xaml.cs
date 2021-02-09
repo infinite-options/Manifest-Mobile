@@ -166,7 +166,6 @@ namespace Manifest.Views
             int row = 0;
             TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
             tapGestureRecognizer.NumberOfTapsRequired = 1;
-            //tapGestureRecognizer.SetBinding(TapGestureRecognizer.CommandProperty, "callAdvisor");
             tapGestureRecognizer.Tapped += callAdvisor;
             while (i < importantPeople.Count)
             {

@@ -113,6 +113,15 @@ namespace Manifest.Views
 
         private async void CreateList()
         {
+
+            TapGestureRecognizer doneRecognizer = new TapGestureRecognizer();
+            doneRecognizer.NumberOfTapsRequired = 1;
+            doneRecognizer.Tapped += subTaskComplete;
+
+            TapGestureRecognizer helpRecognizer = new TapGestureRecognizer();
+            helpRecognizer.NumberOfTapsRequired = 1;
+            helpRecognizer.Tapped += helpNeeded;
+
             foreach (Occurance toAdd in todaysRoutines)
             {
                 //We want to get every subtask for that routine
@@ -193,6 +202,7 @@ namespace Manifest.Views
                             new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star)}
                         }
                     };
+                    subGrid.BindingContext = subTask;
                     Grid icons = new Grid
                     {
                         ColumnDefinitions =
@@ -205,12 +215,14 @@ namespace Manifest.Views
                         new Image
                         {
                             Source = "greencheckmark.png",
+                            GestureRecognizers = { doneRecognizer }
                         },0,0
                     );
                     icons.Children.Add(
                         new Image
                         {
-                            Source = "dots.png"
+                            Source = "dots.png",
+                            BindingContext = subTask
                         },1,0);
                     subGrid.Children.Add(icons, 0, 0);
                     subGrid.Children.Add(
@@ -284,6 +296,91 @@ namespace Manifest.Views
                 Debug.WriteLine(toAdd.Id);
             }
             return subTasks;
+        }
+
+        public async void subTaskComplete(object sender, EventArgs args)
+        {
+            Debug.WriteLine("Task tapped");
+            Image myvar = (Image)sender;
+            SubOccurance currOccurance = myvar.BindingContext as SubOccurance;
+            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            if (currOccurance.IsComplete == false)
+            {
+                Debug.WriteLine("Should be changed to in complete");
+                currOccurance.updateIsInProgress(false);
+                currOccurance.updateIsComplete(true);
+                //numCompleted++;
+                currOccurance.DateTimeCompleted = DateTime.Now;
+                UpdateOccurance updateOccur = new UpdateOccurance()
+                {
+                    id = currOccurance.Id,
+                    datetime_completed = currOccurance.DateTimeCompleted,
+                    datetime_started = currOccurance.DateTimeStarted,
+                    is_in_progress = currOccurance.IsInProgress,
+                    is_complete = currOccurance.IsComplete
+                };
+                string toSend = updateOccur.updateOccurance();
+                var content = new StringContent(toSend);
+                var res = await client.PostAsync(url, content);
+                if (res.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Successfully completed the subtask");
+                }
+            }
+                //if (numCompleted == numTasks)
+                //{
+                //    parent.updateIsInProgress(false);
+                //    parent.updateIsComplete(true);
+                //    UpdateOccurance parentOccur = new UpdateOccurance()
+                //    {
+                //        id = parent.Id,
+                //        datetime_completed = parent.DateTimeCompleted,
+                //        datetime_started = parent.DateTimeStarted,
+                //        is_in_progress = parent.IsInProgress,
+                //        is_complete = parent.IsComplete
+                //    };
+                //    string toSendParent = parentOccur.updateOccurance();
+                //    var parentContent = new StringContent(toSendParent);
+                //    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                //    var res = await client.PostAsync(parenturl, parentContent);
+                //    if (res.IsSuccessStatusCode)
+                //    {
+                //        Debug.WriteLine("Parent is now complete");
+                //    }
+                //    else
+                //    {
+                //        Debug.WriteLine("Error updating parent");
+                //    }
+                //}
+                //else if (parent.IsInProgress == false)
+                //{
+                //    parent.updateIsInProgress(true);
+                //    UpdateOccurance parentOccur = new UpdateOccurance()
+                //    {
+                //        id = parent.Id,
+                //        datetime_completed = parent.DateTimeCompleted,
+                //        datetime_started = parent.DateTimeStarted,
+                //        is_in_progress = parent.IsInProgress,
+                //        is_complete = parent.IsComplete
+                //    };
+                //    string toSendParent = parentOccur.updateOccurance();
+                //    var parentContent = new StringContent(toSendParent);
+                //    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                //    var res = await client.PostAsync(parenturl, parentContent);
+                //    if (res.IsSuccessStatusCode)
+                //    {
+                //        Debug.WriteLine("Parent is now in progress");
+                //    }
+                //    else
+                //    {
+                //        Debug.WriteLine("Error updating parent");
+                //    }
+                //}
+            }
+
+        public void helpNeeded(object sender, EventArgs args)
+        {
+            Debug.WriteLine("Help button pressed. Help needed for subTask");
         }
 
         private void goToTodaysList(object sender, EventArgs args)
