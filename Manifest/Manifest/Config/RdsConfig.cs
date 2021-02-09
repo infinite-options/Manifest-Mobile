@@ -5,10 +5,10 @@ namespace Manifest.Config
     public class RdsConfig
     {
         //ManifestMyLife baseURL
-        public const string BaseUrl = "https://gyn3vgy3fb.execute-api.us-west-1.amazonaws.com/dev";
+        //public const string BaseUrl = "https://gyn3vgy3fb.execute-api.us-west-1.amazonaws.com/dev";
 
         //ManifestMySpace baseURL
-        //public const string BaseUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev";
+        public const string BaseUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev";
 
         public const string listAllOtherTA = "/api/v2/listAllTA";
         public const string aboutMeUrl = "/api/v2/aboutme";

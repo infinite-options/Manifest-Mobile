@@ -48,8 +48,62 @@
  
             </Frame>
             <StackLayout Grid.Row="1" >
-                <!--NEW UI GOES HERE-->
+
                 <Button Text="Sign Out" Clicked="Button_Clicked"></Button>
+                 <!--NEW UI GOES HERE-->
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.8*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Frame x:Name="userImageFrame" Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center">
+                       <Image x:Name="userImage" Source="aboutme.png"/>
+                    </Frame>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label x:Name="userName" Grid.Row="0" FontSize="Title" FontAttributes="Bold" Text="" VerticalOptions="End" HorizontalOptions="StartAndExpand" Padding="0,20,10,0" TextDecorations="Underline" TextColor="#0C1E21">
+                        </Label>
+                        <Label x:Name="userBirthday" Grid.Row="1" Text="Date of Birth: 4th July 1998" VerticalOptions="Start" HorizontalOptions="StartAndExpand" Padding="0,0,10,0">
+                        </Label>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                     <Frame x:Name="whoAmIButton" Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
+                         <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Who Am I?" FontAttributes="Bold" TextColor="#0C1E21"/>
+                         </Frame>
+                    <Frame x:Name="whatMotivatesMeButton" Grid.Column="1" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
+                         <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Whats Important to me?" FontAttributes="Bold" TextColor="#0C1E21">
+                             <FlexLayout.AlignSelf/>
+                         </Button>
+                         </Frame>
+                </Grid>
+                <Label Grid.Row="2" Text="People in my life" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Large" TextColor="#0C1E21"/>
+                <ScrollView Grid.Row="3">
+                    <StackLayout x:Name="userAdvisors" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Orientation="Vertical" Padding="0,10,0,0">
+                    </StackLayout>
+                </ScrollView>
+            </Grid>
+
+
+
+
             </StackLayout>
             <StackLayout Grid.Row="2">
 

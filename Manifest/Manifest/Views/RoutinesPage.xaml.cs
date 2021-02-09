@@ -12,14 +12,8 @@ using Xamarin.Forms;
 
 namespace Manifest.Views
 {
-    public partial class RoutinePage : ContentPage
+    public partial class RoutinesPage : ContentPage
     {
-        bool setting;
-        GridLength height;
-        GridLength lastRowHeight;
-        string city;
-        string time;
-        
         public ObservableCollection<Occurance> datagrid = new ObservableCollection<Occurance>();
         public List<Occurance> todaysRoutines;
         HttpClient client = new HttpClient();
@@ -27,28 +21,15 @@ namespace Manifest.Views
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         float rowHeight;
 
-        public RoutinePage()
+
+        public RoutinesPage(string userID)
         {
             InitializeComponent();
-            setting = false;
-            height = mainStackLayoutRow.Height;
-            lastRowHeight = barStackLayoutRow.Height;
-
-            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
-            title.Text = "Routines";
-
-            var helperObject = new MainPage();
-            locationTitle.Text = (string)Application.Current.Properties["location"];
-            dateTitle.Text = helperObject.GetCurrentTime();
-            barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
-
-            NavigationPage.SetHasNavigationBar(this, false);
             todaysRoutines = new List<Occurance>();
             rowHeight = (float)(deviceHeight * 0.06);
-            var userID = (string)Application.Current.Properties["userId"];
             initialiseTodaysOccurances(userID);
-        }
 
+        }
 
         private async void initialiseTodaysOccurances(string userID)
         {
@@ -414,14 +395,13 @@ namespace Manifest.Views
             Debug.WriteLine("Help button pressed. Help needed for subTask");
         }
 
-        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        private void goToTodaysList(object sender, EventArgs args)
         {
-            Application.Current.MainPage = new MainPage();
+            Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
         }
-
-        void Button_Clicked(System.Object sender, System.EventArgs e)
+        void navigateToAboutMe(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(),false);
+            Application.Current.MainPage = new AboutMePage();
         }
     }
 }

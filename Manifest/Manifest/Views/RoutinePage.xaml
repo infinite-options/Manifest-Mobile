@@ -50,6 +50,11 @@
             <StackLayout Grid.Row="1">
                 <!--NEW UI GOES HERE-->
                 <Button Text="? instructions" Clicked="Button_Clicked"></Button>
+                <!--NEW UI GOES HERE-->
+                <ScrollView>
+                    <StackLayout x:Name="routines" HorizontalOptions="Center" VerticalOptions="Start" Orientation="Vertical" Padding="0,10,0,0">
+                    </StackLayout>
+                </ScrollView>
             </StackLayout>
             <StackLayout Grid.Row="2">
 

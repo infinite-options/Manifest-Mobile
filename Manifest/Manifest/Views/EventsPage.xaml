@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.EventsPage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#F2F7FC">
+
+            <!--<BoxView HeightRequest="40" BackgroundColor="#9DB2CB"/>-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" BackgroundColor="#9DB2CB">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="arrowLeft.png" Margin="15,0,0,0">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="goToTodaysList"></TapGestureRecognizer>
+                        </Image.GestureRecognizers>
+                    </Image>
+
+                    <StackLayout Grid.Column="1" VerticalOptions="Center">
+                    <Label x:Name="eventName" Text="Event" FontSize="30" HorizontalOptions="Start" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,0"/>
+                    </StackLayout>
+                </Grid>
+                <StackLayout Grid.Row="1">
+                    <CollectionView x:Name="eventInfo" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0,10,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Frame Grid.Row="0" Grid.Column="0" HeightRequest="100" WidthRequest="100" CornerRadius="50">
+                                        <Image Source="{Binding PicUrl}" Aspect="AspectFill"/>
+                                    </Frame>
+                                    <Grid Grid.Row="0" Grid.Column="1"> 
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="70"/>
+                                            <RowDefinition Height="30"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" VerticalOptions="End" HorizontalOptions="Start" Text="{Binding Name}" FontSize="Large" TextDecorations="Underline" FontAttributes="Bold" TextColor="#0C1E21" Margin="10,0,0,0"/>
+                                        <Label Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start" Text="Unknown" TextColor="#0C1E21" Margin="10,0,0,0"/>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

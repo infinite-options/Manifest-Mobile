@@ -52,6 +52,10 @@ namespace Manifest.Models
         public List<Event> ToEvents()
         {
             List<Event> events = new List<Event>();
+            if (Items == null)
+            {
+                return events;
+            }
             foreach (EventDto dto in Items)
             {
                 events.Add(dto.ToEvent());
