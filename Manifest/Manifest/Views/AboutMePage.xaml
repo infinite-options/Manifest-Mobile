@@ -55,7 +55,7 @@
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.8*"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="*"/>
@@ -67,7 +67,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Frame x:Name="userImageFrame" Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center">
-                       <Image x:Name="userImage" Source="aboutme.png"/>
+                       <Image x:Name="userImage" Source="aboutme.png" Aspect="AspectFill"/>
                     </Frame>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>

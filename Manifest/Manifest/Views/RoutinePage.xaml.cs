@@ -234,7 +234,8 @@ namespace Manifest.Views
                         new Image
                         {
                             Source = "greencheckmark.png",
-                            GestureRecognizers = { doneRecognizer }
+                            GestureRecognizers = { doneRecognizer },
+                            BindingContext = subTask
                         },0,0
                     );
                     icons.Children.Add(
@@ -260,7 +261,7 @@ namespace Manifest.Views
                         ,1,0
                         );
                     Image isComplete = new Image();
-                    isComplete.BindingContext = subTask;
+                    isComplete.BindingContext = subTask.IsComplete;
                     isComplete.Source = "greencheckmark.png";
                     isComplete.IsVisible = subTask.IsComplete;
                     isComplete.HorizontalOptions = LayoutOptions.End;

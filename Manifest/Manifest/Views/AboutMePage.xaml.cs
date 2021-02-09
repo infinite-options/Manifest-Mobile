@@ -81,7 +81,7 @@ namespace Manifest.Views
             dateTitle.Text = helperObject.GetCurrentTime();
             barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
 
-            bigCircleHW = (float)(deviceWidth * 0.107);
+            bigCircleHW = (float)(deviceWidth * 0.102);
             bigCircleRadius = (float)(bigCircleHW * 0.75);
             smallCircleHW = (float)(deviceWidth * 0.08);
             smallCircleRadius = (float)(smallCircleHW * 0.5);
