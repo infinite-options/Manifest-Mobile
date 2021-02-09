@@ -13,7 +13,7 @@ using Xamarin.Essentials;
 
 namespace Manifest.Views
 {
-    public partial class TodaysListTest : ContentPage
+    public partial class TodaysListPage : ContentPage
     {
         HttpClient client = new HttpClient();
         public List<Occurance> todaysOccurances;
@@ -69,7 +69,7 @@ namespace Manifest.Views
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         List<Occurance> commonOccur;
 
-        public TodaysListTest(String userInfo)
+        public TodaysListPage(String userInfo)
         {
             today = DateTime.Today;
             todayDate = today.ToString("d");
@@ -499,7 +499,7 @@ namespace Manifest.Views
         void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
             Debug.WriteLine(Application.Current.Properties["userID"]);
-            Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
+            Application.Current.MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
         }
 
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
@@ -520,7 +520,7 @@ namespace Manifest.Views
             //If there is a sublist available, go to goals page if its a Pursue A Goal
             if (currOccurance.Title == "Pursue A Goal")
             {
-                Application.Current.MainPage = new Goals(currOccurance.commonTimeOccurs);
+                Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
             }
             else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
             {

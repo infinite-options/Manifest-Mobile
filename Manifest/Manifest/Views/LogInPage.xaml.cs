@@ -566,7 +566,7 @@ namespace Manifest.Views
                         Application.Current.Properties["time_stamp"] = expDate;
                         //_ = Application.Current.SavePropertiesAsync();
                         System.Diagnostics.Debug.WriteLine(Application.Current.Properties["time_stamp"].ToString());
-                        Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
+                        Application.Current.MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
                     }
 
                 }

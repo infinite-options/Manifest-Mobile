@@ -192,7 +192,7 @@ namespace Manifest.Views
 
         private void goToTodaysList(object sender, EventArgs args)
         {
-            Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
+            Application.Current.MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
         }
 
         //public class UpdateSubOccuranceDataType

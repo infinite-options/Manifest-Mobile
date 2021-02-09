@@ -155,7 +155,7 @@ namespace Manifest.Views
 
         void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
+            Application.Current.MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
         }
 
     }

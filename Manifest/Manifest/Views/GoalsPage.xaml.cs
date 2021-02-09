@@ -7,14 +7,14 @@ using Xamarin.Forms;
 
 namespace Manifest.Views
 {
-    public partial class Goals : ContentPage
+    public partial class GoalsPage : ContentPage
     {
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         List<Occurance> currentOccurances;
         Dictionary<string, Occurance> occuranceDict;
 
-        public Goals(List<Occurance> occuranceList)
+        public GoalsPage(List<Occurance> occuranceList)
         {
             occuranceDict = new Dictionary<string, Occurance>();
             InitializeComponent();
@@ -79,7 +79,7 @@ namespace Manifest.Views
             next7.WidthRequest = deviceWidth * 0.14;
             next7.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
-        
+
         void setProperties4()
         {
             first4.HeightRequest = deviceWidth * 0.23;
@@ -269,7 +269,7 @@ namespace Manifest.Views
             goals6.IsVisible = false;
             goals3.IsVisible = false;
             goals5.IsVisible = false;
-            goals4.IsVisible = true; 
+            goals4.IsVisible = true;
         }
 
         void show3()
@@ -320,7 +320,7 @@ namespace Manifest.Views
         void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
             Debug.WriteLine(Application.Current.Properties["userID"]);
-            Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
+            Application.Current.MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
         }
 
         void navigatetoActions(System.Object sender, System.EventArgs e)

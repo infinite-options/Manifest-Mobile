@@ -53,7 +53,7 @@ namespace Manifest
 
                     if (today <= expTime)
                     {
-                        MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
+                        MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
                         System.Diagnostics.Debug.WriteLine("SelectionPage navigation");
                     }
                     else                                                                            // Could use an else if statment here
