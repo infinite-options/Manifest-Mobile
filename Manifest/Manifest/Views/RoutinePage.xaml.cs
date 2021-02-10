@@ -143,6 +143,10 @@ namespace Manifest.Views
             helpRecognizer.NumberOfTapsRequired = 1;
             helpRecognizer.Tapped += helpNeeded;
 
+            TapGestureRecognizer routineRecognizer = new TapGestureRecognizer();
+            routineRecognizer.NumberOfTapsRequired = 1;
+            routineRecognizer.Tapped += routineTapped;
+
             for (int i = 0; i < todaysRoutines.Count; i++)
             {
                 Occurance toAdd = todaysRoutines[i];
@@ -223,14 +227,16 @@ namespace Manifest.Views
                         Aspect = Aspect.AspectFit
                     }, 1, 2, 0, 3);
 
-                gridToAdd.Children.Add(routineComplete, 1, 2, 0, 2);
-                gridToAdd.Children.Add(routineInProgress, 1, 2, 0, 2);
+                gridToAdd.Children.Add(routineComplete, 1, 2, 0, 3);
+                gridToAdd.Children.Add(routineInProgress, 1, 2, 0, 3);
                 Frame gridFrame = new Frame {
                     BackgroundColor = Color.FromHex("#FFBD27"),
                     CornerRadius = 30,
                     Content = gridToAdd,
-                    Padding = 10
+                    Padding = 10,
+                    GestureRecognizers = {routineRecognizer}
                 };
+                gridFrame.BindingContext = toAdd;
                 newGrid.Children.Add(gridFrame,0,0);
                 int rowToAdd = 1;
                 //Now, we have to get the subtasks and add them to our grid
@@ -241,9 +247,9 @@ namespace Manifest.Views
                 {
                     toAdd.updateIsComplete(true);
                 }
-                else if (todaysRoutines[i].SubOccurancesCompleted > 0)
+                else if (toAdd.SubOccurancesCompleted > 0)
                 {
-                    todaysRoutines[i].updateIsInProgress(true);
+                    toAdd.updateIsInProgress(true);
                 }
                 Debug.WriteLine("SubTasks Completed = " + toAdd.SubOccurancesCompleted);
 
@@ -460,6 +466,65 @@ namespace Manifest.Views
         public void helpNeeded(object sender, EventArgs args)
         {
             Debug.WriteLine("Help button pressed. Help needed for subTask");
+        }
+
+        public async void routineTapped(object sender, EventArgs args)
+        {
+            Frame myvar = (Frame)sender;
+            Occurance currOccurance = myvar.BindingContext as Occurance;
+            //Now check if the currOccurance has any subtasks
+            if (currOccurance.NumSubOccurances == 0)
+            {
+                string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                if (currOccurance.IsComplete == false && currOccurance.IsInProgress == false)
+                {
+                    currOccurance.updateIsInProgress(true);
+                    currOccurance.DateTimeStarted = DateTime.Now;
+                    Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+                    //string toSend = updateOccurance(currOccurance);
+                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    {
+                        id = currOccurance.Id,
+                        datetime_completed = currOccurance.DateTimeCompleted,
+                        datetime_started = currOccurance.DateTimeStarted,
+                        is_in_progress = currOccurance.IsInProgress,
+                        is_complete = currOccurance.IsComplete
+                    };
+                    string toSend = updateOccur.updateOccurance();
+                    var content = new StringContent(toSend);
+                    var res = await client.PostAsync(url, content);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Wrote to the datebase");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Some error");
+                        Debug.WriteLine(toSend);
+                        Debug.WriteLine(res.ToString());
+                    }
+                
+                }
+                else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
+                {
+                    Debug.WriteLine("Should be changed to in complete");
+                    currOccurance.updateIsInProgress(false);
+                    currOccurance.updateIsComplete(true);
+                    currOccurance.DateTimeCompleted = DateTime.Now;
+                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    {
+                        id = currOccurance.Id,
+                        datetime_completed = currOccurance.DateTimeCompleted,
+                        datetime_started = currOccurance.DateTimeStarted,
+                        is_in_progress = currOccurance.IsInProgress,
+                        is_complete = currOccurance.IsComplete
+                    };
+                    string toSend = updateOccur.updateOccurance();
+                    var content = new StringContent(toSend);
+                    _ = await client.PostAsync(url, content);
+
+                }
+            }
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
