@@ -295,6 +295,7 @@ namespace Manifest.Views
                         new Image
                         {
                             Source = "dots.png",
+                            GestureRecognizers = { helpRecognizer },
                             BindingContext = subTask
                         },1,0);
                     subGrid.Children.Add(icons, 0, 0);
@@ -388,6 +389,27 @@ namespace Manifest.Views
             Debug.WriteLine("Task tapped");
             Image myvar = (Image)sender;
             SubOccurance currOccurance = myvar.BindingContext as SubOccurance;
+
+            //Get the parent of the sender
+            Grid mygrid = (Grid)myvar.Parent;
+
+            if (mygrid == null)
+            {
+                Debug.WriteLine("Parent is null");
+            }
+
+            //Now we got the parent element we want
+            Grid parent = (Grid)mygrid.Parent;
+
+            if (parent == null)
+            {
+                Debug.WriteLine("Grandparent is null");
+            }
+
+            Grid grandparent = (Grid)parent.Parent;
+
+            Occurance parentOccurance = grandparent.BindingContext as Occurance;
+
             string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
             if (currOccurance.IsComplete == false)
             {
@@ -410,6 +432,62 @@ namespace Manifest.Views
                 if (res.IsSuccessStatusCode)
                 {
                     Debug.WriteLine("Successfully completed the subtask");
+                }
+
+                //Now update the parent
+                parentOccurance.SubOccurancesCompleted++;
+                if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
+                {
+                    parentOccurance.updateIsInProgress(false);
+                    parentOccurance.updateIsComplete(true);
+                    parentOccurance.DateTimeCompleted = DateTime.Now;
+                    updateOccur = new UpdateOccurance()
+                    {
+                        id = parentOccurance.Id,
+                        datetime_completed = parentOccurance.DateTimeCompleted,
+                        datetime_started = parentOccurance.DateTimeStarted,
+                        is_in_progress = parentOccurance.IsInProgress,
+                        is_complete = parentOccurance.IsComplete
+                    };
+                    toSend = updateOccur.updateOccurance();
+                    content = new StringContent(toSend);
+                    res = await client.PostAsync(url, content);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Wrote to the datebase");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Some error");
+                        Debug.WriteLine(toSend);
+                        Debug.WriteLine(res.ToString());
+                    }
+                }
+                else if (parentOccurance.NumSubOccurances > parentOccurance.SubOccurancesCompleted && parentOccurance.SubOccurancesCompleted > 0)
+                {
+                    parentOccurance.updateIsInProgress(true);
+                    parentOccurance.DateTimeCompleted = DateTime.Now;
+                    updateOccur = new UpdateOccurance()
+                    {
+                        id = parentOccurance.Id,
+                        datetime_completed = parentOccurance.DateTimeCompleted,
+                        datetime_started = parentOccurance.DateTimeStarted,
+                        is_in_progress = parentOccurance.IsInProgress,
+                        is_complete = parentOccurance.IsComplete
+                    };
+                    toSend = updateOccur.updateOccurance();
+                    content = new StringContent(toSend);
+                    res = await client.PostAsync(url, content);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Wrote to the datebase");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Some error");
+                        Debug.WriteLine(toSend);
+                        Debug.WriteLine(res.ToString());
+                    }
                 }
             }
                 //if (numCompleted == numTasks)
