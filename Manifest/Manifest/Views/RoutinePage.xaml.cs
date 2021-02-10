@@ -261,9 +261,11 @@ namespace Manifest.Views
                         ,1,0
                         );
                     Image isComplete = new Image();
-                    isComplete.BindingContext = subTask.IsComplete;
+                    Binding isVisible = new Binding("IsComplete");
+                    isVisible.Source = subTask;
+                    isComplete.BindingContext = subTask;
                     isComplete.Source = "greencheckmark.png";
-                    isComplete.IsVisible = subTask.IsComplete;
+                    isComplete.SetBinding(Image.IsVisibleProperty, isVisible);
                     isComplete.HorizontalOptions = LayoutOptions.End;
                     subGrid.Children.Add(
                         isComplete, 1, 0
