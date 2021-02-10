@@ -66,7 +66,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Frame x:Name="userImageFrame" Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Frame x:Name="userImageFrame" Grid.Column="0" Padding="0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center">
                        <Image x:Name="userImage" Source="aboutme.png" Aspect="AspectFill"/>
                     </Frame>
                     <Grid Grid.Column="1">

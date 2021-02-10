@@ -282,10 +282,6 @@ namespace Manifest.Views
             string url = RdsConfig.BaseUrl + RdsConfig.actionAndTaskUrl + '/' + occuranceID;
             var response = await client.GetStringAsync(url);
             SubOccuranceResponse subOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
-            //if (subOccuranceResponse.result == null || subOccuranceResponse.result.Count == 0)
-            //{
-            //    await DisplayAlert("No tasks today", "OK", "Cancel");
-            //}
             var toReturn = ToSubOccurances(subOccuranceResponse);
             return toReturn;
 
