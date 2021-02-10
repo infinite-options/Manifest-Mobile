@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.GoalStepsPage">
-    <ContentPage.Content>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.ProgressPage">
+     <ContentPage.Content>
         <Grid BackgroundColor="#F2F7FC" Padding="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
@@ -30,7 +30,7 @@
                                 </Label.GestureRecognizers>
                             </Label>
                             <Label Grid.Column="1" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                            <ImageButton Grid.Column="2" Source="settingsIcon.png" ></ImageButton>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png"  ></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
                         <Grid Grid.Row="2">
@@ -47,8 +47,8 @@
                     </Grid>
  
             </Frame>
-            <StackLayout Grid.Row="1" >
-                <Button Text="GO TO PROGRESS PAGE" Clicked="Button_Clicked"></Button>
+            <StackLayout Grid.Row="1">
+                <Button Text="MOVE TO HOME PAGE" Clicked="Button_Clicked"></Button>
                 <!--NEW UI GOES HERE-->
             </StackLayout>
             <StackLayout Grid.Row="2">
