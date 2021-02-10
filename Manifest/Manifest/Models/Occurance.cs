@@ -36,6 +36,9 @@ namespace Manifest.Models
         //Added so that we can convert events to the same datatype
         public bool IsEvent { get; set; }
         public string Description { get; set; }
+        public int NumSubOccurances{ get; set; }
+        public int SubOccurancesCompleted { get; set; }
+
 
         public void updateIsInProgress(bool updatedVal)
         {

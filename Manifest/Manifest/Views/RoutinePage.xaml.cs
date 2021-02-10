@@ -110,6 +110,8 @@ namespace Manifest.Views
                         //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
                         toAdd.UserId = dto.user_id;
                         toAdd.IsEvent = false;
+                        toAdd.NumSubOccurances = 0;
+                        toAdd.SubOccurancesCompleted = 0;
                         todaysRoutines.Add(toAdd);
                     }
                 }
@@ -141,8 +143,9 @@ namespace Manifest.Views
             helpRecognizer.NumberOfTapsRequired = 1;
             helpRecognizer.Tapped += helpNeeded;
 
-            foreach (Occurance toAdd in todaysRoutines)
+            for (int i = 0; i < todaysRoutines.Count; i++)
             {
+                Occurance toAdd = todaysRoutines[i];
                 //We want to get every subtask for that routine
                 Grid newGrid = new Grid {
                     RowDefinitions = {
@@ -156,16 +159,16 @@ namespace Manifest.Views
                 //Add Complete and In Progress images
                 Image routineComplete = new Image();
                 Binding completeVisible = new Binding("IsComplete");
-                completeVisible.Source = toAdd;
-                routineComplete.BindingContext = toAdd;
+                completeVisible.Source = todaysRoutines[i];
+                routineComplete.BindingContext = todaysRoutines[i];
                 routineComplete.Source = "greencheckmark.png";
                 routineComplete.SetBinding(Image.IsVisibleProperty, completeVisible);
                 routineComplete.HorizontalOptions = LayoutOptions.End;
 
                 Image routineInProgress = new Image();
                 Binding inProgressVisible = new Binding("IsInProgress");
-                inProgressVisible.Source = toAdd;
-                routineInProgress.BindingContext = toAdd;
+                inProgressVisible.Source = todaysRoutines[i];
+                routineInProgress.BindingContext = todaysRoutines[i];
                 routineInProgress.Source = "yellowclock.png";
                 routineInProgress.SetBinding(Image.IsVisibleProperty, inProgressVisible);
                 routineInProgress.HorizontalOptions = LayoutOptions.End;
@@ -231,7 +234,19 @@ namespace Manifest.Views
                 newGrid.Children.Add(gridFrame,0,0);
                 int rowToAdd = 1;
                 //Now, we have to get the subtasks and add them to our grid
-                var subTasks = await initializeSubTasks(toAdd.Id);
+                var subTasks = await initializeSubTasks(i);
+
+                //Initialize if the task is complete or not
+                if (toAdd.NumSubOccurances == toAdd.SubOccurancesCompleted && toAdd.NumSubOccurances > 0)
+                {
+                    toAdd.updateIsComplete(true);
+                }
+                else if (todaysRoutines[i].SubOccurancesCompleted > 0)
+                {
+                    todaysRoutines[i].updateIsInProgress(true);
+                }
+                Debug.WriteLine("SubTasks Completed = " + toAdd.SubOccurancesCompleted);
+
                 foreach (SubOccurance subTask in subTasks)
                 {
                     float subGridHeight = rowHeight / (float)1.5;
@@ -311,18 +326,19 @@ namespace Manifest.Views
         }
 
         //This function makes a call to the database to get all the sub tasks for the given occurance, and displays it on the device
-        private async Task<List<SubOccurance>> initializeSubTasks(string occuranceID)
+        private async Task<List<SubOccurance>> initializeSubTasks(int parentIndex)
         {
+            string occuranceID = todaysRoutines[parentIndex].Id;
             string url = RdsConfig.BaseUrl + RdsConfig.actionAndTaskUrl + '/' + occuranceID;
             var response = await client.GetStringAsync(url);
             SubOccuranceResponse subOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
-            var toReturn = ToSubOccurances(subOccuranceResponse);
+            var toReturn = ToSubOccurances(subOccuranceResponse, parentIndex);
             return toReturn;
 
         }
 
         //This function converts the response we got from the endpoint to a list of SubOccurance's
-        private List<SubOccurance> ToSubOccurances(SubOccuranceResponse subOccuranceResponse)
+        private List<SubOccurance> ToSubOccurances(SubOccuranceResponse subOccuranceResponse, int parent)
         {
             //Clear the occurances, as we are going to get new one now
             List<SubOccurance> subTasks = new List<SubOccurance>();
@@ -332,6 +348,7 @@ namespace Manifest.Views
             }
             foreach (SubOccuranceDto dto in subOccuranceResponse.result)
             {
+                todaysRoutines[parent].NumSubOccurances++;
                 //numTasks++;
                 SubOccurance toAdd = new SubOccurance();
                 toAdd.Id = dto.at_unique_id;
@@ -340,10 +357,10 @@ namespace Manifest.Views
                 toAdd.AtSequence = dto.at_sequence;
                 toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
                 toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                //if (toAdd.IsComplete)
-                //{
-                //    numCompleted++;
-                //}
+                if (toAdd.IsComplete)
+                {
+                    todaysRoutines[parent].SubOccurancesCompleted++;
+                }
                 toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
                 toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
                 toAdd.IsMustDo = DataParser.ToBool(dto.is_must_do);
