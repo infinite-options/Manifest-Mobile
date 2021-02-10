@@ -152,13 +152,34 @@ namespace Manifest.Views
                     VerticalOptions = LayoutOptions.Center,
                     RowSpacing = 10
                 };
+
+                //Add Complete and In Progress images
+                Image routineComplete = new Image();
+                Binding completeVisible = new Binding("IsComplete");
+                completeVisible.Source = toAdd;
+                routineComplete.BindingContext = toAdd;
+                routineComplete.Source = "greencheckmark.png";
+                routineComplete.SetBinding(Image.IsVisibleProperty, completeVisible);
+                routineComplete.HorizontalOptions = LayoutOptions.End;
+
+                Image routineInProgress = new Image();
+                Binding inProgressVisible = new Binding("IsInProgress");
+                inProgressVisible.Source = toAdd;
+                routineInProgress.BindingContext = toAdd;
+                routineInProgress.Source = "yellowclock.png";
+                routineInProgress.SetBinding(Image.IsVisibleProperty, inProgressVisible);
+                routineInProgress.HorizontalOptions = LayoutOptions.End;
+
+
+
                 newGrid.BindingContext = toAdd;
                 Grid gridToAdd =
                     new Grid {
                         BackgroundColor = Color.FromHex("#FFBD27"),
                         RowDefinitions =
                         {
-                            new RowDefinition { Height = new GridLength(3, GridUnitType.Star)},
+                            new RowDefinition { Height = new GridLength(1, GridUnitType.Star)},
+                            new RowDefinition { Height = new GridLength(2, GridUnitType.Star)},
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star)}
                         },
                         ColumnDefinitions =
@@ -171,12 +192,19 @@ namespace Manifest.Views
                 gridToAdd.Children.Add(
                     new Label
                     {
+                        Text = toAdd.StartDayAndTime.TimeOfDay.ToString() + " - " + toAdd.EndDayAndTime.TimeOfDay.ToString(),
+                        FontAttributes = FontAttributes.Bold,
+                        TextColor = Color.White
+                    }, 0, 0);
+                gridToAdd.Children.Add(
+                    new Label
+                    {
                         Text = toAdd.Title,
                         FontAttributes = FontAttributes.Bold,
                         TextColor = Color.White,
                         TextDecorations = TextDecorations.Underline,
                         FontSize = fontsize
-                    }, 0, 0);
+                    }, 0, 1);
                 gridToAdd.Children.Add(
                     new Label
                     {
@@ -184,17 +212,21 @@ namespace Manifest.Views
                         FontAttributes = FontAttributes.Bold,
                         TextColor = Color.White,
                         TextDecorations = TextDecorations.Underline
-                    }, 0, 1);
+                    }, 0, 2);
                 gridToAdd.Children.Add(
                     new Image {
                         Source = toAdd.PicUrl,
                         HeightRequest = rowHeight,
                         Aspect = Aspect.AspectFit
-                    }, 1, 2, 0, 2);
+                    }, 1, 2, 0, 3);
+
+                gridToAdd.Children.Add(routineComplete, 1, 2, 0, 2);
+                gridToAdd.Children.Add(routineInProgress, 1, 2, 0, 2);
                 Frame gridFrame = new Frame {
                     BackgroundColor = Color.FromHex("#FFBD27"),
                     CornerRadius = 30,
-                    Content = gridToAdd
+                    Content = gridToAdd,
+                    Padding = 10
                 };
                 newGrid.Children.Add(gridFrame,0,0);
                 int rowToAdd = 1;
