@@ -54,4 +54,38 @@ namespace Manifest.Models
             PropertyChanged(this, new PropertyChangedEventArgs("IsComplete"));
         }
     }
+
+    public class OccuranceResponse
+    {
+        public string message { get; set; }
+        public List<OccuranceDto> result { get; set; }
+    }
+
+    public class OccuranceDto
+    {
+        public string gr_unique_id { get; set; }
+        public string gr_title { get; set; }
+        public string user_id { get; set; }
+        public string is_available { get; set; }
+        public string is_complete { get; set; }
+        public string is_in_progress { get; set; }
+        public string is_displayed_today { get; set; }
+        public string is_persistent { get; set; }
+        public string is_sublist_available { get; set; }
+        public string is_timed { get; set; }
+        public string photo { get; set; }
+        public string start_day_and_time { get; set; }
+        public string end_day_and_time { get; set; }
+        public string repeat { get; set; }
+        public string repeat_type { get; set; }
+        public string repeat_ends_on { get; set; }
+        public int repeat_occurences { get; set; }
+        public int repeat_every { get; set; }
+        public string repeat_frequency { get; set; }
+        public string repeat_week_days { get; set; }
+        public string datetime_started { get; set; }
+        public string datetime_completed { get; set; }
+        public string expected_completion_time { get; set; }
+        public object completed { get; set; }
+    }
 }

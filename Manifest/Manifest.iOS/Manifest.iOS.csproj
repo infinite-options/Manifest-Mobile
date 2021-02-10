@@ -142,5 +142,6 @@
     <BundleResource Include="Resources\aboutme.png" />
     <BundleResource Include="Resources\listview.png" />
     <BundleResource Include="Resources\calendarFive.png" />
+    <BundleResource Include="Resources\settingsIcon.png" />
   </ItemGroup>
 </Project>

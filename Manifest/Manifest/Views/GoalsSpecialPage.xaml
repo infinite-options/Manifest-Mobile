@@ -1,15 +1,58 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.GoalsSpecialPage" BackgroundColor="#F2F7FC">
-
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.GoalsSpecialPage">
     <ContentPage.Content>
+        <Grid BackgroundColor="#F2F7FC" Padding="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="139"></RowDefinition>
+                <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
+                <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
+                <!--SPACE FOR HEADER-->
+                    <Grid Margin="0,44,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="1"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Back Icon" TextColor="White">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Grid.Column="1" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png"  ></ImageButton>
+                        </Grid>
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                             <Label Padding="0,0,0,0" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="16" FontAttributes="Bold"></Label>
+                        </Grid>
+                    </Grid>
+ 
+            </Frame>
 
-        <StackLayout>
 
-            <BoxView HeightRequest="40"/>
-
-            <Grid>
+            <!--imported ui-->
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="0"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
@@ -68,39 +111,30 @@
                 </CollectionView>
             </StackLayout>
             </Grid>
-        </StackLayout>
+            <!--imported ui-->
 
 
 
-        <!--<Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="2">
 
-            <Label Grid.Row="0" VerticalOptions="Fill" VerticalTextAlignment="Center" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Text="HEADER" FontSize="30" BackgroundColor="#F2F7FC" TextColor="White"/>
-
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Row="0" Grid.Column="1" x:Name="goal" Text="Goal" BackgroundColor="#9DB2CB" HorizontalOptions="Center" FontAttributes="Bold"/>
-                <StackLayout Grid.Row="0" Grid.Column="2" VerticalOptions="Center">
-                    <ImageButton x:Name="progressPic" BackgroundColor="#9DB2CB" HorizontalOptions="Center"/>
-                    <Label x:Name="progressText" Text="progress" FontSize="15" HorizontalOptions="Center" TextColor="Black"/>
-                </StackLayout>
-
-            </Grid>
-
-        </Grid>-->
+            </StackLayout>
+            <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
+                <Frame>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.Column="0" Text="icon1"></Button>
+                        <Button Grid.Row="0" Grid.Column="1" Text="icon2"></Button>
+                        <Button Grid.Row="0" Grid.Column="2" Text="icon3"></Button>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+            <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
+                <Button Text="Next" HorizontalOptions="Center" VerticalOptions="Center"></Button>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
-
 </ContentPage>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 using Xamarin.Forms;
 using Manifest.Models;
@@ -8,11 +7,18 @@ using Manifest.RDS;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Collections.ObjectModel;
+using Xamarin.Essentials;
+using System.Windows.Input;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Manifest.Views
 {
     public partial class AboutMePage : ContentPage
     {
+        bool setting;
+        GridLength height;
+        GridLength lastRowHeight;
 
         public class UserResponse
         {
@@ -51,25 +57,63 @@ namespace Manifest.Views
 
         public User user;
         List<Person> importantPeople = new List<Person>();
-        public ObservableCollection<Person> datagrid = new ObservableCollection<Person>();
+        double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
+        double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
+
+        float bigCircleHW;
+        float smallCircleHW;
+        float bigCircleRadius;
+        float smallCircleRadius;
+
+        public ObservableCollection<Grid> datagrid = new ObservableCollection<Grid>();
 
         public AboutMePage()
         {
             InitializeComponent();
+            setting = false;
+            height = mainStackLayoutRow.Height;
+            lastRowHeight = barStackLayoutRow.Height;
+
+            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            title.Text = "About me";
+            var helperObject = new MainPage();
+            locationTitle.Text = (string)Application.Current.Properties["location"];
+            dateTitle.Text = helperObject.GetCurrentTime();
+            barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
+
+            bigCircleHW = (float)(deviceWidth * 0.107);
+            bigCircleRadius = (float)(bigCircleHW * 0.75);
+            smallCircleHW = (float)(deviceWidth * 0.08);
+            smallCircleRadius = (float)(smallCircleHW * 0.5);
+            userImageFrame.CornerRadius = bigCircleRadius;
+            userImageFrame.HeightRequest = bigCircleHW;
+            userImageFrame.WidthRequest = bigCircleHW;
+            whoAmIButton.CornerRadius = bigCircleRadius;
+            whoAmIButton.HeightRequest = bigCircleHW;
+            whoAmIButton.WidthRequest = bigCircleHW;
+            whatMotivatesMeButton.CornerRadius = bigCircleRadius;
+            whatMotivatesMeButton.HeightRequest = bigCircleHW;
+            whatMotivatesMeButton.WidthRequest = bigCircleHW;
             Debug.WriteLine("In aboutME page");
             //Debug.WriteLine(Application.Current.Properties["userID"]);
             //Debug.WriteLine(Application.Current.Properties["time_stamp"]);
-            initializeUser((String)Application.Current.Properties["userID"]);
-            myAdvisors.ItemsSource = datagrid;
+            initializeUser((String)Application.Current.Properties["userId"]);
+            //userAdvisors.ItemTemplate = datagrid;
+
 
         }
+
 
         private async void initializeUser(string uid)
         {
             string res = await RdsConnect.getUser(uid);
+            if (res == "Failure")
+            {
+                await DisplayAlert("Alert", "Error in getUser() in initializeUser() in AboutMePage", "OK");
+            }
             UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(res);
             ToUser(userResponse);
-            userID.Text = (String)Application.Current.Properties["userID"];
+            //userID.Text = (String)Application.Current.Properties["userID"];
             userName.Text = user.FirstName + " " + user.LastName;
             userImage.Source = user.PicUrl;
             CreateList();
@@ -108,6 +152,10 @@ namespace Manifest.Views
                             Id = dto.ta_people_id,
                             PhoneNumber = dto.ta_phone
                         };
+                        if (toAdd.PicUrl == null || toAdd.PicUrl == "")
+                        {
+                            toAdd.PicUrl = "aboutme.png";
+                        }
                         importantPeople.Add(toAdd);
                     }
                     
@@ -128,35 +176,113 @@ namespace Manifest.Views
             return timeSettings;
         }
 
-        private void CreateList()
+        public async void callAdvisor(object sender, EventArgs args)
         {
-            for (int i = 0; i < importantPeople.Count; i++)
+            Debug.WriteLine("Tap registered");
+            Frame myvar = (Frame)sender;
+            Person advisor = myvar.BindingContext as Person;
+            string phoneNumber = advisor.PhoneNumber;
+            if (phoneNumber == "")
             {
-                this.datagrid.Add(importantPeople[i]);
+                await Application.Current.MainPage.DisplayAlert("Sorry!", $"Hmmm... We don't have a phone number on file", "OK");
+            }
+            else
+            {
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                Debug.WriteLine("Manifest.ViewModels.AboutViewModel: Dialing Number:" + phoneNumber);
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                try
+                {
+                    PhoneDialer.Open(phoneNumber);
+                    Debug.WriteLine("IN ABOUTVIEWMODEL. LAUNCHING PHONE");
+                }
+                catch (Exception e)
+                {
+                    await DisplayAlert("Error", "Unable to perform a phone call", "OK");
+                }
+                //await Launcher.OpenAsync(new Uri("tel:" + phoneNumber));
             }
         }
 
-        public void logUserOut(object sender, EventArgs args)
+        private void CreateList()
         {
-            Application.Current.Properties.Remove("session");
-            Debug.WriteLine(Application.Current.Properties["userID"]);
-            Debug.WriteLine(Application.Current.Properties["platform"]);
-            Debug.WriteLine(Application.Current.Properties["time_stamp"]);
-            Application.Current.Properties.Remove("userID");
-            Application.Current.Properties.Remove("platform");
-            Application.Current.Properties.Remove("time_stamp");
+            int i = 0;
+            int row = 0;
+            TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.NumberOfTapsRequired = 1;
+            tapGestureRecognizer.Tapped += callAdvisor;
+            while (i < importantPeople.Count)
+            {
+                //ObservableCollection<Person> temp = new ObservableCollection<Person>();
+                Grid tempGrid = new Grid
+                {
+                    RowDefinitions =
+                    {
+                        new RowDefinition { Height = new GridLength(60, GridUnitType.Absolute) },
+                        new RowDefinition { Height = new GridLength(40, GridUnitType.Absolute) }
+                    },
+                    ColumnSpacing = 20.0,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center
+
+                };
+                int col = 0;
+                //Even rows
+                int toAdd = 2;
+                if (row % 2 == 0)
+                {
+                    toAdd = 3;
+                }
+                int min = Math.Min(i + toAdd, importantPeople.Count);
+                //Debug.WriteLine("min = " + min);
+                while (i < min){
+                    tempGrid.ColumnDefinitions.Add(new ColumnDefinition
+                    { Width = new GridLength(smallCircleHW, GridUnitType.Absolute) });
+                    tempGrid.Children.Add(new Frame{
+                        BindingContext = importantPeople[i],
+                        CornerRadius = smallCircleRadius,
+                        HeightRequest = smallCircleHW,
+                        WidthRequest = smallCircleHW,
+                        IsClippedToBounds = true,
+                        //Padding = new Thickness(10.0,0.0,10.0,0.0),
+                        Content =  new Image{
+                            Source = importantPeople[i].PicUrl,
+                            HeightRequest = smallCircleHW*2,
+                            WidthRequest = smallCircleHW*2,
+                            Aspect = Aspect.AspectFill
+                        },
+                        GestureRecognizers = { tapGestureRecognizer }
+                    }, col, 0);
+                    tempGrid.Children.Add(new Label
+                    {
+                        Text = importantPeople[i].Name,
+                        TextColor = Color.Black
+                    }, col, 1);
+                    col++;
+                    i++;
+                }
+                //Debug.WriteLine("i = " + i);
+                userAdvisors.Children.Add(tempGrid);
+                row++;
+            }
+            Debug.WriteLine("Num elements in stack: " + userAdvisors.Children.Count);
+        }
+
+        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new MainPage();
+        }
+
+        void Button_Clicked(System.Object sender, System.EventArgs e)
+        {
+            // Application.Current.Properties.Remove("mobile_auth_token");
+            // Debug.WriteLine(Application.Current.Properties["userID"]);
+            // Debug.WriteLine(Application.Current.Properties["platform"]);
+            // Debug.WriteLine(Application.Current.Properties["time_stamp"]);
+            // Application.Current.Properties.Remove("userID");
+            // Application.Current.Properties.Remove("platform");
+            // Application.Current.Properties.Remove("time_stamp");
             Application.Current.MainPage = new LogInPage();
         }
-
-        void navigateToAboutMe(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage = new AboutMePage();
-        }
-
-        void navigatetoTodaysList(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
-        }
-
     }
 }

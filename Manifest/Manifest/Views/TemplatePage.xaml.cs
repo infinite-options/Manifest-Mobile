@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace Manifest.Views
 {
-    public partial class Instructions : ContentPage
+    public partial class TemplatePage : ContentPage
     {
-        public Instructions()
+        public TemplatePage()
         {
             InitializeComponent();
         }

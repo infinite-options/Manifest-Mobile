@@ -13,7 +13,8 @@ using System.Windows.Input;
 using Xamarin.Essentials;
 using Manifest.LogIn.Apple;
 using Manifest.Models;
-
+using System.Linq;
+using System.Diagnostics;
 
 namespace Manifest.Views
 {
@@ -21,7 +22,7 @@ namespace Manifest.Views
     {
         public event EventHandler SignIn;                                                                   // Variable of EventHandler used for Apple
         public bool createAccount = false;                                                                  // Initalized boolean value called createAccount
-
+        string location;
         public LogInPage()                                                                                  // This is the class Constructor
         {
             InitializeComponent();                                                                          // This is a Xamarin default
@@ -35,22 +36,16 @@ namespace Manifest.Views
             {
                 InitializedAppleLogin();                                                                    // Turns on Apple Login for Apple devices
             }
+            GetCurrentLocation();
         }
 
         public void InitializeAppProperties()                                                               // Initializes most (not all) Application.Current.Properties
         {                                                                                                   // You can create additional parameters on the fly
-            Application.Current.Properties["user_email"] = "";                                              // If you don't initialize it you can get a Null Reference
-            Application.Current.Properties["user_first_name"] = "";
-            Application.Current.Properties["user_last_name"] = "";
-            Application.Current.Properties["user_phone_num"] = "";
-            Application.Current.Properties["user_address"] = "";
-            Application.Current.Properties["user_unit"] = "";
-            Application.Current.Properties["user_city"] = "";
-            Application.Current.Properties["user_state"] = "";
-            Application.Current.Properties["user_zip_code"] = "";
-            Application.Current.Properties["user_latitude"] = "";
-            Application.Current.Properties["user_longitude"] = "";
-            Application.Current.Properties["user_delivery_instructions"] = "";
+            Application.Current.Properties["location"] = "";
+            Application.Current.Properties["userId"] = "";
+            Application.Current.Properties["timeStamp"] = "";
+            Application.Current.Properties["accessToken"] = "";
+            Application.Current.Properties["refreshToken"] = "";
         }
 
         public void InitializedAppleLogin()                                                                 // Explain this format
@@ -261,6 +256,50 @@ namespace Manifest.Views
         //}
 
 
+
+        public async void GetCurrentLocation()
+        {
+            try
+            {
+                
+                var location = await Geolocation.GetLastKnownLocationAsync();
+
+                if (location != null)
+                {
+                    var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                    var placemark = placemarks?.FirstOrDefault();
+                    if (placemark != null)
+                    {
+                        var geocodeAddress =
+                            $"AdminArea:       {placemark.AdminArea}\n" +
+                            $"CountryCode:     {placemark.CountryCode}\n" +
+                            $"CountryName:     {placemark.CountryName}\n" +
+                            $"FeatureName:     {placemark.FeatureName}\n" +
+                            $"Locality:        {placemark.Locality}\n" +
+                            $"PostalCode:      {placemark.PostalCode}\n" +
+                            $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                            $"SubLocality:     {placemark.SubLocality}\n" +
+                            $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                            $"Thoroughfare:    {placemark.Thoroughfare}\n";
+
+                        Debug.WriteLine(geocodeAddress);
+                        Application.Current.Properties["location"] = "";
+
+                        Application.Current.Properties["location"] = placemark.Locality + ", " + placemark.AdminArea;
+                    }
+                    Debug.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                }
+              
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+            
+            }
+
+        }
+
         // Facebook
         // comes from LoginPage.xaml or App.xaml.cs
         public void FacebookLogInClick(System.Object sender, System.EventArgs e)                                        // Linked to Clicked="FacebookLogInClick" from LogInPage.xaml
@@ -304,7 +343,7 @@ namespace Manifest.Views
 
             if (e.IsAuthenticated)                                                                                      // How does this statement work?
             {
-                FacebookUserProfileAsync(e.Account.Properties["access_token"]);
+                //FacebookUserProfileAsync(e.Account.Properties["access_token"]);
             }
         }
 
@@ -493,12 +532,19 @@ namespace Manifest.Views
 
             if (e.IsAuthenticated)
             {
-                GoogleUserProfileAsync(e.Account.Properties["access_token"], e.Account.Properties["refresh_token"], e);
+                Application.Current.MainPage = new MainPage(e.Account.Properties["access_token"], e.Account.Properties["refresh_token"], e);
+                //await WaitAndApologizeAsync();
+                //GoogleUserProfileAsync(e.Account.Properties["access_token"], e.Account.Properties["refresh_token"], e);
             }
             else
             {
                 await DisplayAlert("Error", "Google was not able to autheticate your account", "OK");
             }
+        }
+
+        static async Task WaitAndApologizeAsync()
+        {
+            await Task.Delay(5000);
         }
 
         //Routing done in this function
@@ -556,7 +602,7 @@ namespace Manifest.Views
                         ////await Repository.storeGUID(GlobalVars.user_guid, session.result[0].user_unique_id);
                         //await Shell.Current.GoToAsync($"//{nameof(TodaysList)}");
                         System.Diagnostics.Debug.WriteLine("SUCCESSFUL LOGIN THROUGH GOOGLE. NAVIGATE TO NEXT PAGE");
-                        Application.Current.Properties["session"] = session.result[0].mobile_auth_token;
+                        Application.Current.Properties["mobile_auth_token"] = session.result[0].mobile_auth_token;
                         Application.Current.Properties["userID"] = session.result[0].user_unique_id;
                         System.Diagnostics.Debug.WriteLine(Application.Current.Properties["userID"]);
                         Application.Current.Properties["platform"] = Constant.Google;
@@ -566,7 +612,8 @@ namespace Manifest.Views
                         Application.Current.Properties["time_stamp"] = expDate;
                         //_ = Application.Current.SavePropertiesAsync();
                         System.Diagnostics.Debug.WriteLine(Application.Current.Properties["time_stamp"].ToString());
-                        Application.Current.MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
+                        Application.Current.MainPage = new MainPage();
+                        //Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
                     }
 
                 }

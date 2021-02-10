@@ -9,38 +9,78 @@ namespace Manifest.Views
 {
     public partial class GoalsPage : ContentPage
     {
+        bool setting;
+        GridLength height;
+        GridLength lastRowHeight;
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         List<Occurance> currentOccurances;
         Dictionary<string, Occurance> occuranceDict;
 
+
         public GoalsPage(List<Occurance> occuranceList)
         {
-            occuranceDict = new Dictionary<string, Occurance>();
-            InitializeComponent();
+            currentOccurances = new List<Occurance>();
+            //call the goals endpoint and fill the currentOccurances list with the returned goals
 
-            //int counter = 0;
+
+            //fill the dictionary with the title of the occurance and the occurance itself
+            occuranceDict = new Dictionary<string, Occurance>();
+
             foreach (Occurance occurance in occuranceList)
             {
                 occuranceDict.Add(occurance.Title, occurance);
-                //string name = "button" + counter.ToString();
-                //Button button1 = new Button { Text = occurance.Title, FontAttributes = FontAttributes.Bold, FontSize = 25, HorizontalOptions = LayoutOptions.Center };
-                //button1.Clicked += navigatetoActions;
-                //tempStack.Children.Add(button1);
-                //Debug.WriteLine("titles: " + occurance.Title);
-                //counter++;
             }
-            //loadGoals(occurance.StartDayAndTime.ToString("t"), occurance.EndDayAndTime.ToString("t"));
-            //first.CornerRadius = (int)(deviceHeight * 0.3);
-            //second.CornerRadius = (int)(deviceHeight * 0.2);
+            //temporary for testing
 
-            setProperties3();
+            InitializeComponent();
+            setting = false;
+            height = mainStackLayoutRow.Height;
+            lastRowHeight = barStackLayoutRow.Height;
+
+            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            title.Text = "Goals";
+            subTitle.Text = "Choose 2 goals to pursue today";
+            var helperObject = new MainPage();
+            locationTitle.Text = (string)Application.Current.Properties["location"];
+            dateTitle.Text = helperObject.GetCurrentTime();
+
+            
+
             if (occuranceList.Count == 3)
             {
+                setProperties3();
+                show3();
                 first7.Text = occuranceList[0].Title;
                 second7.Text = occuranceList[1].Title;
                 third7.Text = occuranceList[2].Title;
             }
+
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
+
+        //void Button_Clicked(System.Object sender, System.EventArgs e)
+        //{
+        //    Navigation.PushAsync(new GoalsSpecialPage(),false);
+        //}
+
+        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            int navigationStackCount = Application.Current.MainPage.Navigation.NavigationStack.Count;
+
+            if (navigationStackCount != 1)
+            {
+                Navigation.PopAsync(false);
+                
+            }
+            else
+            {
+                Application.Current.MainPage = new MainPage();
+            }
+        }
+
+        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        {
         }
 
         void setProperties3()
@@ -75,9 +115,9 @@ namespace Manifest.Views
             sixth7.HeightRequest = 0;
             seventh7.HeightRequest = 0;
 
-            next7.HeightRequest = deviceHeight * 0.025;
-            next7.WidthRequest = deviceWidth * 0.14;
-            next7.CornerRadius = (int)((deviceHeight * 0.025) / 2);
+            //next7.HeightRequest = deviceHeight * 0.025;
+            //next7.WidthRequest = deviceWidth * 0.14;
+            //next7.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties4()
@@ -103,9 +143,9 @@ namespace Manifest.Views
             fourth4.Text = "Goal 4";
             fourth4.FontSize = deviceWidth / 33;
 
-            next4.HeightRequest = deviceHeight * 0.025;
-            next4.WidthRequest = deviceWidth * 0.14;
-            next4.CornerRadius = (int)((deviceHeight * 0.025) / 2);
+            //next4.HeightRequest = deviceHeight * 0.025;
+            //next4.WidthRequest = deviceWidth * 0.14;
+            //next4.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties5()
@@ -136,9 +176,9 @@ namespace Manifest.Views
             fifth5.Text = "Goal 5";
             fifth5.FontSize = deviceWidth / 32;
 
-            next5.HeightRequest = deviceHeight * 0.025;
-            next5.WidthRequest = deviceWidth * 0.14;
-            next5.CornerRadius = (int)((deviceHeight * 0.025) / 2);
+            //next5.HeightRequest = deviceHeight * 0.025;
+            //next5.WidthRequest = deviceWidth * 0.14;
+            //next5.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties6()
@@ -174,9 +214,9 @@ namespace Manifest.Views
             sixth6.Text = "Goal 6";
             sixth6.FontSize = deviceWidth / 31;
 
-            next6.HeightRequest = deviceHeight * 0.025;
-            next6.WidthRequest = deviceWidth * 0.14;
-            next6.CornerRadius = (int)((deviceHeight * 0.025) / 2);
+            //next6.HeightRequest = deviceHeight * 0.025;
+            //next6.WidthRequest = deviceWidth * 0.14;
+            //next6.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties7()
@@ -230,9 +270,9 @@ namespace Manifest.Views
             seventh7.Text = "Goal 7";
             seventh7.FontSize = deviceWidth / 30;
 
-            next7.HeightRequest = deviceHeight * 0.025;
-            next7.WidthRequest = deviceWidth * 0.14;
-            next7.CornerRadius = (int)((deviceHeight * 0.025) / 2);
+            //next7.HeightRequest = deviceHeight * 0.025;
+            //next7.WidthRequest = deviceWidth * 0.14;
+            //next7.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
 
@@ -316,11 +356,9 @@ namespace Manifest.Views
             show3();
         }
 
-        //temporary for testing
         void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
-            Debug.WriteLine(Application.Current.Properties["userID"]);
-            Application.Current.MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
+            Application.Current.MainPage = new TodaysListPage();
         }
 
         void navigatetoActions(System.Object sender, System.EventArgs e)
@@ -328,8 +366,9 @@ namespace Manifest.Views
             Button receiving = (Button)sender;
 
             if (occuranceDict[receiving.Text].IsSublistAvailable == true)
-                Application.Current.MainPage = new GoalsSpecialPage(occuranceDict[receiving.Text]);
+                Navigation.PushAsync(new GoalsSpecialPage(occuranceDict[receiving.Text]));
             else DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
+            //Application.Current.MainPage = new GoalsSpecialPage();
         }
     }
 }

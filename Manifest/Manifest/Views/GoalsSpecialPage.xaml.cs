@@ -13,34 +13,11 @@ namespace Manifest.Views
 {
     public partial class GoalsSpecialPage : ContentPage
     {
+        bool setting;
+        GridLength height;
+        GridLength lastRowHeight;
         public List<SubOccurance> subTasks;
         HttpClient client = new HttpClient();
-
-        class SubOccuranceDto
-        {
-            public string at_unique_id { get; set; }
-            public string at_title { get; set; }
-            public string goal_routine_id { get; set; }
-            public int at_sequence { get; set; }
-            public string is_available { get; set; }
-            public string is_complete { get; set; }
-            public string is_in_progress { get; set; }
-            public string is_sublist_available { get; set; }
-            public string is_must_do { get; set; }
-            public string photo { get; set; }
-            public string is_timed { get; set; }
-            public string datetime_completed { get; set; }
-            public string datetime_started { get; set; }
-            public string expected_completion_time { get; set; }
-            public string available_start_time { get; set; }
-            public string available_end_time { get; set; }
-        }
-
-        class SubOccuranceResponse
-        {
-            public string message { get; set; }
-            public List<SubOccuranceDto> result { get; set; }
-        }
 
         public ObservableCollection<SubOccurance> datagrid = new ObservableCollection<SubOccurance>();
 
@@ -52,9 +29,21 @@ namespace Manifest.Views
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
 
+
+
         public GoalsSpecialPage(Occurance occurance)
         {
             InitializeComponent();
+            setting = false;
+            height = mainStackLayoutRow.Height;
+            lastRowHeight = barStackLayoutRow.Height;
+
+            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            title.Text = occurance.Title;
+            //subTitle.Text = "Get crafty";
+            var helperObject = new MainPage();
+            locationTitle.Text = (string)Application.Current.Properties["location"];
+            dateTitle.Text = helperObject.GetCurrentTime();
 
             parent = occurance;
             numTasks = 0;
@@ -65,24 +54,18 @@ namespace Manifest.Views
             initializeSubTasks(occuranceID);
             occuranceName.Text = occurance.Title;
 
-            //checkPlatform();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
-        //void checkPlatform()
-        //{
-        //    goal.HeightRequest = deviceWidth / 5;
-        //    goal.WidthRequest = deviceWidth / 5;
-        //    goal.CornerRadius = (int)(deviceWidth / 10);
-
-        //    progressPic.HeightRequest = deviceWidth / 20;
-        //    progressPic.WidthRequest = deviceWidth / 20;
-        //}
-
-        void navigatetoGoals(System.Object sender, System.EventArgs e)
+        void Button_Clicked(System.Object sender, System.EventArgs e)
         {
-            //Application.Current.MainPage = new Goals();
+            Navigation.PushAsync(new GoalStepsPage(),false);
         }
 
+        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PopAsync(false);
+        }
 
         //This function makes a call to the database to get all the sub tasks for the given occurance, and displays it on the device
         private async void initializeSubTasks(string occuranceID)
@@ -192,7 +175,7 @@ namespace Manifest.Views
 
         private void goToTodaysList(object sender, EventArgs args)
         {
-            Application.Current.MainPage = new TodaysListPage((String)Application.Current.Properties["userID"]);
+            Application.Current.MainPage = new TodaysListPage();
         }
 
         //public class UpdateSubOccuranceDataType
