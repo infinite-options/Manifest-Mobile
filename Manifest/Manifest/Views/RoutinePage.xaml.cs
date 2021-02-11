@@ -436,6 +436,7 @@ namespace Manifest.Views
 
                 //Now update the parent
                 parentOccurance.SubOccurancesCompleted++;
+                url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
                 if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
                 {
                     parentOccurance.updateIsInProgress(false);
