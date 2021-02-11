@@ -64,6 +64,8 @@ namespace Manifest.Views
         float smallCircleHW;
         float bigCircleRadius;
         float smallCircleRadius;
+        float bigImageCircleHW;
+        float bigImageCircleRadius;
 
         public ObservableCollection<Grid> datagrid = new ObservableCollection<Grid>();
 
@@ -81,13 +83,15 @@ namespace Manifest.Views
             dateTitle.Text = helperObject.GetCurrentTime();
             barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
 
-            bigCircleHW = (float)(deviceWidth * 0.107);
+            bigCircleHW = (float)(deviceWidth * 0.102);
             bigCircleRadius = (float)(bigCircleHW * 0.75);
-            smallCircleHW = (float)(deviceWidth * 0.08);
+            smallCircleHW = (float)(deviceWidth * 0.075);
             smallCircleRadius = (float)(smallCircleHW * 0.5);
-            userImageFrame.CornerRadius = bigCircleRadius;
-            userImageFrame.HeightRequest = bigCircleHW;
-            userImageFrame.WidthRequest = bigCircleHW;
+            bigImageCircleHW = (float)(deviceWidth * 0.11);
+            bigImageCircleRadius = (float)(bigCircleHW * 0.5);
+            userImageFrame.CornerRadius = bigImageCircleRadius;
+            userImageFrame.HeightRequest = bigImageCircleHW;
+            userImageFrame.WidthRequest = bigImageCircleHW;
             whoAmIButton.CornerRadius = bigCircleRadius;
             whoAmIButton.HeightRequest = bigCircleHW;
             whoAmIButton.WidthRequest = bigCircleHW;
@@ -250,6 +254,7 @@ namespace Manifest.Views
                         CornerRadius = smallCircleRadius,
                         HeightRequest = smallCircleHW,
                         WidthRequest = smallCircleHW,
+                        Padding = 0,
                         IsClippedToBounds = true,
                         //Padding = new Thickness(10.0,0.0,10.0,0.0),
                         Content =  new Image{
