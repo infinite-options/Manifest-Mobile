@@ -6,30 +6,30 @@ using Android.Util;
 using Firebase.Messaging;
 using System;
 using System.Linq;
+using System.Diagnostics;
 using WindowsAzure.Messaging;
 using Xamarin.Essentials;   // Added so that Preferences would work
 namespace Manifest.Droid
 {
     [Service]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
+
+
     public class FirebaseService : FirebaseMessagingService
     {
+        
         public override void OnNewToken(string token)
         {
-            Console.WriteLine("Entered OnNewToken");
-            // TODO: save token instance locally, or log if desired
+            // NOTE: save token instance locally, or log if desired
             Console.WriteLine("New Token:" + token);
             SendRegistrationToServer(token);
         }
 
-        // serving fresh code
         void SendRegistrationToServer(string token)
         {
-            //Console.WriteLine("SendRegistrationToServer called");
             if (Preferences.Get("guid", null) != null)
             {
                 var tag = Preferences.Get("guid", null);
-                GlobalVars.user_guid = tag;
                 Console.WriteLine("guid:" + tag);
                 Console.WriteLine("token:" + token);
                 return;
@@ -39,12 +39,8 @@ namespace Manifest.Droid
                 NotificationHub hub = new NotificationHub(AppConstants.NotificationHubName, AppConstants.ListenConnectionString, this);
                 var guid = Guid.NewGuid();
                 var tag = "guid_" + guid.ToString();
-                //Send guid to endpoint using following fornat
-                //{     "user_unique_id": "100-000045",     "guid": "ndbfndbfnbn",     "notification": "FALSE" }
-                //Endpoint  =  https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/updateGuid/add or replace add with update
-                GlobalVars.user_guid = guid.ToString();
-                Console.WriteLine("guid:" + tag);
-                Console.WriteLine("token:" + token);
+                System.Diagnostics.Debug.WriteLine("guid:" + tag);
+                System.Diagnostics.Debug.WriteLine("token:" + token);
                 Preferences.Set("guid", tag);
                 string[] tags = new string[2] { "default", tag };
 
@@ -57,16 +53,16 @@ namespace Manifest.Droid
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error registering device: {e.Message}");
                 Log.Error(AppConstants.DebugTag, $"Error registering device: {e.Message}");
             }
         }
-
         public override void OnMessageReceived(RemoteMessage message)
         {
-            Console.WriteLine("Message Received!");
+
             base.OnMessageReceived(message);
             string messageBody = string.Empty;
+
+            Console.WriteLine("Received Notification: " + messageBody);
 
             if (message.GetNotification() != null)
             {
@@ -78,36 +74,76 @@ namespace Manifest.Droid
             {
                 messageBody = message.Data.Values.First();
             }
+            Console.WriteLine("Serving Fresh: Received Notification: " + messageBody);
 
             // convert the incoming message to a local notification
             SendLocalNotification(messageBody);
 
             // send the incoming message directly to the MainPage
-            //SendMessageToMainPage(messageBody);
+            SendMessageToMainPage(messageBody);
         }
 
         void SendLocalNotification(string body)
         {
-            var intent = new Intent(this, typeof(Manifest.Droid.MainActivity));
+            //var intent = new Intent(this, typeof(MainActivity));
+            //intent.AddFlags(ActivityFlags.ClearTop);
+            //intent.PutExtra("message", body);
+
+            ////Unique request code to avoid PendingIntent collision.
+            //var requestCode = new Random().Next();
+            //var pendingIntent = PendingIntent.GetActivity(this, requestCode, intent, PendingIntentFlags.OneShot);
+
+            //var notificationBuilder = new NotificationCompat.Builder(this)
+            //    .SetContentTitle("Serving Now")
+            //    .SetSmallIcon(Resource.Drawable.ic_launcher)
+            //    .SetContentText(body)
+            //    .SetAutoCancel(true)
+            //    .SetShowWhen(false)
+            //    .SetContentIntent(pendingIntent);
+
+            //if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            //{
+            //    notificationBuilder.SetChannelId(AppConstants.NotificationChannelName);
+            //}
+
+            //var notificationManager = NotificationManager.FromContext(this);
+            //notificationManager.Notify(0, notificationBuilder.Build());
+
+            var intent = new Intent(this, typeof(MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
             intent.PutExtra("message", body);
+            //var pendingIntent = PendingIntent.GetActivity(this, RandomGenerator(), intent, PendingIntentFlags.OneShot);
+
+            //Unique request code to avoid PendingIntent collision.
+            // ServingFresh.Droid.Resource.Drawable.ic_launcher
+            var requestCode = new Random().Next();
             var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
 
-            var notificationBuilder = new NotificationCompat.Builder(this, AppConstants.NotificationChannelName)
-                .SetContentTitle("XamarinNotify Message")
-                .SetSmallIcon(Manifest.Droid.Resource.Drawable.ic_launcher)
-                .SetContentText(body)
-                .SetAutoCancel(true)
-                .SetShowWhen(false)
-                .SetContentIntent(pendingIntent);
+            // needed chanel and needed icon and need to get internt put extra out
+            // I think we also beed to increase id num
+            var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID);
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-            {
-                notificationBuilder.SetChannelId(AppConstants.NotificationChannelName);
-            }
+            notificationBuilder.SetContentTitle("Manifest My Space")
+                        .SetSmallIcon(Resource.Drawable.moon)
+                        .SetContentText(body)
+                        .SetAutoCancel(false)
+                        .SetShowWhen(false)
+                        .SetContentIntent(pendingIntent);
 
             var notificationManager = NotificationManager.FromContext(this);
+
             notificationManager.Notify(0, notificationBuilder.Build());
+        }
+
+        void SendMessageToMainPage(string body)
+        {
+            //(App.Current.MainPage as MainPage)?.AddMessage(body);
+            return;
+        }
+
+        public FirebaseService()
+        {
+
         }
 
     }

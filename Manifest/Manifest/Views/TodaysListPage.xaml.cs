@@ -74,7 +74,7 @@ namespace Manifest.Views
                 todaysOccurancesAfternoon = new List<Occurance>();
                 todaysOccurancesEvening = new List<Occurance>();
 
-                RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
+                //RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
                 Debug.WriteLine(userInfo);
                 //string userID = userInfo.result[0].user_unique_id;
                 string userID = userInfo;

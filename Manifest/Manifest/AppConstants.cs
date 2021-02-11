@@ -19,8 +19,11 @@
         /// You should always use the ListenShared connection string. Do not use the
         /// FullShared connection string in a client application.
         /// </summary>
-        public static string ListenConnectionString { get; set; } = "Endpoint=sb://manifest-notifications-namespace.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=AQuiUeN4QL+TJJVwwWyPvRtQM6U/hTo2Q4YO8kJzC8E=";
-
+        //public static string ListenConnectionString { get; set; } = "Endpoint=sb://manifest-notifications-namespace.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=AQuiUeN4QL+TJJVwwWyPvRtQM6U/hTo2Q4YO8kJzC8E=";
+        // USE THE LISTEN, MANAGE, AND SEND
+        public static string ListenConnectionString { get; set; } = "Endpoint=sb://manifest-notifications-namespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=UWW7o7LFe8Oz6FZUQQ/gaNgqSfdN4Ckp6FCVCm3xuVg=";
+        //Endpoint=sb://manifest-notifications-namespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=UWW7o7LFe8Oz6FZUQQ/gaNgqSfdN4Ckp6FCVCm3xuVg=
+        //Endpoint=sb://manifest-notifications-namespace.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=AQuiUeN4QL+TJJVwwWyPvRtQM6U/hTo2Q4YO8kJzC8E=
         /// <summary>
         /// Tag used in log messages to easily filter the device log
         /// during development.

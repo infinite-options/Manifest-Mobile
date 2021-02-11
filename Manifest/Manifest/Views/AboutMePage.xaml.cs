@@ -106,17 +106,24 @@ namespace Manifest.Views
 
         private async void initializeUser(string uid)
         {
-            string res = await RdsConnect.getUser(uid);
-            if (res == "Failure")
+            try
             {
-                await DisplayAlert("Alert", "Error in getUser() in initializeUser() in AboutMePage", "OK");
+                string res = await RdsConnect.getUser(uid);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Alert", "Error in getUser() in initializeUser() in AboutMePage", "OK");
+                }
+                UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(res);
+                ToUser(userResponse);
+                //userID.Text = (String)Application.Current.Properties["userID"];
+                userName.Text = user.FirstName + " " + user.LastName;
+                userImage.Source = user.PicUrl;
+                CreateList();
             }
-            UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(res);
-            ToUser(userResponse);
-            //userID.Text = (String)Application.Current.Properties["userID"];
-            userName.Text = user.FirstName + " " + user.LastName;
-            userImage.Source = user.PicUrl;
-            CreateList();
+            catch (Exception a)
+            {
+
+            }
 
         }
 

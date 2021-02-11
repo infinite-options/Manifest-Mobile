@@ -8,7 +8,7 @@ namespace Manifest.LogIn.Apple
         public AppleSignInButton()
         {
             Clicked += AppleSignInButton_Clicked;
-            Source = "appleIcon.png";
+            Source = "apple_login.png";
         }
 
         public AppleSignInButtonStyle ButtonStyle { get; set; } = AppleSignInButtonStyle.Black;

@@ -24,13 +24,25 @@ namespace Manifest.Config
         public static string GoogleUserInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
         public const string GoogleCalendarUrl = "https://www.googleapis.com/calendar/v3/calendars/primary/events";
 
-        // GOOGLE ID Manifest Myspace
-        public static string GoogleiOSClientID = "287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb.apps.googleusercontent.com";
-        public static string GoogleAndroidClientID = "287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg.apps.googleusercontent.com";
+        // GOOGLE ID Manifest Myspace (Credentials from Manifest Web Hosting)
+        public static string GoogleiOSClientID = "1009120542229-m56ni4pvg8pj4tffuc2i6pthevrken6m.apps.googleusercontent.com";
+        public static string GoogleAndroidClientID = "1009120542229-55an5om5ecl3it6quigclsnj0035oiap.apps.googleusercontent.com";
 
-        // GOOGLE REDIRECT Manifest Myspace
-        public static string GoogleRedirectUrliOS = "com.googleusercontent.apps.287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb:/oauth2redirect";
-        public static string GoogleRedirectUrlAndroid = "com.googleusercontent.apps.287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg:/oauth2redirect";
+        // GOOGLE REDIRECT Manifest Myspace (Credentials from Manifest Web Hosting)
+        public static string GoogleRedirectUrliOS = "com.googleusercontent.apps.1009120542229-m56ni4pvg8pj4tffuc2i6pthevrken6m:/oauth2redirect";
+        public static string GoogleRedirectUrlAndroid = "com.googleusercontent.apps.1009120542229-55an5om5ecl3it6quigclsnj0035oiap:/oauth2redirect";
+
+        // GOOGLE ID Manifest Myspace (OLD)
+        //public static string GoogleiOSClientID = "287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb.apps.googleusercontent.com";
+        //public static string GoogleAndroidClientID = "287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg.apps.googleusercontent.com";
+
+        // GOOGLE REDIRECT Manifest Myspace (OLD)
+        //public static string GoogleRedirectUrliOS = "com.googleusercontent.apps.287117315224-68vb8vfam5gj4epoghhkm6oh8fhgabeb:/oauth2redirect";
+        //public static string GoogleRedirectUrlAndroid = "com.googleusercontent.apps.287117315224-m3v1urhm5ii73chqfj1a0hlfid8ivimg:/oauth2redirect";
+
+
+
+
 
         // ENDPOINTS Manifest Myspace
         public static string AccountSaltUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/accountsalt";
