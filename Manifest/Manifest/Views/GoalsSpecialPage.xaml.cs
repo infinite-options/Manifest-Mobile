@@ -28,11 +28,13 @@ namespace Manifest.Views
 
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
-
+        Dictionary<string, SubOccurance> subOccDict;
 
 
         public GoalsSpecialPage(Occurance occurance)
         {
+            subOccDict = new Dictionary<string, SubOccurance>();
+            subTasks = new List<SubOccurance>();
             InitializeComponent();
             setting = false;
             height = mainStackLayoutRow.Height;
@@ -49,17 +51,75 @@ namespace Manifest.Views
             numTasks = 0;
             numCompleted = 0;
             string occuranceID = occurance.Id;
-            subTasks = new List<SubOccurance>();
-            subTaskList.ItemsSource = datagrid;
+            //subTaskList.ItemsSource = datagrid;
             initializeSubTasks(occuranceID);
-            occuranceName.Text = occurance.Title;
+            goal.Text = occurance.Title;
+            foreach (SubOccurance subOccur in subTasks)
+            {
+                subOccDict.Add(subOccur.Title, subOccur);
+                Debug.WriteLine("suboccurance title: " + subOccur.Title);
+            }
 
+            checkPlatform();
             NavigationPage.SetHasNavigationBar(this, false);
+
+            if (subTasks.Count == 1)
+            {
+                action1.Text = subTasks[0].Title;
+            }
+            else if (subTasks.Count == 2)
+            {
+                Debug.WriteLine("first: " + subTasks[0].Title + " second: " + subTasks[1].Title);
+                action1.Text = subTasks[0].Title;
+                action2.Text = subTasks[1].Title;
+            }
+            else if (subTasks.Count == 3)
+            {
+                action1.Text = subTasks[0].Title;
+                action2.Text = subTasks[1].Title;
+                action3.Text = subTasks[2].Title;
+            }
+            else Navigation.PopAsync();
         }
 
-        void Button_Clicked(System.Object sender, System.EventArgs e)
+        void checkPlatform()
         {
-            Navigation.PushAsync(new GoalStepsPage(),false);
+            goal.HeightRequest = deviceHeight / 12;
+            goal.WidthRequest = goal.HeightRequest;
+            goal.CornerRadius = (int)(deviceHeight / 24);
+            goal.FontSize = deviceHeight / 70;
+
+            progIcon.HeightRequest = deviceHeight / 30;
+            progIcon.WidthRequest = deviceHeight / 30;
+            progIcon.CornerRadius = (int)(deviceHeight / 100);
+            progLabel.FontSize = deviceHeight / 140;
+
+            action1.HeightRequest = deviceWidth / 7;
+            action1.WidthRequest = deviceWidth / 7;
+            action1.CornerRadius = (int)(deviceWidth / 14);
+            action1.FontSize = deviceWidth / 45;
+
+            action2.HeightRequest = deviceWidth / 7;
+            action2.WidthRequest = deviceWidth / 7;
+            action2.CornerRadius = (int)(deviceWidth / 14);
+            action2.FontSize = deviceWidth / 45;
+
+            action3.HeightRequest = deviceWidth / 7;
+            action3.WidthRequest = deviceWidth / 7;
+            action3.CornerRadius = (int)(deviceWidth / 14);
+            action3.FontSize = deviceWidth / 45;
+        }
+
+        void goBackToGoals(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PopAsync(false);
+        }
+
+        void goToSteps(System.Object sender, System.EventArgs e)
+        {
+            Button receiving = (Button)sender;
+            if (receiving.Text != null && receiving.Text != "")
+                Navigation.PushAsync(new GoalStepsPage(subOccDict[receiving.Text]),false);
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
@@ -72,16 +132,17 @@ namespace Manifest.Views
         {
             string url = RdsConfig.BaseUrl + RdsConfig.actionAndTaskUrl + '/' + occuranceID;
             var response = await client.GetStringAsync(url);
+            Debug.WriteLine("subocc response: " + response);
             SubOccuranceResponse subOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
             ToSubOccurances(subOccuranceResponse);
-            CreateList();
+            //CreateList();
         }
 
         //This function converts the response we got from the endpoint to a list of SubOccurance's
         private void ToSubOccurances(SubOccuranceResponse subOccuranceResponse)
         {
             //Clear the occurances, as we are going to get new one now
-            subTasks.Clear();
+            //subTasks.Clear();
             if (subOccuranceResponse.result == null || subOccuranceResponse.result.Count == 0)
             {
                 DisplayAlert("No tasks today", "OK", "Cancel");
@@ -92,6 +153,7 @@ namespace Manifest.Views
                 SubOccurance toAdd = new SubOccurance();
                 toAdd.Id = dto.at_unique_id;
                 toAdd.Title = dto.at_title;
+                Debug.WriteLine("title: " + toAdd.Title);
                 toAdd.GoalRoutineID = dto.goal_routine_id;
                 toAdd.AtSequence = dto.at_sequence;
                 toAdd.IsAvailable = ToBool(dto.is_available);
@@ -112,7 +174,15 @@ namespace Manifest.Views
                 toAdd.AvailableEndTime = ToDateTime(dto.available_end_time);
                 subTasks.Add(toAdd);
                 Debug.WriteLine(toAdd.Id);
+                Debug.WriteLine("ToSubOcc inside count: " + subTasks.Count.ToString());
+                subOccDict.Add(toAdd.Title, toAdd);
+                if (numTasks == 1)
+                    action1.Text = toAdd.Title;
+                else if (numTasks == 2)
+                    action2.Text = toAdd.Title;
+                else action3.Text = toAdd.Title;
             }
+            Debug.WriteLine("final inside count: " + subTasks.Count.ToString());
         }
 
         //This function converts a string to a bool
@@ -172,6 +242,7 @@ namespace Manifest.Views
                 this.datagrid.Add(subTasks[i]);
             }
         }
+
 
         private void goToTodaysList(object sender, EventArgs args)
         {

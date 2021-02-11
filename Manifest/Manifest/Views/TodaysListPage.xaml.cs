@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Manifest.RDS;
 using Xamarin.Essentials;
+using System.Text;
+using System.Collections;
 
 namespace Manifest.Views
 {
@@ -20,6 +22,7 @@ namespace Manifest.Views
         GridLength lastRowHeight;
 
         HttpClient client = new HttpClient();
+        HttpClient client2 = new HttpClient();
         public List<Occurance> todaysOccurances;
         public List<Occurance> todaysOccurancesMorning;
         public List<Occurance> todaysOccurancesAfternoon;
@@ -154,7 +157,60 @@ namespace Manifest.Views
                 {
                     DisplayAlert("No tasks today", "OK", "Cancel");
                 }
+
+                //sort by end time
+                List<OccuranceDto> todayOccurs = new List<OccuranceDto>();
                 foreach (OccuranceDto dto in occuranceResponse.result)
+                {
+                    if (dto.is_displayed_today == "True")
+                    {
+                        if (todayOccurs.Count == 0)
+                            todayOccurs.Add(dto);
+                        else
+                        {
+                            for (int i = 0; i < todayOccurs.Count; i++)
+                            {
+                                if (i == todayOccurs.Count - 1 && DateTime.Parse(dto.end_day_and_time).TimeOfDay > DateTime.Parse(todayOccurs[i].end_day_and_time).TimeOfDay)
+                                {
+                                    todayOccurs.Add(dto);
+                                    break;
+                                }
+                                //else if (DateTime.Parse(dto.end_day_and_time).TimeOfDay > DateTime.Parse(todayOccurs[i].end_day_and_time).TimeOfDay)
+                                //{
+                                //    todayOccurs.Insert(i+1, dto);
+                                //    break;
+                                //}
+                                else if (DateTime.Parse(dto.end_day_and_time).TimeOfDay <= DateTime.Parse(todayOccurs[i].end_day_and_time).TimeOfDay)
+                                {
+                                    todayOccurs.Insert(i, dto);
+                                    break;
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+
+                for (int j = 0; j < todayOccurs.Count - 1; j++)
+                {
+                    for (int i = j + 1; i < todayOccurs.Count; i++)
+                    {
+                        if (DateTime.Parse(todayOccurs[i].start_day_and_time).TimeOfDay < DateTime.Parse(todayOccurs[j].start_day_and_time).TimeOfDay)
+                        {
+                            OccuranceDto temp = todayOccurs[i];
+                            todayOccurs[i] = todayOccurs[j];
+                            todayOccurs[j] = temp;
+                        }
+                    }
+                }
+
+                Debug.WriteLine("passed sorting");
+                foreach (OccuranceDto dto in todayOccurs)
+                {
+                    Debug.WriteLine("starting: " + DateTime.Parse(dto.start_day_and_time).TimeOfDay + " ending: " + DateTime.Parse(dto.end_day_and_time).TimeOfDay);
+                }
+
+                foreach (OccuranceDto dto in todayOccurs)
                 {
                     if (dto.is_displayed_today == "True")
                     {
@@ -204,6 +260,8 @@ namespace Manifest.Views
                         else if (toAdd.IsPersistent == false && commonOccur.Count > 1 && (commonOccur[0].StartDayAndTime.ToString("t") != toAdd.StartDayAndTime.ToString("t")
                             || commonOccur[0].EndDayAndTime.ToString("t") != toAdd.EndDayAndTime.ToString("t")))
                         {
+                            Debug.WriteLine("starttimes: " + commonOccur[0].StartDayAndTime.ToString("t") + " " + toAdd.StartDayAndTime.ToString("t"));
+                            Debug.WriteLine("endtimes: " + commonOccur[0].EndDayAndTime.ToString("t") + " " + toAdd.EndDayAndTime.ToString("t"));
                             Occurance toAddPursue = new Occurance();
                             toAddPursue.Title = "Pursue A Goal";
                             toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
@@ -379,13 +437,32 @@ namespace Manifest.Views
             }
         }
 
+        //public async Times timeSettings()
+        //{
+
+        //}
+
         //This function is going to initialise our three data grids
-        private void initialiseDataGrids(List<Occurance> todaysTasks)
+        private async void initialiseDataGrids(List<Occurance> todaysTasks)
         {
-            //use this: https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/timeSettings/100-000060
 
             try
             {
+                string url = RdsConfig.BaseUrl + RdsConfig.timeSettingsUrl + "/" + Application.Current.Properties["userId"];
+                var response2 = await client2.GetStringAsync(url);
+                Debug.WriteLine("Getting time settings:");
+                Debug.WriteLine(response2);
+                int subtract = response2.Length - 4;
+                response2 = response2.Substring(1, subtract);
+                Debug.WriteLine(response2);
+
+                //int subtract2 = response2.Length - 3;
+                //response2 = response2.Substring(0, subtract);
+                //Debug.WriteLine(response2);
+                Times timeResponse = JsonConvert.DeserializeObject<Times>(response2);
+
+                //Debug.WriteLine("daytime: " + timeResponse.morning_time);
+
                 datagridMorning.Clear();
                 datagridAfternoon.Clear();
                 datagridEvening.Clear();
@@ -393,24 +470,31 @@ namespace Manifest.Views
                 int morningTaskCount = 0;
                 int afternoonTaskCount = 0;
                 int eveningTaskCount = 0;
-                while (i < todaysTasks.Count && todaysTasks[i].StartDayAndTime.TimeOfDay < ToDateTime(afternoonStart).TimeOfDay)
+                string todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
+                while (i < todaysTasks.Count && String.Compare(todaysTaskTime,timeResponse.afternoon_time) < 0)
                 {
                     Debug.WriteLine("taskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString() + " afternoonStart: " + ToDateTime(afternoonStart).TimeOfDay.ToString());
                     datagridMorning.Add(todaysTasks[i]);
                     morningTaskCount++;
                     i++;
+                    todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                 }
-                while (i < todaysTasks.Count && todaysTasks[i].StartDayAndTime.TimeOfDay < ToDateTime(eveningStart).TimeOfDay)
+                while (i < todaysTasks.Count && String.Compare(todaysTaskTime, timeResponse.evening_time) < 0)
                 {
+                    Debug.WriteLine("afternoonTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
                     datagridAfternoon.Add(todaysTasks[i]);
                     afternoonTaskCount++;
                     i++;
+                    todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                 }
                 while (i < todaysTasks.Count)
                 {
+                    Debug.WriteLine("nightTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
+                    Debug.WriteLine("nightTaskStartHrMin: " + todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                     datagridEvening.Add(todaysTasks[i]);
                     eveningTaskCount++;
                     i++;
+                    //todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                 }
 
                 Debug.WriteLine("morningCount: " + morningTaskCount.ToString());

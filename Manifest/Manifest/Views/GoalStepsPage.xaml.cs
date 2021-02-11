@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Manifest.Models;
 using Xamarin.Forms;
 
 namespace Manifest.Views
@@ -10,7 +10,7 @@ namespace Manifest.Views
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
-        public GoalStepsPage()
+        public GoalStepsPage(SubOccurance subOccur)
         {
             InitializeComponent();
             setting = false;
@@ -18,8 +18,9 @@ namespace Manifest.Views
             lastRowHeight = barStackLayoutRow.Height;
 
             frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
-            title.Text = "Goals";
-            subTitle.Text = "Get crafty";
+            title.Text = subOccur.Title;
+            //title.Text = "Goals";
+            //subTitle.Text = "Get crafty";
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
