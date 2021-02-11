@@ -17,6 +17,8 @@ namespace Manifest.Config
         public const string actionAndTaskUrl = "/api/v2/actionsTasks";
         public const string updateGoalAndRoutine = "/api/v2/udpateGRWatchMobile";
         public const string updateActionAndTask = "/api/v2/updateATWatchMobile";
+        public const string timeSettingsUrl = "/api/v2/timeSettings"; //plus userId
+        public const string goalsActInstrUrl = "/api/v2/gai";
 
         //Accelerometer
         public const string addCoordinates = "/api/v2/addCoordinates";

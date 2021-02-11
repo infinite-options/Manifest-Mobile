@@ -33,7 +33,7 @@ namespace Manifest
             {
                 //System.Diagnostics.Debug.WriteLine("Session available");
 
-                MainPage = new LogInPage();
+                MainPage = new MainPage();
                 //if (Application.Current.Properties.ContainsKey("timeStamp"))
                 //{
                 //    //MainPage = new MainPage();

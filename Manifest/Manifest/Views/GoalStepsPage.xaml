@@ -48,8 +48,8 @@
  
             </Frame>
             <StackLayout Grid.Row="1" >
-                <Button Text="GO TO PROGRESS PAGE" Clicked="Button_Clicked"></Button>
                 <!--NEW UI GOES HERE-->
+                <Button Text="HOME PAGE" Clicked="Button_Clicked"></Button>
             </StackLayout>
             <StackLayout Grid.Row="2">
 

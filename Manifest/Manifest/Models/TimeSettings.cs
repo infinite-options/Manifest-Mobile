@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Manifest.Models
 {
@@ -12,4 +13,16 @@ namespace Manifest.Models
         public TimeSpan DayStart { get; set; }
         public TimeSpan DayEnd { get; set; }
     }
+
+    public class Times
+    {
+        public string evening_time {get; set;}
+        public string morning_time { get; set; }
+        public string afternoon_time { get; set; }
+        public string night_time { get; set; }
+        public string day_end { get; set; }
+        public string day_start { get; set; }
+        public string time_zone { get; set; }
+    }
+
 }

@@ -47,10 +47,62 @@
                     </Grid>
  
             </Frame>
-            <StackLayout Grid.Row="1" >
-                <!--NEW UI GOES HERE-->
-                <Button Text="MOVE TO SPECIAL GOALS PAGE" Clicked="Button_Clicked"></Button>
-            </StackLayout>
+
+            <!--imported ui here-->
+                <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <AbsoluteLayout x:Name="goals3" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <Button x:Name="first3" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.07" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>
+                <Button x:Name="second3" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.85,0.42" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>
+                <Button x:Name="third3" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.14,0.77" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <!--<Button x:Name="next3" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+            <AbsoluteLayout x:Name="goals4" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <Button x:Name="first4" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black"  AbsoluteLayout.LayoutBounds="0.10,0.07" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>
+                <Button x:Name="second4" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black"  AbsoluteLayout.LayoutBounds="0.85,0.45" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="third4" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black"  AbsoluteLayout.LayoutBounds="0.14,0.81" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fourth4" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.82,0.84" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <!--<Button x:Name="next4" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+            <AbsoluteLayout x:Name="goals5" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <Button x:Name="first5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.03" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>
+                <Button x:Name="second5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.75,0.32" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="third5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.12,0.66" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fourth5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.9,0.68" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fifth5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.65,0.93" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <!--<Button x:Name="next5" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+            <AbsoluteLayout x:Name="goals6" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <Button x:Name="first6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.05" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>
+                <Button x:Name="second6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.91,0.23" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="third6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.08,0.49" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fourth6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.78,0.64" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fifth6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.11,0.83" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="sixth6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.68,0.93" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <!--<Button x:Name="next6" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+            <AbsoluteLayout x:Name="goals7" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <Button x:Name="first7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.05" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>
+                <Button x:Name="second7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.90,0.23" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="third7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.09,0.39" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fourth7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.78,0.60" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fifth7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.61" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="sixth7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.93,0.86" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="seventh7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.31,0.86" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <!--<Button x:Name="next7" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+
+        </Grid>
+            <!--imported ui here-->
+
             <StackLayout Grid.Row="2">
 
             </StackLayout>
@@ -69,7 +121,7 @@
                 </Frame>
             </StackLayout>
             <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
-                <Button Text="Next" WidthRequest="100" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#9DB2CB"></Button>
+                <Button Text="Next" FontSize="20" FontAttributes="Bold" WidthRequest="120" HeightRequest="40" CornerRadius="20" BackgroundColor="White" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

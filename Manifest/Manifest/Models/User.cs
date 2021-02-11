@@ -15,4 +15,5 @@ namespace Manifest.Models
         public List<Person> ImportantPeople { get; set; }
         public TimeSettings TimeSettings { get; set; }
     }
+
 }

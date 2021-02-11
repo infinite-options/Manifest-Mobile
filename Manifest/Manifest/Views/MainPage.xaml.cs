@@ -24,6 +24,7 @@ namespace Manifest.Views
         GridLength lastRowHeight;
         string city;
         string time;
+
         // DICTIONARY KEYS WE HAVE ACCESS TO ARE:
         // 1. "location"
         // 2. "userId"
@@ -493,7 +494,7 @@ namespace Manifest.Views
 
         void GoalsClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new GoalsPage());
+            //Application.Current.MainPage = new NavigationPage(new GoalsPage());
         }
 
         void WhatAreYouCurrentlyDoingClick(System.Object sender, System.EventArgs e)
