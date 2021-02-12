@@ -29,6 +29,7 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
     <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -125,9 +126,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AppleSignIn\" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\apple_login.png" />
     <BundleResource Include="Resources\facebook_login.png" />
     <BundleResource Include="Resources\google_login.png" />
@@ -144,5 +142,8 @@
     <BundleResource Include="Resources\listview.png" />
     <BundleResource Include="Resources\calendarFive.png" />
     <BundleResource Include="Resources\settingsIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AppleSignIn\" />
   </ItemGroup>
 </Project>

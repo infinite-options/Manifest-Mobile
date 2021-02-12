@@ -25,5 +25,6 @@
     <Folder Include="LogIn\Apple\" />
     <Folder Include="LogIn\Classes\" />
     <Folder Include="RDS\" />
+    <Folder Include="Notifications\" />
   </ItemGroup>
 </Project>

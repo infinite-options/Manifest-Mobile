@@ -79,58 +79,11 @@ namespace Manifest.Views
 
         public async void UserVerification(AuthenticatorCompletedEventArgs user = null, AppleAccount appleCredentials = null, string platform = "")
         {
-            //var client = new HttpClient();
-            //var socialLogInPost = new SocialLogInPost();
-
-            //var request = new OAuth2Request("GET", new Uri(Constant.GoogleUserInfoUrl), null, e.Account);
-            //var GoogleResponse = await request.GetResponseAsync();
-            //var userData = GoogleResponse.GetResponseText();
-
-            //GoogleResponse googleData = JsonConvert.DeserializeObject<GoogleResponse>(userData);
-
-            //System.Diagnostics.Debug.WriteLine(userData);
-
-            //socialLogInPost.email = googleData.email;
-            //socialLogInPost.social_id = googleData.id;
-            //socialLogInPost.mobile_access_token = accessToken;
-            //socialLogInPost.mobile_refresh_token = refreshToken;
-            //socialLogInPost.signup_platform = "GOOGLE";
-
-            //var socialLogInPostSerialized = JsonConvert.SerializeObject(socialLogInPost);
-            //var postContent = new StringContent(socialLogInPostSerialized, Encoding.UTF8, "application/json");
-
-            //System.Diagnostics.Debug.WriteLine(socialLogInPostSerialized);
-
-            //var RDSResponse = await client.PostAsync(Constant.LogInUrl, postContent);
-            //var responseContent = await RDSResponse.Content.ReadAsStringAsync();
-            //Session session = JsonConvert.DeserializeObject<Session>(responseContent);
-
-
-            //DateTime today = DateTime.Now;
-            //DateTime expDate = today.AddDays(Constant.days);
-
-            //Application.Current.Properties["userId"] = session.result[0].user_unique_id;
-            //Application.Current.Properties["accessToken"] = accessToken;
-            //Application.Current.Properties["refreshToken"] = refreshToken;
-            //Application.Current.Properties["timeStamp"] = expDate;
-
-            //Debug.WriteLine("VERIFICATION");
-            //foreach(string key in Application.Current.Properties.Keys)
-            //{
-            //    Debug.WriteLine("key: {0}, value: {1}", key, Application.Current.Properties[key]);
-            //}
-
-            //_ = Application.Current.SavePropertiesAsync();
-
-
             try
             {
-                //var progress = UserDialogs.Instance.Loading("Loading...");
                 var client = new HttpClient();
                 var socialLogInPost = new SocialLogInPost();
-
                 var googleData = new GoogleResponse();
-                var facebookData = new FacebookResponse();
 
                 if (platform == "GOOGLE")
                 {
@@ -148,56 +101,35 @@ namespace Manifest.Views
                 }
                 else if (platform == "FACEBOOK")
                 {
-                    var facebookResponse = client.GetStringAsync(Constant.FacebookUserInfoUrl + user.Account.Properties["access_token"]);
-                    var facebookUserData = facebookResponse.Result;
-
-                    facebookData = JsonConvert.DeserializeObject<FacebookResponse>(facebookUserData);
-
-                    await DisplayAlert("Sign in to your Google Account", "", "");
+                    await DisplayAlert("Please sign in to your Google Account!", "", "OK");
                     var googleSignInClient = new LogInPage();
-                    var o = new object();
-                    var e = new EventArgs();
-                    googleSignInClient.GoogleLogInClick(o, e);
+                    googleSignInClient.GoogleLogInClick(new object(), new EventArgs());
                     return;
                 }
                 else if (platform == "APPLE")
                 {
-                    await DisplayAlert("Sign in to your Google Account", "", "");
+                    await DisplayAlert("Please sign in to your Google Account!", "", "OK");
                     var googleSignInClient = new LogInPage();
-                    var o = new object();
-                    var e = new EventArgs();
-                    googleSignInClient.GoogleLogInClick(o, e);
+                    googleSignInClient.GoogleLogInClick(new object(), new EventArgs());
                     return;
                 }
 
 
                 var socialLogInPostSerialized = JsonConvert.SerializeObject(socialLogInPost);
                 var postContent = new StringContent(socialLogInPostSerialized, Encoding.UTF8, "application/json");
-
-                //var test = UserDialogs.Instance.Loading("Loading...");
                 var RDSResponse = await client.PostAsync(Constant.LogInUrl, postContent);
                 var responseContent = await RDSResponse.Content.ReadAsStringAsync();
                 var authetication = JsonConvert.DeserializeObject<SuccessfulSocialLogIn>(responseContent);
                 var session = JsonConvert.DeserializeObject<Session>(responseContent);
+
                 if (RDSResponse.IsSuccessStatusCode)
                 {
                     if (responseContent != null)
                     {
                         if (authetication.code.ToString() == Constant.EmailNotFound)
                         {
-                           
-                            //if (platform == "GOOGLE")
-                            //{
-                            //    Application.Current.MainPage = new SocialSignUp(googleData.id, googleData.given_name, googleData.family_name, googleData.email, accessToken, refreshToken, "GOOGLE");
-                            //}
-                            //else if (platform == "FACEBOOK")
-                            //{
-                            //    Application.Current.MainPage = new SocialSignUp(facebookData.id, facebookData.name, "", facebookData.email, accessToken, accessToken, "FACEBOOK");
-                            //}
-                            //else if (platform == "APPLE")
-                            //{
-                            //    Application.Current.MainPage = new SocialSignUp(appleCredentials.UserId, appleCredentials.Name, "", appleCredentials.Email, appleCredentials.Token, appleCredentials.Token, "APPLE");
-                            //}
+                            // Missing a Oops message you don't have an account
+                            Application.Current.MainPage = new LogInPage();
                         }
                         if (authetication.code.ToString() == Constant.AutheticatedSuccesful)
                         {
@@ -235,13 +167,15 @@ namespace Manifest.Views
                                 //    deviceId = Preferences.Get("guid", null);
                                 //    if (deviceId != null) { Debug.WriteLine("This is the Android GUID from Log in " + deviceId); }
                                 //}
-                                var guid = (string)Application.Current.Properties["guid"];
+                                string id = (string)Application.Current.Properties["userId"];
+                                string guid = (string)Application.Current.Properties["guid"];
+                                Debug.WriteLine("GUID FROM MAIN PAGE: " + guid);
                                 if (guid != "")
                                 {
                                     NotificationPost notificationPost = new NotificationPost();
 
-                                    notificationPost.user_unique_id = (string)Application.Current.Properties["user_id"];
-                                    notificationPost.guid = (string)Application.Current.Properties["guid"];
+                                    notificationPost.user_unique_id = id;
+                                    notificationPost.guid = guid;
                                     notificationPost.notification = "TRUE";
 
                                     var notificationSerializedObject = JsonConvert.SerializeObject(notificationPost);
@@ -255,7 +189,7 @@ namespace Manifest.Views
 
                                     if (clientResponse.IsSuccessStatusCode)
                                     {
-                                        System.Diagnostics.Debug.WriteLine("We have post the guid to the database");
+                                        Debug.WriteLine("We have post the guid to the database");
                                     }
                                     else
                                     {
