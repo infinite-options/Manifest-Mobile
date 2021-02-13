@@ -23,7 +23,7 @@ namespace Manifest.Models
         public TimeSpan ExpectedCompletionTime { get; set; }
         public DateTime AvailableStartTime { get; set; }
         public DateTime AvailableEndTime { get; set; }
-        public List<string> instruction_steps { get; set; }
+        public List<Instruction> instructions { get; set; }
 
         public void updateIsInProgress(bool updatedVal)
         {
@@ -56,6 +56,7 @@ namespace Manifest.Models
         public string expected_completion_time { get; set; }
         public string available_start_time { get; set; }
         public string available_end_time { get; set; }
+        public List<InstructionDto> instructions_steps { get; set; }
     }
 
     public class SubOccuranceResponse

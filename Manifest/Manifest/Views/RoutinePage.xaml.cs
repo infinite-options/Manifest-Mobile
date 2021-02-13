@@ -160,12 +160,40 @@ namespace Manifest.Views
                 toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
                 toAdd.AvailableStartTime = DataParser.ToDateTime(dto.available_start_time);
                 toAdd.AvailableEndTime = DataParser.ToDateTime(dto.available_end_time);
+                toAdd.instructions = GetInstructions(dto.instructions_steps);
                 subTasks.Add(toAdd);
                 Debug.WriteLine(toAdd.Id);
             }
 
             return subTasks;
         }
+
+        private List<Instruction> GetInstructions(List<InstructionDto> instruction_steps)
+        {
+            List<Instruction> instructions = new List<Instruction>();
+            if (instruction_steps.Count == 0 || instruction_steps == null)
+            {
+                return instructions;
+            }
+            foreach (InstructionDto dto in instruction_steps)
+            {
+                Instruction toAdd = new Instruction();
+                toAdd.unique_id = dto.unique_id;
+                toAdd.title = dto.title;
+                toAdd.at_id = dto.at_id;
+                toAdd.IsSequence = int.Parse(dto.is_sequence);
+                toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
+                toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
+                toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
+                toAdd.IsTimed = DataParser.ToBool(dto.is_timed);
+                toAdd.Photo = dto.photo;
+                toAdd.expected_completion_time = DataParser.ToTimeSpan(dto.expected_completion_time);
+                instructions.Add(toAdd);
+            }
+
+            return instructions;
+        }
+
 
         private void SortRoutines()
         {
@@ -586,9 +614,21 @@ namespace Manifest.Views
                 //}
             }
 
-        public void helpNeeded(object sender, EventArgs args)
+        public async void helpNeeded(object sender, EventArgs args)
         {
             Debug.WriteLine("Help button pressed. Help needed for subTask");
+            Image myvar = (Image)sender;
+            SubOccurance currOccurance = myvar.BindingContext as SubOccurance;
+            //If there are instructions, navigate to the instruction page
+            if (currOccurance.instructions.Count > 0)
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(currOccurance), false);
+            }
+            else
+            {
+                await DisplayAlert("Note", "No instructions for this task", "OK");
+            }
+
         }
 
         public async void routineTapped(object sender, EventArgs args)
@@ -655,9 +695,9 @@ namespace Manifest.Views
             Application.Current.MainPage = new MainPage();
         }
 
-        void Button_Clicked(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(),false);
-        }
+        //void Button_Clicked(System.Object sender, System.EventArgs e)
+        //{
+        //    Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(),false);
+        //}
     }
 }
