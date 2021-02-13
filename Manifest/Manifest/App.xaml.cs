@@ -87,15 +87,14 @@ namespace Manifest
         }
 
         // Initialization function that checks if a user has logged in through Apple
+
         protected override async void OnStart()
         {
             var appleSignInService = DependencyService.Get<IAppleSignInService>();
 
-            // Retrieve user info if user is signed on via Apple ID)
             if (appleSignInService != null)
             {
                 userId = await SecureStorage.GetAsync(AppleUserIdKey);
-                System.Diagnostics.Debug.WriteLine("This is the Apple userID :" + userId);
                 if (appleSignInService.IsAvailable && !string.IsNullOrEmpty(userId))
                 {
                     var credentialState = await appleSignInService.GetCredentialStateAsync(userId);
@@ -105,7 +104,6 @@ namespace Manifest
                             break;
                         case AppleSignInCredentialState.NotFound:
                         case AppleSignInCredentialState.Revoked:
-                            //Logout;
                             SecureStorage.Remove(AppleUserIdKey);
                             Preferences.Set(LoggedInKey, false);
                             MainPage = new LogInPage();

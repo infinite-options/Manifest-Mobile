@@ -1,39 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Manifest.Models;
+
 using Xamarin.Forms;
 
 namespace Manifest.Views
 {
-    public partial class GoalStepsPage : ContentPage
+    public partial class ProgressPage : ContentPage
     {
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
-        List<OrigSteps> instructions;
-
-
-        public GoalStepsPage(string goalTitle, SubOccuranceDto subOccur)
+        public ProgressPage()
         {
             InitializeComponent();
             setting = false;
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
-            instructions = subOccur.instructions_steps;
 
             frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
-            //title.Text = subOccur.Title;
-            title.Text = "Goals";
-            subTitle.Text = goalTitle;
+            title.Text = "Progress";
+            subTitle.Text = "Your progress";
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
 
-            foreach (OrigSteps step in instructions)
-            {
-                Debug.WriteLine("a step: " + step.title);
-            }
 
             NavigationPage.SetHasNavigationBar(this, false);
         }

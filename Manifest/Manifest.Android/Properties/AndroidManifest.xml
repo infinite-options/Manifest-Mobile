@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="46" android:versionName="2.1.8" package="com.infiniteoptions-manifestmy.space" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="28" android:targetSdkVersion="29" />
+	<uses-sdk android:minSdkVersion="28" android:targetSdkVersion="28" />
 	<!-- Adding stuff for notifications-->
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<!-- End of lines for notifications-->
-	<application android:label="ManifestMyLife" android:theme="@style/MainTheme" android:icon="@drawable/ic_launcher">
+	<application android:label="ManifestMySpace" android:theme="@style/MainTheme" android:icon="@drawable/ic_launcher">
 		<!-- Adding stuff for notifications-->
 		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
 		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
@@ -20,6 +19,8 @@
 		<!-- End of lines for notifications-->
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 </manifest>
 <!--<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="44" android:versionName="1.0" package="com.infiniteoptions_manifestmy.life">

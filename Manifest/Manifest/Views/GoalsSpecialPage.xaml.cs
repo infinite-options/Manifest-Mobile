@@ -16,7 +16,8 @@ namespace Manifest.Views
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
-        public List<SubOccurance> subTasks;
+        //public List<SubOccurance> subTasks;
+        public List<SubOccuranceDto> subTasks;
         HttpClient client = new HttpClient();
 
         public ObservableCollection<SubOccurance> datagrid = new ObservableCollection<SubOccurance>();
@@ -28,36 +29,37 @@ namespace Manifest.Views
 
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
-        Dictionary<string, SubOccurance> subOccDict;
+        Dictionary<string, SubOccuranceDto> subOccDict;
 
 
-        public GoalsSpecialPage(Occurance occurance)
+
+        public GoalsSpecialPage(OccuranceDto occurance)
         {
-            subOccDict = new Dictionary<string, SubOccurance>();
-            subTasks = new List<SubOccurance>();
+            subOccDict = new Dictionary<string, SubOccuranceDto>();
+            subTasks = occurance.actions_tasks;
             InitializeComponent();
             setting = false;
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
             frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
-            title.Text = occurance.Title;
-            //subTitle.Text = "Get crafty";
+            title.Text = "Goals";
+            subTitle.Text = occurance.gr_title;
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
 
-            parent = occurance;
+            //parent = occurance;
             numTasks = 0;
             numCompleted = 0;
-            string occuranceID = occurance.Id;
+            string occuranceID = occurance.gr_unique_id;
             //subTaskList.ItemsSource = datagrid;
-            initializeSubTasks(occuranceID);
-            goal.Text = occurance.Title;
-            foreach (SubOccurance subOccur in subTasks)
+            //initializeSubTasks(occuranceID);
+            goal.Text = occurance.gr_title;
+            foreach (SubOccuranceDto subOccur in subTasks)
             {
-                subOccDict.Add(subOccur.Title, subOccur);
-                Debug.WriteLine("suboccurance title: " + subOccur.Title);
+                subOccDict.Add(subOccur.at_title, subOccur);
+                Debug.WriteLine("suboccurance title: " + subOccur.at_title);
             }
 
             checkPlatform();
@@ -65,19 +67,25 @@ namespace Manifest.Views
 
             if (subTasks.Count == 1)
             {
-                action1.Text = subTasks[0].Title;
+                action2.Text = subTasks[0].at_title;
+                action3.IsVisible = false;
+                action1.IsVisible = false;
+                leftArrow.IsVisible = false;
+                rightArrow.IsVisible = false;
             }
             else if (subTasks.Count == 2)
             {
-                Debug.WriteLine("first: " + subTasks[0].Title + " second: " + subTasks[1].Title);
-                action1.Text = subTasks[0].Title;
-                action2.Text = subTasks[1].Title;
+                Debug.WriteLine("first: " + subTasks[0].at_title + " second: " + subTasks[1].at_title);
+                action1.Text = subTasks[0].at_title;
+                action3.Text = subTasks[1].at_title;
+                action2.IsVisible = false;
+                downArrow.IsVisible = false;
             }
             else if (subTasks.Count == 3)
             {
-                action1.Text = subTasks[0].Title;
-                action2.Text = subTasks[1].Title;
-                action3.Text = subTasks[2].Title;
+                action1.Text = subTasks[0].at_title;
+                action2.Text = subTasks[1].at_title;
+                action3.Text = subTasks[2].at_title;
             }
             else Navigation.PopAsync();
         }
@@ -89,10 +97,16 @@ namespace Manifest.Views
             goal.CornerRadius = (int)(deviceHeight / 24);
             goal.FontSize = deviceHeight / 70;
 
-            progIcon.HeightRequest = deviceHeight / 30;
-            progIcon.WidthRequest = deviceHeight / 30;
-            progIcon.CornerRadius = (int)(deviceHeight / 100);
+            progIcon.HeightRequest = deviceHeight / 28;
+            progIcon.WidthRequest = deviceHeight / 28;
+            //progIcon.CornerRadius = (int)(deviceHeight / 100);
             progLabel.FontSize = deviceHeight / 140;
+            //leftArrow.WidthRequest = deviceWidth / 3;
+            //double holder = leftArrow.Width;
+            //leftArrow.Margin = new Thickness(deviceWidth / 6, 0, 0, 0);
+            //leftArrow.WidthRequest = holder;
+            //rightArrow.Margin = new Thickness(-deviceWidth / 9, 0, 0, 0);
+            //rightArrow.WidthRequest = holder;
 
             action1.HeightRequest = deviceWidth / 7;
             action1.WidthRequest = deviceWidth / 7;
@@ -118,8 +132,10 @@ namespace Manifest.Views
         void goToSteps(System.Object sender, System.EventArgs e)
         {
             Button receiving = (Button)sender;
-            if (receiving.Text != null && receiving.Text != "")
-                Navigation.PushAsync(new GoalStepsPage(subOccDict[receiving.Text]),false);
+            if (receiving.Text != null && receiving.Text != "" && subOccDict[receiving.Text].instructions_steps.Count != 0)
+                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving.Text]), false);
+            else if (subOccDict[receiving.Text].instructions_steps.Count == 0)
+                DisplayAlert("Oops", "there are no instructions available for this action", "OK");
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
@@ -128,62 +144,62 @@ namespace Manifest.Views
         }
 
         //This function makes a call to the database to get all the sub tasks for the given occurance, and displays it on the device
-        private async void initializeSubTasks(string occuranceID)
-        {
-            string url = RdsConfig.BaseUrl + RdsConfig.actionAndTaskUrl + '/' + occuranceID;
-            var response = await client.GetStringAsync(url);
-            Debug.WriteLine("subocc response: " + response);
-            SubOccuranceResponse subOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
-            ToSubOccurances(subOccuranceResponse);
-            //CreateList();
-        }
+        //private async void initializeSubTasks(string occuranceID)
+        //{
+        //    string url = RdsConfig.BaseUrl + RdsConfig.actionAndTaskUrl + '/' + occuranceID;
+        //    var response = await client.GetStringAsync(url);
+        //    Debug.WriteLine("subocc response: " + response);
+        //    SubOccuranceResponse subOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
+        //    ToSubOccurances(subOccuranceResponse);
+        //    //CreateList();
+        //}
 
         //This function converts the response we got from the endpoint to a list of SubOccurance's
-        private void ToSubOccurances(SubOccuranceResponse subOccuranceResponse)
-        {
-            //Clear the occurances, as we are going to get new one now
-            //subTasks.Clear();
-            if (subOccuranceResponse.result == null || subOccuranceResponse.result.Count == 0)
-            {
-                DisplayAlert("No tasks today", "OK", "Cancel");
-            }
-            foreach (SubOccuranceDto dto in subOccuranceResponse.result)
-            {
-                numTasks++;
-                SubOccurance toAdd = new SubOccurance();
-                toAdd.Id = dto.at_unique_id;
-                toAdd.Title = dto.at_title;
-                Debug.WriteLine("title: " + toAdd.Title);
-                toAdd.GoalRoutineID = dto.goal_routine_id;
-                toAdd.AtSequence = dto.at_sequence;
-                toAdd.IsAvailable = ToBool(dto.is_available);
-                toAdd.IsComplete = ToBool(dto.is_complete);
-                if (toAdd.IsComplete)
-                {
-                    numCompleted++;
-                }
-                toAdd.IsInProgress = ToBool(dto.is_in_progress);
-                toAdd.IsSublistAvailable = ToBool(dto.is_sublist_available);
-                toAdd.IsMustDo = ToBool(dto.is_must_do);
-                toAdd.PicUrl = dto.photo;
-                toAdd.IsTimed = ToBool(dto.is_timed);
-                toAdd.DateTimeCompleted = ToDateTime(dto.datetime_completed);
-                toAdd.DateTimeStarted = ToDateTime(dto.datetime_started);
-                toAdd.ExpectedCompletionTime = ToTimeSpan(dto.expected_completion_time);
-                toAdd.AvailableStartTime = ToDateTime(dto.available_start_time);
-                toAdd.AvailableEndTime = ToDateTime(dto.available_end_time);
-                subTasks.Add(toAdd);
-                Debug.WriteLine(toAdd.Id);
-                Debug.WriteLine("ToSubOcc inside count: " + subTasks.Count.ToString());
-                subOccDict.Add(toAdd.Title, toAdd);
-                if (numTasks == 1)
-                    action1.Text = toAdd.Title;
-                else if (numTasks == 2)
-                    action2.Text = toAdd.Title;
-                else action3.Text = toAdd.Title;
-            }
-            Debug.WriteLine("final inside count: " + subTasks.Count.ToString());
-        }
+        //private void ToSubOccurances(SubOccuranceResponse subOccuranceResponse)
+        //{
+        //    //Clear the occurances, as we are going to get new one now
+        //    //subTasks.Clear();
+        //    if (subOccuranceResponse.result == null || subOccuranceResponse.result.Count == 0)
+        //    {
+        //        DisplayAlert("No tasks today", "OK", "Cancel");
+        //    }
+        //    foreach (SubOccuranceDto dto in subOccuranceResponse.result)
+        //    {
+        //        numTasks++;
+        //        SubOccurance toAdd = new SubOccurance();
+        //        toAdd.Id = dto.at_unique_id;
+        //        toAdd.Title = dto.at_title;
+        //        Debug.WriteLine("title: " + toAdd.Title);
+        //        toAdd.GoalRoutineID = dto.goal_routine_id;
+        //        toAdd.AtSequence = dto.at_sequence;
+        //        toAdd.IsAvailable = ToBool(dto.is_available);
+        //        toAdd.IsComplete = ToBool(dto.is_complete);
+        //        if (toAdd.IsComplete)
+        //        {
+        //            numCompleted++;
+        //        }
+        //        toAdd.IsInProgress = ToBool(dto.is_in_progress);
+        //        toAdd.IsSublistAvailable = ToBool(dto.is_sublist_available);
+        //        toAdd.IsMustDo = ToBool(dto.is_must_do);
+        //        toAdd.PicUrl = dto.photo;
+        //        toAdd.IsTimed = ToBool(dto.is_timed);
+        //        toAdd.DateTimeCompleted = ToDateTime(dto.datetime_completed);
+        //        toAdd.DateTimeStarted = ToDateTime(dto.datetime_started);
+        //        toAdd.ExpectedCompletionTime = ToTimeSpan(dto.expected_completion_time);
+        //        toAdd.AvailableStartTime = ToDateTime(dto.available_start_time);
+        //        toAdd.AvailableEndTime = ToDateTime(dto.available_end_time);
+        //        //subTasks.Add(toAdd);
+        //        Debug.WriteLine(toAdd.Id);
+        //        Debug.WriteLine("ToSubOcc inside count: " + subTasks.Count.ToString());
+        //        //subOccDict.Add(toAdd.Title, toAdd);
+        //        if (numTasks == 1)
+        //            action1.Text = toAdd.Title;
+        //        else if (numTasks == 2)
+        //            action2.Text = toAdd.Title;
+        //        else action3.Text = toAdd.Title;
+        //    }
+        //    Debug.WriteLine("final inside count: " + subTasks.Count.ToString());
+        //}
 
         //This function converts a string to a bool
         private bool ToBool(string boolString)
@@ -235,13 +251,13 @@ namespace Manifest.Views
             return new DateTime();
         }
 
-        private void CreateList()
-        {
-            for (int i = 0; i < subTasks.Count; i++)
-            {
-                this.datagrid.Add(subTasks[i]);
-            }
-        }
+        //private void CreateList()
+        //{
+        //    for (int i = 0; i < subTasks.Count; i++)
+        //    {
+        //        this.datagrid.Add(subTasks[i]);
+        //    }
+        //}
 
 
         private void goToTodaysList(object sender, EventArgs args)

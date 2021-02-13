@@ -20,8 +20,10 @@ namespace Manifest.Views
 {
     public partial class LogInPage : ContentPage
     {
-        public event EventHandler SignIn;                                                                   // Variable of EventHandler used for Apple
-        public bool createAccount = false;                                                                  // Initalized boolean value called createAccount
+        public event EventHandler SignIn;
+        public bool createAccount = false;
+        //INotifications appleNotification = DependencyService.Get<INotifications>();
+        private string deviceId = "";                                                              // Initalized boolean value called createAccount
         string location;
         public LogInPage()                                                                                  // This is the class Constructor
         {
@@ -37,6 +39,28 @@ namespace Manifest.Views
                 InitializedAppleLogin();                                                                    // Turns on Apple Login for Apple devices
             }
             GetCurrentLocation();
+
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                deviceId = GlobalVars.user_guid;
+                if (deviceId != null) { Debug.WriteLine("This is the iOS GUID from Log in: " + deviceId); }
+            }
+            else
+            {
+                deviceId = GlobalVars.user_guid;
+                if (deviceId != null) { Debug.WriteLine("This is the Android GUID from Log in " + deviceId); }
+            }
+            if (deviceId != "")
+            {
+                Application.Current.Properties["guid"] = deviceId.Substring(5);
+            }
+            else
+            {
+                Application.Current.Properties["guid"] = "";
+            }
+            
+
         }
 
         public void InitializeAppProperties()                                                               // Initializes most (not all) Application.Current.Properties
@@ -48,10 +72,10 @@ namespace Manifest.Views
             Application.Current.Properties["refreshToken"] = "";
         }
 
-        public void InitializedAppleLogin()                                                                 // Explain this format
+        public void InitializedAppleLogin()
         {
             var vm = new LoginViewModel();
-            vm.AppleError += AppleError;                                                                    // Assigns handler class from LoginViewModel.cs <== Need further review += creates a button handler like OnClick in xaml
+            vm.AppleError += AppleError;
             BindingContext = vm;
         }
 
@@ -344,6 +368,11 @@ namespace Manifest.Views
             if (e.IsAuthenticated)                                                                                      // How does this statement work?
             {
                 //FacebookUserProfileAsync(e.Account.Properties["access_token"]);
+                Application.Current.MainPage = new MainPage(e, null, "FACEBOOK");
+            }
+            else
+            {
+                Application.Current.MainPage = new LogInPage();
             }
         }
 
@@ -519,6 +548,8 @@ namespace Manifest.Views
             presenter.Login(authenticator);
         }
 
+
+
         private async void GoogleAuthenticatorCompleted(object sender, AuthenticatorCompletedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Enter GoogleAuthenticatorCompleted");
@@ -532,12 +563,13 @@ namespace Manifest.Views
 
             if (e.IsAuthenticated)
             {
-                Application.Current.MainPage = new MainPage(e.Account.Properties["access_token"], e.Account.Properties["refresh_token"], e);
+                Application.Current.MainPage = new MainPage(e, null, "GOOGLE");
                 //await WaitAndApologizeAsync();
                 //GoogleUserProfileAsync(e.Account.Properties["access_token"], e.Account.Properties["refresh_token"], e);
             }
             else
             {
+                Application.Current.MainPage = new LogInPage();
                 await DisplayAlert("Error", "Google was not able to autheticate your account", "OK");
             }
         }

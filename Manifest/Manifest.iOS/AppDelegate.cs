@@ -78,7 +78,7 @@ namespace Manifest.iOS
                 var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
                 UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
                 new NSSet());
-
+                
                 UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
                 UIApplication.SharedApplication.RegisterForRemoteNotifications();
             }
@@ -108,11 +108,16 @@ namespace Manifest.iOS
                 var guid = Guid.NewGuid();
                 GlobalVars.user_guid = guid.ToString();
                 var tag = "guid_" + guid.ToString();
+                GlobalVars.user_guid = tag;
                 Debug.WriteLine("guid:" + tag);
+
                 Preferences.Set("guid", tag);
                 System.Diagnostics.Debug.WriteLine("This is the GUID from RegisteredForRemoteNotifications: " + Preferences.Get("guid", string.Empty));
                 var tags = new NSSet(AppConstants.SubscriptionTags.Append(tag).ToArray());
                 //End of Carlos's code
+
+
+
 
 
                 //var tags = new NSSet(AppConstants.SubscriptionTags.ToArray());
@@ -139,6 +144,8 @@ namespace Manifest.iOS
                 });
             });
         }
+
+        
 
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {

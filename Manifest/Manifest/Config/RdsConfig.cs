@@ -26,5 +26,9 @@ namespace Manifest.Config
         //Endpoints for guid update and add
         public const string updateGuid = "/api/v2/updateGuid/update";
         public const string addGuid = "/api/v2/updateGuid/add";
+
+        //Endpoints for routines
+        //https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/rts/<string:user_id>
+        public const string getRoutines = "/api/v2/rts";
     }
 }
