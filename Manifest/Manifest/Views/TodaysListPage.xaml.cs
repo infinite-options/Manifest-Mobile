@@ -686,6 +686,7 @@ namespace Manifest.Views
             Occurance currOccurance = myvar.BindingContext as Occurance;
             if (currOccurance.IsEvent)
             {
+                goToEventsPage(currOccurance);
                 return;
             }
             Debug.WriteLine(currOccurance.Id);

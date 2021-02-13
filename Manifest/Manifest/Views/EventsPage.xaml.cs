@@ -15,6 +15,11 @@ namespace Manifest.Views
         {
             InitializeComponent();
             eventName.Text = newEvent.Title;
+            eventDescription.Text = newEvent.Description;
+            if (eventDescription.Text == "" || eventDescription.Text == null)
+            {
+                eventDescription.Text = "No description provided";
+            }
             eventInfo.ItemsSource = datagrid;
             //datagrid.Add(newEvent);
             initialiseAttendees(newEvent.Attendees);

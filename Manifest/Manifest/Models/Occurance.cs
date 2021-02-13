@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Xamarin.Forms;
+using Newtonsoft.Json;
 
 namespace Manifest.Models
 {
@@ -43,6 +44,8 @@ namespace Manifest.Models
         public string Description { get; set; }
         public int NumSubOccurances{ get; set; }
         public int SubOccurancesCompleted { get; set; }
+        //Added so we have the list of subOccurances
+        public List<SubOccurance> subOccurances { get; set; }
 
 
         public void updateIsInProgress(bool updatedVal)
@@ -90,5 +93,7 @@ namespace Manifest.Models
         public string datetime_completed { get; set; }
         public string expected_completion_time { get; set; }
         public object completed { get; set; }
+        public List<SubOccuranceDto> actions_tasks { get; set; }
+        //public List<Json> actions_tasks { get; set; }
     }
 }
