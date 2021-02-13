@@ -9,6 +9,9 @@ using Manifest.Views;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Manifest.Models;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Manifest.LogIn.Apple
 {
@@ -54,6 +57,7 @@ namespace Manifest.LogIn.Apple
                 if (deviceId != null) { Debug.WriteLine("This is iOS guid: " + deviceId); }
             }
         }
+
 
         public async void OnAppleSignInRequest()
         {

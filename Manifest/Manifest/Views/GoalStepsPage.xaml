@@ -47,7 +47,7 @@
                     </Grid>
  
             </Frame>
-            <StackLayout Grid.Row="1" >
+            <StackLayout Grid.Row="1" x:Name="newUIStack">
                 <!--NEW UI GOES HERE-->
                 <Button Text="HOME PAGE" Clicked="Button_Clicked"></Button>
             </StackLayout>

@@ -146,6 +146,8 @@ namespace Manifest.iOS
             });
         }        
 
+        
+
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {
             ProcessNotification(userInfo, false);

@@ -40,6 +40,28 @@ namespace Manifest.Views
                 // Turns on Apple Login for Apple devices
             }
             GetCurrentLocation();
+
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                deviceId = GlobalVars.user_guid;
+                if (deviceId != null) { Debug.WriteLine("This is the iOS GUID from Log in: " + deviceId); }
+            }
+            else
+            {
+                deviceId = GlobalVars.user_guid;
+                if (deviceId != null) { Debug.WriteLine("This is the Android GUID from Log in " + deviceId); }
+            }
+            if (deviceId != "")
+            {
+                Application.Current.Properties["guid"] = deviceId.Substring(5);
+            }
+            else
+            {
+                Application.Current.Properties["guid"] = "";
+            }
+            
+
         }
 
         public void InitializeAppProperties()                                                               // Initializes most (not all) Application.Current.Properties

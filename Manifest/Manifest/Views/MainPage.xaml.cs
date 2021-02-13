@@ -128,7 +128,6 @@ namespace Manifest.Views
                 var responseContent = await RDSResponse.Content.ReadAsStringAsync();
                 var authetication = JsonConvert.DeserializeObject<SuccessfulSocialLogIn>(responseContent);
                 var session = JsonConvert.DeserializeObject<Session>(responseContent);
-
                 if (RDSResponse.IsSuccessStatusCode)
                 {
                     if (responseContent != null)
@@ -295,7 +294,7 @@ namespace Manifest.Views
 
         void GoalsClick(System.Object sender, System.EventArgs e)
         {
-            //Application.Current.MainPage = new NavigationPage(new GoalsPage());
+            Application.Current.MainPage = new NavigationPage(new GoalsPage(DateTime.Now.ToString("t"), DateTime.Now.ToString("t")));
         }
 
         void WhatAreYouCurrentlyDoingClick(System.Object sender, System.EventArgs e)

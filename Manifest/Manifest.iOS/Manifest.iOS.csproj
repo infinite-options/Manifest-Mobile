@@ -142,6 +142,10 @@
     <BundleResource Include="Resources\listview.png" />
     <BundleResource Include="Resources\calendarFive.png" />
     <BundleResource Include="Resources\settingsIcon.png" />
+    <BundleResource Include="Resources\downArrow.png" />
+    <BundleResource Include="Resources\leftArrow.png" />
+    <BundleResource Include="Resources\progBar.png" />
+    <BundleResource Include="Resources\rightArrow.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />

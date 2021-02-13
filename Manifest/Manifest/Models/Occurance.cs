@@ -96,4 +96,5 @@ namespace Manifest.Models
         public List<SubOccuranceDto> actions_tasks { get; set; }
         //public List<Json> actions_tasks { get; set; }
     }
+
 }
