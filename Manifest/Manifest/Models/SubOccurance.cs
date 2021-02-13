@@ -23,6 +23,7 @@ namespace Manifest.Models
         public TimeSpan ExpectedCompletionTime { get; set; }
         public DateTime AvailableStartTime { get; set; }
         public DateTime AvailableEndTime { get; set; }
+        public List<string> instruction_steps { get; set; }
 
         public void updateIsInProgress(bool updatedVal)
         {
