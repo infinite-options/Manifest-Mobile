@@ -84,6 +84,7 @@ namespace Manifest.Views
                 var client = new HttpClient();
                 var socialLogInPost = new SocialLogInPost();
                 var googleData = new GoogleResponse();
+                var facebookData = new FacebookResponse();
 
                 if (platform == "GOOGLE")
                 {
@@ -97,23 +98,29 @@ namespace Manifest.Views
                     socialLogInPost.social_id = googleData.id;
                     socialLogInPost.mobile_access_token = user.Account.Properties["access_token"];
                     socialLogInPost.mobile_refresh_token = user.Account.Properties["refresh_token"];
-                    socialLogInPost.signup_platform = "GOOGLE";
                 }
                 else if (platform == "FACEBOOK")
                 {
-                    await DisplayAlert("Please sign in to your Google Account!", "", "OK");
-                    var googleSignInClient = new LogInPage();
-                    googleSignInClient.GoogleLogInClick(new object(), new EventArgs());
-                    return;
+
+                    var facebookResponse = client.GetStringAsync(Constant.FacebookUserInfoUrl + user.Account.Properties["access_token"]);
+                    var facebookUserData = facebookResponse.Result;
+
+                    facebookData = JsonConvert.DeserializeObject<FacebookResponse>(facebookUserData);
+
+                    socialLogInPost.email = facebookData.email;
+                    socialLogInPost.social_id = facebookData.id;
+                    socialLogInPost.mobile_access_token = user.Account.Properties["access_token"];
+                    socialLogInPost.mobile_refresh_token = user.Account.Properties["access_token"];
                 }
                 else if (platform == "APPLE")
                 {
-                    await DisplayAlert("Please sign in to your Google Account!", "", "OK");
-                    var googleSignInClient = new LogInPage();
-                    googleSignInClient.GoogleLogInClick(new object(), new EventArgs());
-                    return;
+                    socialLogInPost.email = appleCredentials.Email;
+                    socialLogInPost.social_id = appleCredentials.UserId;
+                    socialLogInPost.mobile_access_token = appleCredentials.Token;
+                    socialLogInPost.mobile_refresh_token = appleCredentials.Token;
                 }
 
+                socialLogInPost.signup_platform = platform;
 
                 var socialLogInPostSerialized = JsonConvert.SerializeObject(socialLogInPost);
                 var postContent = new StringContent(socialLogInPostSerialized, Encoding.UTF8, "application/json");
@@ -136,37 +143,21 @@ namespace Manifest.Views
 
                             try
                             {
+                                Debug.WriteLine("USER AUTHENTICATED");
                                 DateTime today = DateTime.Now;
                                 DateTime expDate = today.AddDays(Constant.days);
 
                                 Application.Current.Properties["userId"] = session.result[0].user_unique_id;
-                                Application.Current.Properties["accessToken"] = user.Account.Properties["access_token"]; ;
-                                Application.Current.Properties["refreshToken"] = user.Account.Properties["refresh_token"];
                                 Application.Current.Properties["timeStamp"] = expDate;
 
-                                Debug.WriteLine("VERIFICATION");
-                                foreach (string key in Application.Current.Properties.Keys)
+                                if(platform == "GOOGLE")
                                 {
-                                    Debug.WriteLine("key: {0}, value: {1}", key, Application.Current.Properties[key]);
+                                    Application.Current.Properties["accessToken"] = user.Account.Properties["access_token"];
+                                    Application.Current.Properties["refreshToken"] = user.Account.Properties["refresh_token"];
                                 }
 
                                 _ = Application.Current.SavePropertiesAsync();
 
-                                //var writeGuid = new RdsConnect();
-                                //var guid = new GlobalVars();
-
-
-
-                                //if (Device.RuntimePlatform == Device.iOS)
-                                //{
-                                //    deviceId = Preferences.Get("guid", null);
-                                //    if (deviceId != null) { Debug.WriteLine("This is the iOS GUID from Log in: " + deviceId); }
-                                //}
-                                //else
-                                //{
-                                //    deviceId = Preferences.Get("guid", null);
-                                //    if (deviceId != null) { Debug.WriteLine("This is the Android GUID from Log in " + deviceId); }
-                                //}
                                 string id = (string)Application.Current.Properties["userId"];
                                 string guid = (string)Application.Current.Properties["guid"];
                                 Debug.WriteLine("GUID FROM MAIN PAGE: " + guid);
@@ -196,137 +187,11 @@ namespace Manifest.Views
                                         await DisplayAlert("Ooops!", "Something went wrong. We are not able to send you notification at this moment", "OK");
                                     }
                                 }
-
-
-                                //writeGuid.storeGUID(guid.user_guid, (string)Application.Current.Properties["userID"]);
                             }
                             catch (Exception s)
                             {
                                 await DisplayAlert("Something went wrong with notifications","","OK");
                             }
-
-                            //try
-                            //{
-                            //    var data = JsonConvert.DeserializeObject<SuccessfulSocialLogIn>(responseContent);
-                            //    Application.Current.Properties["user_id"] = data.result[0].customer_uid;
-
-                            //    UpdateTokensPost updateTokesPost = new UpdateTokensPost();
-                            //    updateTokesPost.uid = data.result[0].customer_uid;
-                            //    if (platform == "GOOGLE")
-                            //    {
-                            //        updateTokesPost.mobile_access_token = accessToken;
-                            //        updateTokesPost.mobile_refresh_token = refreshToken;
-                            //    }
-                            //    else if (platform == "FACEBOOK")
-                            //    {
-                            //        updateTokesPost.mobile_access_token = accessToken;
-                            //        updateTokesPost.mobile_refresh_token = accessToken;
-                            //    }
-                            //    else if (platform == "APPLE")
-                            //    {
-                            //        updateTokesPost.mobile_access_token = appleCredentials.Token;
-                            //        updateTokesPost.mobile_refresh_token = appleCredentials.Token;
-                            //    }
-
-                            //    var updateTokesPostSerializedObject = JsonConvert.SerializeObject(updateTokesPost);
-                            //    var updateTokesContent = new StringContent(updateTokesPostSerializedObject, Encoding.UTF8, "application/json");
-                            //    var updateTokesResponse = await client.PostAsync(Constant.UpdateTokensUrl, updateTokesContent);
-                            //    var updateTokenResponseContent = await updateTokesResponse.Content.ReadAsStringAsync();
-
-                            //    if (updateTokesResponse.IsSuccessStatusCode)
-                            //    {
-                            //        var user = new RequestUserInfo();
-                            //        user.uid = data.result[0].customer_uid;
-
-                            //        var requestSelializedObject = JsonConvert.SerializeObject(user);
-                            //        var requestContent = new StringContent(requestSelializedObject, Encoding.UTF8, "application/json");
-
-                            //        var clientRequest = await client.PostAsync(Constant.GetUserInfoUrl, requestContent);
-
-                            //        if (clientRequest.IsSuccessStatusCode)
-                            //        {
-                            //            var userSfJSON = await clientRequest.Content.ReadAsStringAsync();
-                            //            var userProfile = JsonConvert.DeserializeObject<UserInfo>(userSfJSON);
-
-                            //            DateTime today = DateTime.Now;
-                            //            DateTime expDate = today.AddDays(Constant.days);
-
-                            //            Application.Current.Properties["user_id"] = data.result[0].customer_uid;
-                            //            Application.Current.Properties["time_stamp"] = expDate;
-                            //            Application.Current.Properties["platform"] = platform;
-                            //            Application.Current.Properties["user_email"] = userProfile.result[0].customer_email;
-                            //            Application.Current.Properties["user_first_name"] = userProfile.result[0].customer_first_name;
-                            //            Application.Current.Properties["user_last_name"] = userProfile.result[0].customer_last_name;
-                            //            Application.Current.Properties["user_phone_num"] = userProfile.result[0].customer_phone_num;
-                            //            Application.Current.Properties["user_address"] = userProfile.result[0].customer_address;
-                            //            Application.Current.Properties["user_unit"] = userProfile.result[0].customer_unit;
-                            //            Application.Current.Properties["user_city"] = userProfile.result[0].customer_city;
-                            //            Application.Current.Properties["user_state"] = userProfile.result[0].customer_state;
-                            //            Application.Current.Properties["user_zip_code"] = userProfile.result[0].customer_zip;
-                            //            Application.Current.Properties["user_latitude"] = userProfile.result[0].customer_lat;
-                            //            Application.Current.Properties["user_longitude"] = userProfile.result[0].customer_long;
-
-                            //            _ = Application.Current.SavePropertiesAsync();
-                            //            await CheckVersion();
-
-                            //            if (Device.RuntimePlatform == Device.iOS)
-                            //            {
-                            //                deviceId = Preferences.Get("guid", null);
-                            //                if (deviceId != null) { Debug.WriteLine("This is the iOS GUID from Log in: " + deviceId); }
-                            //            }
-                            //            else
-                            //            {
-                            //                deviceId = Preferences.Get("guid", null);
-                            //                if (deviceId != null) { Debug.WriteLine("This is the Android GUID from Log in " + deviceId); }
-                            //            }
-
-                            //            if (deviceId != null)
-                            //            {
-                            //                NotificationPost notificationPost = new NotificationPost();
-
-                            //                notificationPost.uid = (string)Application.Current.Properties["user_id"];
-                            //                notificationPost.guid = deviceId.Substring(5);
-                            //                Application.Current.Properties["guid"] = deviceId.Substring(5);
-                            //                notificationPost.notification = "TRUE";
-
-                            //                var notificationSerializedObject = JsonConvert.SerializeObject(notificationPost);
-                            //                Debug.WriteLine("Notification JSON Object to send: " + notificationSerializedObject);
-
-                            //                var notificationContent = new StringContent(notificationSerializedObject, Encoding.UTF8, "application/json");
-
-                            //                var clientResponse = await client.PostAsync(Constant.NotificationsUrl, notificationContent);
-
-                            //                Debug.WriteLine("Status code: " + clientResponse.IsSuccessStatusCode);
-
-                            //                if (clientResponse.IsSuccessStatusCode)
-                            //                {
-                            //                    System.Diagnostics.Debug.WriteLine("We have post the guid to the database");
-                            //                }
-                            //                else
-                            //                {
-                            //                    await DisplayAlert("Ooops!", "Something went wrong. We are not able to send you notification at this moment", "OK");
-                            //                }
-                            //            }
-                            //            test.Hide();
-                            //            //Application.Current.MainPage = new SelectionPage();
-                            //        }
-                            //        else
-                            //        {
-                            //            test.Hide();
-                            //            await DisplayAlert("Alert!", "Our internal system was not able to retrieve your user information. We are working to solve this issue.", "OK");
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        test.Hide();
-                            //        await DisplayAlert("Oops", "We are facing some problems with our internal system. We weren't able to update your credentials", "OK");
-                            //    }
-                            //    test.Hide();
-                            //}
-                            //catch (Exception second)
-                            //{
-                            //    Debug.WriteLine(second.Message);
-                            //}
                         }
                         if (authetication.code.ToString() == Constant.ErrorPlatform)
                         {
@@ -367,6 +232,7 @@ namespace Manifest.Views
             if (setting == false)
             {
                 // DISPLAY SETTINGS UI
+                title.Text = "Settings";
                 mainStackLayoutRow.Height = 0;
                 settingStackLayoutRow.Height = height;
                 setting = true;
@@ -374,6 +240,7 @@ namespace Manifest.Views
             else
             {
                 // HIDE SETTINGS UI
+                title.Text = "Manifest";
                 mainStackLayoutRow.Height = height;
                 settingStackLayoutRow.Height = 0;
                 setting = false;
@@ -449,6 +316,20 @@ namespace Manifest.Views
         void TodayListClick(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+        }
+
+        void Switch_Toggled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
+        {
+            var isCalendarVisiable = (Xamarin.Forms.Switch)sender;
+
+            //if (!isCalendarVisiable.IsToggled)
+            //{
+            //    isCalendarVisiable.IsToggled = true;
+            //}
+            //else
+            //{
+            //    isCalendarVisiable.IsToggled = false;
+            //}
         }
     }
 }

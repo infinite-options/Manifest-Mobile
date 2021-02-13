@@ -181,34 +181,269 @@
                </Grid>
             </StackLayout>
             <StackLayout Grid.Row="2">
-                <Grid>
-                    <BoxView Grid.Column="0" Color="Pink" HeightRequest="50">
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                    <BoxView Grid.Column="1" Color="Green" HeightRequest="50" >
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                    <BoxView Grid.Column="2" Color="Black" HeightRequest="50">
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                    <BoxView Grid.Column="3" Color="Red" HeightRequest="50">
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_3"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                    <BoxView Grid.Column="4" Color="Yellow" HeightRequest="50">
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_4"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                </Grid>
-                <Label Text="settings page"></Label>
+                <ScrollView>
+                    <StackLayout Padding="20,20,0,0">
+                       <Grid>
+                           <Grid.ColumnDefinitions>
+                               <ColumnDefinition Width="*"></ColumnDefinition>
+                               <ColumnDefinition Width="60"></ColumnDefinition>
+                           </Grid.ColumnDefinitions>
+                           <Label Grid.Column="0" Text="Show Google Calendar" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                           <Switch Grid.Column="1" Toggled="Switch_Toggled"></Switch>
+                       </Grid>
+                        <Label Text="Choose color scheme" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RelativeLayout Grid.Column="0" HorizontalOptions="CenterAndExpand" HeightRequest="80" WidthRequest="400" >
+                                <Ellipse
+                                    StrokeThickness="0"
+                                    Fill="#F2F7FC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                 <Ellipse
+                                    Margin="25,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#9DB2CB"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="50,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#376DAC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="75,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F8BE28"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="100,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F26D4B"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="125,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#67ABFC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                            </RelativeLayout>
+                            <Label Grid.Column="1" Text="Retro" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RelativeLayout Grid.Column="0" HeightRequest="80" WidthRequest="400" >
+                                <Ellipse
+                                    StrokeThickness="0"
+                                    Fill="#F2F7FC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                 <Ellipse
+                                    Margin="25,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#9DB2CB"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="50,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#376DAC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="75,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F8BE28"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="100,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F26D4B"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="125,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#67ABFC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                            </RelativeLayout>
+                            <Label Grid.Column="1" Text="Vibrant" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RelativeLayout Grid.Column="0" HeightRequest="80" WidthRequest="400" >
+                                <Ellipse
+                                    StrokeThickness="0"
+                                    Fill="#F2F7FC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                 <Ellipse
+                                    Margin="25,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#9DB2CB"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="50,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#376DAC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="75,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F8BE28"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="100,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F26D4B"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="125,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#67ABFC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                            </RelativeLayout>
+                            <Label Grid.Column="1" Text="Cool" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RelativeLayout Grid.Column="0" HeightRequest="80" WidthRequest="400" >
+                                <Ellipse
+                                    StrokeThickness="0"
+                                    Fill="#F2F7FC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                 <Ellipse
+                                    Margin="25,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#9DB2CB"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="50,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#376DAC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="75,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F8BE28"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="100,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F26D4B"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="125,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#67ABFC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                            </RelativeLayout>
+                            <Label Grid.Column="1" Text="Cotton candy" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <RelativeLayout Grid.Column="0" HeightRequest="80" WidthRequest="400" >
+                                <Ellipse
+                                    StrokeThickness="0"
+                                    Fill="#F2F7FC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                 <Ellipse
+                                    Margin="25,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#9DB2CB"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="50,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#376DAC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="75,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F8BE28"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="100,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#F26D4B"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                                <Ellipse
+                                    Margin="125,0,0,0"
+                                    StrokeThickness="0"
+                                    Fill="#67ABFC"
+                                    WidthRequest="40"
+                                    HeightRequest="40">
+                                </Ellipse>
+                            </RelativeLayout>
+                            <Label Grid.Column="1" Text="Classic" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
             </StackLayout>
             <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
                 <Frame>
