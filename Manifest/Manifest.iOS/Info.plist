@@ -45,11 +45,11 @@
 	<true/>
 	<key>CFBundleShortVersionString</key>
 	<string>2.2.2</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.infiniteoptions-manifestmy.space</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>CFBundleVersion</key>
+	<string>2</string>
 </dict>
 </plist>

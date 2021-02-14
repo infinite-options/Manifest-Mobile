@@ -27,8 +27,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
-    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
+    <CodesignProvision>ManifestMySpaceDistribution</CodesignProvision>
+    <CodesignKey>iPhone Distribution</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -146,6 +146,9 @@
     <BundleResource Include="Resources\leftArrow.png" />
     <BundleResource Include="Resources\progBar.png" />
     <BundleResource Include="Resources\rightArrow.png" />
+    <BundleResource Include="Resources\calendarIcon.png" />
+    <BundleResource Include="Resources\helpIcon.png" />
+    <BundleResource Include="Resources\personIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />
