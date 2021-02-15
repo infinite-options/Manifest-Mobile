@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Manifest.Models
 {
@@ -43,4 +44,17 @@ namespace Manifest.Models
         public string photo { get; set; }
         public string expected_completion_time { get; set; }
     }
+
+    public class UpdateInstruction
+    {
+        public string id { get; set; }
+        public bool is_in_progress { get; set; }
+        public bool is_complete { get; set; }
+
+        public string updateInstruction()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+    }
+
 }
