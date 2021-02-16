@@ -105,11 +105,11 @@
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
                         </Label.GestureRecognizers>
-                    </Label>
+                    </Label>  
 
-                    <!--<Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
-                    </Frame.GestureRecognizers>-->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
 
                 </Frame>
 
@@ -121,9 +121,9 @@
                         </Label.GestureRecognizers>
                     </Label>
 
-                    <!--<Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
-                    </Frame.GestureRecognizers>-->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
 
                 </Frame>
 
@@ -135,9 +135,9 @@
                         </Label.GestureRecognizers>
                     </Label>
 
-                    <!--<Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
-                    </Frame.GestureRecognizers>-->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
 
                 </Frame>
 
@@ -149,9 +149,9 @@
                         </Label.GestureRecognizers>
                     </Label>
 
-                    <!--<Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
-                    </Frame.GestureRecognizers>-->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
 
                 </Frame>
 
@@ -163,9 +163,9 @@
                         </Label.GestureRecognizers>
                     </Label>
 
-                    <!--<Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
-                    </Frame.GestureRecognizers>-->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
 
                 </Frame>
 
@@ -177,9 +177,9 @@
                         </Label.GestureRecognizers>
                     </Label>
 
-                    <!--<Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
-                    </Frame.GestureRecognizers>-->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
 
                 </Frame>
 
@@ -191,9 +191,9 @@
                         </Label.GestureRecognizers>
                     </Label>
 
-                    <!--<Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
-                    </Frame.GestureRecognizers>-->
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
 
                 </Frame>
 
@@ -222,7 +222,7 @@
                 </Frame>
             </StackLayout>
             <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
-                <Button Text="Next" FontSize="20" FontAttributes="Bold" WidthRequest="120" HeightRequest="40" CornerRadius="20" BackgroundColor="#376DAC" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Button Text="Next" FontSize="20" FontAttributes="Bold" WidthRequest="120" HeightRequest="40" CornerRadius="20" BackgroundColor="#376DAC" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" Clicked="nextClicked"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

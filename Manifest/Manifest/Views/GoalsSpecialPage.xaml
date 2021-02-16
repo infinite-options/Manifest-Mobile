@@ -80,10 +80,23 @@
                         <ColumnDefinition Width="90"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" x:Name="goal"  TextColor="White" FontAttributes="Bold" BackgroundColor="#9DB2CB" Clicked="goBackToGoals"/>
+
+                    <Frame x:Name="goalFrame" Grid.Column="1" BackgroundColor="#9DB2CB" HorizontalOptions="Center" VerticalOptions="Center" HasShadow="False">
+                    <Label x:Name="goalLabel"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="goBackToGoals"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="goBackToGoals"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+                    <!--<Button Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" x:Name="goal"  TextColor="White" FontAttributes="Bold" BackgroundColor="#9DB2CB" Clicked="goBackToGoals"/>-->
 
                     <StackLayout Grid.Column="2" VerticalOptions="Center">
-                        <ImageButton x:Name="progIcon" HorizontalOptions="Fill" VerticalOptions="Fill" Source="progBar.png"/>
+                        <ImageButton x:Name="progIcon" HorizontalOptions="Fill" VerticalOptions="Fill" Source="progBar.png" Clicked="progressClicked"/>
                         <Label x:Name="progLabel" Text="Progress" TextColor="Black" HorizontalOptions="Center" Margin="0,2,0,0"/>
                     </StackLayout>
 
@@ -104,16 +117,55 @@
                 </Grid>-->
 
 
-                <Grid Grid.Row="2" ColumnSpacing="10">
+                <Grid Grid.Row="2" ColumnSpacing="7">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button x:Name="action1" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" Grid.Column="0" FontAttributes="Bold" BackgroundColor="#F26D4B" Clicked="goToSteps"/>
-                    <Button x:Name="action2" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1" FontAttributes="Bold" BackgroundColor="#F8BE28" Clicked="goToSteps"/>
-                    <Button x:Name="action3" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" FontAttributes="Bold" BackgroundColor="#67ABFC" Clicked="goToSteps"/>
+                    <Frame x:Name="actionFrame1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#F26D4B" HasShadow="False">
+                    <Label x:Name="actionLabel1"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="goToSteps"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="goToStepsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                    </Frame>
+
+                    <Frame x:Name="actionFrame2" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#F8BE28" HasShadow="False">
+                    <Label x:Name="actionLabel2"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="goToSteps"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="goToStepsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                    </Frame>
+
+                    <Frame x:Name="actionFrame3" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#67ABFC" HasShadow="False">
+                    <Label x:Name="actionLabel3"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="goToSteps"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="goToStepsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                    </Frame>
+
+                    <!--<Button x:Name="action1" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" Grid.Column="0" FontAttributes="Bold" BackgroundColor="#F26D4B" Clicked="goToSteps"/>-->
+                    <!--<Button x:Name="action2" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1" FontAttributes="Bold" BackgroundColor="#F8BE28" Clicked="goToSteps"/>-->
+                    <!--<Button x:Name="action3" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" FontAttributes="Bold" BackgroundColor="#67ABFC" Clicked="goToSteps"/>-->
 
                 </Grid>
             </Grid>

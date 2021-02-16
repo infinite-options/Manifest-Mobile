@@ -21,12 +21,17 @@ namespace Manifest.Views
         HttpClient client = new HttpClient();
         List<OccuranceDto> todayOccurs = new List<OccuranceDto>();
         List<OccuranceDto> goalsInRange = new List<OccuranceDto>();
-        Dictionary<string, OccuranceDto> occuranceDict = new Dictionary<string, OccuranceDto>();
+        Dictionary<System.Object, OccuranceDto> occuranceDict = new Dictionary<System.Object, OccuranceDto>();
+        Dictionary<System.Object, OccuranceDto> occuranceFrameDict = new Dictionary<System.Object, OccuranceDto>();
         public string startTime = "6:00 AM";
         public string endTime = "7:00 AM";
+        OccuranceDto chosenOccurance = null;
 
         public GoalsPage(string start, string end)
         {
+            int navigationStackCount = Application.Current.MainPage.Navigation.NavigationStack.Count;
+            Debug.WriteLine("heading into goalspage navigationStackCount: " + navigationStackCount.ToString());
+
             startTime = start;
             endTime = end;
             getGoals();
@@ -122,6 +127,10 @@ namespace Manifest.Views
             //}
 
             NavigationPage.SetHasNavigationBar(this, false);
+            //int navigationStackCount = Application.Current.MainPage.Navigation.NavigationStack.Count;
+            //Debug.WriteLine("navigationStackCount: " + Application.Current.MainPage.Navigation.NavigationStack.Count.ToString());
+            //if (Application.Current.MainPage.Navigation.NavigationStack.Count > 2)
+            //    Navigation.PopAsync(false);
         }
 
         //void Button_Clicked(System.Object sender, System.EventArgs e)
@@ -239,6 +248,8 @@ namespace Manifest.Views
                     show7();
                     //first7.Text = goalsInRange[0].gr_title;
                     text1.Text = goalsInRange[0].gr_title;
+                    occuranceDict.Add(text1, goalsInRange[0]);
+                    //occuranceDict.Add(first7, goalsInRange[0]);
                 }
                 else if (goalsInRange.Count == 2)
                 {
@@ -247,7 +258,12 @@ namespace Manifest.Views
                     //first7.Text = goalsInRange[0].gr_title;
                     //second7.Text = goalsInRange[1].gr_title;
                     text1.Text = goalsInRange[0].gr_title;
+                    occuranceDict.Add(text1, goalsInRange[0]);
+                    //occuranceDict.Add(first7, goalsInRange[0]);
+
                     text2.Text = goalsInRange[1].gr_title;
+                    occuranceDict.Add(text2, goalsInRange[1]);
+                    //occuranceDict.Add(second7, goalsInRange[1]);
                 }
                 else if (goalsInRange.Count == 3)
                 {
@@ -257,17 +273,38 @@ namespace Manifest.Views
                     //second7.Text = goalsInRange[1].gr_title;
                     //third7.Text = goalsInRange[2].gr_title;
                     text1.Text = goalsInRange[0].gr_title;
+                    occuranceDict.Add(text1, goalsInRange[0]);
+                    //occuranceDict.Add(first7, goalsInRange[0]);
+
                     text2.Text = goalsInRange[1].gr_title;
+                    occuranceDict.Add(text2, goalsInRange[1]);
+                    //occuranceDict.Add(second7, goalsInRange[1]);
+
                     text3.Text = goalsInRange[2].gr_title;
+                    occuranceDict.Add(text3, goalsInRange[2]);
+                    //occuranceDict.Add(third7, goalsInRange[2]);
+
                 }
                 else if (goalsInRange.Count == 4)
                 {
                     setProperties4();
                     show7();
                     text1.Text = goalsInRange[0].gr_title;
+                    occuranceDict.Add(text1, goalsInRange[0]);
+                    //occuranceDict.Add(first7, goalsInRange[0]);
+
                     text2.Text = goalsInRange[1].gr_title;
+                    occuranceDict.Add(text2, goalsInRange[1]);
+                    //occuranceDict.Add(second7, goalsInRange[1]);
+
                     text3.Text = goalsInRange[2].gr_title;
+                    occuranceDict.Add(text3, goalsInRange[2]);
+                    //occuranceDict.Add(third7, goalsInRange[2]);
+
                     text4.Text = goalsInRange[3].gr_title;
+                    occuranceDict.Add(text4, goalsInRange[3]);
+                    //occuranceDict.Add(fourth7, goalsInRange[3]);
+
                 }
                 else if (goalsInRange.Count == 5)
                 {
@@ -275,46 +312,93 @@ namespace Manifest.Views
                     show7();
                     //first5.Text = goalsInRange[0].gr_title;
                     text1.Text = goalsInRange[0].gr_title;
+                    occuranceDict.Add(text1, goalsInRange[0]);
+                    //occuranceDict.Add(first7, goalsInRange[0]);
+
                     text2.Text = goalsInRange[1].gr_title;
+                    occuranceDict.Add(text2, goalsInRange[1]);
+                    //occuranceDict.Add(second7, goalsInRange[1]);
+
                     text3.Text = goalsInRange[2].gr_title;
+                    occuranceDict.Add(text3, goalsInRange[2]);
+                    //occuranceDict.Add(third7, goalsInRange[2]);
+
                     text4.Text = goalsInRange[3].gr_title;
+                    occuranceDict.Add(text4, goalsInRange[3]);
+                    //occuranceDict.Add(fourth7, goalsInRange[3]);
+
                     text5.Text = goalsInRange[4].gr_title;
+                    occuranceDict.Add(text5, goalsInRange[4]);
+                    //occuranceDict.Add(fifth7, goalsInRange[4]);
+
                 }
                 else if (goalsInRange.Count == 6)
                 {
                     setProperties6();
                     show7();
                     text1.Text = goalsInRange[0].gr_title;
+                    occuranceDict.Add(text1, goalsInRange[0]);
+                    //occuranceDict.Add(first7, goalsInRange[0]);
+
                     text2.Text = goalsInRange[1].gr_title;
+                    occuranceDict.Add(text2, goalsInRange[1]);
+                    //occuranceDict.Add(second7, goalsInRange[1]);
+
                     text3.Text = goalsInRange[2].gr_title;
+                    occuranceDict.Add(text3, goalsInRange[2]);
+                    //occuranceDict.Add(third7, goalsInRange[2]);
+
                     text4.Text = goalsInRange[3].gr_title;
+                    occuranceDict.Add(text4, goalsInRange[3]);
+                    //occuranceDict.Add(fourth7, goalsInRange[3]);
+
                     text5.Text = goalsInRange[4].gr_title;
+                    occuranceDict.Add(text5, goalsInRange[4]);
+                    //occuranceDict.Add(fifth7, goalsInRange[4]);
+
                     text6.Text = goalsInRange[5].gr_title;
+                    occuranceDict.Add(text6, goalsInRange[5]);
+                    //occuranceDict.Add(sixth7, goalsInRange[5]);
+
                 }
                 else
                 {
                     setProperties7();
                     show7();
-                    //first7.Text = goalsInRange[0].gr_title;
-                    //second7.Text = goalsInRange[1].gr_title;
-                    //third7.Text = goalsInRange[2].gr_title;
-                    //fourth7.Text = goalsInRange[3].gr_title;
-                    //fifth7.Text = goalsInRange[4].gr_title;
-                    //sixth7.Text = goalsInRange[5].gr_title;
-                    //seventh7.Text = goalsInRange[6].gr_title;
                     text1.Text = goalsInRange[0].gr_title;
+                    occuranceDict.Add(text1, goalsInRange[0]);
+                    //occuranceDict.Add(first7, goalsInRange[0]);
+
                     text2.Text = goalsInRange[1].gr_title;
+                    occuranceDict.Add(text2, goalsInRange[1]);
+                    //occuranceDict.Add(second7, goalsInRange[1]);
+
                     text3.Text = goalsInRange[2].gr_title;
+                    occuranceDict.Add(text3, goalsInRange[2]);
+                    //occuranceDict.Add(third7, goalsInRange[2]);
+
                     text4.Text = goalsInRange[3].gr_title;
+                    occuranceDict.Add(text4, goalsInRange[3]);
+                    //occuranceDict.Add(fourth7, goalsInRange[3]);
+
                     text5.Text = goalsInRange[4].gr_title;
+                    occuranceDict.Add(text5, goalsInRange[4]);
+                    //occuranceDict.Add(fifth7, goalsInRange[4]);
+
                     text6.Text = goalsInRange[5].gr_title;
+                    occuranceDict.Add(text6, goalsInRange[5]);
+                    //occuranceDict.Add(sixth7, goalsInRange[5]);
+
                     text7.Text = goalsInRange[6].gr_title;
+                    occuranceDict.Add(text7, goalsInRange[6]);
+                    //occuranceDict.Add(seventh7, goalsInRange[6]);
+
                 }
 
-                foreach (OccuranceDto occurance in goalsInRange)
-                {
-                    occuranceDict.Add(occurance.gr_title, occurance);
-                }
+                //foreach (OccuranceDto occurance in goalsInRange)
+                //{
+                //    occuranceDict.Add(occurance.gr_unique_id, occurance);
+                //}
 
                 //foreach (OccuranceDto dto in todayOccurs)
                 //{
@@ -431,8 +515,16 @@ namespace Manifest.Views
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
             int navigationStackCount = Application.Current.MainPage.Navigation.NavigationStack.Count;
+            Debug.WriteLine("navigationStackCount: " + navigationStackCount.ToString());
 
-            if (navigationStackCount != 1)
+
+            if (navigationStackCount > 2)
+            {
+                //Navigation.RemovePage(Navigation.NavigationStack(2));
+                Navigation.PopToRootAsync(false);
+                //Navigation.PopAsync(false);
+            }
+            else if (navigationStackCount != 1)
             {
                 Navigation.PopAsync(false);
                 
@@ -861,14 +953,191 @@ namespace Manifest.Views
             Application.Current.MainPage = new TodaysListPage();
         }
 
+        void nextClicked(System.Object sender, System.EventArgs e)
+        {
+            if (chosenOccurance != null && chosenOccurance.is_sublist_available == "True" && chosenOccurance.actions_tasks.Count == 1)
+            {
+                Navigation.PushAsync(new GoalStepsPage(chosenOccurance.gr_title, chosenOccurance.actions_tasks[0], "#F8BE28"));
+            }
+            else if (chosenOccurance != null && chosenOccurance.is_sublist_available == "True")
+                Navigation.PushAsync(new GoalsSpecialPage(chosenOccurance));
+            else if (chosenOccurance != null && chosenOccurance.is_sublist_available == "False")
+                DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
+            else DisplayAlert("Oops", "please select a goal first", "OK");
+        }
+
         void navigatetoActions(System.Object sender, System.EventArgs e)
         {
-            Label receiving = (Label)sender;
+            //int navigationStackCount = Application.Current.MainPage.Navigation.NavigationStack.Count;
+            //if (navigationStackCount > 2)
+            //    Navigation.PopAsync();
 
-            if (occuranceDict[receiving.Text].is_sublist_available == "True")
-                Navigation.PushAsync(new GoalsSpecialPage(occuranceDict[receiving.Text]));
-            else DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
+            Label receiving = (Label)sender;
+            chosenOccurance = occuranceDict[receiving];
+            //if (occuranceDict[receiving].is_sublist_available == "True")
+            //    Navigation.PushAsync(new GoalsSpecialPage(occuranceDict[receiving]));
+            //else DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
             //Application.Current.MainPage = new GoalsSpecialPage();
+            if (receiving == text1)
+            {
+                first7.BackgroundColor = Color.FromHex("#FFBD27");
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == text2)
+            {
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.FromHex("#FFBD27");
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == text3)
+            {
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.FromHex("#FFBD27"); 
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == text4)
+            {
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.FromHex("#FFBD27");
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == text5)
+            {
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.FromHex("#FFBD27"); 
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == text6)
+            {
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.FromHex("#FFBD27"); 
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else
+            {
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent; 
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.FromHex("#FFBD27");
+            }
+        }
+
+
+        void navigatetoActionsFrame(System.Object sender, System.EventArgs e)
+        {
+            //int navigationStackCount = Application.Current.MainPage.Navigation.NavigationStack.Count;
+            //if (navigationStackCount > 2)
+            //    Navigation.PopAsync();
+
+            Frame receiving = (Frame)sender;
+            
+            if (receiving == first7)
+            {
+                chosenOccurance = occuranceDict[text1];
+                first7.BackgroundColor = Color.FromHex("#FFBD27");
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == second7)
+            {
+                chosenOccurance = occuranceDict[text2];
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.FromHex("#FFBD27");
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == third7)
+            {
+                chosenOccurance = occuranceDict[text3];
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.FromHex("#FFBD27");
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == fourth7)
+            {
+                chosenOccurance = occuranceDict[text4];
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.FromHex("#FFBD27");
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == fifth7)
+            {
+                chosenOccurance = occuranceDict[text5];
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.FromHex("#FFBD27");
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == sixth7)
+            {
+                chosenOccurance = occuranceDict[text6];
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.FromHex("#FFBD27");
+                seventh7.BackgroundColor = Color.Transparent;
+            }
+            else if (receiving == seventh7)
+            {
+                chosenOccurance = occuranceDict[text7];
+                first7.BackgroundColor = Color.Transparent;
+                second7.BackgroundColor = Color.Transparent;
+                third7.BackgroundColor = Color.Transparent;
+                fourth7.BackgroundColor = Color.Transparent;
+                fifth7.BackgroundColor = Color.Transparent;
+                sixth7.BackgroundColor = Color.Transparent;
+                seventh7.BackgroundColor = Color.FromHex("#FFBD27");
+            }
+            else DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
+
         }
     }
 }

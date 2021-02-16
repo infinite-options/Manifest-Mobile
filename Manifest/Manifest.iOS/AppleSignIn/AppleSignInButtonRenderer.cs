@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using AuthenticationServices;
 using Manifest.LogIn.Apple;
 using UIKit;

@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.GoalStepsPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.Completed">
+
+
     <ContentPage.Content>
         <Grid BackgroundColor="#F2F7FC" Padding="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
                 <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="70"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
@@ -47,30 +49,59 @@
                     </Grid>
  
             </Frame>
-            <StackLayout Grid.Row="1" x:Name="newUIStack">
+
+
+            <Frame x:Name="mainFrame" Grid.Row="1" CornerRadius="35">
+            <StackLayout x:Name="newUIStack">
                 <!--NEW UI GOES HERE-->
-                <Button Text="completed task" Clicked="completedClicked"></Button>
+                <Label x:Name="congratsLabel" Text="Congratulations!" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
+                <BoxView x:Name="spacer1"></BoxView>
+                <Image x:Name="image" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFit"/>
+                <BoxView x:Name="spacer2"/>
+                <Label x:Name="completedLabel" Text="Goal Completed" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
             </StackLayout>
+            </Frame>
+
+
             <StackLayout Grid.Row="2">
 
             </StackLayout>
+
+
             <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
-                <Frame>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Row="0" Grid.Column="0" Text="icon1"></Button>
-                        <Button Grid.Row="0" Grid.Column="1" Text="icon2"></Button>
-                        <Button Grid.Row="0" Grid.Column="2" Text="icon3"></Button>
-                    </Grid>
+                <Frame BackgroundColor="#376DAC" CornerRadius="15" Padding="0, 10, 0, 18">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Grid.Column="0" Source="barCalendar.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Grid.Column="0" Text="Today's List" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+
+                        <Image Grid.Row="0" Grid.Column="1" Source="barPerson.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+
+                        <Image Grid.Row="0" Grid.Column="2" Source="barHelp.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Grid.Column="2" Text="Get Help" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+
+                    <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="TodaysListPageClicked" BackgroundColor="Transparent"></Button>
+                    <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="AboutMeClicked"  BackgroundColor="Transparent"></Button>
+                    <Button Grid.Column="2" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="HelpClicked"  BackgroundColor="Transparent"></Button>
+                </Grid>
                 </Frame>
             </StackLayout>
+
+
             <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
                 <Button Text="Next" HorizontalOptions="Center" VerticalOptions="Center"></Button>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
+
+
 </ContentPage>

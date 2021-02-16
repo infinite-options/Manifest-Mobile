@@ -112,6 +112,7 @@ namespace Manifest.iOS
                 Debug.WriteLine("guid:" + tag);
 
                 Preferences.Set("guid", tag);
+                
                 System.Diagnostics.Debug.WriteLine("This is the GUID from RegisteredForRemoteNotifications: " + Preferences.Get("guid", string.Empty));
                 var tags = new NSSet(AppConstants.SubscriptionTags.Append(tag).ToArray());
                 //End of Carlos's code
@@ -143,7 +144,7 @@ namespace Manifest.iOS
                     }
                 });
             });
-        }
+        }        
 
         
 

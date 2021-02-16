@@ -12,10 +12,18 @@ namespace Manifest.Views
         GridLength height;
         GridLength lastRowHeight;
         List<OrigSteps> instructions;
+        string passedTitle;
+        string passedPhoto;
+        string passedColor;
 
 
-        public GoalStepsPage(string goalTitle, SubOccuranceDto subOccur)
+        public GoalStepsPage(string goalTitle, SubOccuranceDto subOccur, string subtaskColor)
         {
+            passedTitle = goalTitle;
+            passedPhoto = subOccur.photo;
+            passedColor = subtaskColor;
+            Debug.WriteLine("photo url: " + passedPhoto);
+            Debug.WriteLine("subtask color: " + subtaskColor);
             InitializeComponent();
             setting = false;
             height = mainStackLayoutRow.Height;
@@ -41,6 +49,11 @@ namespace Manifest.Views
         void Button_Clicked(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new MainPage();
+        }
+
+        void completedClicked(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)

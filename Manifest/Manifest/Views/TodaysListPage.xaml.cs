@@ -123,6 +123,16 @@ namespace Manifest.Views
             Application.Current.MainPage = new TodaysListPage();
         }
 
+        void AboutMeClicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new AboutMePage();
+        }
+
+        void HelpClicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new WhoAmIPage();
+        }
+
 
         private async void initialiseTodaysOccurances(string userID)
         {
@@ -717,6 +727,7 @@ namespace Manifest.Views
             Occurance currOccurance = myvar.BindingContext as Occurance;
             if (currOccurance.IsEvent)
             {
+                goToEventsPage(currOccurance);
                 return;
             }
             Debug.WriteLine(currOccurance.Id);
@@ -731,6 +742,10 @@ namespace Manifest.Views
                 await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
                 //old code
                 //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
+            }
+            else if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
+            {
+                await Navigation.PushAsync(new RoutinePage());
             }
             else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
             {

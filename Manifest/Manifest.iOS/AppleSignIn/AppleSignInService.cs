@@ -5,6 +5,7 @@ using Foundation;
 using Manifest.iOS.AppleSignIn;
 using Manifest.LogIn.Apple;
 using UIKit;
+[assembly: Xamarin.Forms.Dependency(typeof(AppleSignInService))]
 namespace Manifest.iOS.AppleSignIn
 {
     public class AppleSignInService : NSObject, IAppleSignInService, IASAuthorizationControllerDelegate, IASAuthorizationControllerPresentationContextProviding
