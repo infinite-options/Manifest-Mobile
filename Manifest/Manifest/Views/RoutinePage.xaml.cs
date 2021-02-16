@@ -563,66 +563,37 @@ namespace Manifest.Views
                     }
                 }
             }
-                //if (numCompleted == numTasks)
-                //{
-                //    parent.updateIsInProgress(false);
-                //    parent.updateIsComplete(true);
-                //    UpdateOccurance parentOccur = new UpdateOccurance()
-                //    {
-                //        id = parent.Id,
-                //        datetime_completed = parent.DateTimeCompleted,
-                //        datetime_started = parent.DateTimeStarted,
-                //        is_in_progress = parent.IsInProgress,
-                //        is_complete = parent.IsComplete
-                //    };
-                //    string toSendParent = parentOccur.updateOccurance();
-                //    var parentContent = new StringContent(toSendParent);
-                //    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-                //    var res = await client.PostAsync(parenturl, parentContent);
-                //    if (res.IsSuccessStatusCode)
-                //    {
-                //        Debug.WriteLine("Parent is now complete");
-                //    }
-                //    else
-                //    {
-                //        Debug.WriteLine("Error updating parent");
-                //    }
-                //}
-                //else if (parent.IsInProgress == false)
-                //{
-                //    parent.updateIsInProgress(true);
-                //    UpdateOccurance parentOccur = new UpdateOccurance()
-                //    {
-                //        id = parent.Id,
-                //        datetime_completed = parent.DateTimeCompleted,
-                //        datetime_started = parent.DateTimeStarted,
-                //        is_in_progress = parent.IsInProgress,
-                //        is_complete = parent.IsComplete
-                //    };
-                //    string toSendParent = parentOccur.updateOccurance();
-                //    var parentContent = new StringContent(toSendParent);
-                //    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-                //    var res = await client.PostAsync(parenturl, parentContent);
-                //    if (res.IsSuccessStatusCode)
-                //    {
-                //        Debug.WriteLine("Parent is now in progress");
-                //    }
-                //    else
-                //    {
-                //        Debug.WriteLine("Error updating parent");
-                //    }
-                //}
-            }
+        }
 
         public async void helpNeeded(object sender, EventArgs args)
         {
             Debug.WriteLine("Help button pressed. Help needed for subTask");
             Image myvar = (Image)sender;
             SubOccurance currOccurance = myvar.BindingContext as SubOccurance;
+
+            //Get the parent of the sender
+            Grid mygrid = (Grid)myvar.Parent;
+
+            if (mygrid == null)
+            {
+                Debug.WriteLine("Parent is null");
+            }
+
+            //Now we got the parent element we want
+            Grid parent = (Grid)mygrid.Parent;
+
+            if (parent == null)
+            {
+                Debug.WriteLine("Grandparent is null");
+            }
+
+            Grid grandparent = (Grid)parent.Parent;
+
+            Occurance parentOccurance = grandparent.BindingContext as Occurance;
             //If there are instructions, navigate to the instruction page
             if (currOccurance.instructions.Count > 0)
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(currOccurance), false);
+                await Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(currOccurance, parentOccurance), false);
             }
             else
             {

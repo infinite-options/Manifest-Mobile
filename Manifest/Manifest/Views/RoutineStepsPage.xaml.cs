@@ -6,6 +6,7 @@ using Manifest.Models;
 using Manifest.Config;
 using System.Net.Http;
 using System.Diagnostics;
+using Manifest.RDS;
 
 namespace Manifest.Views
 {
@@ -28,11 +29,12 @@ namespace Manifest.Views
         List<Instruction> instruction_steps;
 
         SubOccurance parent;
+        Occurance currRoutine;
 
         int numComplete;
         int numTasks;
 
-        public RoutineStepsPage(SubOccurance subTask)
+        public RoutineStepsPage(SubOccurance subTask, Occurance routine)
         {
             InitializeComponent();
             setting = false;
@@ -56,6 +58,7 @@ namespace Manifest.Views
             rowHeight = (float)Math.Min(80, 0.02 * deviceHeight);
 
             parent = subTask;
+            currRoutine = routine;
             routineName.Text = subTask.Title;
             instruction_steps = subTask.instructions;
             NavigationPage.SetHasNavigationBar(this, false);
@@ -63,7 +66,7 @@ namespace Manifest.Views
 
         }
 
-        private async void CreateList()
+        private void CreateList()
         {
             TapGestureRecognizer doneRecognizer = new TapGestureRecognizer();
             doneRecognizer.NumberOfTapsRequired = 1;
@@ -179,6 +182,31 @@ namespace Manifest.Views
             {
                 Debug.WriteLine("Successfully completed the subtask");
             }
+            currRoutine.SubOccurancesCompleted++;
+            updateRoutine();
+            
+        }
+
+        async void updateRoutine()
+        {
+            if (currRoutine.IsInProgress == false && currRoutine.IsComplete == false)
+            {
+                string res = await RdsConnect.updateOccurance(currRoutine, true, false);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                }
+            }
+            else if (currRoutine.IsInProgress == true && currRoutine.IsComplete == false && currRoutine.NumSubOccurances == currRoutine.SubOccurancesCompleted)
+            {
+                string res = await RdsConnect.updateOccurance(currRoutine, false, true);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                }
+            }
+
+
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
