@@ -268,10 +268,11 @@ namespace Manifest.Views
                         }
                     };
                 float fontsize = rowHeight / 4;
+                string timespan = toAdd.StartDayAndTime.ToString("hh:mm tt") + " - " + toAdd.EndDayAndTime.ToString("hh:mm tt");
                 gridToAdd.Children.Add(
                     new Label
                     {
-                        Text = toAdd.StartDayAndTime.TimeOfDay.ToString() + " - " + toAdd.EndDayAndTime.TimeOfDay.ToString(),
+                        Text = timespan,
                         FontAttributes = FontAttributes.Bold,
                         TextColor = Color.White
                     }, 0, 0);

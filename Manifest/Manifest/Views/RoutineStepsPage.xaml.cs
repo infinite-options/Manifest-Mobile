@@ -57,6 +57,9 @@ namespace Manifest.Views
 
             rowHeight = (float)Math.Min(80, 0.02 * deviceHeight);
 
+
+            //stepsScroll.HeightRequest = (deviceHeight / 2) - 500;
+
             parent = subTask;
             currRoutine = routine;
             routineName.Text = subTask.Title;
@@ -87,7 +90,11 @@ namespace Manifest.Views
                 Grid newGrid = new Grid
                 {
                     RowDefinitions = {
-                        new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute)}
+                        new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) }
+                    },
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}
                     },
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
@@ -98,7 +105,7 @@ namespace Manifest.Views
                     {
                         Text = step.title,
                         TextColor = Color.Black,
-                        FontSize = 30,
+                        FontSize = 25,
                         LineBreakMode = LineBreakMode.WordWrap
                     },0,0);
                 newGrid.Children.Add(routineComplete,0,0);
@@ -110,7 +117,7 @@ namespace Manifest.Views
                     BackgroundColor = Color.White,
                     CornerRadius = corner_radius,
                     Content = newGrid,
-                    Padding = 10,
+                    Padding = 5,
                     GestureRecognizers = { doneRecognizer }
                 };
 
