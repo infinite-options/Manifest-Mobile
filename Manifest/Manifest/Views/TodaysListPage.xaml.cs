@@ -12,6 +12,8 @@ using Manifest.RDS;
 using Xamarin.Essentials;
 using System.Text;
 using System.Collections;
+using Xamarin.Auth;
+using Manifest.LogIn.Classes;
 
 namespace Manifest.Views
 {
@@ -58,7 +60,10 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
-            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+            frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+
             title.Text = today.ToString("dddd");
 
             var helperObject = new MainPage();
@@ -120,7 +125,17 @@ namespace Manifest.Views
 
         void TodaysListPageClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new TodaysListPage();
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+        }
+
+        void AboutMeClicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new AboutMePage();
+        }
+
+        void HelpClicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new WhoAmIPage();
         }
 
 
@@ -130,9 +145,10 @@ namespace Manifest.Views
             {
                 //Need to add userID
                 string url = RdsConfig.BaseUrl + RdsConfig.goalsAndRoutinesUrl + "/" + userID;
+                Debug.WriteLine("URL: " + url);
                 var response = await client.GetStringAsync(url);
                 Debug.WriteLine("Getting user. User info below:");
-                //Debug.WriteLine(response);
+                Debug.WriteLine(response);
                 OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
                 //Debug.WriteLine(occuranceResponse);
                 ToOccurances(occuranceResponse);
@@ -191,6 +207,7 @@ namespace Manifest.Views
                     }
                 }
 
+                //sort by start time
                 for (int j = 0; j < todayOccurs.Count - 1; j++)
                 {
                     for (int i = j + 1; i < todayOccurs.Count; i++)
@@ -231,9 +248,14 @@ namespace Manifest.Views
                         toAdd.EndDayAndTime = ToDateTime(dto.end_day_and_time);
                         toAdd.TimeInterval = DateTime.Parse(dto.start_day_and_time).ToString("t") + "-" + DateTime.Parse(dto.end_day_and_time).ToString("t");
 
-                        if (DateTime.Now.TimeOfDay >= toAdd.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAdd.EndDayAndTime.TimeOfDay)
-                            toAdd.StatusColor = Color.FromHex("#FFBD27");
-                        else toAdd.StatusColor = Color.FromHex("#9DB2CB");
+                        if (toAdd.IsPersistent == true)
+                            toAdd.StatusColor = Color.FromHex("#FF6B4A");
+                        else toAdd.StatusColor = Color.FromHex("#FFBD27");
+
+                        //highlighting occurances happening now
+                        //if (DateTime.Now.TimeOfDay >= toAdd.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAdd.EndDayAndTime.TimeOfDay)
+                        //    toAdd.StatusColor = Color.FromHex("#FFBD27");
+                        //else toAdd.StatusColor = Color.FromHex("#9DB2CB");
 
                         Debug.WriteLine("start time: " + dto.start_day_and_time);
 
@@ -247,21 +269,42 @@ namespace Manifest.Views
                         toAdd.UserId = dto.user_id;
                         toAdd.IsEvent = false;
 
+                        if ("6:00 AM" == "6:00 AM")
+                        {
+                            Debug.WriteLine("first if passed");
+                        }
+                        if (String.Compare("6:00 PM", "6:00 AM") >= 0)
+                        {
+                            Debug.WriteLine("second if passed");
+                        }
+                        if (String.Compare("11:00 AM", "6:00 AM") >= 0)
+                        {
+                            Debug.WriteLine("third if passed");
+                        }
+                        if (String.Compare("11:00 AM", "2:00 PM") >= 0)
+                        {
+                            Debug.WriteLine("fourth if passed");
+                        }
+                        if (ToDateTime("11:00 AM").TimeOfDay <= ToDateTime("2:00 PM").TimeOfDay)
+                        {
+                            Debug.WriteLine("testing if passed");
+                        }
+
                         if (firstRunPassed == false && toAdd.IsPersistent == false)
                         {
                             commonOccur.Add(toAdd);
                             firstRunPassed = true;
                         }
-                        else if (toAdd.IsPersistent == false && commonOccur.Count != 0 && commonOccur[0].StartDayAndTime.ToString("t") == toAdd.StartDayAndTime.ToString("t")
-                            && commonOccur[0].EndDayAndTime.ToString("t") == toAdd.EndDayAndTime.ToString("t"))
+                        else if (toAdd.IsPersistent == false && commonOccur.Count != 0 && ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay <= ToDateTime(toAdd.StartDayAndTime.ToString("t")).TimeOfDay
+                            && ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay >= ToDateTime(toAdd.EndDayAndTime.ToString("t")).TimeOfDay)
                         {
                             commonOccur.Add(toAdd);
                         }
-                        else if (toAdd.IsPersistent == false && commonOccur.Count > 1 && (commonOccur[0].StartDayAndTime.ToString("t") != toAdd.StartDayAndTime.ToString("t")
-                            || commonOccur[0].EndDayAndTime.ToString("t") != toAdd.EndDayAndTime.ToString("t")))
+                        else if (toAdd.IsPersistent == false && commonOccur.Count > 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(toAdd.StartDayAndTime.ToString("t")).TimeOfDay
+                            || ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay < ToDateTime(toAdd.EndDayAndTime.ToString("t")).TimeOfDay))
                         {
-                            Debug.WriteLine("starttimes: " + commonOccur[0].StartDayAndTime.ToString("t") + " " + toAdd.StartDayAndTime.ToString("t"));
-                            Debug.WriteLine("endtimes: " + commonOccur[0].EndDayAndTime.ToString("t") + " " + toAdd.EndDayAndTime.ToString("t"));
+                            Debug.WriteLine("starttimes: " + commonOccur[0].StartDayAndTime.TimeOfDay + " " + toAdd.StartDayAndTime.TimeOfDay);
+                            Debug.WriteLine("endtimes: " + commonOccur[0].EndDayAndTime.TimeOfDay + " " + toAdd.EndDayAndTime.TimeOfDay);
                             Occurance toAddPursue = new Occurance();
                             toAddPursue.Title = "Pursue A Goal";
                             toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
@@ -269,9 +312,10 @@ namespace Manifest.Views
                             toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
                             toAddPursue.IsEvent = false;
 
-                            if (DateTime.Now.TimeOfDay >= toAddPursue.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAddPursue.EndDayAndTime.TimeOfDay)
-                                toAddPursue.StatusColor = Color.FromHex("#FFBD27");
-                            else toAddPursue.StatusColor = Color.FromHex("#9DB2CB");
+                            toAddPursue.StatusColor = Color.FromHex("#FFBD27");
+                            //if (DateTime.Now.TimeOfDay >= toAddPursue.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAddPursue.EndDayAndTime.TimeOfDay)
+                            //    toAddPursue.StatusColor = Color.FromHex("#FFBD27");
+                            //else toAddPursue.StatusColor = Color.FromHex("#9DB2CB");
 
                             List<Occurance> holder = new List<Occurance>(commonOccur);
                             Debug.WriteLine("holder count before: " + holder.Count);
@@ -281,8 +325,8 @@ namespace Manifest.Views
                             commonOccur.Add(toAdd);
                             Debug.WriteLine("holder count after: " + holder.Count);
                         }
-                        else if (toAdd.IsPersistent == false && commonOccur.Count == 1 && (commonOccur[0].StartDayAndTime.ToString("t") != toAdd.StartDayAndTime.ToString("t")
-                            || commonOccur[0].EndDayAndTime.ToString("t") != toAdd.EndDayAndTime.ToString("t")))
+                        else if (toAdd.IsPersistent == false && commonOccur.Count == 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(toAdd.StartDayAndTime.ToString("t")).TimeOfDay
+                            || ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay  < ToDateTime(toAdd.EndDayAndTime.ToString("t")).TimeOfDay))
                         {
                             todaysOccurances.Add(commonOccur[0]);
                             commonOccur.Clear();
@@ -311,9 +355,10 @@ namespace Manifest.Views
                     toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
                     toAddPursue.IsEvent = false;
 
-                    if (DateTime.Now.TimeOfDay >= toAddPursue.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAddPursue.EndDayAndTime.TimeOfDay)
-                        toAddPursue.StatusColor = Color.FromHex("#FFBD27");
-                    else toAddPursue.StatusColor = Color.FromHex("#9DB2CB");
+                    toAddPursue.StatusColor = Color.FromHex("#FFBD27");
+                    //if (DateTime.Now.TimeOfDay >= toAddPursue.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAddPursue.EndDayAndTime.TimeOfDay)
+                    //    toAddPursue.StatusColor = Color.FromHex("#FFBD27");
+                    //else toAddPursue.StatusColor = Color.FromHex("#9DB2CB");
 
                     List<Occurance> holder = new List<Occurance>(commonOccur);
                     Debug.WriteLine("holder count before: " + holder.Count);
@@ -573,6 +618,7 @@ namespace Manifest.Views
 
                 //Set up the request
                 var request = new HttpRequestMessage();
+                Debug.WriteLine("EVEN URL: " + fullURI);
                 request.RequestUri = new Uri(fullURI);
                 request.Method = HttpMethod.Get;
 
@@ -586,7 +632,7 @@ namespace Manifest.Views
                 var response = await client.SendAsync(request);
                 var json = await response.Content.ReadAsStringAsync();
                 //var json = response.Content;
-                //Debug.WriteLine("Calendars response:\n" + json);
+                Debug.WriteLine("Calendars response:\n" + json);
                 //var serializer = new JavaScriptSerializer(); //using System.Web.Script.Serialization;
 
                 EventResponse eventResponse = JsonConvert.DeserializeObject<EventResponse>(json);
@@ -615,9 +661,11 @@ namespace Manifest.Views
                     toAdd.EndDayAndTime = dto.EndTime.LocalDateTime;
                     toAdd.TimeInterval = dto.StartTime.LocalDateTime.ToString("t") + "-" + dto.EndTime.LocalDateTime.ToString("t");
 
-                    if (DateTime.Now.TimeOfDay >= toAdd.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAdd.EndDayAndTime.TimeOfDay)
-                        toAdd.StatusColor = Color.FromHex("#FFBD27");
-                    else toAdd.StatusColor = Color.FromHex("#9DB2CB");
+                    toAdd.StatusColor = Color.FromHex("#67ABFC");
+                    //highlighting events happening now
+                    //if (DateTime.Now.TimeOfDay >= toAdd.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAdd.EndDayAndTime.TimeOfDay)
+                    //    toAdd.StatusColor = Color.FromHex("#FFBD27");
+                    //else toAdd.StatusColor = Color.FromHex("#9DB2CB");
 
                     toAdd.Id = dto.Id;
                     toAdd.IsEvent = true;
@@ -679,75 +727,93 @@ namespace Manifest.Views
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
         async void checkSubOccurance(object sender, EventArgs args)
         {
-            Debug.WriteLine("Tapped");
-            Debug.WriteLine(sender);
-            Debug.WriteLine(args);
-            Grid myvar = (Grid)sender;
-            Occurance currOccurance = myvar.BindingContext as Occurance;
-            if (currOccurance.IsEvent)
+            try
             {
-                goToEventsPage(currOccurance);
-                return;
-            }
-            Debug.WriteLine(currOccurance.Id);
-            //var currSession = (Session)Application.Current.Properties["session"];
-            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-            //If there is a sublist available, go to goals page if its a Pursue A Goal
-            if (currOccurance.Title == "Pursue A Goal")
-            {
-                Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs), false);
-                //old code
-                //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
-            }
-            else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
-            {
-                currOccurance.updateIsInProgress(true);
-                currOccurance.DateTimeStarted = DateTime.Now;
-                Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
-                //string toSend = updateOccurance(currOccurance);
-                UpdateOccurance updateOccur = new UpdateOccurance()
-                {
-                    id = currOccurance.Id,
-                    datetime_completed = currOccurance.DateTimeCompleted,
-                    datetime_started = currOccurance.DateTimeStarted,
-                    is_in_progress = currOccurance.IsInProgress,
-                    is_complete = currOccurance.IsComplete
-                };
-                string toSend = updateOccur.updateOccurance();
-                var content = new StringContent(toSend);
-                var res = await client.PostAsync(url, content);
-                if (res.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("Wrote to the datebase");
-                }
-                else
-                {
-                    Debug.WriteLine("Some error");
-                    Debug.WriteLine(toSend);
-                    Debug.WriteLine(res.ToString());
-                }
-            }
-            else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
-            {
-                Debug.WriteLine("Should be changed to in complete");
-                currOccurance.updateIsInProgress(false);
-                currOccurance.updateIsComplete(true);
-                currOccurance.DateTimeCompleted = DateTime.Now;
-                UpdateOccurance updateOccur = new UpdateOccurance()
-                {
-                    id = currOccurance.Id,
-                    datetime_completed = currOccurance.DateTimeCompleted,
-                    datetime_started = currOccurance.DateTimeStarted,
-                    is_in_progress = currOccurance.IsInProgress,
-                    is_complete = currOccurance.IsComplete
-                };
-                string toSend = updateOccur.updateOccurance();
-                var content = new StringContent(toSend);
-                _ = await client.PostAsync(url, content);
 
+                Debug.WriteLine("Tapped");
+                Debug.WriteLine(sender);
+                Debug.WriteLine(args);
+                Grid myvar = (Grid)sender;
+                Occurance currOccurance = myvar.BindingContext as Occurance;
+                if (currOccurance.IsEvent)
+                {
+                    goToEventsPage(currOccurance);
+                    return;
+                }
+                Debug.WriteLine(currOccurance.Id);
+                //var currSession = (Session)Application.Current.Properties["session"];
+                string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                //If there is a sublist available, go to goals page if its a Pursue A Goal
+                //if (currOccurance.Title == "Pursue A Goal")
+                if (currOccurance.IsPersistent == false)
+                {
+                    if (currOccurance.Title == "Pursue A Goal")
+                        await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
+                    else await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
+                    //old code
+                    //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
+                }
+                else if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
+                {
+                    await Navigation.PushAsync(new RoutinePage());
+                }
+                else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
+                {
+                    currOccurance.updateIsInProgress(true);
+                    currOccurance.DateTimeStarted = DateTime.Now;
+                    Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+                    //string toSend = updateOccurance(currOccurance);
+                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    {
+                        id = currOccurance.Id,
+                        datetime_completed = currOccurance.DateTimeCompleted,
+                        datetime_started = currOccurance.DateTimeStarted,
+                        is_in_progress = currOccurance.IsInProgress,
+                        is_complete = currOccurance.IsComplete
+                    };
+                    string toSend = updateOccur.updateOccurance();
+                    var content = new StringContent(toSend);
+                    var res = await client.PostAsync(url, content);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Wrote to the datebase");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Some error");
+                        Debug.WriteLine(toSend);
+                        Debug.WriteLine(res.ToString());
+                    }
+                }
+                else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
+                {
+                    Debug.WriteLine("Should be changed to in complete");
+                    currOccurance.updateIsInProgress(false);
+                    currOccurance.updateIsComplete(true);
+                    currOccurance.DateTimeCompleted = DateTime.Now;
+                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    {
+                        id = currOccurance.Id,
+                        datetime_completed = currOccurance.DateTimeCompleted,
+                        datetime_started = currOccurance.DateTimeStarted,
+                        is_in_progress = currOccurance.IsInProgress,
+                        is_complete = currOccurance.IsComplete
+                    };
+                    string toSend = updateOccur.updateOccurance();
+                    var content = new StringContent(toSend);
+                    _ = await client.PostAsync(url, content);
+
+                }
+            }
+            catch (Exception e)
+            {
+               await DisplayAlert("Alert", "Error in TodaysList checkSubOccurance. Error: " + e.ToString(), "OK");
             }
         }
 
-
+        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new SettingsPage(), false);
+        }
     }
 }

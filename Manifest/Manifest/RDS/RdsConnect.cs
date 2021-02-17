@@ -18,6 +18,7 @@ namespace Manifest.RDS
         public static async void storeGUID(string guid, string uid)
         {
             string url = RdsConfig.BaseUrl + RdsConfig.addGuid;
+            
             Console.WriteLine("guid = " + guid + ", uid = " + uid);
             if (guid == null || guid == "")
             {

@@ -11,6 +11,9 @@ using Xamarin.Essentials;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Xamarin.Auth;
+using Manifest.Config;
+using Manifest.LogIn.Classes;
 
 namespace Manifest.Views
 {
@@ -55,7 +58,7 @@ namespace Manifest.Views
             public string ta_phone { get; set; }
         }
 
-        public User user;
+        public Models.User user;
         List<Person> importantPeople = new List<Person>();
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
@@ -76,12 +79,14 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
-            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+            frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+            
             title.Text = "About me";
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
-            barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
 
             bigCircleHW = (float)(deviceWidth * 0.102);
             bigCircleRadius = (float)(bigCircleHW * 0.75);
@@ -141,7 +146,7 @@ namespace Manifest.Views
                 {
                     if (dto.user_email_id != null)
                     {
-                        user = new User()
+                        user = new Models.User()
                         {
                             FirstName = dto.user_first_name,
                             LastName = dto.user_last_name,
@@ -300,6 +305,11 @@ namespace Manifest.Views
             // Application.Current.Properties.Remove("platform");
             // Application.Current.Properties.Remove("time_stamp");
             Application.Current.MainPage = new LogInPage();
+        }
+
+        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new SettingsPage("AboutMePage");
         }
     }
 }

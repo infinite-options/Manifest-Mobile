@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Diagnostics;
+using Manifest.Config;
+using Manifest.LogIn.Classes;
+using Xamarin.Auth;
 using Xamarin.Forms;
 
 namespace Manifest.Views
@@ -20,18 +23,25 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
-            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+            frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "Who am I?";
 
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
-            barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
+            
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new MainPage();
+        }
+
+        void Button_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new SettingsPage("WhoAmIPage");
         }
     }
 }

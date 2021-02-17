@@ -34,6 +34,10 @@ namespace Manifest.iOS
         {
             global::Xamarin.Auth.Presenters.XamarinIOS.AuthenticationConfiguration.Init();
             global::Xamarin.Forms.Forms.Init();
+
+            //testing with forms9patch
+            Forms9Patch.iOS.Settings.Initialize(this);
+
             LoadApplication(new App());
 
             base.FinishedLaunching(app, options);
@@ -112,6 +116,7 @@ namespace Manifest.iOS
                 Debug.WriteLine("guid:" + tag);
 
                 Preferences.Set("guid", tag);
+                
                 System.Diagnostics.Debug.WriteLine("This is the GUID from RegisteredForRemoteNotifications: " + Preferences.Get("guid", string.Empty));
                 var tags = new NSSet(AppConstants.SubscriptionTags.Append(tag).ToArray());
                 //End of Carlos's code
@@ -143,7 +148,7 @@ namespace Manifest.iOS
                     }
                 });
             });
-        }
+        }        
 
         
 

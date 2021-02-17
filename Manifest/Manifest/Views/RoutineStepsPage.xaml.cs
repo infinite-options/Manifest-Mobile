@@ -41,7 +41,10 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             //lastRowHeight = barStackLayoutRow.Height;
 
-            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+            frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+           
             title.Text = "Routine Steps";
             subTitle.Text = "";
             var helperObject = new MainPage();
@@ -224,6 +227,11 @@ namespace Manifest.Views
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
             Navigation.PopAsync(false);
+        }
+
+        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new SettingsPage(), false);
         }
     }
 }

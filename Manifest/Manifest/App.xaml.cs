@@ -34,6 +34,7 @@ namespace Manifest
                 //System.Diagnostics.Debug.WriteLine("Session available");
 
                 MainPage = new MainPage();
+                
                 //if (Application.Current.Properties.ContainsKey("timeStamp"))
                 //{
                 //    //MainPage = new MainPage();
@@ -119,21 +120,6 @@ namespace Manifest
 
         protected override void OnResume()
         {
-        }
-
-        async void testing()
-        {
-            if (Application.Current.Properties.ContainsKey("userID"))
-            {
-                var userID = (Application.Current.Properties["userID"]);
-                await Application.Current.MainPage.DisplayAlert("Ooops", userID.ToString(), "OK");
-
-            }
-            if (Application.Current.Properties.ContainsKey("time_stamp"))
-            {
-                var time_stamp = (Application.Current.Properties["time_stamp"]);
-                await Application.Current.MainPage.DisplayAlert("Ooops", time_stamp.ToString(), "OK");
-            }
         }
     }
 }

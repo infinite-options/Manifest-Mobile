@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.MainPage">
     <ContentPage.Content>
-        <Grid BackgroundColor="#F2F7FC" RowSpacing="0">
+        <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
@@ -9,39 +9,38 @@
                 <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
-            <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
+            <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0">
                 <!--SPACE FOR HEADER-->
-                    <Grid Margin="0,44,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="1"></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
-                            <RowDefinition Height="0"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="" TextColor="White"></Label>
-                            <Label Grid.Column="1" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                            <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="Button_Clicked"></ImageButton>
-                        </Grid>
-                        <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
-                        <Grid Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
-                        </Grid>
-                        <Grid Grid.Row="3">
-                             <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
-                        </Grid>
+                <Grid Margin="0,30,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="1"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="0"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="" TextColor="White"></Label>
+                        <Label Grid.Column="1" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                        <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="Button_Clicked" BackgroundColor="Transparent"></ImageButton>
                     </Grid>
- 
+                    <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
+                    <Grid Grid.Row="2" Padding="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                        <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                    </Grid>
+                    <Grid Grid.Row="3">
+                            <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                    </Grid>
+                </Grid>
             </Frame>
             <StackLayout Grid.Row="1" Rotation="90">
                <Grid VerticalOptions="CenterAndExpand">
@@ -181,48 +180,35 @@
                </Grid>
             </StackLayout>
             <StackLayout Grid.Row="2">
-                <Grid>
-                    <BoxView Grid.Column="0" Color="Pink" HeightRequest="50">
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                    <BoxView Grid.Column="1" Color="Green" HeightRequest="50" >
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                    <BoxView Grid.Column="2" Color="Black" HeightRequest="50">
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                    <BoxView Grid.Column="3" Color="Red" HeightRequest="50">
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_3"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                    <BoxView Grid.Column="4" Color="Yellow" HeightRequest="50">
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_4"></TapGestureRecognizer>
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
-                </Grid>
-                <Label Text="settings page"></Label>
+                
             </StackLayout>
             <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
-                <Frame>
+                <Frame CornerRadius="15" Padding="0, 10, 0, 18" BackgroundColor="Transparent">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Row="0" Grid.Column="0" Text="icon1"></Button>
-                        <Button Grid.Row="0" Grid.Column="1" Text="icon2"></Button>
-                        <Button Grid.Row="0" Grid.Column="2" Text="icon3"></Button>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" HeightRequest="20"/>
+                            <Label Grid.Row="1" Grid.Column="0" Text="Today's List" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+
+                            <Image Grid.Row="0" Grid.Column="1" Source="personIcon.png" HeightRequest="20"/>
+                            <Label Grid.Row="1" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+
+                            <Image Grid.Row="0" Grid.Column="2" Source="helpIcon.png"   HeightRequest="20"/>
+                            <Label Grid.Row="1" Grid.Column="2" Text="Get Help" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+
+                        <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="Transparent"></Button>
+                        <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  BackgroundColor="Transparent"></Button>
+                        <Button Grid.Column="2" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  BackgroundColor="Transparent"></Button>
                     </Grid>
                 </Frame>
+
             </StackLayout>
             <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
                 <Button Text="Next" HorizontalOptions="Center" VerticalOptions="Center"></Button>
