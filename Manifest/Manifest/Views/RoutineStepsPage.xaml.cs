@@ -128,10 +128,10 @@ namespace Manifest.Views
 
                 instructions.Children.Add(gridFrame);
             }
-            if (numTasks == numComplete)
-            {
-                parentIsComplete();
-            }
+            //if (numTasks == numComplete)
+            //{
+            //    parentIsComplete();
+            //}
         }
 
         async void stepComplete(System.Object sender, System.EventArgs e)
@@ -172,7 +172,6 @@ namespace Manifest.Views
         async void parentIsComplete()
         {
             string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
-            parent.updateIsComplete(true);
             parent.updateIsInProgress(false);
             parent.updateIsComplete(true);
             //numCompleted++;
