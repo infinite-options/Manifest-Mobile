@@ -17,7 +17,7 @@ namespace Manifest.Views
         GridLength height;
         GridLength lastRowHeight;
         //public List<SubOccurance> subTasks;
-        public List<SubOccuranceDto> subTasks;
+        public List<SubOccurance> subTasks;
         HttpClient client = new HttpClient();
 
         public ObservableCollection<SubOccurance> datagrid = new ObservableCollection<SubOccurance>();
@@ -29,14 +29,14 @@ namespace Manifest.Views
 
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
-        Dictionary<Label, SubOccuranceDto> subOccDict;
+        Dictionary<Label, SubOccurance> subOccDict;
 
 
 
-        public GoalsSpecialPage(OccuranceDto occurance)
+        public GoalsSpecialPage(Occurance occurance)
         {
-            subOccDict = new Dictionary<Label, SubOccuranceDto>();
-            subTasks = occurance.actions_tasks;
+            subOccDict = new Dictionary<Label, SubOccurance>();
+            subTasks = occurance.subOccurances;
             InitializeComponent();
             setting = false;
             height = mainStackLayoutRow.Height;
@@ -44,7 +44,7 @@ namespace Manifest.Views
 
             frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
             title.Text = "Goals";
-            subTitle.Text = occurance.gr_title;
+            subTitle.Text = occurance.Title;
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
@@ -52,10 +52,10 @@ namespace Manifest.Views
             //parent = occurance;
             numTasks = 0;
             numCompleted = 0;
-            string occuranceID = occurance.gr_unique_id;
+            string occuranceID = occurance.Id;
             //subTaskList.ItemsSource = datagrid;
             //initializeSubTasks(occuranceID);
-            goalLabel.Text = occurance.gr_title;
+            goalLabel.Text = occurance.Title;
             //foreach (SubOccuranceDto subOccur in subTasks)
             //{
             //    subOccDict.Add(subOccur.at_title, subOccur);
@@ -67,7 +67,7 @@ namespace Manifest.Views
 
             if (subTasks.Count == 1)
             {
-                actionLabel2.Text = subTasks[0].at_title;
+                actionLabel2.Text = subTasks[0].Title;
                 subOccDict.Add(actionLabel2, subTasks[0]);
                 actionFrame3.IsVisible = false;
                 actionFrame1.IsVisible = false;
@@ -76,11 +76,11 @@ namespace Manifest.Views
             }
             else if (subTasks.Count == 2)
             {
-                Debug.WriteLine("first: " + subTasks[0].at_title + " second: " + subTasks[1].at_title);
-                actionLabel1.Text = subTasks[0].at_title;
+                Debug.WriteLine("first: " + subTasks[0].Title + " second: " + subTasks[1].Title);
+                actionLabel1.Text = subTasks[0].Title;
                 subOccDict.Add(actionLabel1, subTasks[0]);
 
-                actionLabel3.Text = subTasks[1].at_title;
+                actionLabel3.Text = subTasks[1].Title;
                 subOccDict.Add(actionLabel3, subTasks[1]);
                 actionFrame2.IsVisible = false;
                 downArrow.IsVisible = false;
@@ -88,13 +88,13 @@ namespace Manifest.Views
             else if (subTasks.Count >= 3)
             {
                 Debug.WriteLine("subtask 3 entered");
-                actionLabel1.Text = subTasks[0].at_title;
+                actionLabel1.Text = subTasks[0].Title;
                 subOccDict.Add(actionLabel1, subTasks[0]);
 
-                actionLabel2.Text = subTasks[1].at_title;
+                actionLabel2.Text = subTasks[1].Title;
                 subOccDict.Add(actionLabel2, subTasks[1]);
 
-                actionLabel3.Text = subTasks[2].at_title;
+                actionLabel3.Text = subTasks[2].Title;
                 subOccDict.Add(actionLabel3, subTasks[2]);
             }
             else Navigation.PopAsync();
@@ -142,13 +142,13 @@ namespace Manifest.Views
         void goToSteps(System.Object sender, System.EventArgs e)
         {
             Label receiving = (Label)sender;
-            if (receiving == actionLabel1 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions_steps.Count != 0)
+            if (receiving == actionLabel1 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
                 Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving], actionFrame1.BackgroundColor.ToHex().ToString()), false);
-            else if (receiving == actionLabel2 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions_steps.Count != 0)
+            else if (receiving == actionLabel2 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
                 Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving], actionFrame2.BackgroundColor.ToHex().ToString()), false);
-            else if (receiving == actionLabel3 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions_steps.Count != 0)
+            else if (receiving == actionLabel3 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
                 Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving], actionFrame3.BackgroundColor.ToHex().ToString()), false);
-            else if (subOccDict[receiving].instructions_steps.Count == 0)
+            else if (subOccDict[receiving].instructions.Count == 0)
                 DisplayAlert("Oops", "there are no instructions available for this action", "OK");
         }
 
@@ -156,11 +156,11 @@ namespace Manifest.Views
         {
             Frame receiving = (Frame)sender;
 
-            if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "" && subOccDict[actionLabel1].instructions_steps.Count != 0)
+            if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "" && subOccDict[actionLabel1].instructions.Count != 0)
                 Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[actionLabel1], actionFrame1.BackgroundColor.ToHex().ToString()), false);
-            else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "" && subOccDict[actionLabel2].instructions_steps.Count != 0)
+            else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "" && subOccDict[actionLabel2].instructions.Count != 0)
                 Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[actionLabel2], actionFrame2.BackgroundColor.ToHex().ToString()), false);
-            else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "" && subOccDict[actionLabel3].instructions_steps.Count != 0)
+            else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "" && subOccDict[actionLabel3].instructions.Count != 0)
                 Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[actionLabel3], actionFrame3.BackgroundColor.ToHex().ToString()), false);
             else DisplayAlert("Oops", "there are no instructions available for this action", "OK");
 

@@ -30,5 +30,8 @@ namespace Manifest.Config
         //Endpoints for routines
         //https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/rts/<string:user_id>
         public const string getRoutines = "/api/v2/rts";
+
+        //Endpoint to update instruction
+        public const string updateInstruction = "/api/v2/updateISWatchMobile";
     }
 }

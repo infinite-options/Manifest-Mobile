@@ -20,12 +20,13 @@ namespace Manifest.Views
         List<Occurance> currentOccurances;
         HttpClient client = new HttpClient();
         List<OccuranceDto> todayOccurs = new List<OccuranceDto>();
-        List<OccuranceDto> goalsInRange = new List<OccuranceDto>();
-        Dictionary<System.Object, OccuranceDto> occuranceDict = new Dictionary<System.Object, OccuranceDto>();
-        Dictionary<System.Object, OccuranceDto> occuranceFrameDict = new Dictionary<System.Object, OccuranceDto>();
+        List<Occurance> goalsInRange = new List<Occurance>();
+        Dictionary<System.Object, Occurance> occuranceDict = new Dictionary<System.Object, Occurance>();
+        Dictionary<System.Object, Occurance> occuranceFrameDict = new Dictionary<System.Object, Occurance>();
         public string startTime = "6:00 AM";
         public string endTime = "7:00 AM";
-        OccuranceDto chosenOccurance = null;
+        Occurance chosenOccurance = null;
+
 
         public GoalsPage(string start, string end)
         {
@@ -159,50 +160,55 @@ namespace Manifest.Views
                 {
                     DisplayAlert("No tasks today", "OK", "Cancel");
                 }
-
-                //sort by end time
-                //List<OccuranceDto> todayOccurs = new List<OccuranceDto>();
                 foreach (OccuranceDto dto in occuranceResponse.result)
                 {
+                    //Only add routines
                     if (dto.is_displayed_today == "True")
                     {
-                        if (todayOccurs.Count == 0)
-                            todayOccurs.Add(dto);
-                        else
+                        Occurance toAdd = new Occurance();
+                        if (dto.actions_tasks == null)
                         {
-                            for (int i = 0; i < todayOccurs.Count; i++)
-                            {
-                                if (i == todayOccurs.Count - 1 && DateTime.Parse(dto.end_day_and_time).TimeOfDay > DateTime.Parse(todayOccurs[i].end_day_and_time).TimeOfDay)
-                                {
-                                    todayOccurs.Add(dto);
-                                    break;
-                                }
-                                //else if (DateTime.Parse(dto.end_day_and_time).TimeOfDay > DateTime.Parse(todayOccurs[i].end_day_and_time).TimeOfDay)
-                                //{
-                                //    todayOccurs.Insert(i+1, dto);
-                                //    break;
-                                //}
-                                else if (DateTime.Parse(dto.end_day_and_time).TimeOfDay <= DateTime.Parse(todayOccurs[i].end_day_and_time).TimeOfDay)
-                                {
-                                    todayOccurs.Insert(i, dto);
-                                    break;
-                                }
-                            }
+                            Debug.WriteLine("Actions and tasks are null");
                         }
-
+                        toAdd.Id = dto.gr_unique_id;
+                        toAdd.Title = dto.gr_title;
+                        toAdd.PicUrl = dto.photo;
+                        toAdd.IsPersistent = DataParser.ToBool(dto.is_persistent);
+                        toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
+                        toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
+                        toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
+                        toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
+                        toAdd.CompletionTime = dto.expected_completion_time;
+                        toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
+                        toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
+                        toAdd.StartDayAndTime = DataParser.ToDateTime(dto.start_day_and_time);
+                        toAdd.EndDayAndTime = DataParser.ToDateTime(dto.end_day_and_time);
+                        toAdd.Repeat = DataParser.ToBool(dto.repeat);
+                        toAdd.RepeatEvery = dto.repeat_every;
+                        toAdd.RepeatFrequency = dto.repeat_frequency;
+                        toAdd.RepeatType = dto.repeat_type;
+                        toAdd.RepeatOccurences = dto.repeat_occurences;
+                        toAdd.RepeatEndsOn = DataParser.ToDateTime(dto.repeat_ends_on);
+                        //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
+                        toAdd.UserId = dto.user_id;
+                        toAdd.IsEvent = false;
+                        toAdd.NumSubOccurances = 0;
+                        toAdd.SubOccurancesCompleted = 0;
+                        toAdd.subOccurances = GetSubOccurances(dto.actions_tasks, toAdd);
+                        currentOccurances.Add(toAdd);
                     }
                 }
 
                 //sort by start time
-                for (int j = 0; j < todayOccurs.Count - 1; j++)
+                for (int j = 0; j < currentOccurances.Count - 1; j++)
                 {
-                    for (int i = j + 1; i < todayOccurs.Count; i++)
+                    for (int i = j + 1; i < currentOccurances.Count; i++)
                     {
-                        if (DateTime.Parse(todayOccurs[i].start_day_and_time).TimeOfDay < DateTime.Parse(todayOccurs[j].start_day_and_time).TimeOfDay)
+                        if (currentOccurances[i].StartDayAndTime.TimeOfDay < currentOccurances[j].StartDayAndTime.TimeOfDay)
                         {
-                            OccuranceDto temp = todayOccurs[i];
-                            todayOccurs[i] = todayOccurs[j];
-                            todayOccurs[j] = temp;
+                            Occurance temp = currentOccurances[i];
+                            currentOccurances[i] = currentOccurances[j];
+                            currentOccurances[j] = temp;
                         }
                     }
                 }
@@ -213,24 +219,47 @@ namespace Manifest.Views
                     Debug.WriteLine("starting: " + DateTime.Parse(dto.start_day_and_time).TimeOfDay + " ending: " + DateTime.Parse(dto.end_day_and_time).TimeOfDay);
                 }
 
+                //if (startTime == endTime)
+                //{
+                //    foreach (OccuranceDto dto in todayOccurs)
+                //    {
+                //        if (ToDateTime(ToDateTime(dto.start_day_and_time).ToString("t")).TimeOfDay <= ToDateTime(startTime).TimeOfDay && ToDateTime(ToDateTime(dto.end_day_and_time).ToString("t")).TimeOfDay >= ToDateTime(endTime).TimeOfDay)
+                //        {
+                //            Debug.WriteLine(dto.gr_title + " passes");
+                //            goalsInRange.Add(dto);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    foreach (OccuranceDto dto in todayOccurs)
+                //    {
+                //        if (ToDateTime(ToDateTime(dto.start_day_and_time).ToString("t")).TimeOfDay >= ToDateTime(startTime).TimeOfDay && ToDateTime(ToDateTime(dto.end_day_and_time).ToString("t")).TimeOfDay <= ToDateTime(endTime).TimeOfDay)
+                //        {
+                //            Debug.WriteLine(dto.gr_title + " passes");
+                //            goalsInRange.Add(dto);
+                //        }
+                //    }
+                //}
+
                 if (startTime == endTime)
                 {
-                    foreach (OccuranceDto dto in todayOccurs)
+                    foreach (Occurance dto in currentOccurances)
                     {
-                        if (ToDateTime(ToDateTime(dto.start_day_and_time).ToString("t")).TimeOfDay <= ToDateTime(startTime).TimeOfDay && ToDateTime(ToDateTime(dto.end_day_and_time).ToString("t")).TimeOfDay >= ToDateTime(endTime).TimeOfDay)
+                        if (ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay <= ToDateTime(startTime).TimeOfDay && ToDateTime(dto.EndDayAndTime.ToString("t")).TimeOfDay >= ToDateTime(endTime).TimeOfDay)
                         {
-                            Debug.WriteLine(dto.gr_title + " passes");
+                            Debug.WriteLine(dto.Title + " passes");
                             goalsInRange.Add(dto);
                         }
                     }
                 }
                 else
                 {
-                    foreach (OccuranceDto dto in todayOccurs)
+                    foreach (Occurance dto in currentOccurances)
                     {
-                        if (ToDateTime(ToDateTime(dto.start_day_and_time).ToString("t")).TimeOfDay >= ToDateTime(startTime).TimeOfDay && ToDateTime(ToDateTime(dto.end_day_and_time).ToString("t")).TimeOfDay <= ToDateTime(endTime).TimeOfDay)
+                        if (ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay >= ToDateTime(startTime).TimeOfDay && ToDateTime(dto.EndDayAndTime.ToString("t")).TimeOfDay <= ToDateTime(endTime).TimeOfDay)
                         {
-                            Debug.WriteLine(dto.gr_title + " passes");
+                            Debug.WriteLine(dto.Title + " passes");
                             goalsInRange.Add(dto);
                         }
                     }
@@ -248,7 +277,7 @@ namespace Manifest.Views
                     setProperties1();
                     show7();
                     //first7.Text = goalsInRange[0].gr_title;
-                    text1.Text = goalsInRange[0].gr_title;
+                    text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1, goalsInRange[0]);
                     //occuranceDict.Add(first7, goalsInRange[0]);
                 }
@@ -258,11 +287,11 @@ namespace Manifest.Views
                     show7();
                     //first7.Text = goalsInRange[0].gr_title;
                     //second7.Text = goalsInRange[1].gr_title;
-                    text1.Text = goalsInRange[0].gr_title;
+                    text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1, goalsInRange[0]);
                     //occuranceDict.Add(first7, goalsInRange[0]);
 
-                    text2.Text = goalsInRange[1].gr_title;
+                    text2.Text = goalsInRange[1].Title;
                     occuranceDict.Add(text2, goalsInRange[1]);
                     //occuranceDict.Add(second7, goalsInRange[1]);
                 }
@@ -273,15 +302,15 @@ namespace Manifest.Views
                     //first7.Text = goalsInRange[0].gr_title;
                     //second7.Text = goalsInRange[1].gr_title;
                     //third7.Text = goalsInRange[2].gr_title;
-                    text1.Text = goalsInRange[0].gr_title;
+                    text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1, goalsInRange[0]);
                     //occuranceDict.Add(first7, goalsInRange[0]);
 
-                    text2.Text = goalsInRange[1].gr_title;
+                    text2.Text = goalsInRange[1].Title;
                     occuranceDict.Add(text2, goalsInRange[1]);
                     //occuranceDict.Add(second7, goalsInRange[1]);
 
-                    text3.Text = goalsInRange[2].gr_title;
+                    text3.Text = goalsInRange[2].Title;
                     occuranceDict.Add(text3, goalsInRange[2]);
                     //occuranceDict.Add(third7, goalsInRange[2]);
 
@@ -290,19 +319,19 @@ namespace Manifest.Views
                 {
                     setProperties4();
                     show7();
-                    text1.Text = goalsInRange[0].gr_title;
+                    text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1, goalsInRange[0]);
                     //occuranceDict.Add(first7, goalsInRange[0]);
 
-                    text2.Text = goalsInRange[1].gr_title;
+                    text2.Text = goalsInRange[1].Title;
                     occuranceDict.Add(text2, goalsInRange[1]);
                     //occuranceDict.Add(second7, goalsInRange[1]);
 
-                    text3.Text = goalsInRange[2].gr_title;
+                    text3.Text = goalsInRange[2].Title;
                     occuranceDict.Add(text3, goalsInRange[2]);
                     //occuranceDict.Add(third7, goalsInRange[2]);
 
-                    text4.Text = goalsInRange[3].gr_title;
+                    text4.Text = goalsInRange[3].Title;
                     occuranceDict.Add(text4, goalsInRange[3]);
                     //occuranceDict.Add(fourth7, goalsInRange[3]);
 
@@ -312,23 +341,23 @@ namespace Manifest.Views
                     setProperties5();
                     show7();
                     //first5.Text = goalsInRange[0].gr_title;
-                    text1.Text = goalsInRange[0].gr_title;
+                    text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1, goalsInRange[0]);
                     //occuranceDict.Add(first7, goalsInRange[0]);
 
-                    text2.Text = goalsInRange[1].gr_title;
+                    text2.Text = goalsInRange[1].Title;
                     occuranceDict.Add(text2, goalsInRange[1]);
                     //occuranceDict.Add(second7, goalsInRange[1]);
 
-                    text3.Text = goalsInRange[2].gr_title;
+                    text3.Text = goalsInRange[2].Title;
                     occuranceDict.Add(text3, goalsInRange[2]);
                     //occuranceDict.Add(third7, goalsInRange[2]);
 
-                    text4.Text = goalsInRange[3].gr_title;
+                    text4.Text = goalsInRange[3].Title;
                     occuranceDict.Add(text4, goalsInRange[3]);
                     //occuranceDict.Add(fourth7, goalsInRange[3]);
 
-                    text5.Text = goalsInRange[4].gr_title;
+                    text5.Text = goalsInRange[4].Title;
                     occuranceDict.Add(text5, goalsInRange[4]);
                     //occuranceDict.Add(fifth7, goalsInRange[4]);
 
@@ -337,27 +366,27 @@ namespace Manifest.Views
                 {
                     setProperties6();
                     show7();
-                    text1.Text = goalsInRange[0].gr_title;
+                    text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1, goalsInRange[0]);
                     //occuranceDict.Add(first7, goalsInRange[0]);
 
-                    text2.Text = goalsInRange[1].gr_title;
+                    text2.Text = goalsInRange[1].Title;
                     occuranceDict.Add(text2, goalsInRange[1]);
                     //occuranceDict.Add(second7, goalsInRange[1]);
 
-                    text3.Text = goalsInRange[2].gr_title;
+                    text3.Text = goalsInRange[2].Title;
                     occuranceDict.Add(text3, goalsInRange[2]);
                     //occuranceDict.Add(third7, goalsInRange[2]);
 
-                    text4.Text = goalsInRange[3].gr_title;
+                    text4.Text = goalsInRange[3].Title;
                     occuranceDict.Add(text4, goalsInRange[3]);
                     //occuranceDict.Add(fourth7, goalsInRange[3]);
 
-                    text5.Text = goalsInRange[4].gr_title;
+                    text5.Text = goalsInRange[4].Title;
                     occuranceDict.Add(text5, goalsInRange[4]);
                     //occuranceDict.Add(fifth7, goalsInRange[4]);
 
-                    text6.Text = goalsInRange[5].gr_title;
+                    text6.Text = goalsInRange[5].Title;
                     occuranceDict.Add(text6, goalsInRange[5]);
                     //occuranceDict.Add(sixth7, goalsInRange[5]);
 
@@ -366,31 +395,31 @@ namespace Manifest.Views
                 {
                     setProperties7();
                     show7();
-                    text1.Text = goalsInRange[0].gr_title;
+                    text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1, goalsInRange[0]);
                     //occuranceDict.Add(first7, goalsInRange[0]);
 
-                    text2.Text = goalsInRange[1].gr_title;
+                    text2.Text = goalsInRange[1].Title;
                     occuranceDict.Add(text2, goalsInRange[1]);
                     //occuranceDict.Add(second7, goalsInRange[1]);
 
-                    text3.Text = goalsInRange[2].gr_title;
+                    text3.Text = goalsInRange[2].Title;
                     occuranceDict.Add(text3, goalsInRange[2]);
                     //occuranceDict.Add(third7, goalsInRange[2]);
 
-                    text4.Text = goalsInRange[3].gr_title;
+                    text4.Text = goalsInRange[3].Title;
                     occuranceDict.Add(text4, goalsInRange[3]);
                     //occuranceDict.Add(fourth7, goalsInRange[3]);
 
-                    text5.Text = goalsInRange[4].gr_title;
+                    text5.Text = goalsInRange[4].Title;
                     occuranceDict.Add(text5, goalsInRange[4]);
                     //occuranceDict.Add(fifth7, goalsInRange[4]);
 
-                    text6.Text = goalsInRange[5].gr_title;
+                    text6.Text = goalsInRange[5].Title;
                     occuranceDict.Add(text6, goalsInRange[5]);
                     //occuranceDict.Add(sixth7, goalsInRange[5]);
 
-                    text7.Text = goalsInRange[6].gr_title;
+                    text7.Text = goalsInRange[6].Title;
                     occuranceDict.Add(text7, goalsInRange[6]);
                     //occuranceDict.Add(seventh7, goalsInRange[6]);
 
@@ -459,6 +488,73 @@ namespace Manifest.Views
                 DisplayAlert("Alert", "Error in TodaysListTest ToOccurances(). Error: " + e.ToString(), "OK");
             }
         }
+
+        private List<SubOccurance> GetSubOccurances(List<SubOccuranceDto> actions_tasks, Occurance parent)
+        {
+            List<SubOccurance> subTasks = new List<SubOccurance>();
+            if (actions_tasks == null || actions_tasks.Count == 0)
+            {
+                return subTasks;
+            }
+            foreach (SubOccuranceDto dto in actions_tasks)
+            {
+                parent.NumSubOccurances++;
+                //numTasks++;
+                SubOccurance toAdd = new SubOccurance();
+                toAdd.Id = dto.at_unique_id;
+                toAdd.Title = dto.at_title;
+                toAdd.GoalRoutineID = dto.goal_routine_id;
+                toAdd.AtSequence = dto.at_sequence;
+                toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
+                toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
+                if (toAdd.IsComplete)
+                {
+                    parent.SubOccurancesCompleted++;
+                }
+                toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
+                toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
+                toAdd.IsMustDo = DataParser.ToBool(dto.is_must_do);
+                toAdd.PicUrl = dto.photo;
+                toAdd.IsTimed = DataParser.ToBool(dto.is_timed);
+                toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
+                toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
+                toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
+                toAdd.AvailableStartTime = DataParser.ToDateTime(dto.available_start_time);
+                toAdd.AvailableEndTime = DataParser.ToDateTime(dto.available_end_time);
+                toAdd.instructions = GetInstructions(dto.instructions_steps);
+                subTasks.Add(toAdd);
+                Debug.WriteLine(toAdd.Id);
+            }
+
+            return subTasks;
+        }
+
+        private List<Instruction> GetInstructions(List<InstructionDto> instruction_steps)
+        {
+            List<Instruction> instructions = new List<Instruction>();
+            if (instruction_steps.Count == 0 || instruction_steps == null)
+            {
+                return instructions;
+            }
+            foreach (InstructionDto dto in instruction_steps)
+            {
+                Instruction toAdd = new Instruction();
+                toAdd.unique_id = dto.unique_id;
+                toAdd.title = dto.title;
+                toAdd.at_id = dto.at_id;
+                toAdd.IsSequence = int.Parse(dto.is_sequence);
+                toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
+                toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
+                toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
+                toAdd.IsTimed = DataParser.ToBool(dto.is_timed);
+                toAdd.Photo = dto.photo;
+                toAdd.expected_completion_time = DataParser.ToTimeSpan(dto.expected_completion_time);
+                instructions.Add(toAdd);
+            }
+
+            return instructions;
+        }
+
 
         //This function converts a string to a bool
         private bool ToBool(string boolString)
@@ -957,13 +1053,13 @@ namespace Manifest.Views
         void nextClicked(System.Object sender, System.EventArgs e)
         {
             //if a goal has only one subtask, navigate directly to steps page
-            if (chosenOccurance != null && chosenOccurance.is_sublist_available == "True" && chosenOccurance.actions_tasks.Count == 1)
+            if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.subOccurances.Count == 1)
             {
-                Navigation.PushAsync(new GoalStepsPage(chosenOccurance.gr_title, chosenOccurance.actions_tasks[0], "#F8BE28"));
+                Navigation.PushAsync(new GoalStepsPage(chosenOccurance.Title, chosenOccurance.subOccurances[0], "#F8BE28"));
             }
-            else if (chosenOccurance != null && chosenOccurance.is_sublist_available == "True")
+            else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true)
                 Navigation.PushAsync(new GoalsSpecialPage(chosenOccurance));
-            else if (chosenOccurance != null && chosenOccurance.is_sublist_available == "False")
+            else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
                 DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
             else DisplayAlert("Oops", "please select a goal first", "OK");
         }
