@@ -64,9 +64,45 @@ namespace Manifest.RDS
         }
 
         //Used to update a goal/routine
-        public static async Task<string> updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete)
+        public static async Task<string> updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete, string url)
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            //string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            currOccurance.updateIsInProgress(inprogress);
+            currOccurance.updateIsComplete(iscomplete);
+            //Now, write to the database
+            currOccurance.DateTimeStarted = DateTime.Now;
+            Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+            //string toSend = updateOccurance(currOccurance);
+            UpdateOccurance updateOccur = new UpdateOccurance()
+            {
+                id = currOccurance.Id,
+                datetime_completed = currOccurance.DateTimeCompleted,
+                datetime_started = currOccurance.DateTimeStarted,
+                is_in_progress = currOccurance.IsInProgress,
+                is_complete = currOccurance.IsComplete
+            };
+            string toSend = updateOccur.updateOccurance();
+            var content = new StringContent(toSend);
+            var res = await client.PostAsync(url, content);
+            if (res.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Wrote to the datebase");
+                return "Success";
+            }
+            else
+            {
+                Debug.WriteLine("Some error");
+                Debug.WriteLine(toSend);
+                Debug.WriteLine(res.ToString());
+                return "Failure";
+            }
+            //return "Failure";
+        }
+
+        //Used to update a goal/routine
+        public static async Task<string> updateOccurance(SubOccurance currOccurance, bool inprogress, bool iscomplete, string url)
+        {
+            //string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
             currOccurance.updateIsInProgress(inprogress);
             currOccurance.updateIsComplete(iscomplete);
             //Now, write to the database
@@ -241,5 +277,7 @@ namespace Manifest.RDS
 
             return instructions;
         }
+
+
     }
 }

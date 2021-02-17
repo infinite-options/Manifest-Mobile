@@ -172,24 +172,10 @@ namespace Manifest.Views
         async void parentIsComplete()
         {
             string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
-            parent.updateIsInProgress(false);
-            parent.updateIsComplete(true);
-            //numCompleted++;
-            parent.DateTimeCompleted = DateTime.Now;
-            UpdateOccurance updateOccur = new UpdateOccurance()
+            string res = await RdsConnect.updateOccurance(parent, false, true, url);
+            if (res == "Failure")
             {
-                id = parent.Id,
-                datetime_completed = parent.DateTimeCompleted,
-                datetime_started = parent.DateTimeStarted,
-                is_in_progress = parent.IsInProgress,
-                is_complete = parent.IsComplete
-            };
-            string toSend = updateOccur.updateOccurance();
-            var content = new StringContent(toSend);
-            var res = await client.PostAsync(url, content);
-            if (res.IsSuccessStatusCode)
-            {
-                Debug.WriteLine("Successfully completed the subtask");
+                await DisplayAlert("Error", "There was an error writing to the database.", "OK");
             }
             currRoutine.SubOccurancesCompleted++;
             updateRoutine();
@@ -198,9 +184,10 @@ namespace Manifest.Views
 
         async void updateRoutine()
         {
+            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
             if (currRoutine.IsInProgress == false && currRoutine.IsComplete == false)
             {
-                string res = await RdsConnect.updateOccurance(currRoutine, true, false);
+                string res = await RdsConnect.updateOccurance(currRoutine, true, false, url);
                 if (res == "Failure")
                 {
                     await DisplayAlert("Error", "There was an error writing to the database.", "OK");
@@ -208,7 +195,7 @@ namespace Manifest.Views
             }
             else if (currRoutine.IsInProgress == true && currRoutine.IsComplete == false && currRoutine.NumSubOccurances == currRoutine.SubOccurancesCompleted)
             {
-                string res = await RdsConnect.updateOccurance(currRoutine, false, true);
+                string res = await RdsConnect.updateOccurance(currRoutine, false, true, url);
                 if (res == "Failure")
                 {
                     await DisplayAlert("Error", "There was an error writing to the database.", "OK");
