@@ -129,8 +129,12 @@ namespace Manifest.Views
 
                 var socialLogInPostSerialized = JsonConvert.SerializeObject(socialLogInPost);
                 var postContent = new StringContent(socialLogInPostSerialized, Encoding.UTF8, "application/json");
-                var RDSResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.UserIdFromEmailUrl, postContent);
+
+                var RDSResponse = await client.PostAsync(Constant.LogInUrl, postContent);
+                //var RDSResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.UserIdFromEmailUrl, postContent);
+
                 var responseContent = await RDSResponse.Content.ReadAsStringAsync();
+                Debug.WriteLine(responseContent);
                 var authetication = JsonConvert.DeserializeObject<SuccessfulSocialLogIn>(responseContent);
                 var session = JsonConvert.DeserializeObject<Session>(responseContent);
                 if (RDSResponse.IsSuccessStatusCode)
@@ -159,7 +163,6 @@ namespace Manifest.Views
                                     Application.Current.Properties["showCalendar"] = true;
                                     Application.Current.Properties["accessToken"] = user.Account.Properties["access_token"];
                                     Application.Current.Properties["refreshToken"] = user.Account.Properties["refresh_token"];
-                                    
                                 }
 
                                 _ = Application.Current.SavePropertiesAsync();
@@ -192,6 +195,11 @@ namespace Manifest.Views
                                     {
                                         await DisplayAlert("Ooops!", "Something went wrong. We are not able to send you notification at this moment", "OK");
                                     }
+                                }
+
+                                foreach (string key in Application.Current.Properties.Keys)
+                                {
+                                    Debug.WriteLine("key: {0}, value: {1}", key, Application.Current.Properties[key]);
                                 }
                             }
                             catch (Exception s)

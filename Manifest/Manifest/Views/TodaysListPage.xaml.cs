@@ -125,7 +125,17 @@ namespace Manifest.Views
 
         void TodaysListPageClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new TodaysListPage();
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+        }
+
+        void AboutMeClicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new AboutMePage();
+        }
+
+        void HelpClicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new WhoAmIPage();
         }
 
 
@@ -135,9 +145,10 @@ namespace Manifest.Views
             {
                 //Need to add userID
                 string url = RdsConfig.BaseUrl + RdsConfig.goalsAndRoutinesUrl + "/" + userID;
+                Debug.WriteLine("URL: " + url);
                 var response = await client.GetStringAsync(url);
                 Debug.WriteLine("Getting user. User info below:");
-                //Debug.WriteLine(response);
+                Debug.WriteLine(response);
                 OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
                 //Debug.WriteLine(occuranceResponse);
                 ToOccurances(occuranceResponse);
@@ -607,6 +618,7 @@ namespace Manifest.Views
 
                 //Set up the request
                 var request = new HttpRequestMessage();
+                Debug.WriteLine("EVEN URL: " + fullURI);
                 request.RequestUri = new Uri(fullURI);
                 request.Method = HttpMethod.Get;
 
@@ -620,7 +632,7 @@ namespace Manifest.Views
                 var response = await client.SendAsync(request);
                 var json = await response.Content.ReadAsStringAsync();
                 //var json = response.Content;
-                //Debug.WriteLine("Calendars response:\n" + json);
+                Debug.WriteLine("Calendars response:\n" + json);
                 //var serializer = new JavaScriptSerializer(); //using System.Web.Script.Serialization;
 
                 EventResponse eventResponse = JsonConvert.DeserializeObject<EventResponse>(json);
@@ -717,6 +729,7 @@ namespace Manifest.Views
         {
             try
             {
+
                 Debug.WriteLine("Tapped");
                 Debug.WriteLine(sender);
                 Debug.WriteLine(args);
@@ -736,9 +749,13 @@ namespace Manifest.Views
                 {
                     if (currOccurance.Title == "Pursue A Goal")
                         await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
-                    await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
+                    else await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
                     //old code
                     //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
+                }
+                else if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
+                {
+                    await Navigation.PushAsync(new RoutinePage());
                 }
                 else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
                 {
@@ -788,9 +805,9 @@ namespace Manifest.Views
 
                 }
             }
-            catch (Exception checkSubOccurance)
+            catch (Exception e)
             {
-                await DisplayAlert("Oops", checkSubOccurance.Message, "OK");
+               await DisplayAlert("Alert", "Error in TodaysList checkSubOccurance. Error: " + e.ToString(), "OK");
             }
         }
 

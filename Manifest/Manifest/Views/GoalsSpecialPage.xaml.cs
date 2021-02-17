@@ -19,7 +19,7 @@ namespace Manifest.Views
         GridLength height;
         GridLength lastRowHeight;
         //public List<SubOccurance> subTasks;
-        public List<SubOccuranceDto> subTasks;
+        public List<SubOccurance> subTasks;
         HttpClient client = new HttpClient();
 
         public ObservableCollection<SubOccurance> datagrid = new ObservableCollection<SubOccurance>();
@@ -31,14 +31,14 @@ namespace Manifest.Views
 
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
-        Dictionary<string, SubOccuranceDto> subOccDict;
+        Dictionary<Label, SubOccurance> subOccDict;
 
 
 
-        public GoalsSpecialPage(OccuranceDto occurance)
+        public GoalsSpecialPage(Occurance occurance)
         {
-            subOccDict = new Dictionary<string, SubOccuranceDto>();
-            subTasks = occurance.actions_tasks;
+            subOccDict = new Dictionary<Label, SubOccurance>();
+            subTasks = occurance.subOccurances;
             InitializeComponent();
             setting = false;
             height = mainStackLayoutRow.Height;
@@ -49,7 +49,7 @@ namespace Manifest.Views
             barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             
             title.Text = "Goals";
-            subTitle.Text = occurance.gr_title;
+            subTitle.Text = occurance.Title;
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
@@ -57,50 +57,60 @@ namespace Manifest.Views
             //parent = occurance;
             numTasks = 0;
             numCompleted = 0;
-            string occuranceID = occurance.gr_unique_id;
+            string occuranceID = occurance.Id;
             //subTaskList.ItemsSource = datagrid;
             //initializeSubTasks(occuranceID);
-            goal.Text = occurance.gr_title;
-            foreach (SubOccuranceDto subOccur in subTasks)
-            {
-                subOccDict.Add(subOccur.at_title, subOccur);
-                Debug.WriteLine("suboccurance title: " + subOccur.at_title);
-            }
+            goalLabel.Text = occurance.Title;
+            //foreach (SubOccuranceDto subOccur in subTasks)
+            //{
+            //    subOccDict.Add(subOccur.at_title, subOccur);
+            //    Debug.WriteLine("suboccurance title: " + subOccur.at_title);
+            //}
 
             checkPlatform();
             NavigationPage.SetHasNavigationBar(this, false);
 
             if (subTasks.Count == 1)
             {
-                action2.Text = subTasks[0].at_title;
-                action3.IsVisible = false;
-                action1.IsVisible = false;
+                actionLabel2.Text = subTasks[0].Title;
+                subOccDict.Add(actionLabel2, subTasks[0]);
+                actionFrame3.IsVisible = false;
+                actionFrame1.IsVisible = false;
                 leftArrow.IsVisible = false;
                 rightArrow.IsVisible = false;
             }
             else if (subTasks.Count == 2)
             {
-                Debug.WriteLine("first: " + subTasks[0].at_title + " second: " + subTasks[1].at_title);
-                action1.Text = subTasks[0].at_title;
-                action3.Text = subTasks[1].at_title;
-                action2.IsVisible = false;
+                Debug.WriteLine("first: " + subTasks[0].Title + " second: " + subTasks[1].Title);
+                actionLabel1.Text = subTasks[0].Title;
+                subOccDict.Add(actionLabel1, subTasks[0]);
+
+                actionLabel3.Text = subTasks[1].Title;
+                subOccDict.Add(actionLabel3, subTasks[1]);
+                actionFrame2.IsVisible = false;
                 downArrow.IsVisible = false;
             }
-            else if (subTasks.Count == 3)
+            else if (subTasks.Count >= 3)
             {
-                action1.Text = subTasks[0].at_title;
-                action2.Text = subTasks[1].at_title;
-                action3.Text = subTasks[2].at_title;
+                Debug.WriteLine("subtask 3 entered");
+                actionLabel1.Text = subTasks[0].Title;
+                subOccDict.Add(actionLabel1, subTasks[0]);
+
+                actionLabel2.Text = subTasks[1].Title;
+                subOccDict.Add(actionLabel2, subTasks[1]);
+
+                actionLabel3.Text = subTasks[2].Title;
+                subOccDict.Add(actionLabel3, subTasks[2]);
             }
             else Navigation.PopAsync();
         }
 
         void checkPlatform()
         {
-            goal.HeightRequest = deviceHeight / 12;
-            goal.WidthRequest = goal.HeightRequest;
-            goal.CornerRadius = (int)(deviceHeight / 24);
-            goal.FontSize = deviceHeight / 70;
+            goalFrame.HeightRequest = deviceHeight / 14;
+            goalFrame.WidthRequest = goalFrame.HeightRequest;
+            goalFrame.CornerRadius = (int)(deviceHeight / 21);
+            goalLabel.FontSize = deviceHeight / 70;
 
             progIcon.HeightRequest = deviceHeight / 28;
             progIcon.WidthRequest = deviceHeight / 28;
@@ -113,20 +123,20 @@ namespace Manifest.Views
             //rightArrow.Margin = new Thickness(-deviceWidth / 9, 0, 0, 0);
             //rightArrow.WidthRequest = holder;
 
-            action1.HeightRequest = deviceWidth / 7;
-            action1.WidthRequest = deviceWidth / 7;
-            action1.CornerRadius = (int)(deviceWidth / 14);
-            action1.FontSize = deviceWidth / 45;
+            actionFrame1.HeightRequest = deviceWidth / 10;
+            actionFrame1.WidthRequest = deviceWidth / 10;
+            actionFrame1.CornerRadius = (int)(deviceWidth / 13.5);
+            actionLabel1.FontSize = deviceWidth / 45;
 
-            action2.HeightRequest = deviceWidth / 7;
-            action2.WidthRequest = deviceWidth / 7;
-            action2.CornerRadius = (int)(deviceWidth / 14);
-            action2.FontSize = deviceWidth / 45;
+            actionFrame2.HeightRequest = deviceWidth / 10;
+            actionFrame2.WidthRequest = deviceWidth / 10;
+            actionFrame2.CornerRadius = (int)(deviceWidth / 13.5);
+            actionLabel2.FontSize = deviceWidth / 45;
 
-            action3.HeightRequest = deviceWidth / 7;
-            action3.WidthRequest = deviceWidth / 7;
-            action3.CornerRadius = (int)(deviceWidth / 14);
-            action3.FontSize = deviceWidth / 45;
+            actionFrame3.HeightRequest = deviceWidth / 10;
+            actionFrame3.WidthRequest = deviceWidth / 10;
+            actionFrame3.CornerRadius = (int)(deviceWidth / 13.5);
+            actionLabel3.FontSize = deviceWidth / 45;
         }
 
         void goBackToGoals(System.Object sender, System.EventArgs e)
@@ -136,11 +146,34 @@ namespace Manifest.Views
 
         void goToSteps(System.Object sender, System.EventArgs e)
         {
-            Button receiving = (Button)sender;
-            if (receiving.Text != null && receiving.Text != "" && subOccDict[receiving.Text].instructions_steps.Count != 0)
-                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving.Text]), false);
-            else if (subOccDict[receiving.Text].instructions_steps.Count == 0)
+            Label receiving = (Label)sender;
+            if (receiving == actionLabel1 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
+                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving], actionFrame1.BackgroundColor.ToHex().ToString()), false);
+            else if (receiving == actionLabel2 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
+                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving], actionFrame2.BackgroundColor.ToHex().ToString()), false);
+            else if (receiving == actionLabel3 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
+                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving], actionFrame3.BackgroundColor.ToHex().ToString()), false);
+            else if (subOccDict[receiving].instructions.Count == 0)
                 DisplayAlert("Oops", "there are no instructions available for this action", "OK");
+        }
+
+        void goToStepsFrame(System.Object sender, System.EventArgs e)
+        {
+            Frame receiving = (Frame)sender;
+
+            if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "" && subOccDict[actionLabel1].instructions.Count != 0)
+                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[actionLabel1], actionFrame1.BackgroundColor.ToHex().ToString()), false);
+            else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "" && subOccDict[actionLabel2].instructions.Count != 0)
+                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[actionLabel2], actionFrame2.BackgroundColor.ToHex().ToString()), false);
+            else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "" && subOccDict[actionLabel3].instructions.Count != 0)
+                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[actionLabel3], actionFrame3.BackgroundColor.ToHex().ToString()), false);
+            else DisplayAlert("Oops", "there are no instructions available for this action", "OK");
+
+        }
+
+        void progressClicked(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new ProgressPage());
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)

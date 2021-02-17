@@ -64,18 +64,4 @@ namespace Manifest.Models
         public string message { get; set; }
         public List<SubOccuranceDto> result { get; set; }
     }
-
-    public class OrigSteps
-    {
-        public string unique_id { get; set; }
-        public string title { get; set; }
-        public string at_id { get; set; }
-        public int is_sequence { get; set; }
-        public string is_available { get; set; }
-        public string is_complete { get; set; }
-        public string is_in_progress { get; set; }
-        public string is_timed { get; set; }
-        public string photo { get; set; }
-        public string expected_completion_time { get; set; }
-    }
 }
