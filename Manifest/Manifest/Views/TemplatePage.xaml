@@ -11,7 +11,7 @@
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
                 <!--SPACE FOR HEADER-->
-                    <Grid Margin="0,44,0,0">
+                    <Grid Margin="0,30,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="1"></RowDefinition>
@@ -30,7 +30,7 @@
                                 </Label.GestureRecognizers>
                             </Label>
                             <Label Grid.Column="1" Text="" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                            <ImageButton Grid.Column="2" Source="settingsIcon.png" ></ImageButton>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
                         <Grid Grid.Row="2">

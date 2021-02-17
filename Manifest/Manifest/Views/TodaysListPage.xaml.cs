@@ -63,7 +63,7 @@ namespace Manifest.Views
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-            calendarSwitch.IsToggled = (bool)Application.Current.Properties["showCalendar"];
+
             title.Text = today.ToString("dddd");
 
             var helperObject = new MainPage();
@@ -715,274 +715,88 @@ namespace Manifest.Views
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
         async void checkSubOccurance(object sender, EventArgs args)
         {
-            Debug.WriteLine("Tapped");
-            Debug.WriteLine(sender);
-            Debug.WriteLine(args);
-            Grid myvar = (Grid)sender;
-            Occurance currOccurance = myvar.BindingContext as Occurance;
-            if (currOccurance.IsEvent)
+            try
             {
-                goToEventsPage(currOccurance);
-                return;
-            }
-            Debug.WriteLine(currOccurance.Id);
-            //var currSession = (Session)Application.Current.Properties["session"];
-            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-            //If there is a sublist available, go to goals page if its a Pursue A Goal
-            //if (currOccurance.Title == "Pursue A Goal")
-            if (currOccurance.IsPersistent == false)
-            {
-                if (currOccurance.Title == "Pursue A Goal")
-                    await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
-                await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
-                //old code
-                //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
-            }
-            else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
-            {
-                currOccurance.updateIsInProgress(true);
-                currOccurance.DateTimeStarted = DateTime.Now;
-                Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
-                //string toSend = updateOccurance(currOccurance);
-                UpdateOccurance updateOccur = new UpdateOccurance()
+                Debug.WriteLine("Tapped");
+                Debug.WriteLine(sender);
+                Debug.WriteLine(args);
+                Grid myvar = (Grid)sender;
+                Occurance currOccurance = myvar.BindingContext as Occurance;
+                if (currOccurance.IsEvent)
                 {
-                    id = currOccurance.Id,
-                    datetime_completed = currOccurance.DateTimeCompleted,
-                    datetime_started = currOccurance.DateTimeStarted,
-                    is_in_progress = currOccurance.IsInProgress,
-                    is_complete = currOccurance.IsComplete
-                };
-                string toSend = updateOccur.updateOccurance();
-                var content = new StringContent(toSend);
-                var res = await client.PostAsync(url, content);
-                if (res.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("Wrote to the datebase");
+                    goToEventsPage(currOccurance);
+                    return;
                 }
-                else
+                Debug.WriteLine(currOccurance.Id);
+                //var currSession = (Session)Application.Current.Properties["session"];
+                string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                //If there is a sublist available, go to goals page if its a Pursue A Goal
+                //if (currOccurance.Title == "Pursue A Goal")
+                if (currOccurance.IsPersistent == false)
                 {
-                    Debug.WriteLine("Some error");
-                    Debug.WriteLine(toSend);
-                    Debug.WriteLine(res.ToString());
+                    if (currOccurance.Title == "Pursue A Goal")
+                        await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
+                    await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
+                    //old code
+                    //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
                 }
-            }
-            else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
-            {
-                Debug.WriteLine("Should be changed to in complete");
-                currOccurance.updateIsInProgress(false);
-                currOccurance.updateIsComplete(true);
-                currOccurance.DateTimeCompleted = DateTime.Now;
-                UpdateOccurance updateOccur = new UpdateOccurance()
+                else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
                 {
-                    id = currOccurance.Id,
-                    datetime_completed = currOccurance.DateTimeCompleted,
-                    datetime_started = currOccurance.DateTimeStarted,
-                    is_in_progress = currOccurance.IsInProgress,
-                    is_complete = currOccurance.IsComplete
-                };
-                string toSend = updateOccur.updateOccurance();
-                var content = new StringContent(toSend);
-                _ = await client.PostAsync(url, content);
+                    currOccurance.updateIsInProgress(true);
+                    currOccurance.DateTimeStarted = DateTime.Now;
+                    Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+                    //string toSend = updateOccurance(currOccurance);
+                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    {
+                        id = currOccurance.Id,
+                        datetime_completed = currOccurance.DateTimeCompleted,
+                        datetime_started = currOccurance.DateTimeStarted,
+                        is_in_progress = currOccurance.IsInProgress,
+                        is_complete = currOccurance.IsComplete
+                    };
+                    string toSend = updateOccur.updateOccurance();
+                    var content = new StringContent(toSend);
+                    var res = await client.PostAsync(url, content);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Wrote to the datebase");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Some error");
+                        Debug.WriteLine(toSend);
+                        Debug.WriteLine(res.ToString());
+                    }
+                }
+                else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
+                {
+                    Debug.WriteLine("Should be changed to in complete");
+                    currOccurance.updateIsInProgress(false);
+                    currOccurance.updateIsComplete(true);
+                    currOccurance.DateTimeCompleted = DateTime.Now;
+                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    {
+                        id = currOccurance.Id,
+                        datetime_completed = currOccurance.DateTimeCompleted,
+                        datetime_started = currOccurance.DateTimeStarted,
+                        is_in_progress = currOccurance.IsInProgress,
+                        is_complete = currOccurance.IsComplete
+                    };
+                    string toSend = updateOccur.updateOccurance();
+                    var content = new StringContent(toSend);
+                    _ = await client.PostAsync(url, content);
 
+                }
+            }
+            catch (Exception checkSubOccurance)
+            {
+                await DisplayAlert("Oops", checkSubOccurance.Message, "OK");
             }
         }
 
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {
-            if (setting == false)
-            {
-                // DISPLAY SETTINGS UI
-                title.Text = "Settings";
-                mainStackLayoutRow.Height = 0;
-                settingStackLayoutRow.Height = height;
-                barStackLayoutRow.Height = 70;
-                setting = true;
-            }
-            else
-            {
-                // HIDE SETTINGS UI
-                mainStackLayoutRow.Height = height;
-                settingStackLayoutRow.Height = 0;
-                setting = false;
-            }
+            Navigation.PushAsync(new SettingsPage(), false);
         }
-
-        void Switch_Toggled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
-        {
-            if (calendarSwitch.IsToggled == false)
-            {
-                Debug.WriteLine("SET SHOW CALENDAR TO FALSE");
-                Application.Current.Properties["showCalendar"] = false;
-            }
-            else
-            {
-                if ((bool)Application.Current.Properties["showCalendar"] == false)
-                {
-                    GoogleLogInClick();
-                }
-            }
-        }
-
-        public void GoogleLogInClick()
-        {
-            string clientId = string.Empty;
-            string redirectUri = string.Empty;
-
-            switch (Device.RuntimePlatform)
-            {
-                case Device.iOS:
-                    clientId = Constant.GoogleiOSClientID;
-                    redirectUri = Constant.GoogleRedirectUrliOS;
-                    break;
-
-                case Device.Android:
-                    clientId = Constant.GoogleAndroidClientID;
-                    redirectUri = Constant.GoogleRedirectUrlAndroid;
-                    break;
-            }
-
-            var authenticator = new OAuth2Authenticator(clientId, string.Empty, Constant.GoogleScope, new Uri(Constant.GoogleAuthorizeUrl), new Uri(redirectUri), new Uri(Constant.GoogleAccessTokenUrl), null, true);
-            var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
-
-            authenticator.Completed += GoogleAuthenticatorCompleted;
-            authenticator.Error += GoogleAuthenticatorError;
-
-            AuthenticationState.Authenticator = authenticator;
-            presenter.Login(authenticator);
-        }
-
-        private async void GoogleAuthenticatorError(object sender, AuthenticatorErrorEventArgs e)
-        {
-            var authenticator = sender as OAuth2Authenticator;
-
-            if (authenticator != null)
-            {
-                authenticator.Completed -= GoogleAuthenticatorCompleted;
-                authenticator.Error -= GoogleAuthenticatorError;
-            }
-
-            await DisplayAlert("Authentication error: ", e.Message, "OK");
-        }
-
-        private async void GoogleAuthenticatorCompleted(object sender, AuthenticatorCompletedEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("Enter GoogleAuthenticatorCompleted");
-            var authenticator = sender as OAuth2Authenticator;
-
-            if (authenticator != null)
-            {
-                authenticator.Completed -= GoogleAuthenticatorCompleted;
-                authenticator.Error -= GoogleAuthenticatorError;
-            }
-
-            if (e.IsAuthenticated)
-            {
-                Application.Current.Properties["showCalendar"] = true;
-                Application.Current.Properties["accessToken"] = e.Account.Properties["access_token"];
-                Application.Current.Properties["refreshToken"] = e.Account.Properties["refresh_token"];
-            }
-            else
-            {
-                await DisplayAlert("Error", "Google was not able to autheticate your account", "OK");
-            }
-        }
-
-        void SetColorScheme(System.Object sender, System.EventArgs e)
-        {
-            var selectedFrame = (Frame)sender;
-            Debug.WriteLine("Frame ClassId " + selectedFrame.ClassId);
-            if (selectedFrame.ClassId == "retro")
-            {
-                retroScheme.BackgroundColor = Color.FromHex("#0C1E21");
-                vibrantScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                coolScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                cottonScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                classicScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                retroLabel.TextColor = Color.FromHex("#FFFFFF");
-                vibrantLabel.TextColor = Color.FromHex("#0C1E21");
-                coolLabel.TextColor = Color.FromHex("#0C1E21");
-                cottonLabel.TextColor = Color.FromHex("#0C1E21");
-                classicLabel.TextColor = Color.FromHex("#0C1E21");
-                SaveColorScheme(selectedFrame.ClassId, "#F4F9E9", "#153243", "#B4B8AB", "#EEF0EB", "#284B63", "#F5948D");
-            }
-            else if (selectedFrame.ClassId == "vibrant")
-            {
-                retroScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                vibrantScheme.BackgroundColor = Color.FromHex("#0C1E21");
-                coolScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                cottonScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                classicScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                retroLabel.TextColor = Color.FromHex("#0C1E21");
-                vibrantLabel.TextColor = Color.FromHex("#FFFFFF");
-                coolLabel.TextColor = Color.FromHex("#0C1E21");
-                cottonLabel.TextColor = Color.FromHex("#0C1E21");
-                classicLabel.TextColor = Color.FromHex("#0C1E21");
-                SaveColorScheme(selectedFrame.ClassId, "#FFFFFF", "#4DC4B6", "#F6A01F", "#CBF3F0", "#482728", "#F8C069");
-            }
-            else if (selectedFrame.ClassId == "cool")
-            {
-                retroScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                vibrantScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                coolScheme.BackgroundColor = Color.FromHex("#0C1E21");
-                cottonScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                classicScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                retroLabel.TextColor = Color.FromHex("#0C1E21");
-                vibrantLabel.TextColor = Color.FromHex("#0C1E21");
-                coolLabel.TextColor = Color.FromHex("#FFFFFF");
-                cottonLabel.TextColor = Color.FromHex("#0C1E21");
-                classicLabel.TextColor = Color.FromHex("#0C1E21");
-                SaveColorScheme(selectedFrame.ClassId, "#FDFDFD", "#03182B", "#93A0AF", "#A7EEFF", "#59A3B7", "#5AA6F5");
-            }
-            else if (selectedFrame.ClassId == "cotton")
-            {
-                retroScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                vibrantScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                coolScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                cottonScheme.BackgroundColor = Color.FromHex("#0C1E21");
-                classicScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                retroLabel.TextColor = Color.FromHex("#0C1E21");
-                vibrantLabel.TextColor = Color.FromHex("#0C1E21");
-                coolLabel.TextColor = Color.FromHex("#0C1E21");
-                cottonLabel.TextColor = Color.FromHex("#FFFFFF");
-                classicLabel.TextColor = Color.FromHex("#0C1E21");
-                SaveColorScheme(selectedFrame.ClassId, "#FCE4E0", "#F38375", "#EF6351", "#F59C9C", "#F6A399", "#7A5980");
-            }
-            else if (selectedFrame.ClassId == "classic")
-            {
-                retroScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                vibrantScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                coolScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                cottonScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                classicScheme.BackgroundColor = Color.FromHex("#0C1E21");
-                retroLabel.TextColor = Color.FromHex("#0C1E21");
-                vibrantLabel.TextColor = Color.FromHex("#0C1E21");
-                coolLabel.TextColor = Color.FromHex("#0C1E21");
-                cottonLabel.TextColor = Color.FromHex("#0C1E21");
-                classicLabel.TextColor = Color.FromHex("#FFFFFF");
-                SaveColorScheme(selectedFrame.ClassId, "#F2F7FC", "#9DB2CB", "#376DAC", "#F8BE28", "#F26D4B", "#67ABFC");
-            }
-        }
-
-        void LogOutClick(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage = new LogInPage();
-        }
-
-        void SaveColorScheme(string colorSchemeName, string backgroudColor, string headerColor, string navBarColor, string goalColor, string routineColor, string eventColor)
-        {
-            Application.Current.Properties["colorScheme"] = colorSchemeName;
-            Application.Current.Properties["background"] = backgroudColor;
-            Application.Current.Properties["header"] = headerColor;
-            Application.Current.Properties["navBar"] = navBarColor;
-            Application.Current.Properties["goal"] = goalColor;
-            Application.Current.Properties["routine"] = routineColor;
-            Application.Current.Properties["event"] = eventColor;
-
-            mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
-            frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-            logOutFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-        }
-
     }
 }
