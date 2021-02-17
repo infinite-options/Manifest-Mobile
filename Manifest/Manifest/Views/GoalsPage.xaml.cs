@@ -36,6 +36,7 @@ namespace Manifest.Views
             endTime = end;
             getGoals();
 
+
             currentOccurances = new List<Occurance>();
             //call the goals endpoint and fill the currentOccurances list with the returned goals
 
@@ -955,6 +956,7 @@ namespace Manifest.Views
 
         void nextClicked(System.Object sender, System.EventArgs e)
         {
+            //if a goal has only one subtask, navigate directly to steps page
             if (chosenOccurance != null && chosenOccurance.is_sublist_available == "True" && chosenOccurance.actions_tasks.Count == 1)
             {
                 Navigation.PushAsync(new GoalStepsPage(chosenOccurance.gr_title, chosenOccurance.actions_tasks[0], "#F8BE28"));

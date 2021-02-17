@@ -16,6 +16,7 @@
     <PackageReference Include="Xamarin.Auth" Version="1.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="Forms9Patch" Version="2.4.9" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config\" />

@@ -117,6 +117,9 @@
     <PackageReference Include="Xamarin.Azure.NotificationHubs.iOS">
       <Version>3.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Forms9Patch">
+      <Version>2.4.9</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

@@ -720,80 +720,88 @@ namespace Manifest.Views
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
         async void checkSubOccurance(object sender, EventArgs args)
         {
-            Debug.WriteLine("Tapped");
-            Debug.WriteLine(sender);
-            Debug.WriteLine(args);
-            Grid myvar = (Grid)sender;
-            Occurance currOccurance = myvar.BindingContext as Occurance;
-            if (currOccurance.IsEvent)
-            {
-                goToEventsPage(currOccurance);
-                return;
-            }
-            Debug.WriteLine(currOccurance.Id);
-            //var currSession = (Session)Application.Current.Properties["session"];
-            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-            //If there is a sublist available, go to goals page if its a Pursue A Goal
-            //if (currOccurance.Title == "Pursue A Goal")
-            if (currOccurance.IsPersistent == false)
-            {
-                if (currOccurance.Title == "Pursue A Goal")
-                    await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
-                await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
-                //old code
-                //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
-            }
-            else if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
-            {
-                await Navigation.PushAsync(new RoutinePage());
-            }
-            else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
-            {
-                currOccurance.updateIsInProgress(true);
-                currOccurance.DateTimeStarted = DateTime.Now;
-                Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
-                //string toSend = updateOccurance(currOccurance);
-                UpdateOccurance updateOccur = new UpdateOccurance()
-                {
-                    id = currOccurance.Id,
-                    datetime_completed = currOccurance.DateTimeCompleted,
-                    datetime_started = currOccurance.DateTimeStarted,
-                    is_in_progress = currOccurance.IsInProgress,
-                    is_complete = currOccurance.IsComplete
-                };
-                string toSend = updateOccur.updateOccurance();
-                var content = new StringContent(toSend);
-                var res = await client.PostAsync(url, content);
-                if (res.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("Wrote to the datebase");
-                }
-                else
-                {
-                    Debug.WriteLine("Some error");
-                    Debug.WriteLine(toSend);
-                    Debug.WriteLine(res.ToString());
-                }
-            }
-            else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
-            {
-                Debug.WriteLine("Should be changed to in complete");
-                currOccurance.updateIsInProgress(false);
-                currOccurance.updateIsComplete(true);
-                currOccurance.DateTimeCompleted = DateTime.Now;
-                UpdateOccurance updateOccur = new UpdateOccurance()
-                {
-                    id = currOccurance.Id,
-                    datetime_completed = currOccurance.DateTimeCompleted,
-                    datetime_started = currOccurance.DateTimeStarted,
-                    is_in_progress = currOccurance.IsInProgress,
-                    is_complete = currOccurance.IsComplete
-                };
-                string toSend = updateOccur.updateOccurance();
-                var content = new StringContent(toSend);
-                _ = await client.PostAsync(url, content);
+            //try
+            //{
 
-            }
+                Debug.WriteLine("Tapped");
+                Debug.WriteLine(sender);
+                Debug.WriteLine(args);
+                Grid myvar = (Grid)sender;
+                Occurance currOccurance = myvar.BindingContext as Occurance;
+                if (currOccurance.IsEvent)
+                {
+                    goToEventsPage(currOccurance);
+                    return;
+                }
+                Debug.WriteLine(currOccurance.Id);
+                //var currSession = (Session)Application.Current.Properties["session"];
+                string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                //If there is a sublist available, go to goals page if its a Pursue A Goal
+                //if (currOccurance.Title == "Pursue A Goal")
+                if (currOccurance.IsPersistent == false)
+                {
+                    if (currOccurance.Title == "Pursue A Goal")
+                        await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
+                    else await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
+                    //old code
+                    //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
+                }
+                else if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
+                {
+                    await Navigation.PushAsync(new RoutinePage());
+                }
+                else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
+                {
+                    currOccurance.updateIsInProgress(true);
+                    currOccurance.DateTimeStarted = DateTime.Now;
+                    Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+                    //string toSend = updateOccurance(currOccurance);
+                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    {
+                        id = currOccurance.Id,
+                        datetime_completed = currOccurance.DateTimeCompleted,
+                        datetime_started = currOccurance.DateTimeStarted,
+                        is_in_progress = currOccurance.IsInProgress,
+                        is_complete = currOccurance.IsComplete
+                    };
+                    string toSend = updateOccur.updateOccurance();
+                    var content = new StringContent(toSend);
+                    var res = await client.PostAsync(url, content);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        Debug.WriteLine("Wrote to the datebase");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Some error");
+                        Debug.WriteLine(toSend);
+                        Debug.WriteLine(res.ToString());
+                    }
+                }
+                else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
+                {
+                    Debug.WriteLine("Should be changed to in complete");
+                    currOccurance.updateIsInProgress(false);
+                    currOccurance.updateIsComplete(true);
+                    currOccurance.DateTimeCompleted = DateTime.Now;
+                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    {
+                        id = currOccurance.Id,
+                        datetime_completed = currOccurance.DateTimeCompleted,
+                        datetime_started = currOccurance.DateTimeStarted,
+                        is_in_progress = currOccurance.IsInProgress,
+                        is_complete = currOccurance.IsComplete
+                    };
+                    string toSend = updateOccur.updateOccurance();
+                    var content = new StringContent(toSend);
+                    _ = await client.PostAsync(url, content);
+
+                }
+            //}
+            //catch (Exception e)
+            //{
+            //    await DisplayAlert("Alert", "Error in TodaysList checkSubOccurance. Error: " + e.ToString(), "OK");
+            //}
         }
 
 

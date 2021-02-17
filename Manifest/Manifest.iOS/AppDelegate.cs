@@ -34,6 +34,10 @@ namespace Manifest.iOS
         {
             global::Xamarin.Auth.Presenters.XamarinIOS.AuthenticationConfiguration.Init();
             global::Xamarin.Forms.Forms.Init();
+
+            //testing with forms9patch
+            Forms9Patch.iOS.Settings.Initialize(this);
+
             LoadApplication(new App());
 
             base.FinishedLaunching(app, options);

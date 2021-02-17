@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.GoalsSpecialPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch" x:Class="Manifest.Views.GoalsSpecialPage">
     <ContentPage.Content>
         <Grid BackgroundColor="#F2F7FC" Padding="0">
             <Grid.RowDefinitions>
@@ -82,11 +82,14 @@
 
 
                     <Frame x:Name="goalFrame" Grid.Column="1" BackgroundColor="#9DB2CB" HorizontalOptions="Center" VerticalOptions="Center" HasShadow="False">
-                    <Label x:Name="goalLabel"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <f9p:Label x:Name="goalLabel" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goBackToGoals"/>
+
+
+                        <!--<Label x:Name="goalLabel"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="goBackToGoals"></TapGestureRecognizer>
                         </Label.GestureRecognizers>
-                    </Label>
+                    </Label>-->
 
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="goBackToGoals"></TapGestureRecognizer>
@@ -125,11 +128,14 @@
                     </Grid.ColumnDefinitions>
 
                     <Frame x:Name="actionFrame1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#F26D4B" HasShadow="False">
-                    <Label x:Name="actionLabel1"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <f9p:Label x:Name="actionLabel1" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goToSteps"/>
+
+
+                        <!--<Label x:Name="actionLabel1"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="goToSteps"></TapGestureRecognizer>
                         </Label.GestureRecognizers>
-                    </Label>
+                    </Label>-->
 
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="goToStepsFrame"></TapGestureRecognizer>
@@ -138,11 +144,14 @@
                     </Frame>
 
                     <Frame x:Name="actionFrame2" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#F8BE28" HasShadow="False">
-                    <Label x:Name="actionLabel2"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <f9p:Label x:Name="actionLabel2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goToSteps"/>
+
+
+                        <!--<Label x:Name="actionLabel2"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="goToSteps"></TapGestureRecognizer>
                         </Label.GestureRecognizers>
-                    </Label>
+                    </Label>-->
 
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="goToStepsFrame"></TapGestureRecognizer>
@@ -151,11 +160,14 @@
                     </Frame>
 
                     <Frame x:Name="actionFrame3" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#67ABFC" HasShadow="False">
-                    <Label x:Name="actionLabel3"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <f9p:Label x:Name="actionLabel3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goToSteps"/>
+
+
+                        <!--<Label x:Name="actionLabel3"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="goToSteps"></TapGestureRecognizer>
                         </Label.GestureRecognizers>
-                    </Label>
+                    </Label>-->
 
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="goToStepsFrame"></TapGestureRecognizer>
