@@ -222,7 +222,6 @@ namespace Manifest.Views
                         }
                     }
                 }
-                
             }
             catch (Exception first)
             {
