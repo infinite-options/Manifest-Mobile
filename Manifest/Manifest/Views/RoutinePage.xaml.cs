@@ -172,12 +172,40 @@ namespace Manifest.Views
                 toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
                 toAdd.AvailableStartTime = DataParser.ToDateTime(dto.available_start_time);
                 toAdd.AvailableEndTime = DataParser.ToDateTime(dto.available_end_time);
+                toAdd.instructions = GetInstructions(dto.instructions_steps);
                 subTasks.Add(toAdd);
                 Debug.WriteLine(toAdd.Id);
             }
 
             return subTasks;
         }
+
+        private List<Instruction> GetInstructions(List<InstructionDto> instruction_steps)
+        {
+            List<Instruction> instructions = new List<Instruction>();
+            if (instruction_steps.Count == 0 || instruction_steps == null)
+            {
+                return instructions;
+            }
+            foreach (InstructionDto dto in instruction_steps)
+            {
+                Instruction toAdd = new Instruction();
+                toAdd.unique_id = dto.unique_id;
+                toAdd.title = dto.title;
+                toAdd.at_id = dto.at_id;
+                toAdd.IsSequence = int.Parse(dto.is_sequence);
+                toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
+                toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
+                toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
+                toAdd.IsTimed = DataParser.ToBool(dto.is_timed);
+                toAdd.Photo = dto.photo;
+                toAdd.expected_completion_time = DataParser.ToTimeSpan(dto.expected_completion_time);
+                instructions.Add(toAdd);
+            }
+
+            return instructions;
+        }
+
 
         private void SortRoutines()
         {
@@ -252,10 +280,11 @@ namespace Manifest.Views
                         }
                     };
                 float fontsize = rowHeight / 4;
+                string timespan = toAdd.StartDayAndTime.ToString("hh:mm tt") + " - " + toAdd.EndDayAndTime.ToString("hh:mm tt");
                 gridToAdd.Children.Add(
                     new Label
                     {
-                        Text = toAdd.StartDayAndTime.TimeOfDay.ToString() + " - " + toAdd.EndDayAndTime.TimeOfDay.ToString(),
+                        Text = timespan,
                         FontAttributes = FontAttributes.Bold,
                         TextColor = Color.White
                     }, 0, 0);
@@ -547,60 +576,43 @@ namespace Manifest.Views
                     }
                 }
             }
-                //if (numCompleted == numTasks)
-                //{
-                //    parent.updateIsInProgress(false);
-                //    parent.updateIsComplete(true);
-                //    UpdateOccurance parentOccur = new UpdateOccurance()
-                //    {
-                //        id = parent.Id,
-                //        datetime_completed = parent.DateTimeCompleted,
-                //        datetime_started = parent.DateTimeStarted,
-                //        is_in_progress = parent.IsInProgress,
-                //        is_complete = parent.IsComplete
-                //    };
-                //    string toSendParent = parentOccur.updateOccurance();
-                //    var parentContent = new StringContent(toSendParent);
-                //    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-                //    var res = await client.PostAsync(parenturl, parentContent);
-                //    if (res.IsSuccessStatusCode)
-                //    {
-                //        Debug.WriteLine("Parent is now complete");
-                //    }
-                //    else
-                //    {
-                //        Debug.WriteLine("Error updating parent");
-                //    }
-                //}
-                //else if (parent.IsInProgress == false)
-                //{
-                //    parent.updateIsInProgress(true);
-                //    UpdateOccurance parentOccur = new UpdateOccurance()
-                //    {
-                //        id = parent.Id,
-                //        datetime_completed = parent.DateTimeCompleted,
-                //        datetime_started = parent.DateTimeStarted,
-                //        is_in_progress = parent.IsInProgress,
-                //        is_complete = parent.IsComplete
-                //    };
-                //    string toSendParent = parentOccur.updateOccurance();
-                //    var parentContent = new StringContent(toSendParent);
-                //    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-                //    var res = await client.PostAsync(parenturl, parentContent);
-                //    if (res.IsSuccessStatusCode)
-                //    {
-                //        Debug.WriteLine("Parent is now in progress");
-                //    }
-                //    else
-                //    {
-                //        Debug.WriteLine("Error updating parent");
-                //    }
-                //}
-            }
+        }
 
-        public void helpNeeded(object sender, EventArgs args)
+        public async void helpNeeded(object sender, EventArgs args)
         {
             Debug.WriteLine("Help button pressed. Help needed for subTask");
+            Image myvar = (Image)sender;
+            SubOccurance currOccurance = myvar.BindingContext as SubOccurance;
+
+            //Get the parent of the sender
+            Grid mygrid = (Grid)myvar.Parent;
+
+            if (mygrid == null)
+            {
+                Debug.WriteLine("Parent is null");
+            }
+
+            //Now we got the parent element we want
+            Grid parent = (Grid)mygrid.Parent;
+
+            if (parent == null)
+            {
+                Debug.WriteLine("Grandparent is null");
+            }
+
+            Grid grandparent = (Grid)parent.Parent;
+
+            Occurance parentOccurance = grandparent.BindingContext as Occurance;
+            //If there are instructions, navigate to the instruction page
+            if (currOccurance.instructions.Count > 0)
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(currOccurance, parentOccurance), false);
+            }
+            else
+            {
+                await DisplayAlert("Note", "No instructions for this task", "OK");
+            }
+
         }
 
         public async void routineTapped(object sender, EventArgs args)
@@ -667,10 +679,10 @@ namespace Manifest.Views
             Application.Current.MainPage = new MainPage();
         }
 
-        void Button_Clicked(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(),false);
-        }
+        // void Button_Clicked(System.Object sender, System.EventArgs e)
+        // {
+        //     Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(),false);
+        // }
 
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {

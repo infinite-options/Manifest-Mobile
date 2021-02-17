@@ -14,7 +14,7 @@ namespace Manifest.Views
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
-        List<OrigSteps> instructions;
+        List<InstructionDto> instructions;
 
 
         public GoalStepsPage(string goalTitle, SubOccuranceDto subOccur)
@@ -36,7 +36,7 @@ namespace Manifest.Views
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
 
-            foreach (OrigSteps step in instructions)
+            foreach (InstructionDto step in instructions)
             {
                 Debug.WriteLine("a step: " + step.title);
             }

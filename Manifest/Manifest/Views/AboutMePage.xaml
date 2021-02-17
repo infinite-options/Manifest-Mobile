@@ -86,10 +86,10 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                      <Frame x:Name="whoAmIButton" Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
-                         <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Who Am I?" FontAttributes="Bold" TextColor="#0C1E21"/>
+                         <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Who Am I?" FontAttributes="Bold" TextColor="#0C1E21" BackgroundColor="Transparent" Clicked="navigateToWhoAmI"/>
                          </Frame>
                     <Frame x:Name="whatMotivatesMeButton" Grid.Column="1" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#ff7555">
-                         <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Whats Important to me?" FontAttributes="Bold" TextColor="#0C1E21">
+                         <Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Whats Important to me?" FontAttributes="Bold" TextColor="#0C1E21" BackgroundColor="Transparent">
                              <FlexLayout.AlignSelf/>
                          </Button>
                          </Frame>

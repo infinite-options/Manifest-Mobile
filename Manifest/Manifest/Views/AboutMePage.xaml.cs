@@ -290,6 +290,11 @@ namespace Manifest.Views
             Application.Current.MainPage = new MainPage();
         }
 
+        void navigateToWhoAmI(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new WhoAmIPage();
+        }
+
         void Button_Clicked(System.Object sender, System.EventArgs e)
         {
             // Application.Current.Properties.Remove("mobile_auth_token");
