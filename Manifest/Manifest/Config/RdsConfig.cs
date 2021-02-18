@@ -20,6 +20,8 @@ namespace Manifest.Config
         public const string timeSettingsUrl = "/api/v2/timeSettings"; //plus userId
         public const string goalsActInstrUrl = "/api/v2/gai";
 
+        public const string addPulse = "/api/v2/changeAboutMeHistory";
+
         //Accelerometer
         public const string addCoordinates = "/api/v2/addCoordinates";
 
