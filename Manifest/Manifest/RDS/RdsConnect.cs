@@ -18,7 +18,7 @@ namespace Manifest.RDS
         public static async void storeGUID(string guid, string uid)
         {
             string url = RdsConfig.BaseUrl + RdsConfig.addGuid;
-            
+
             Console.WriteLine("guid = " + guid + ", uid = " + uid);
             if (guid == null || guid == "")
             {
@@ -64,9 +64,45 @@ namespace Manifest.RDS
         }
 
         //Used to update a goal/routine
-        public static async Task<string> updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete)
+        public static async Task<string> updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete, string url)
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            //string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            currOccurance.updateIsInProgress(inprogress);
+            currOccurance.updateIsComplete(iscomplete);
+            //Now, write to the database
+            currOccurance.DateTimeStarted = DateTime.Now;
+            Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+            //string toSend = updateOccurance(currOccurance);
+            UpdateOccurance updateOccur = new UpdateOccurance()
+            {
+                id = currOccurance.Id,
+                datetime_completed = currOccurance.DateTimeCompleted,
+                datetime_started = currOccurance.DateTimeStarted,
+                is_in_progress = currOccurance.IsInProgress,
+                is_complete = currOccurance.IsComplete
+            };
+            string toSend = updateOccur.updateOccurance();
+            var content = new StringContent(toSend);
+            var res = await client.PostAsync(url, content);
+            if (res.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Wrote to the datebase");
+                return "Success";
+            }
+            else
+            {
+                Debug.WriteLine("Some error");
+                Debug.WriteLine(toSend);
+                Debug.WriteLine(res.ToString());
+                return "Failure";
+            }
+            //return "Failure";
+        }
+
+        //Used to update a goal/routine
+        public static async Task<string> updateOccurance(SubOccurance currOccurance, bool inprogress, bool iscomplete, string url)
+        {
+            //string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
             currOccurance.updateIsInProgress(inprogress);
             currOccurance.updateIsComplete(iscomplete);
             //Now, write to the database
@@ -139,32 +175,35 @@ namespace Manifest.RDS
                     {
                         Debug.WriteLine("Actions and tasks are null");
                     }
-                    toAdd.Id = dto.gr_unique_id;
-                    toAdd.Title = dto.gr_title;
-                    toAdd.PicUrl = dto.photo;
-                    toAdd.IsPersistent = DataParser.ToBool(dto.is_persistent);
-                    toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
-                    toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                    toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
-                    toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
-                    toAdd.CompletionTime = dto.expected_completion_time;
-                    toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
-                    toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
-                    toAdd.StartDayAndTime = DataParser.ToDateTime(dto.start_day_and_time);
-                    toAdd.EndDayAndTime = DataParser.ToDateTime(dto.end_day_and_time);
-                    toAdd.Repeat = DataParser.ToBool(dto.repeat);
-                    toAdd.RepeatEvery = dto.repeat_every;
-                    toAdd.RepeatFrequency = dto.repeat_frequency;
-                    toAdd.RepeatType = dto.repeat_type;
-                    toAdd.RepeatOccurences = dto.repeat_occurences;
-                    toAdd.RepeatEndsOn = DataParser.ToDateTime(dto.repeat_ends_on);
-                    //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
-                    toAdd.UserId = dto.user_id;
-                    toAdd.IsEvent = false;
-                    toAdd.NumSubOccurances = 0;
-                    toAdd.SubOccurancesCompleted = 0;
-                    toAdd.subOccurances = GetSubOccurances(dto.actions_tasks, toAdd);
-                    todaysRoutines.Add(toAdd);
+                    if (dto.is_displayed_today == "True")
+                    {
+                        toAdd.Id = dto.gr_unique_id;
+                        toAdd.Title = dto.gr_title;
+                        toAdd.PicUrl = dto.photo;
+                        toAdd.IsPersistent = DataParser.ToBool(dto.is_persistent);
+                        toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
+                        toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
+                        toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
+                        toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
+                        toAdd.CompletionTime = dto.expected_completion_time;
+                        toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
+                        toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
+                        toAdd.StartDayAndTime = DataParser.ToDateTime(dto.start_day_and_time);
+                        toAdd.EndDayAndTime = DataParser.ToDateTime(dto.end_day_and_time);
+                        toAdd.Repeat = DataParser.ToBool(dto.repeat);
+                        toAdd.RepeatEvery = dto.repeat_every;
+                        toAdd.RepeatFrequency = dto.repeat_frequency;
+                        toAdd.RepeatType = dto.repeat_type;
+                        toAdd.RepeatOccurences = dto.repeat_occurences;
+                        toAdd.RepeatEndsOn = DataParser.ToDateTime(dto.repeat_ends_on);
+                        //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
+                        toAdd.UserId = dto.user_id;
+                        toAdd.IsEvent = false;
+                        toAdd.NumSubOccurances = 0;
+                        toAdd.SubOccurancesCompleted = 0;
+                        toAdd.subOccurances = GetSubOccurances(dto.actions_tasks, toAdd);
+                        todaysRoutines.Add(toAdd);
+                    }
                 }
                 return todaysRoutines;
             }
@@ -241,5 +280,7 @@ namespace Manifest.RDS
 
             return instructions;
         }
+
+
     }
 }

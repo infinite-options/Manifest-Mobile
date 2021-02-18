@@ -9,6 +9,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Auth;
 using Manifest.LogIn.Classes;
+using Manifest.RDS;
 
 namespace Manifest.Views
 {
@@ -152,10 +153,11 @@ namespace Manifest.Views
             try
             {
                 string url = RdsConfig.BaseUrl + RdsConfig.goalsActInstrUrl + "/" + Application.Current.Properties["userId"];
-                var response = await client.GetStringAsync(url);
+                currentOccurances = await RdsConnect.getOccurances(url);
+                //var response = await client.GetStringAsync(url);
 
-                OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
-                ToOccurances(occuranceResponse);
+                //OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
+                setGoals();
             }
             catch (Exception goals)
             {
@@ -164,98 +166,10 @@ namespace Manifest.Views
         }
 
         //This function takes the response from the endpoint, and formats it into Occurances
-        private void ToOccurances(OccuranceResponse occuranceResponse)
+        private void setGoals()
         {
             try
             {
-                //Clear the occurances, as we are going to get new one now
-                //todaysOccurances.Clear();
-                if (occuranceResponse.result == null || occuranceResponse.result.Count == 0)
-                {
-                    DisplayAlert("No tasks today", "OK", "Cancel");
-                }
-                foreach (OccuranceDto dto in occuranceResponse.result)
-                {
-                    //Only add routines
-                    if (dto.is_displayed_today == "True")
-                    {
-                        Occurance toAdd = new Occurance();
-                        if (dto.actions_tasks == null)
-                        {
-                            Debug.WriteLine("Actions and tasks are null");
-                        }
-                        toAdd.Id = dto.gr_unique_id;
-                        toAdd.Title = dto.gr_title;
-                        toAdd.PicUrl = dto.photo;
-                        toAdd.IsPersistent = DataParser.ToBool(dto.is_persistent);
-                        toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
-                        toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                        toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
-                        toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
-                        toAdd.CompletionTime = dto.expected_completion_time;
-                        toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
-                        toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
-                        toAdd.StartDayAndTime = DataParser.ToDateTime(dto.start_day_and_time);
-                        toAdd.EndDayAndTime = DataParser.ToDateTime(dto.end_day_and_time);
-                        toAdd.Repeat = DataParser.ToBool(dto.repeat);
-                        toAdd.RepeatEvery = dto.repeat_every;
-                        toAdd.RepeatFrequency = dto.repeat_frequency;
-                        toAdd.RepeatType = dto.repeat_type;
-                        toAdd.RepeatOccurences = dto.repeat_occurences;
-                        toAdd.RepeatEndsOn = DataParser.ToDateTime(dto.repeat_ends_on);
-                        //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
-                        toAdd.UserId = dto.user_id;
-                        toAdd.IsEvent = false;
-                        toAdd.NumSubOccurances = 0;
-                        toAdd.SubOccurancesCompleted = 0;
-                        toAdd.subOccurances = GetSubOccurances(dto.actions_tasks, toAdd);
-                        currentOccurances.Add(toAdd);
-                    }
-                }
-
-                //sort by start time
-                for (int j = 0; j < currentOccurances.Count - 1; j++)
-                {
-                    for (int i = j + 1; i < currentOccurances.Count; i++)
-                    {
-                        if (currentOccurances[i].StartDayAndTime.TimeOfDay < currentOccurances[j].StartDayAndTime.TimeOfDay)
-                        {
-                            Occurance temp = currentOccurances[i];
-                            currentOccurances[i] = currentOccurances[j];
-                            currentOccurances[j] = temp;
-                        }
-                    }
-                }
-
-                Debug.WriteLine("passed sorting");
-                foreach (OccuranceDto dto in todayOccurs)
-                {
-                    Debug.WriteLine("starting: " + DateTime.Parse(dto.start_day_and_time).TimeOfDay + " ending: " + DateTime.Parse(dto.end_day_and_time).TimeOfDay);
-                }
-
-                //if (startTime == endTime)
-                //{
-                //    foreach (OccuranceDto dto in todayOccurs)
-                //    {
-                //        if (ToDateTime(ToDateTime(dto.start_day_and_time).ToString("t")).TimeOfDay <= ToDateTime(startTime).TimeOfDay && ToDateTime(ToDateTime(dto.end_day_and_time).ToString("t")).TimeOfDay >= ToDateTime(endTime).TimeOfDay)
-                //        {
-                //            Debug.WriteLine(dto.gr_title + " passes");
-                //            goalsInRange.Add(dto);
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    foreach (OccuranceDto dto in todayOccurs)
-                //    {
-                //        if (ToDateTime(ToDateTime(dto.start_day_and_time).ToString("t")).TimeOfDay >= ToDateTime(startTime).TimeOfDay && ToDateTime(ToDateTime(dto.end_day_and_time).ToString("t")).TimeOfDay <= ToDateTime(endTime).TimeOfDay)
-                //        {
-                //            Debug.WriteLine(dto.gr_title + " passes");
-                //            goalsInRange.Add(dto);
-                //        }
-                //    }
-                //}
-
                 if (startTime == endTime)
                 {
                     foreach (Occurance dto in currentOccurances)
@@ -273,7 +187,7 @@ namespace Manifest.Views
                     {
                         if (ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay >= ToDateTime(startTime).TimeOfDay && ToDateTime(dto.EndDayAndTime.ToString("t")).TimeOfDay <= ToDateTime(endTime).TimeOfDay)
                         {
-                            Debug.WriteLine(dto.Title + " passes");
+                            Debug.WriteLine(dto.Title + " status: in progress: " + dto.IsInProgress + " completed: " + dto.IsComplete);
                             goalsInRange.Add(dto);
                         }
                     }
@@ -439,61 +353,6 @@ namespace Manifest.Views
 
                 }
 
-                //foreach (OccuranceDto occurance in goalsInRange)
-                //{
-                //    occuranceDict.Add(occurance.gr_unique_id, occurance);
-                //}
-
-                //foreach (OccuranceDto dto in todayOccurs)
-                //{
-                //    if (dto.is_displayed_today == "True")
-                //    {
-                //        Debug.WriteLine("occurance tracked");
-                //        Occurance toAdd = new Occurance();
-                //        toAdd.Id = dto.gr_unique_id;
-                //        toAdd.Title = dto.gr_title;
-                //        toAdd.PicUrl = dto.photo;
-                //        toAdd.IsPersistent = ToBool(dto.is_persistent);
-                //        toAdd.IsInProgress = ToBool(dto.is_in_progress);
-                //        toAdd.IsComplete = ToBool(dto.is_complete);
-                //        toAdd.IsSublistAvailable = ToBool(dto.is_sublist_available);
-                //        toAdd.ExpectedCompletionTime = ToTimeSpan(dto.expected_completion_time);
-                //        toAdd.CompletionTime = "This takes " + dto.expected_completion_time;
-                //        toAdd.DateTimeCompleted = ToDateTime(dto.datetime_completed);
-                //        toAdd.DateTimeStarted = ToDateTime(dto.datetime_started);
-                //        toAdd.StartDayAndTime = ToDateTime(dto.start_day_and_time);
-                //        toAdd.EndDayAndTime = ToDateTime(dto.end_day_and_time);
-                //        toAdd.TimeInterval = DateTime.Parse(dto.start_day_and_time).ToString("t") + "-" + DateTime.Parse(dto.end_day_and_time).ToString("t");
-
-                //        if (DateTime.Now.TimeOfDay >= toAdd.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAdd.EndDayAndTime.TimeOfDay)
-                //            toAdd.StatusColor = Color.FromHex("#FFBD27");
-                //        else toAdd.StatusColor = Color.FromHex("#9DB2CB");
-
-                //        Debug.WriteLine("start time: " + dto.start_day_and_time);
-
-                //        toAdd.Repeat = ToBool(dto.repeat);
-                //        toAdd.RepeatEvery = dto.repeat_every;
-                //        toAdd.RepeatFrequency = dto.repeat_frequency;
-                //        toAdd.RepeatType = dto.repeat_type;
-                //        toAdd.RepeatOccurences = dto.repeat_occurences;
-                //        toAdd.RepeatEndsOn = ToDateTime(dto.repeat_ends_on);
-                //        //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
-                //        toAdd.UserId = dto.user_id;
-                //        toAdd.IsEvent = false;
-
-
-                //        todaysOccurances.Add(toAdd);
-
-
-                //        //todaysOccurances.Add(toAdd);
-                //        //need a isPursueAGoal variable to know if the thing being clicked needs to be navigated to
-                //        //send in list of goals for the pursue a goal into goals page instead of calling the endpoint again
-                //        //
-                //        //store the incoming occurance in listOccur, if it doesn't have the same time as the last occurance, clear listOccur,
-                //        //if the incoming occurance is at the same hour and minutes as the one in listOccur, add the time to listTime (that will be passed to goals.xaml.cs)
-                //    }
-                //}
-
 
                 return;
             }
@@ -501,72 +360,6 @@ namespace Manifest.Views
             {
                 DisplayAlert("Alert", "Error in TodaysListTest ToOccurances(). Error: " + e.ToString(), "OK");
             }
-        }
-
-        private List<SubOccurance> GetSubOccurances(List<SubOccuranceDto> actions_tasks, Occurance parent)
-        {
-            List<SubOccurance> subTasks = new List<SubOccurance>();
-            if (actions_tasks == null || actions_tasks.Count == 0)
-            {
-                return subTasks;
-            }
-            foreach (SubOccuranceDto dto in actions_tasks)
-            {
-                parent.NumSubOccurances++;
-                //numTasks++;
-                SubOccurance toAdd = new SubOccurance();
-                toAdd.Id = dto.at_unique_id;
-                toAdd.Title = dto.at_title;
-                toAdd.GoalRoutineID = dto.goal_routine_id;
-                toAdd.AtSequence = dto.at_sequence;
-                toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
-                toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                if (toAdd.IsComplete)
-                {
-                    parent.SubOccurancesCompleted++;
-                }
-                toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
-                toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
-                toAdd.IsMustDo = DataParser.ToBool(dto.is_must_do);
-                toAdd.PicUrl = dto.photo;
-                toAdd.IsTimed = DataParser.ToBool(dto.is_timed);
-                toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
-                toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
-                toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
-                toAdd.AvailableStartTime = DataParser.ToDateTime(dto.available_start_time);
-                toAdd.AvailableEndTime = DataParser.ToDateTime(dto.available_end_time);
-                toAdd.instructions = GetInstructions(dto.instructions_steps);
-                subTasks.Add(toAdd);
-                Debug.WriteLine(toAdd.Id);
-            }
-
-            return subTasks;
-        }
-
-        private List<Instruction> GetInstructions(List<InstructionDto> instruction_steps)
-        {
-            List<Instruction> instructions = new List<Instruction>();
-            if (instruction_steps.Count == 0 || instruction_steps == null)
-            {
-                return instructions;
-            }
-            foreach (InstructionDto dto in instruction_steps)
-            {
-                Instruction toAdd = new Instruction();
-                toAdd.unique_id = dto.unique_id;
-                toAdd.title = dto.title;
-                toAdd.at_id = dto.at_id;
-                toAdd.IsSequence = int.Parse(dto.is_sequence);
-                toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
-                toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
-                toAdd.IsTimed = DataParser.ToBool(dto.is_timed);
-                toAdd.Photo = dto.photo;
-                toAdd.expected_completion_time = DataParser.ToTimeSpan(dto.expected_completion_time);
-                instructions.Add(toAdd);
-            }
-
-            return instructions;
         }
 
 
@@ -1064,18 +857,25 @@ namespace Manifest.Views
             Application.Current.MainPage = new TodaysListPage();
         }
 
-        void nextClicked(System.Object sender, System.EventArgs e)
+        async void nextClicked(System.Object sender, System.EventArgs e)
         {
             //if a goal has only one subtask, navigate directly to steps page
-            if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.subOccurances.Count == 1)
+            if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
             {
-                Navigation.PushAsync(new GoalStepsPage(chosenOccurance.Title, chosenOccurance.subOccurances[0], "#F8BE28"));
+                string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                if (chosenOccurance.IsInProgress == true)
+                    await RdsConnect.updateOccurance(chosenOccurance, false, true, url2);
+                else await RdsConnect.updateOccurance(chosenOccurance, true, false, url2);
+            }
+            else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.subOccurances.Count == 1)
+            {
+                await Navigation.PushAsync(new GoalStepsPage(chosenOccurance, chosenOccurance.subOccurances[0], "#F8BE28"));
             }
             else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true)
-                Navigation.PushAsync(new GoalsSpecialPage(chosenOccurance));
-            else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
-                DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
-            else DisplayAlert("Oops", "please select a goal first", "OK");
+                await Navigation.PushAsync(new GoalsSpecialPage(chosenOccurance));
+            //else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
+            //    await DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
+            else await DisplayAlert("Oops", "please select a goal first", "OK");
         }
 
         void navigatetoActions(System.Object sender, System.EventArgs e)

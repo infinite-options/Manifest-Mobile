@@ -6,6 +6,7 @@ using Manifest.Models;
 using Manifest.Config;
 using System.Net.Http;
 using System.Diagnostics;
+using Manifest.RDS;
 
 namespace Manifest.Views
 {
@@ -34,12 +35,14 @@ namespace Manifest.Views
 
         int numComplete;
         int numTasks;
+        Occurance passedOccurance;
 
-        public GoalStepsPage(string goalTitle, SubOccurance subTask, string color)
+        public GoalStepsPage(Occurance occurance, SubOccurance subTask, string color)
         {
-            passedTitle = goalTitle;
+            passedTitle = occurance.Title;
             passedPhoto = subTask.PicUrl;
             passedColor = color;
+            passedOccurance = occurance;
 
             InitializeComponent();
             setting = false;
@@ -52,7 +55,7 @@ namespace Manifest.Views
             
             //title.Text = subOccur.Title;
             title.Text = "Goals";
-            subTitle.Text = goalTitle;
+            subTitle.Text = occurance.Title;
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
@@ -85,7 +88,7 @@ namespace Manifest.Views
                 numTasks++;
                 if (step.IsComplete == true) numComplete++;
                 Image routineComplete = new Image();
-                Binding completeVisible = new Binding("is_complete");
+                Binding completeVisible = new Binding("IsComplete");
                 completeVisible.Source = step;
                 routineComplete.BindingContext = step;
                 routineComplete.Source = "greencheckmark.png";
@@ -161,48 +164,71 @@ namespace Manifest.Views
                     Debug.WriteLine(toSend);
                     Debug.WriteLine(res.ToString());
                 }
+                string urlSub = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+                string urlOccur = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
                 if (numTasks == numComplete)
                 {
                     parentIsComplete();
                 }
+                else
+                {
+                    await RdsConnect.updateOccurance(parent, true, false, urlSub);
+                    await RdsConnect.updateOccurance(passedOccurance, true, false, urlOccur);
+                }
+                    
             }
         }
 
         async void parentIsComplete()
         {
             string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
-            //parent.updateIsComplete(true);
-            //parent.updateIsInProgress(false);
-            //parent.updateIsComplete(true);
+            await RdsConnect.updateOccurance(parent, false, true, url);
+            ////parent.updateIsComplete(true);
+            ////parent.updateIsInProgress(false);
+            ////parent.updateIsComplete(true);
 
-            //temporary fix for the above 3 function calls
-            parent.IsComplete = true;
-            parent.IsInProgress = false;
-            //numCompleted++;
-            parent.DateTimeCompleted = DateTime.Now;
+            ////temporary fix for the above 3 function calls
+            //parent.IsComplete = true;
+            //parent.IsInProgress = false;
+            ////numCompleted++;
+            //parent.DateTimeCompleted = DateTime.Now;
 
-            //bool inProgress = false;
-            //bool isComplete = false;
-            //if (parent.IsInProgress == "True")
-            //    inProgress = true;
-            //if (parent.is_complete == "True")
-            //    isComplete = true;
+            ////bool inProgress = false;
+            ////bool isComplete = false;
+            ////if (parent.IsInProgress == "True")
+            ////    inProgress = true;
+            ////if (parent.is_complete == "True")
+            ////    isComplete = true;
 
-            UpdateOccurance updateOccur = new UpdateOccurance()
+            //UpdateOccurance updateOccur = new UpdateOccurance()
+            //{
+            //    id = parent.Id,
+            //    datetime_completed = parent.DateTimeCompleted,
+            //    datetime_started = parent.DateTimeStarted,
+            //    is_in_progress = parent.IsInProgress,
+            //    is_complete = parent.IsComplete
+            //};
+            //string toSend = updateOccur.updateOccurance();
+            //var content = new StringContent(toSend);
+            //var res = await client.PostAsync(url, content);
+            //if (res.IsSuccessStatusCode)
+            //{
+            //    Debug.WriteLine("Successfully completed the subtask");
+            //}
+
+
+            bool onlyInProgress = false;
+            foreach (SubOccurance subOccur in passedOccurance.subOccurances)
             {
-                id = parent.Id,
-                datetime_completed = parent.DateTimeCompleted,
-                datetime_started = parent.DateTimeStarted,
-                is_in_progress = parent.IsInProgress,
-                is_complete = parent.IsComplete
-            };
-            string toSend = updateOccur.updateOccurance();
-            var content = new StringContent(toSend);
-            var res = await client.PostAsync(url, content);
-            if (res.IsSuccessStatusCode)
-            {
-                Debug.WriteLine("Successfully completed the subtask");
+                if (subOccur.IsComplete == false && subOccur.Title != parent.Title)
+                    onlyInProgress = true;
             }
+
+            //updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete, string url)
+            string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            if (onlyInProgress == true)
+                await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
+            else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)

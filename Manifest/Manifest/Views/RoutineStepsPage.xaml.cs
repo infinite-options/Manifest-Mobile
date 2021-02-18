@@ -198,9 +198,10 @@ namespace Manifest.Views
 
         async void updateRoutine()
         {
+            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
             if (currRoutine.IsInProgress == false && currRoutine.IsComplete == false)
             {
-                string res = await RdsConnect.updateOccurance(currRoutine, true, false);
+                string res = await RdsConnect.updateOccurance(currRoutine, true, false, url);
                 if (res == "Failure")
                 {
                     await DisplayAlert("Error", "There was an error writing to the database.", "OK");
@@ -208,7 +209,7 @@ namespace Manifest.Views
             }
             else if (currRoutine.IsInProgress == true && currRoutine.IsComplete == false && currRoutine.NumSubOccurances == currRoutine.SubOccurancesCompleted)
             {
-                string res = await RdsConnect.updateOccurance(currRoutine, false, true);
+                string res = await RdsConnect.updateOccurance(currRoutine, false, true, url);
                 if (res == "Failure")
                 {
                     await DisplayAlert("Error", "There was an error writing to the database.", "OK");
@@ -217,6 +218,7 @@ namespace Manifest.Views
 
 
         }
+
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
         {
