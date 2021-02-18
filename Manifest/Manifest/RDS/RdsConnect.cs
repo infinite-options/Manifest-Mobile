@@ -175,32 +175,35 @@ namespace Manifest.RDS
                     {
                         Debug.WriteLine("Actions and tasks are null");
                     }
-                    toAdd.Id = dto.gr_unique_id;
-                    toAdd.Title = dto.gr_title;
-                    toAdd.PicUrl = dto.photo;
-                    toAdd.IsPersistent = DataParser.ToBool(dto.is_persistent);
-                    toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
-                    toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                    toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
-                    toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
-                    toAdd.CompletionTime = dto.expected_completion_time;
-                    toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
-                    toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
-                    toAdd.StartDayAndTime = DataParser.ToDateTime(dto.start_day_and_time);
-                    toAdd.EndDayAndTime = DataParser.ToDateTime(dto.end_day_and_time);
-                    toAdd.Repeat = DataParser.ToBool(dto.repeat);
-                    toAdd.RepeatEvery = dto.repeat_every;
-                    toAdd.RepeatFrequency = dto.repeat_frequency;
-                    toAdd.RepeatType = dto.repeat_type;
-                    toAdd.RepeatOccurences = dto.repeat_occurences;
-                    toAdd.RepeatEndsOn = DataParser.ToDateTime(dto.repeat_ends_on);
-                    //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
-                    toAdd.UserId = dto.user_id;
-                    toAdd.IsEvent = false;
-                    toAdd.NumSubOccurances = 0;
-                    toAdd.SubOccurancesCompleted = 0;
-                    toAdd.subOccurances = GetSubOccurances(dto.actions_tasks, toAdd);
-                    todaysRoutines.Add(toAdd);
+                    if (dto.is_displayed_today == "True")
+                    {
+                        toAdd.Id = dto.gr_unique_id;
+                        toAdd.Title = dto.gr_title;
+                        toAdd.PicUrl = dto.photo;
+                        toAdd.IsPersistent = DataParser.ToBool(dto.is_persistent);
+                        toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
+                        toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
+                        toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
+                        toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
+                        toAdd.CompletionTime = dto.expected_completion_time;
+                        toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
+                        toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
+                        toAdd.StartDayAndTime = DataParser.ToDateTime(dto.start_day_and_time);
+                        toAdd.EndDayAndTime = DataParser.ToDateTime(dto.end_day_and_time);
+                        toAdd.Repeat = DataParser.ToBool(dto.repeat);
+                        toAdd.RepeatEvery = dto.repeat_every;
+                        toAdd.RepeatFrequency = dto.repeat_frequency;
+                        toAdd.RepeatType = dto.repeat_type;
+                        toAdd.RepeatOccurences = dto.repeat_occurences;
+                        toAdd.RepeatEndsOn = DataParser.ToDateTime(dto.repeat_ends_on);
+                        //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
+                        toAdd.UserId = dto.user_id;
+                        toAdd.IsEvent = false;
+                        toAdd.NumSubOccurances = 0;
+                        toAdd.SubOccurancesCompleted = 0;
+                        toAdd.subOccurances = GetSubOccurances(dto.actions_tasks, toAdd);
+                        todaysRoutines.Add(toAdd);
+                    }
                 }
                 return todaysRoutines;
             }
