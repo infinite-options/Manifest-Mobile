@@ -56,9 +56,9 @@ namespace Manifest.Views
                 var userID = (string)Application.Current.Properties["userId"];
                 initialiseTodaysOccurances(userID);
             }
-            catch (Exception routine)
+            catch (Exception e)
             {
-
+                DisplayAlert("Error", "Error in InitializeComponent, RoutinePage:\n" + e.ToString(), "OK");
             }
         }
 
