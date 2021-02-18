@@ -4,10 +4,13 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
 using Manifest.Config;
+using Manifest.LogIn.Classes;
 using Manifest.Models;
 using Newtonsoft.Json;
+using Xamarin.Auth;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Manifest.RDS;
 
 namespace Manifest.Views
 {
@@ -30,11 +33,12 @@ namespace Manifest.Views
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         Dictionary<Label, SubOccurance> subOccDict;
-
+        Occurance passedOccurance;
 
 
         public GoalsSpecialPage(Occurance occurance)
         {
+            passedOccurance = occurance;
             subOccDict = new Dictionary<Label, SubOccurance>();
             subTasks = occurance.subOccurances;
             InitializeComponent();
@@ -42,7 +46,10 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
-            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+            frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+            
             title.Text = "Goals";
             subTitle.Text = occurance.Title;
             var helperObject = new MainPage();
@@ -56,11 +63,12 @@ namespace Manifest.Views
             //subTaskList.ItemsSource = datagrid;
             //initializeSubTasks(occuranceID);
             goalLabel.Text = occurance.Title;
-            //foreach (SubOccuranceDto subOccur in subTasks)
-            //{
-            //    subOccDict.Add(subOccur.at_title, subOccur);
-            //    Debug.WriteLine("suboccurance title: " + subOccur.at_title);
-            //}
+
+
+            foreach (SubOccurance subOccur in subTasks)
+            {
+                Debug.WriteLine(subOccur.Title + " status: in progress: " + subOccur.IsInProgress + " completed: " + subOccur.IsComplete);
+            }
 
             checkPlatform();
             NavigationPage.SetHasNavigationBar(this, false);
@@ -139,30 +147,104 @@ namespace Manifest.Views
             Navigation.PopAsync(false);
         }
 
-        void goToSteps(System.Object sender, System.EventArgs e)
+        async void goToSteps(System.Object sender, System.EventArgs e)
         {
+            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+
             Label receiving = (Label)sender;
             if (receiving == actionLabel1 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
-                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving], actionFrame1.BackgroundColor.ToHex().ToString()), false);
+                await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[receiving], actionFrame1.BackgroundColor.ToHex().ToString()), false);
             else if (receiving == actionLabel2 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
-                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving], actionFrame2.BackgroundColor.ToHex().ToString()), false);
+                await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[receiving], actionFrame2.BackgroundColor.ToHex().ToString()), false);
             else if (receiving == actionLabel3 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
-                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[receiving], actionFrame3.BackgroundColor.ToHex().ToString()), false);
+                await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[receiving], actionFrame3.BackgroundColor.ToHex().ToString()), false);
             else if (subOccDict[receiving].instructions.Count == 0)
-                DisplayAlert("Oops", "there are no instructions available for this action", "OK");
+            {
+                if (subOccDict[receiving].IsInProgress == true)
+                    await RdsConnect.updateOccurance(subOccDict[receiving], false, true, url);
+                else await RdsConnect.updateOccurance(subOccDict[receiving], true, false, url);
+
+                bool onlyInProgress = false;
+                foreach (SubOccurance subOccur in passedOccurance.subOccurances)
+                {
+                    if (subOccur.IsComplete == false && subOccur.Title != subOccDict[receiving].Title)
+                        onlyInProgress = true;
+                }
+
+                string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                if (onlyInProgress == true)
+                    await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
+                else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
+            }
+                //DisplayAlert("Oops", "there are no instructions available for this action", "OK");
         }
 
-        void goToStepsFrame(System.Object sender, System.EventArgs e)
+        async void goToStepsFrame(System.Object sender, System.EventArgs e)
         {
+            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+
             Frame receiving = (Frame)sender;
 
             if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "" && subOccDict[actionLabel1].instructions.Count != 0)
-                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[actionLabel1], actionFrame1.BackgroundColor.ToHex().ToString()), false);
+                await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[actionLabel1], actionFrame1.BackgroundColor.ToHex().ToString()), false);
             else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "" && subOccDict[actionLabel2].instructions.Count != 0)
-                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[actionLabel2], actionFrame2.BackgroundColor.ToHex().ToString()), false);
+                await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[actionLabel2], actionFrame2.BackgroundColor.ToHex().ToString()), false);
             else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "" && subOccDict[actionLabel3].instructions.Count != 0)
-                Navigation.PushAsync(new GoalStepsPage(subTitle.Text, subOccDict[actionLabel3], actionFrame3.BackgroundColor.ToHex().ToString()), false);
-            else DisplayAlert("Oops", "there are no instructions available for this action", "OK");
+                await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[actionLabel3], actionFrame3.BackgroundColor.ToHex().ToString()), false);
+            else if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "")
+            {
+                if (subOccDict[actionLabel1].IsInProgress == true)
+                    await RdsConnect.updateOccurance(subOccDict[actionLabel1], false, true, url);
+                else await RdsConnect.updateOccurance(subOccDict[actionLabel1], true, false, url);
+
+                bool onlyInProgress = false;
+                foreach (SubOccurance subOccur in passedOccurance.subOccurances)
+                {
+                    if (subOccur.IsComplete == false && subOccur.Title != subOccDict[actionLabel1].Title)
+                        onlyInProgress = true;
+                }
+
+                string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                if (onlyInProgress == true)
+                    await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
+                else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
+            }
+            else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "")
+            {
+                if (subOccDict[actionLabel2].IsInProgress == true)
+                    await RdsConnect.updateOccurance(subOccDict[actionLabel2], false, true, url);
+                else await RdsConnect.updateOccurance(subOccDict[actionLabel2], true, false, url);
+
+                bool onlyInProgress = false;
+                foreach (SubOccurance subOccur in passedOccurance.subOccurances)
+                {
+                    if (subOccur.IsComplete == false && subOccur.Title != subOccDict[actionLabel2].Title)
+                        onlyInProgress = true;
+                }
+
+                string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                if (onlyInProgress == true)
+                    await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
+                else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
+            }
+            else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "")
+            {
+                if (subOccDict[actionLabel3].IsInProgress == true)
+                    await RdsConnect.updateOccurance(subOccDict[actionLabel3], false, true, url);
+                else await RdsConnect.updateOccurance(subOccDict[actionLabel3], true, false, url);
+
+                bool onlyInProgress = false;
+                foreach (SubOccurance subOccur in passedOccurance.subOccurances)
+                {
+                    if (subOccur.IsComplete == false && subOccur.Title != subOccDict[actionLabel3].Title)
+                        onlyInProgress = true;
+                }
+
+                string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                if (onlyInProgress == true)
+                    await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
+                else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
+            }
 
         }
 
@@ -448,6 +530,11 @@ namespace Manifest.Views
                 }
 
             }
+        }
+
+        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new SettingsPage(), false);
         }
     }
 }

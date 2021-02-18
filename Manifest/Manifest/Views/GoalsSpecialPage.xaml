@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch" x:Class="Manifest.Views.GoalsSpecialPage">
     <ContentPage.Content>
-        <Grid BackgroundColor="#F2F7FC" Padding="0">
+        <Grid x:Name="mainGridLayout" Padding="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
@@ -11,7 +11,7 @@
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
                 <!--SPACE FOR HEADER-->
-                    <Grid Margin="0,44,0,0">
+                    <Grid Margin="0,30,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="1"></RowDefinition>
@@ -30,7 +30,7 @@
                                 </Label.GestureRecognizers>
                             </Label>
                             <Label Grid.Column="1" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                            <ImageButton Grid.Column="2" Source="settingsIcon.png"  ></ImageButton>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
                         <Grid Grid.Row="2">
@@ -186,7 +186,7 @@
 
 
             <StackLayout Grid.Row="2">
-
+                
             </StackLayout>
             <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
                 <Frame>

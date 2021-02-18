@@ -36,7 +36,14 @@ namespace Manifest.Views
                 }
                 if (attendee.Name == "" || attendee.Name == null)
                 {
-                    attendee.Name = "Anonymous";
+                    if (attendee.Email != "" && attendee.Email != null)
+                    {
+                        attendee.Name = attendee.Email;
+                    }
+                    else
+                    {
+                        attendee.Name = "Anonymous";
+                    } 
                 }
                 datagrid.Add(attendee);
             }

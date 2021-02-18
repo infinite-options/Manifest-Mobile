@@ -40,7 +40,9 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
-            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+            frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "Manifest";
 
 
@@ -49,12 +51,13 @@ namespace Manifest.Views
             barStackLayoutProperties.BackgroundColor = Color.Salmon;
             barStackLayoutRow.Height = 0;
             buttonStackLayoutRow.Height = lastRowHeight;
-
+            
             Debug.WriteLine("AUTO SIGN IN");
             foreach (string key in Application.Current.Properties.Keys)
             {
                 Debug.WriteLine("key: {0}, value: {1}", key, Application.Current.Properties[key]);
             }
+
         }
 
         public MainPage(AuthenticatorCompletedEventArgs googleFacebookAccount = null, AppleAccount appleCredentials = null, string platform = "")
@@ -65,7 +68,9 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
-            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
+            mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+            frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "Manifest";
 
 
@@ -124,8 +129,12 @@ namespace Manifest.Views
 
                 var socialLogInPostSerialized = JsonConvert.SerializeObject(socialLogInPost);
                 var postContent = new StringContent(socialLogInPostSerialized, Encoding.UTF8, "application/json");
+
                 var RDSResponse = await client.PostAsync(Constant.LogInUrl, postContent);
+                //var RDSResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.UserIdFromEmailUrl, postContent);
+
                 var responseContent = await RDSResponse.Content.ReadAsStringAsync();
+                Debug.WriteLine(responseContent);
                 var authetication = JsonConvert.DeserializeObject<SuccessfulSocialLogIn>(responseContent);
                 var session = JsonConvert.DeserializeObject<Session>(responseContent);
                 if (RDSResponse.IsSuccessStatusCode)
@@ -151,6 +160,7 @@ namespace Manifest.Views
 
                                 if(platform == "GOOGLE")
                                 {
+                                    Application.Current.Properties["showCalendar"] = true;
                                     Application.Current.Properties["accessToken"] = user.Account.Properties["access_token"];
                                     Application.Current.Properties["refreshToken"] = user.Account.Properties["refresh_token"];
                                 }
@@ -173,7 +183,7 @@ namespace Manifest.Views
 
                                     var notificationContent = new StringContent(notificationSerializedObject, Encoding.UTF8, "application/json");
 
-                                    var clientResponse = await client.PostAsync("https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/updateGuid/add", notificationContent);
+                                    var clientResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.addGuid, notificationContent);
 
                                     Debug.WriteLine("Status code: " + clientResponse.IsSuccessStatusCode);
 
@@ -185,6 +195,11 @@ namespace Manifest.Views
                                     {
                                         await DisplayAlert("Ooops!", "Something went wrong. We are not able to send you notification at this moment", "OK");
                                     }
+                                }
+
+                                foreach (string key in Application.Current.Properties.Keys)
+                                {
+                                    Debug.WriteLine("key: {0}, value: {1}", key, Application.Current.Properties[key]);
                                 }
                             }
                             catch (Exception s)
@@ -207,16 +222,11 @@ namespace Manifest.Views
                         }
                     }
                 }
-                
             }
             catch (Exception first)
             {
                 Debug.WriteLine(first.Message);
             }
-
-
-
-
         }
 
         public string GetCurrentTime()
@@ -228,57 +238,7 @@ namespace Manifest.Views
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
         {
-            if (setting == false)
-            {
-                // DISPLAY SETTINGS UI
-                title.Text = "Settings";
-                mainStackLayoutRow.Height = 0;
-                settingStackLayoutRow.Height = height;
-                setting = true;
-            }
-            else
-            {
-                // HIDE SETTINGS UI
-                title.Text = "Manifest";
-                mainStackLayoutRow.Height = height;
-                settingStackLayoutRow.Height = 0;
-                setting = false;
-            }
-        }
-
-        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
-        {
-            frameColor.BackgroundColor = Color.Pink;
-            title.Text = "Manifest";
-            subTitle.Text = "Sub title has changed";
-        }
-
-        void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
-        {
-            frameColor.BackgroundColor = Color.Green;
-            title.Text = "Today";
-            subTitle.Text = "Sub title has changed";
-        }
-
-        void TapGestureRecognizer_Tapped_2(System.Object sender, System.EventArgs e)
-        {
-            frameColor.BackgroundColor = Color.Black;
-            title.Text = "Goals";
-            subTitle.Text = "Sub title has changed";
-        }
-
-        void TapGestureRecognizer_Tapped_3(System.Object sender, System.EventArgs e)
-        {
-            frameColor.BackgroundColor = Color.Red;
-            title.Text = "Get Crasfty";
-            subTitle.Text = "Sub title has changed";
-        }
-
-        void TapGestureRecognizer_Tapped_4(System.Object sender, System.EventArgs e)
-        {
-            frameColor.BackgroundColor = Color.Yellow;
-            title.Text = "What's important to me";
-            subTitle.Text = "Sub title has changed";
+            Application.Current.MainPage = new SettingsPage("MainPage");
         }
 
         void RoutinesClick(System.Object sender, System.EventArgs e)
@@ -299,17 +259,17 @@ namespace Manifest.Views
 
         void WhatAreYouCurrentlyDoingClick(System.Object sender, System.EventArgs e)
         {
-
+            Application.Current.MainPage = new FirstPulsePage();
         }
 
         void WhoAmIClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new WhoAmIPage();
+            //Application.Current.MainPage = new WhoAmIPage();
         }
 
         void NoteToFutureSelfClick(System.Object sender, System.EventArgs e)
         {
-
+            Application.Current.MainPage = new FirstPulsePage();
         }
 
         void TodayListClick(System.Object sender, System.EventArgs e)
@@ -317,18 +277,5 @@ namespace Manifest.Views
             Application.Current.MainPage = new NavigationPage(new TodaysListPage());
         }
 
-        void Switch_Toggled(System.Object sender, Xamarin.Forms.ToggledEventArgs e)
-        {
-            var isCalendarVisiable = (Xamarin.Forms.Switch)sender;
-
-            //if (!isCalendarVisiable.IsToggled)
-            //{
-            //    isCalendarVisiable.IsToggled = true;
-            //}
-            //else
-            //{
-            //    isCalendarVisiable.IsToggled = false;
-            //}
-        }
     }
 }

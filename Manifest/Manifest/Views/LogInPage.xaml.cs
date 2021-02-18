@@ -66,11 +66,22 @@ namespace Manifest.Views
 
         public void InitializeAppProperties()                                                               // Initializes most (not all) Application.Current.Properties
         {                                                                                                   // You can create additional parameters on the fly
+            // App keys
             Application.Current.Properties["location"] = "";
             Application.Current.Properties["userId"] = "";
             Application.Current.Properties["timeStamp"] = "";
             Application.Current.Properties["accessToken"] = "";
             Application.Current.Properties["refreshToken"] = "";
+
+            // Color keys
+            Application.Current.Properties["colorScheme"] = "classic";
+            Application.Current.Properties["background"] = "#F2F7FC";
+            Application.Current.Properties["header"] = "#9DB2CB";
+            Application.Current.Properties["navBar"] = "#376DAC";
+            Application.Current.Properties["goal"] = "#F8BE28";
+            Application.Current.Properties["routine"] = "#F26D4B";
+            Application.Current.Properties["event"] = "#67ABFC";
+            Application.Current.Properties["showCalendar"] = false;
         }
 
         public void InitializedAppleLogin()

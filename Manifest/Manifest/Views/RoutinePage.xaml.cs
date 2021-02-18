@@ -5,8 +5,11 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Manifest.Config;
+using Manifest.LogIn.Classes;
 using Manifest.Models;
+using Manifest.RDS;
 using Newtonsoft.Json;
+using Xamarin.Auth;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -30,23 +33,33 @@ namespace Manifest.Views
         public RoutinePage()
         {
             InitializeComponent();
-            setting = false;
-            height = mainStackLayoutRow.Height;
-            lastRowHeight = barStackLayoutRow.Height;
+            try{
 
-            frameColor.BackgroundColor = Color.FromHex("#9DB2CB");
-            title.Text = "Routines";
 
-            var helperObject = new MainPage();
-            locationTitle.Text = (string)Application.Current.Properties["location"];
-            dateTitle.Text = helperObject.GetCurrentTime();
-            barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
+                setting = false;
+                height = mainStackLayoutRow.Height;
+                lastRowHeight = barStackLayoutRow.Height;
 
-            NavigationPage.SetHasNavigationBar(this, false);
-            todaysRoutines = new List<Occurance>();
-            rowHeight = (float)(deviceHeight * 0.06);
-            var userID = (string)Application.Current.Properties["userId"];
-            initialiseTodaysOccurances(userID);
+                mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+                frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+                barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+                
+                title.Text = "Routines";
+
+                var helperObject = new MainPage();
+                locationTitle.Text = (string)Application.Current.Properties["location"];
+                dateTitle.Text = helperObject.GetCurrentTime();
+
+                NavigationPage.SetHasNavigationBar(this, false);
+                todaysRoutines = new List<Occurance>();
+                rowHeight = (float)(deviceHeight * 0.06);
+                var userID = (string)Application.Current.Properties["userId"];
+                initialiseTodaysOccurances(userID);
+            }
+            catch (Exception routine)
+            {
+
+            }
         }
 
 
@@ -56,12 +69,13 @@ namespace Manifest.Views
             {
                 //Need to add userID
                 string url = RdsConfig.BaseUrl + RdsConfig.getRoutines + "/" + userID;
-                var response = await client.GetStringAsync(url);
-                Debug.WriteLine("Getting user. User info below:");
-                Debug.WriteLine(response);
-                OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
-                //Debug.WriteLine(occuranceResponse);
-                ToOccurances(occuranceResponse);
+                todaysRoutines = await RdsConnect.getOccurances(url);
+                //var response = await client.GetStringAsync(url);
+                //Debug.WriteLine("Getting user. User info below:");
+                //Debug.WriteLine(response);
+                //OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
+                ////Debug.WriteLine(occuranceResponse);
+                //ToOccurances(occuranceResponse);
                 SortRoutines();
                 CreateList();
             }
@@ -69,102 +83,6 @@ namespace Manifest.Views
             {
                 await DisplayAlert("Alert", "Error in TodaysListTest initialiseTodaysOccurances. Error: " + e.ToString(), "OK");
             }
-        }
-
-        //This function takes the response from the endpoint, and formats it into Occurances
-        private void ToOccurances(OccuranceResponse occuranceResponse)
-        {
-            try
-            {
-                //Clear the occurances, as we are going to get new one now
-                todaysRoutines.Clear();
-                if (occuranceResponse.result == null || occuranceResponse.result.Count == 0)
-                {
-                    DisplayAlert("No tasks today", "OK", "Cancel");
-                }
-                foreach (OccuranceDto dto in occuranceResponse.result)
-                {
-                    //Only add routines
-                    if (dto.is_displayed_today == "True" && dto.is_persistent == "True")
-                    {
-                        Occurance toAdd = new Occurance();
-                        if (dto.actions_tasks == null)
-                        {
-                            Debug.WriteLine("Actions and tasks are null");
-                        }
-                        toAdd.Id = dto.gr_unique_id;
-                        toAdd.Title = dto.gr_title;
-                        toAdd.PicUrl = dto.photo;
-                        toAdd.IsPersistent = DataParser.ToBool(dto.is_persistent);
-                        toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
-                        toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                        toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
-                        toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
-                        toAdd.CompletionTime = dto.expected_completion_time;
-                        toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
-                        toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
-                        toAdd.StartDayAndTime = DataParser.ToDateTime(dto.start_day_and_time);
-                        toAdd.EndDayAndTime = DataParser.ToDateTime(dto.end_day_and_time);
-                        toAdd.Repeat = DataParser.ToBool(dto.repeat);
-                        toAdd.RepeatEvery = dto.repeat_every;
-                        toAdd.RepeatFrequency = dto.repeat_frequency;
-                        toAdd.RepeatType = dto.repeat_type;
-                        toAdd.RepeatOccurences = dto.repeat_occurences;
-                        toAdd.RepeatEndsOn = DataParser.ToDateTime(dto.repeat_ends_on);
-                        //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
-                        toAdd.UserId = dto.user_id;
-                        toAdd.IsEvent = false;
-                        toAdd.NumSubOccurances = 0;
-                        toAdd.SubOccurancesCompleted = 0;
-                        toAdd.subOccurances = GetSubOccurances(dto.actions_tasks, toAdd);
-                        todaysRoutines.Add(toAdd);
-                    }
-                }
-                return;
-            }
-            catch (Exception e)
-            {
-                DisplayAlert("Alert", "Error in TodaysListTest ToOccurances(). Error: " + e.ToString(), "OK");
-            }
-        }
-
-        private List<SubOccurance> GetSubOccurances(List<SubOccuranceDto> actions_tasks, Occurance parent)
-        {
-            List<SubOccurance> subTasks = new List<SubOccurance>();
-            if (actions_tasks == null || actions_tasks.Count == 0)
-            {
-                return subTasks;
-            }
-            foreach(SubOccuranceDto dto in actions_tasks)
-            {
-                parent.NumSubOccurances++;
-                //numTasks++;
-                SubOccurance toAdd = new SubOccurance();
-                toAdd.Id = dto.at_unique_id;
-                toAdd.Title = dto.at_title;
-                toAdd.GoalRoutineID = dto.goal_routine_id;
-                toAdd.AtSequence = dto.at_sequence;
-                toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
-                toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                if (toAdd.IsComplete)
-                {
-                    parent.SubOccurancesCompleted++;
-                }
-                toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
-                toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
-                toAdd.IsMustDo = DataParser.ToBool(dto.is_must_do);
-                toAdd.PicUrl = dto.photo;
-                toAdd.IsTimed = DataParser.ToBool(dto.is_timed);
-                toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
-                toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
-                toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
-                toAdd.AvailableStartTime = DataParser.ToDateTime(dto.available_start_time);
-                toAdd.AvailableEndTime = DataParser.ToDateTime(dto.available_end_time);
-                subTasks.Add(toAdd);
-                Debug.WriteLine(toAdd.Id);
-            }
-
-            return subTasks;
         }
 
         private void SortRoutines()
@@ -176,7 +94,7 @@ namespace Manifest.Views
             });
         }
 
-        private async void CreateList()
+        private void CreateList()
         {
 
             TapGestureRecognizer doneRecognizer = new TapGestureRecognizer();
@@ -240,10 +158,11 @@ namespace Manifest.Views
                         }
                     };
                 float fontsize = rowHeight / 4;
+                string timespan = toAdd.StartDayAndTime.ToString("hh:mm tt") + " - " + toAdd.EndDayAndTime.ToString("hh:mm tt");
                 gridToAdd.Children.Add(
                     new Label
                     {
-                        Text = toAdd.StartDayAndTime.TimeOfDay.ToString() + " - " + toAdd.EndDayAndTime.TimeOfDay.ToString(),
+                        Text = timespan,
                         FontAttributes = FontAttributes.Bold,
                         TextColor = Color.White
                     }, 0, 0);
@@ -376,58 +295,6 @@ namespace Manifest.Views
             }
         }
 
-        //This function makes a call to the database to get all the sub tasks for the given occurance, and displays it on the device
-        private async Task<List<SubOccurance>> initializeSubTasks(int parentIndex)
-        {
-            string occuranceID = todaysRoutines[parentIndex].Id;
-            string url = RdsConfig.BaseUrl + RdsConfig.actionAndTaskUrl + '/' + occuranceID;
-            var response = await client.GetStringAsync(url);
-            SubOccuranceResponse subOccuranceResponse = JsonConvert.DeserializeObject<SubOccuranceResponse>(response);
-            var toReturn = ToSubOccurances(subOccuranceResponse, parentIndex);
-            return toReturn;
-
-        }
-
-        //This function converts the response we got from the endpoint to a list of SubOccurance's
-        private List<SubOccurance> ToSubOccurances(SubOccuranceResponse subOccuranceResponse, int parent)
-        {
-            //Clear the occurances, as we are going to get new one now
-            List<SubOccurance> subTasks = new List<SubOccurance>();
-            if (subOccuranceResponse.result == null || subOccuranceResponse.result.Count == 0)
-            {
-                return subTasks;
-            }
-            foreach (SubOccuranceDto dto in subOccuranceResponse.result)
-            {
-                todaysRoutines[parent].NumSubOccurances++;
-                //numTasks++;
-                SubOccurance toAdd = new SubOccurance();
-                toAdd.Id = dto.at_unique_id;
-                toAdd.Title = dto.at_title;
-                toAdd.GoalRoutineID = dto.goal_routine_id;
-                toAdd.AtSequence = dto.at_sequence;
-                toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
-                toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                if (toAdd.IsComplete)
-                {
-                    todaysRoutines[parent].SubOccurancesCompleted++;
-                }
-                toAdd.IsInProgress = DataParser.ToBool(dto.is_in_progress);
-                toAdd.IsSublistAvailable = DataParser.ToBool(dto.is_sublist_available);
-                toAdd.IsMustDo = DataParser.ToBool(dto.is_must_do);
-                toAdd.PicUrl = dto.photo;
-                toAdd.IsTimed = DataParser.ToBool(dto.is_timed);
-                toAdd.DateTimeCompleted = DataParser.ToDateTime(dto.datetime_completed);
-                toAdd.DateTimeStarted = DataParser.ToDateTime(dto.datetime_started);
-                toAdd.ExpectedCompletionTime = DataParser.ToTimeSpan(dto.expected_completion_time);
-                toAdd.AvailableStartTime = DataParser.ToDateTime(dto.available_start_time);
-                toAdd.AvailableEndTime = DataParser.ToDateTime(dto.available_end_time);
-                subTasks.Add(toAdd);
-                Debug.WriteLine(toAdd.Id);
-            }
-            return subTasks;
-        }
-
         public async void subTaskComplete(object sender, EventArgs args)
         {
             Debug.WriteLine("Task tapped");
@@ -535,60 +402,43 @@ namespace Manifest.Views
                     }
                 }
             }
-                //if (numCompleted == numTasks)
-                //{
-                //    parent.updateIsInProgress(false);
-                //    parent.updateIsComplete(true);
-                //    UpdateOccurance parentOccur = new UpdateOccurance()
-                //    {
-                //        id = parent.Id,
-                //        datetime_completed = parent.DateTimeCompleted,
-                //        datetime_started = parent.DateTimeStarted,
-                //        is_in_progress = parent.IsInProgress,
-                //        is_complete = parent.IsComplete
-                //    };
-                //    string toSendParent = parentOccur.updateOccurance();
-                //    var parentContent = new StringContent(toSendParent);
-                //    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-                //    var res = await client.PostAsync(parenturl, parentContent);
-                //    if (res.IsSuccessStatusCode)
-                //    {
-                //        Debug.WriteLine("Parent is now complete");
-                //    }
-                //    else
-                //    {
-                //        Debug.WriteLine("Error updating parent");
-                //    }
-                //}
-                //else if (parent.IsInProgress == false)
-                //{
-                //    parent.updateIsInProgress(true);
-                //    UpdateOccurance parentOccur = new UpdateOccurance()
-                //    {
-                //        id = parent.Id,
-                //        datetime_completed = parent.DateTimeCompleted,
-                //        datetime_started = parent.DateTimeStarted,
-                //        is_in_progress = parent.IsInProgress,
-                //        is_complete = parent.IsComplete
-                //    };
-                //    string toSendParent = parentOccur.updateOccurance();
-                //    var parentContent = new StringContent(toSendParent);
-                //    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-                //    var res = await client.PostAsync(parenturl, parentContent);
-                //    if (res.IsSuccessStatusCode)
-                //    {
-                //        Debug.WriteLine("Parent is now in progress");
-                //    }
-                //    else
-                //    {
-                //        Debug.WriteLine("Error updating parent");
-                //    }
-                //}
-            }
+        }
 
-        public void helpNeeded(object sender, EventArgs args)
+        public async void helpNeeded(object sender, EventArgs args)
         {
             Debug.WriteLine("Help button pressed. Help needed for subTask");
+            Image myvar = (Image)sender;
+            SubOccurance currOccurance = myvar.BindingContext as SubOccurance;
+
+            //Get the parent of the sender
+            Grid mygrid = (Grid)myvar.Parent;
+
+            if (mygrid == null)
+            {
+                Debug.WriteLine("Parent is null");
+            }
+
+            //Now we got the parent element we want
+            Grid parent = (Grid)mygrid.Parent;
+
+            if (parent == null)
+            {
+                Debug.WriteLine("Grandparent is null");
+            }
+
+            Grid grandparent = (Grid)parent.Parent;
+
+            Occurance parentOccurance = grandparent.BindingContext as Occurance;
+            //If there are instructions, navigate to the instruction page
+            if (currOccurance.instructions.Count > 0)
+            {
+                await Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(currOccurance, parentOccurance), false);
+            }
+            else
+            {
+                await DisplayAlert("Note", "No instructions for this task", "OK");
+            }
+
         }
 
         public async void routineTapped(object sender, EventArgs args)
@@ -655,9 +505,14 @@ namespace Manifest.Views
             Application.Current.MainPage = new MainPage();
         }
 
-        void Button_Clicked(System.Object sender, System.EventArgs e)
+        // void Button_Clicked(System.Object sender, System.EventArgs e)
+        // {
+        //     Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(),false);
+        // }
+
+        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage.Navigation.PushAsync(new RoutineStepsPage(),false);
+            Navigation.PushAsync(new SettingsPage(), false);
         }
     }
 }
