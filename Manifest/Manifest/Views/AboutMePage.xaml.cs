@@ -90,7 +90,7 @@ namespace Manifest.Views
 
             bigCircleHW = (float)(deviceWidth * 0.102);
             bigCircleRadius = (float)(bigCircleHW * 0.75);
-            smallCircleHW = (float)(deviceWidth * 0.075);
+            smallCircleHW = (float)(deviceWidth * 0.074);
             smallCircleRadius = (float)(smallCircleHW * 0.5);
             bigImageCircleHW = (float)(deviceWidth * 0.11);
             bigImageCircleRadius = (float)(bigCircleHW * 0.5);
@@ -103,6 +103,13 @@ namespace Manifest.Views
             whatMotivatesMeButton.CornerRadius = bigCircleRadius;
             whatMotivatesMeButton.HeightRequest = bigCircleHW;
             whatMotivatesMeButton.WidthRequest = bigCircleHW;
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                smallCircleHW = (float)(deviceWidth * 0.058);
+                smallCircleRadius = (float)(smallCircleHW * 0.5);
+            }
+
             Debug.WriteLine("In aboutME page");
             //Debug.WriteLine(Application.Current.Properties["userID"]);
             //Debug.WriteLine(Application.Current.Properties["time_stamp"]);
@@ -253,7 +260,7 @@ namespace Manifest.Views
                 //Debug.WriteLine("min = " + min);
                 while (i < min){
                     tempGrid.ColumnDefinitions.Add(new ColumnDefinition
-                    { Width = new GridLength(smallCircleHW, GridUnitType.Absolute) });
+                    { Width = new GridLength(smallCircleHW+4, GridUnitType.Absolute)});
                     tempGrid.Children.Add(new Frame{
                         BindingContext = importantPeople[i],
                         CornerRadius = smallCircleRadius,
@@ -264,8 +271,8 @@ namespace Manifest.Views
                         //Padding = new Thickness(10.0,0.0,10.0,0.0),
                         Content =  new Image{
                             Source = importantPeople[i].PicUrl,
-                            HeightRequest = smallCircleHW*2,
-                            WidthRequest = smallCircleHW*2,
+                            HeightRequest = smallCircleHW,
+                            WidthRequest = smallCircleHW,
                             Aspect = Aspect.AspectFill
                         },
                         GestureRecognizers = { tapGestureRecognizer }
@@ -293,6 +300,11 @@ namespace Manifest.Views
         void navigateToWhoAmI(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new WhoAmIPage();
+        }
+
+        void navigateToWhatMotivatesMe(System.Object sender, System.EventArgs e)
+        {
+            Debug.WriteLine("Go to what motivates me");
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
