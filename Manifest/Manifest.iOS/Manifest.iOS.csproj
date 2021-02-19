@@ -27,8 +27,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>ManifestMySpaceDistribution</CodesignProvision>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision>VS: com.infiniteoptions-manifestmy.life Development</CodesignProvision>
+    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -39,8 +39,9 @@
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
-    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
-    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
+    <CodesignProvision>ManifestMySpaceDistribution</CodesignProvision>
+    <CodesignKey>Apple Distribution: Infinite Options, LLC (8V66NC2T37)</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,7 +57,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
-    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
+    <CodesignProvision>VS: com.infiniteoptions-manifestmy.life Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -65,9 +66,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
+    <CodesignKey>Apple Distribution: Infinite Options, LLC (8V66NC2T37)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
+    <CodesignProvision>Manifest My Life (Distribution)</CodesignProvision>
     <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
@@ -152,6 +153,13 @@
     <BundleResource Include="Resources\calendarIcon.png" />
     <BundleResource Include="Resources\helpIcon.png" />
     <BundleResource Include="Resources\personIcon.png" />
+    <BundleResource Include="Resources\mood_five.png" />
+    <BundleResource Include="Resources\mood_four.png" />
+    <BundleResource Include="Resources\mood_one.png" />
+    <BundleResource Include="Resources\mood_seven.png" />
+    <BundleResource Include="Resources\mood_six.png" />
+    <BundleResource Include="Resources\mood_three.png" />
+    <BundleResource Include="Resources\mood_two.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />

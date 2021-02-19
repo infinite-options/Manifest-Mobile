@@ -34,50 +34,55 @@ namespace Manifest.Views
         private async void GetRelations()
         {
             List<string> emails = new List<string>();
-            foreach (Attendee att in attendees)
+            if(attendees.Count != 0)
             {
-                emails.Add(att.Email);
+                foreach (Attendee att in attendees)
+                {
+                    emails.Add(att.Email);
+                }
+                var header = new Dictionary<string, List<string>> { { "emails", emails } };
+                string jsonObject = JsonConvert.SerializeObject(header);
+                string jsonObject2 = JsonConvert.SerializeObject(emails);
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("email", jsonObject2);
+                Debug.WriteLine("Writing headers");
+                Debug.WriteLine(client.DefaultRequestHeaders);
+                string url = RdsConfig.BaseUrl + RdsConfig.getRelations;
+                var res = await client.GetStringAsync(url);
+                //Debug.WriteLine(res.Content);
+                var info = JsonConvert.DeserializeObject<RelationResponse>(res);
+                List<RelationDto> peopleInfo = info.result;
+                Debug.WriteLine(peopleInfo.ToString());
+                for (int i = 0; i < attendees.Count; i++)
+                {
+                    RelationDto person = peopleInfo[i];
+                    if (person.first_name != null && person.first_name != "")
+                    {
+                        if (person.last_name != null && person.last_name != "")
+                        {
+                            attendees[i].Name = person.first_name + " " + person.last_name;
+                        }
+                        else
+                        {
+                            attendees[i].Name = person.first_name;
+                        }
+                    }
+                    if (person.role != null && person.role != "")
+                    {
+                        attendees[i].Relation = person.role;
+                    }
+                    if (person.picture != null && person.picture != "")
+                    {
+                        attendees[i].PicUrl = person.picture;
+                        attendees[i].HavePic = true;
+                    }
+                }
+                initialiseAttendees(attendees);
             }
-            var header = new Dictionary<string, List<string>> { { "emails", emails } };
-            string jsonObject = JsonConvert.SerializeObject(header);
-            string jsonObject2 = JsonConvert.SerializeObject(emails);
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("email", jsonObject2);
-            Debug.WriteLine("Writing headers");
-            Debug.WriteLine(client.DefaultRequestHeaders);
-            string url = RdsConfig.BaseUrl + RdsConfig.getRelations;
-            var res = await client.GetStringAsync(url);
-            //Debug.WriteLine(res.Content);
-            var info = JsonConvert.DeserializeObject<RelationResponse>(res);
-            List<RelationDto> peopleInfo = info.result;
-            Debug.WriteLine(peopleInfo.ToString());
-            for (int i = 0; i < attendees.Count; i++)
+            else
             {
-                RelationDto person = peopleInfo[i];
-                if (person.first_name != null && person.first_name != "")
-                {
-                    if (person.last_name != null && person.last_name != "")
-                    {
-                        attendees[i].Name = person.first_name+ " " + person.last_name;
-                    }
-                    else
-                    {
-                        attendees[i].Name = person.first_name;
-                    }
-                }
-                if (person.role!= null && person.role != "")
-                {
-                    attendees[i].Relation = person.role;
-                }
-                if (person.picture != null && person.picture != "")
-                {
-                    attendees[i].PicUrl = person.picture;
-                    attendees[i].HavePic = true;
-                }
+                await DisplayAlert("Message","There are no attendees","OK");
             }
-            initialiseAttendees(attendees);
-
-
         }
 
 

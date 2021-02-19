@@ -130,7 +130,7 @@ namespace Manifest.Views
                 var socialLogInPostSerialized = JsonConvert.SerializeObject(socialLogInPost);
                 var postContent = new StringContent(socialLogInPostSerialized, Encoding.UTF8, "application/json");
 
-                var RDSResponse = await client.PostAsync(Constant.LogInUrl, postContent);
+                var RDSResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.login, postContent);
                 //var RDSResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.UserIdFromEmailUrl, postContent);
 
                 var responseContent = await RDSResponse.Content.ReadAsStringAsync();

@@ -48,6 +48,10 @@ namespace Manifest.Views
                 }
                 _ = Navigation.PushAsync(new SecondPulsePage(), false);
             }
+            else
+            {
+                await DisplayAlert("Select one option", "Please select one of the following options", "OK");
+            }
         }
 
          void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)

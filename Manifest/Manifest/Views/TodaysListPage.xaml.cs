@@ -133,12 +133,12 @@ namespace Manifest.Views
 
         void AboutMeClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new AboutMePage();
+            Application.Current.MainPage = new MainPage();
         }
 
-        async void HelpClicked(System.Object sender, System.EventArgs e)
+        void HelpClicked(System.Object sender, System.EventArgs e)
         {
-            await DisplayAlert("New Feature", "Feature is coming soon!", "OK");
+            Application.Current.MainPage = new AboutMePage();
         }
 
 

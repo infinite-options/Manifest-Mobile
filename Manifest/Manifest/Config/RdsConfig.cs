@@ -22,6 +22,7 @@ namespace Manifest.Config
 
         public const string addPulse = "/api/v2/changeAboutMeHistory";
         public const string getOptions = "/api/v2/";
+        public const string login = "/api/v2/login";
         //Accelerometer
         public const string addCoordinates = "/api/v2/addCoordinates";
 
