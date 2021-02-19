@@ -21,7 +21,7 @@ namespace Manifest.Config
         public const string goalsActInstrUrl = "/api/v2/gai";
 
         public const string addPulse = "/api/v2/changeAboutMeHistory";
-
+        public const string getOptions = "/api/v2/";
         //Accelerometer
         public const string addCoordinates = "/api/v2/addCoordinates";
 

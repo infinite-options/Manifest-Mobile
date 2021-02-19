@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.FourthPulsePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch" x:Class="Manifest.Views.FourthPulsePage">
     <ContentPage.Content>
  <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -43,118 +43,180 @@
                     </Grid>
  
             </Frame>
-            <StackLayout Grid.Row="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackLayout Grid.Row="0" ClassId="7">
-                        <Ellipse
-                            Margin="0,0,20,0"
-                            WidthRequest="75"
-                            HeightRequest="75"
-                            HorizontalOptions="End"
-                            Stroke="#FFBD27"
-                            StrokeThickness="4">
-                        </Ellipse>
-                        <Label Text="7" TextColor="Black" FontSize="Large" FontAttributes="Bold" HorizontalOptions="End" Padding="0,0,50,0" Margin="0,-50,0,0"></Label>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                    <StackLayout Grid.Row="1" ClassId="6">
-                        <Ellipse
-                            Margin="0,0,20,0"
-                            WidthRequest="75"
-                            HeightRequest="75"
-                            HorizontalOptions="Center"
-                            Stroke="#FFBD27"
-                            StrokeThickness="4">
-                        </Ellipse>
-                         <Label Text="6" TextColor="Black" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center"  Margin="0,-50,20,0"></Label>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                    <StackLayout Grid.Row="2" ClassId="5">
-                        <Ellipse
-                            Margin="0,0,20,0"
-                            WidthRequest="75"
-                            HeightRequest="75"
-                            HorizontalOptions="Start"
-                            Stroke="#FFBD27"
-                            StrokeThickness="4">
-                        </Ellipse>
-                        <Label Text="5" TextColor="Black" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Start"  Margin="30,-50,0,0"></Label>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                    <StackLayout Grid.Row="3" ClassId="4">
-                        <Ellipse
-                            Margin="0,0,20,0"
-                            WidthRequest="75"
-                            HeightRequest="75"
-                            HorizontalOptions="Center"
-                            Stroke="#FFBD27"
-                            StrokeThickness="4">
-                        </Ellipse>
-                        <Label Text="4" TextColor="Black" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center"  Margin="0,-50,20,0"></Label>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                    <StackLayout Grid.Row="5" ClassId="3">
-                        <Ellipse
-                            Margin="0,0,20,0"
-                            WidthRequest="75"
-                            HeightRequest="75"
-                            HorizontalOptions="End"
-                            Stroke="#FFBD27"
-                            StrokeThickness="4">
-                        </Ellipse>
-                        <Label Text="3" TextColor="Black" FontSize="Large" FontAttributes="Bold" HorizontalOptions="End" Padding="0,0,50,0" Margin="0,-50,0,0"></Label>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                    <StackLayout Grid.Row="6" ClassId="2">
-                        <Ellipse
-                            Margin="0,0,20,0"
-                            WidthRequest="75"
-                            HeightRequest="75"
-                            HorizontalOptions="Center"
-                            Stroke="#FFBD27"
-                            StrokeThickness="4">
-                        </Ellipse>
-                        <Label Text="2" TextColor="Black" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center"  Margin="0,-50,20,0"></Label>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                    <StackLayout Grid.Row="7" ClassId="1">
-                        <Ellipse
-                            Margin="0,0,20,0"
-                            WidthRequest="75"
-                            HeightRequest="75"
-                            HorizontalOptions="Start"
-                            Stroke="#FFBD27"
-                            StrokeThickness="4">
-                        </Ellipse>
-                        <Label Text="1" TextColor="Black" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Start"  Margin="30,-50,0,0"></Label>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </Grid>
+             <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            </StackLayout>
+            <AbsoluteLayout x:Name="goals3" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <Button x:Name="first3" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.07" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions">
+                    </Button>
+                <Button x:Name="second3" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.85,0.42" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>
+                <Button x:Name="third3" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.14,0.77" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <!--<Button x:Name="next3" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+            <AbsoluteLayout x:Name="goals4" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <Button x:Name="first4" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black"  AbsoluteLayout.LayoutBounds="0.10,0.07" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>
+                <Button x:Name="second4" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black"  AbsoluteLayout.LayoutBounds="0.85,0.45" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="third4" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black"  AbsoluteLayout.LayoutBounds="0.14,0.81" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fourth4" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.82,0.84" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <!--<Button x:Name="next4" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+            <AbsoluteLayout x:Name="goals5" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <!--<Button x:Name="first5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.03" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>-->
+                <Frame x:Name="first5" BorderColor="#ADBCCE" AbsoluteLayout.LayoutBounds="0.10,0.03" AbsoluteLayout.LayoutFlags="PositionProportional">
+                <Label x:Name="text" Text="Get Straight A's for yourself" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                </Label>
+                </Frame>
+
+
+                <Button x:Name="second5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.75,0.32" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="third5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.12,0.66" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fourth5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.9,0.68" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fifth5" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.65,0.93" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <!--<Button x:Name="next5" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+            <AbsoluteLayout x:Name="goals6" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <Button x:Name="first6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.05" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>
+                <Button x:Name="second6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.91,0.23" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="third6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.08,0.49" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fourth6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.78,0.64" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="fifth6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.11,0.83" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <Button x:Name="sixth6" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.68,0.93" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>
+                <!--<Button x:Name="next6" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+            <AbsoluteLayout x:Name="goals7" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+                <!--<Button x:Name="first7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.05" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>-->
+                <Frame x:Name="first7" BorderColor="#FFBD27" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="PositionProportional" HasShadow="False" ClassId="0">
+                    <f9p:Label x:Name="text1" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="navigatetoActions"/>
+
+
+                    <!--<Label x:Name="text1" Text="Get Straight A's for yourself" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->  
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+
+                <!--<Button x:Name="second7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.90,0.23" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>-->
+                <Frame x:Name="second7" BorderColor="#FFBD27" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="PositionProportional" HasShadow="False" ClassId="1">
+                    <f9p:Label x:Name="text2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="navigatetoActions"/>
+
+                    <!--<Label x:Name="text2" Text="Get Straight A's for yourself" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+
+                <!--<Button x:Name="third7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.09,0.39" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>-->
+                <Frame x:Name="third7" BorderColor="#FFBD27" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="PositionProportional" HasShadow="False" ClassId="2">
+                    <f9p:Label x:Name="text3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="navigatetoActions"/>
+
+
+
+                    <!--<Label x:Name="text3" Text="Get Straight A's for yourself" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+
+                <!--<Button x:Name="fourth7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.78,0.60" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>-->
+                <Frame x:Name="fourth7" BorderColor="#FFBD27" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="PositionProportional" HasShadow="False" ClassId="3">
+                    <f9p:Label x:Name="text4" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="navigatetoActions"/>
+
+
+                    <!--<Label x:Name="text4" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+
+                <!--<Button x:Name="fifth7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.61" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>-->
+                <Frame x:Name="fifth7" BorderColor="#FFBD27" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="PositionProportional" HasShadow="False" ClassId="4">
+                    <f9p:Label x:Name="text5" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="navigatetoActions"/>
+
+
+                    <!--<Label x:Name="text5"  TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+
+                <!--<Button x:Name="sixth7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.93,0.86" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>-->
+                <Frame x:Name="sixth7" BorderColor="#FFBD27" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="PositionProportional" HasShadow="False" ClassId="5">
+                    <f9p:Label x:Name="text6" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="navigatetoActions"/>
+
+
+                    <!--<Label x:Name="text6"  TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+
+                <!--<Button x:Name="seventh7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.31,0.86" AbsoluteLayout.LayoutFlags="PositionProportional"  Clicked="navigatetoActions"/>-->
+                <Frame x:Name="seventh7" BorderColor="#FFBD27" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="PositionProportional" HasShadow="False" ClassId="6">
+                    <f9p:Label x:Name="text7" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="navigatetoActions"/>
+
+
+                    <!--<Label x:Name="text7"  TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="navigatetoActions"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                </Frame>
+
+                <!--<Button x:Name="next7" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
+            </AbsoluteLayout>
+
+
+        </Grid>
             <StackLayout Grid.Row="2">
                 
             </StackLayout>

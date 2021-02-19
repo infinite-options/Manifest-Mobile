@@ -323,5 +323,20 @@ namespace Manifest.Views
         {
             Application.Current.MainPage = new SettingsPage("AboutMePage");
         }
+
+        void Button_Clicked_1(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+        }
+
+        void Button_Clicked_2(System.Object sender, System.EventArgs e)
+        {
+            
+        }
+
+        async void Button_Clicked_3(System.Object sender, System.EventArgs e)
+        {
+            await DisplayAlert("New Feature", "Feature is coming soon!", "OK");
+        }
     }
 }

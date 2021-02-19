@@ -117,7 +117,7 @@
                                 HorizontalOptions="End">
                             </Ellipse>
                             <StackLayout Rotation="-90" HorizontalOptions="Start" Margin="0,-110,0,0" HeightRequest="50" WidthRequest="150">
-                               <Label Text="What are you currently doing?" TextColor="White" FontSize="20" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
+                               <Label Text="What are you currently doing?" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
                                <StackLayout.GestureRecognizers>
                                    <TapGestureRecognizer Tapped="WhatAreYouCurrentlyDoingClick"></TapGestureRecognizer>
                                </StackLayout.GestureRecognizers>
@@ -153,7 +153,7 @@
                                 HeightRequest="100"
                                 HorizontalOptions="End">
                            </Ellipse>
-                           <StackLayout Rotation="-90"  HorizontalOptions="Start" Margin="75,-80,0,0" HeightRequest="50" WidthRequest="80">
+                           <StackLayout Rotation="-90" HorizontalOptions="Start" Margin="75,-80,0,0" HeightRequest="50" WidthRequest="80">
                                <Label Text="Note to future self" TextColor="White" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
                                 <StackLayout.GestureRecognizers>
                                    <TapGestureRecognizer Tapped="NoteToFutureSelfClick"></TapGestureRecognizer>
@@ -169,7 +169,7 @@
                                 HeightRequest="100"
                                 HorizontalOptions="Start">
                            </Ellipse>
-                           <StackLayout Rotation="-90"  HorizontalOptions="Start" Margin="30,-80,0,0" HeightRequest="50" WidthRequest="80">
+                           <StackLayout Rotation="-90" HorizontalOptions="Start" Margin="30,-80,0,0" HeightRequest="50" WidthRequest="80">
                                <Label Text="Today's List" TextColor="White" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
                                 <StackLayout.GestureRecognizers>
                                    <TapGestureRecognizer Tapped="TodayListClick"></TapGestureRecognizer>

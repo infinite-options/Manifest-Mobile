@@ -31,7 +31,7 @@ namespace Manifest.Views
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "How do I feel?";
-            subTitle.Text = "Choose 2";
+            subTitle.Text = "Choose 1";
             NavigationPage.SetHasNavigationBar(this, false);
             //calendarSwitch.IsToggled = (bool)Application.Current.Properties["showCalendar"];
         }

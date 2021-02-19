@@ -10,10 +10,10 @@
                 HeightRequest="150"
                 HorizontalOptions="Center">
             </Ellipse>
-            <StackLayout HorizontalOptions="Center" Margin="0,-95,0,0" HeightRequest="100" WidthRequest="150">
+            <StackLayout HorizontalOptions="Center" Margin="0,-110,0,0" HeightRequest="100" WidthRequest="150">
                 <Label Text="Manifest your life" TextColor="White" FontSize="20" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
             </StackLayout>
-            <Grid HeightRequest="100">
+            <Grid HeightRequest="80" >
                 <ImageButton
                     Grid.Row="0"
                     Grid.Column="0"

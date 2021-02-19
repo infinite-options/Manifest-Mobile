@@ -136,9 +136,9 @@ namespace Manifest.Views
             Application.Current.MainPage = new AboutMePage();
         }
 
-        void HelpClicked(System.Object sender, System.EventArgs e)
+        async void HelpClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new WhoAmIPage();
+            await DisplayAlert("New Feature", "Feature is coming soon!", "OK");
         }
 
 

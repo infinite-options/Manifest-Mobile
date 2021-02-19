@@ -264,7 +264,7 @@ namespace Manifest.Views
 
         void WhoAmIClick(System.Object sender, System.EventArgs e)
         {
-            //Application.Current.MainPage = new WhoAmIPage();
+            Application.Current.MainPage = new WhoAmIPage();
         }
 
         void NoteToFutureSelfClick(System.Object sender, System.EventArgs e)
