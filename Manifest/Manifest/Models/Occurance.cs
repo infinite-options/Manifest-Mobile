@@ -46,18 +46,24 @@ namespace Manifest.Models
         public int SubOccurancesCompleted { get; set; }
         //Added so we have the list of subOccurances
         public List<SubOccurance> subOccurances { get; set; }
-
+        public Color GoalBackground { get; set; }
 
         public void updateIsInProgress(bool updatedVal)
         {
             IsInProgress = updatedVal;
             PropertyChanged(this, new PropertyChangedEventArgs("IsInProgress"));
+
+            GoalBackground = Color.FromHex("#FFE07E");
+            PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
         }
 
         public void updateIsComplete(bool updatedVal)
         {
             IsComplete = updatedVal;
             PropertyChanged(this, new PropertyChangedEventArgs("IsComplete"));
+
+            GoalBackground = Color.FromHex("#D3E6D3");
+            PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
         }
     }
 

@@ -80,13 +80,13 @@
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Grid.Column="0" Source="barCalendar.png" HeightRequest="20"/>
+                        <Image Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" HeightRequest="20"/>
                         <Label Grid.Row="1" Grid.Column="0" Text="Today's List" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
 
-                        <Image Grid.Row="0" Grid.Column="1" Source="barPerson.png" HeightRequest="20"/>
+                        <Image Grid.Row="0" Grid.Column="1" Source="personIcon.png" HeightRequest="20"/>
                         <Label Grid.Row="1" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
 
-                        <Image Grid.Row="0" Grid.Column="2" Source="barHelp.png" HeightRequest="20"/>
+                        <Image Grid.Row="0" Grid.Column="2" Source="helpIcon.png" HeightRequest="20"/>
                         <Label Grid.Row="1" Grid.Column="2" Text="Get Help" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
 
                     <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="TodaysListPageClicked" BackgroundColor="Transparent"></Button>

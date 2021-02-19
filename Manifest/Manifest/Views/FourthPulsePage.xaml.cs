@@ -10,7 +10,6 @@ using Xamarin.Forms;
 
 namespace Manifest.Views
 {
-
     public partial class FourthPulsePage : ContentPage
     {
         bool setting;
