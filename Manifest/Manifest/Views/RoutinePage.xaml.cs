@@ -278,8 +278,19 @@ namespace Manifest.Views
                     isComplete.Source = "greencheckmark.png";
                     isComplete.SetBinding(Image.IsVisibleProperty, isVisible);
                     isComplete.HorizontalOptions = LayoutOptions.End;
+
+                    Image isInProgress = new Image();
+                    Binding isInProgressVisible = new Binding("IsInProgress");
+                    isInProgressVisible.Source = subTask;
+                    isInProgress.BindingContext = subTask;
+                    isInProgress.Source = "yellowclock.png";
+                    isInProgress.SetBinding(Image.IsVisibleProperty, isInProgressVisible);
+                    isInProgress.HorizontalOptions = LayoutOptions.End;
                     subGrid.Children.Add(
                         isComplete, 1, 0
+                        );
+                    subGrid.Children.Add(
+                        isInProgress, 1, 0
                         );
                     newGrid.Children.Add(subGrid, 0, rowToAdd);
                     rowToAdd++;
@@ -316,7 +327,7 @@ namespace Manifest.Views
             Occurance parentOccurance = grandparent.BindingContext as Occurance;
 
             string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
-            if (currOccurance.IsComplete == false)
+            if (currOccurance.IsComplete == false && currOccurance.IsInProgress == true)
             {
                 string res = await RdsConnect.updateOccurance(currOccurance, false, true, url);
                 if (res == "Failure")
@@ -337,6 +348,35 @@ namespace Manifest.Views
                     Debug.WriteLine("Wrote to the datebase");
                 }
                 else if (parentOccurance.IsInProgress == false && parentOccurance.IsComplete == false)
+                {
+                    res = await RdsConnect.updateOccurance(parentOccurance, true, false, url);
+                    if (res == "Failure")
+                    {
+                        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                    }
+                }
+            }
+            else if (currOccurance.IsComplete == false && currOccurance.IsInProgress == false)
+            {
+                string res = await RdsConnect.updateOccurance(currOccurance, true, false, url);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                }
+
+                //Now update the parent
+                //parentOccurance.SubOccurancesCompleted++;
+                url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                //if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
+                //{
+                //    res = await RdsConnect.updateOccurance(parentOccurance, false, true, url);
+                //    if (res == "Failure")
+                //    {
+                //        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                //    }
+                //    Debug.WriteLine("Wrote to the datebase");
+                //}
+                if (parentOccurance.IsInProgress == false && parentOccurance.IsComplete == false)
                 {
                     res = await RdsConnect.updateOccurance(parentOccurance, true, false, url);
                     if (res == "Failure")

@@ -35,5 +35,8 @@ namespace Manifest.Config
 
         //Endpoint to update instruction
         public const string updateInstruction = "/api/v2/updateISWatchMobile";
+
+        //Endpoint used to get relations. Takes in a list of emails
+        public const string getRelations = "/api/v2/userTADetails";
     }
 }

@@ -38,7 +38,7 @@
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Frame Grid.Row="0" Grid.Column="0" HeightRequest="100" WidthRequest="100" CornerRadius="50">
+                                    <Frame Grid.Row="0" Grid.Column="0" HeightRequest="100" WidthRequest="100" CornerRadius="50" Padding="0" IsClippedToBounds="True">
                                         <Image Source="{Binding PicUrl}" Aspect="AspectFill"/>
                                     </Frame>
                                     <Grid Grid.Row="0" Grid.Column="1"> 
@@ -47,7 +47,7 @@
                                             <RowDefinition Height="30"/>
                                         </Grid.RowDefinitions>
                                         <Label Grid.Row="0" VerticalOptions="End" HorizontalOptions="Start" Text="{Binding Name}" FontSize="Large" TextDecorations="Underline" FontAttributes="Bold" TextColor="#0C1E21" Margin="10,0,0,0"/>
-                                        <Label Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start" Text="Unknown" TextColor="#0C1E21" Margin="10,0,0,0"/>
+                                        <Label Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start" Text="{Binding Relation}" TextColor="#0C1E21" Margin="10,0,0,0"/>
                                     </Grid>
                                 </Grid>
                             </DataTemplate>

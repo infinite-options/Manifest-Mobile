@@ -156,7 +156,7 @@ namespace Manifest.Views
                 //OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
                 ////Debug.WriteLine(occuranceResponse);
                 ToOccurances();
-                await GetEvents();
+                await CallGetEvents();
                 CreateList();
             }
             catch (Exception e)
@@ -392,6 +392,7 @@ namespace Manifest.Views
         //In this function, we merge our events and goals/routines
         private void CreateList()
         {
+            Debug.WriteLine("Entered CreateList");
             try
             {
                 int i = 0;
@@ -481,17 +482,17 @@ namespace Manifest.Views
                 {
                     Debug.WriteLine("taskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString() + " afternoonStart: " + ToDateTime(afternoonStart).TimeOfDay.ToString());
                     datagridMorning.Add(todaysTasks[i]);
+                    todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                     morningTaskCount++;
                     i++;
-                    todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                 }
                 while (i < todaysTasks.Count && String.Compare(todaysTaskTime, timeResponse.evening_time) < 0)
                 {
                     Debug.WriteLine("afternoonTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
                     datagridAfternoon.Add(todaysTasks[i]);
+                    todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                     afternoonTaskCount++;
                     i++;
-                    todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                 }
                 while (i < todaysTasks.Count)
                 {
@@ -522,11 +523,38 @@ namespace Manifest.Views
             }
             catch (Exception e)
             {
-                DisplayAlert("Alert", "Error in TodaysListTest initialiseDataGrids(). Error: " + e.ToString(), "OK");
+                await DisplayAlert("Alert", "Error in TodaysListTest initialiseDataGrids(). Error: " + e.ToString(), "OK");
             }
         }
 
-        private async Task GetEvents()
+        private async Task CallGetEvents()
+        {
+            string valid = await GetEvents();
+            if (valid == "FAILURE")
+            {
+                Debug.WriteLine("Need to refresh token");
+                //We want to get a new token in this case
+                string refresh = (string)Application.Current.Properties["refreshToken"];
+                bool new_tokens = await GoogleAPI.RefreshToken(refresh);
+                if (new_tokens == false)
+                {
+                    //Navigate back to login page
+                    Application.Current.MainPage = new LogInPage();
+                }
+                //Otherwise, we simply call getEvents again
+                valid = await GetEvents();
+                if (valid == "SUCCESS")
+                {
+                    Debug.WriteLine("Successfully got events!");
+                }
+                else
+                {
+                    Debug.WriteLine("Error getting refresh tokens");
+                }
+            }
+        }
+
+        private async Task<string> GetEvents()
         {
             try
             {
@@ -591,6 +619,10 @@ namespace Manifest.Views
                 //Debug.WriteLine("Manifest.Services.Google.Calendar: Making request to " + fullURI);
 
                 var response = await client.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return "FAILURE";
+                }
                 var json = await response.Content.ReadAsStringAsync();
                 //var json = response.Content;
                 Debug.WriteLine("Calendars response:\n" + json);
@@ -605,11 +637,14 @@ namespace Manifest.Views
             catch (Exception e)
             {
                 await DisplayAlert("Alert", "Error in TodaysListTest GetEvents(). Error: " + e.ToString(), "OK");
+                return "FAILURE";
             }
+            return "SUCCESS";
         }
 
         private void EventsToOccurances(List<Event> events)
         {
+            Debug.WriteLine("Entered EventsToOccurances");
             try
             {
                 todaysEvents.Clear();
