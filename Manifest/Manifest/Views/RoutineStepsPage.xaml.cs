@@ -166,6 +166,10 @@ namespace Manifest.Views
                 {
                     parentIsComplete();
                 }
+                else if (parent.IsInProgress == false && parent.IsComplete == false)
+                {
+                    parentIsInProgress();
+                }
             }
         }
 
@@ -180,6 +184,18 @@ namespace Manifest.Views
             currRoutine.SubOccurancesCompleted++;
             updateRoutine();
             
+        }
+
+        async void parentIsInProgress()
+        {
+            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string res = await RdsConnect.updateOccurance(parent, true, false, url);
+            if (res == "Failure")
+            {
+                await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+            }
+            //currRoutine.SubOccurancesCompleted++;
+            updateRoutine();
         }
 
         async void updateRoutine()

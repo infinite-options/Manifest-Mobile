@@ -278,8 +278,19 @@ namespace Manifest.Views
                     isComplete.Source = "greencheckmark.png";
                     isComplete.SetBinding(Image.IsVisibleProperty, isVisible);
                     isComplete.HorizontalOptions = LayoutOptions.End;
+
+                    Image isInProgress = new Image();
+                    Binding isInProgressVisible = new Binding("IsInProgress");
+                    isInProgressVisible.Source = subTask;
+                    isInProgress.BindingContext = subTask;
+                    isInProgress.Source = "yellowclock.png";
+                    isInProgress.SetBinding(Image.IsVisibleProperty, isInProgressVisible);
+                    isInProgress.HorizontalOptions = LayoutOptions.End;
                     subGrid.Children.Add(
                         isComplete, 1, 0
+                        );
+                    subGrid.Children.Add(
+                        isInProgress, 1, 0
                         );
                     newGrid.Children.Add(subGrid, 0, rowToAdd);
                     rowToAdd++;

@@ -47,7 +47,7 @@ namespace Manifest.RDS
             var json = await response.Content.ReadAsStringAsync();
 
             JObject jsonParsed = JObject.Parse(json);
-
+            Debug.WriteLine("Refrersh token response:\n" + jsonParsed.ToString());
             if (jsonParsed["error"] != null)
             {
                 Console.WriteLine(jsonParsed.ToString());
@@ -65,6 +65,8 @@ namespace Manifest.RDS
                 {
                     Application.Current.Properties["refreshToken"] = jsonParsed["refresh_token"].ToString();
                 }
+                //Now, write to database
+
                 //Repository.Instance.UpdateAccessToken(jsonParsed["access_token"].ToString());
             }
             catch (NullReferenceException e)
