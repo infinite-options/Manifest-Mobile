@@ -1,47 +1,118 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Manifest.Config;
 using Manifest.Models;
-using Manifest.Services;
-using Manifest.ViewModels;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Manifest.Views
 {
-
     public partial class EventsPage : ContentPage
     {
-        Event Event;
-        public EventsPage(string id)
+        public ObservableCollection<Attendee> datagrid = new ObservableCollection<Attendee>();
+        List<Attendee> attendees = new List<Attendee>();
+        public EventsPage(Event newEvent)
         {
             InitializeComponent();
-            System.Diagnostics.Debug.WriteLine("IN EVENTS PAGE INITIALIZER");
-            var task = Repository.Instance.GetEventById(id);
-            Event = task.Result;
-            LoadUI();
+            eventName.Text = newEvent.Title;
+            eventDescription.Text = newEvent.Description;
+            if (eventDescription.Text == "" || eventDescription.Text == null)
+            {
+                eventDescription.Text = "No description provided";
+            }
+            eventInfo.ItemsSource = datagrid;
+            //datagrid.Add(newEvent);
+            attendees = newEvent.Attendees;
+            GetRelations();
+
         }
 
-        private async void LoadUI()
+        private async void GetRelations()
         {
-            Title.Text = "Title: " + Event.Title;
-            Description.Text = $"Description:\n{Event.Description}";
-            Timing.Text = $"Time: {Event.StartTime.LocalDateTime.ToString("h:mm tt")} - {Event.EndTime.LocalDateTime.ToString("h:mm tt")}";
-            //Attendees.ItemsSource = Event.Attendees;
-            foreach (Attendee attendee in Event.Attendees)
+            List<string> emails = new List<string>();
+            if(attendees.Count != 0)
             {
-                if(attendee.Organizer.HasValue && attendee.Organizer.Value==true)
+                foreach (Attendee att in attendees)
                 {
-                    string createdby = (attendee.Name != null) ? attendee.Name : attendee.Email;
-                    CreatedBy.Text = $"Created by: {createdby}";
+                    emails.Add(att.Email);
                 }
-                AttendeesStack.Children.Add(new Label()
+                var header = new Dictionary<string, List<string>> { { "emails", emails } };
+                string jsonObject = JsonConvert.SerializeObject(header);
+                string jsonObject2 = JsonConvert.SerializeObject(emails);
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("email", jsonObject2);
+                Debug.WriteLine("Writing headers");
+                Debug.WriteLine(client.DefaultRequestHeaders);
+                string url = RdsConfig.BaseUrl + RdsConfig.getRelations;
+                var res = await client.GetStringAsync(url);
+                //Debug.WriteLine(res.Content);
+                var info = JsonConvert.DeserializeObject<RelationResponse>(res);
+                List<RelationDto> peopleInfo = info.result;
+                Debug.WriteLine(peopleInfo.ToString());
+                for (int i = 0; i < attendees.Count; i++)
                 {
-                    Text = (attendee.Name != null) ? attendee.Name : attendee.Email,
-                    FontSize = 20,
-                    TextColor = Color.Black,
-                    Padding = new Thickness(40, 0, 0, 0)
-                });
+                    RelationDto person = peopleInfo[i];
+                    if (person.first_name != null && person.first_name != "")
+                    {
+                        if (person.last_name != null && person.last_name != "")
+                        {
+                            attendees[i].Name = person.first_name + " " + person.last_name;
+                        }
+                        else
+                        {
+                            attendees[i].Name = person.first_name;
+                        }
+                    }
+                    if (person.role != null && person.role != "")
+                    {
+                        attendees[i].Relation = person.role;
+                    }
+                    if (person.picture != null && person.picture != "")
+                    {
+                        attendees[i].PicUrl = person.picture;
+                        attendees[i].HavePic = true;
+                    }
+                }
+                initialiseAttendees(attendees);
             }
+            else
+            {
+                await DisplayAlert("Message","There are no attendees","OK");
+            }
+        }
+
+
+        private void initialiseAttendees(List<Attendee> attendees)
+        {
+            foreach (Attendee attendee in attendees)
+            {
+                if (attendee.HavePic == false)
+                {
+                    attendee.PicUrl = "aboutme.png";
+                }
+                if (attendee.Name == "" || attendee.Name == null)
+                {
+                    if (attendee.Email != "" && attendee.Email != null)
+                    {
+                        attendee.Name = attendee.Email;
+                    }
+                    else
+                    {
+                        attendee.Name = "Anonymous";
+                    } 
+                }
+                datagrid.Add(attendee);
+            }
+
+        }
+
+        private void goToTodaysList(object sender, EventArgs args)
+        {
+            Application.Current.MainPage = new TodaysListPage();
         }
     }
 }

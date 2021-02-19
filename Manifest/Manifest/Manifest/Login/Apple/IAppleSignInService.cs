@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Manifest.Login.Apple
+namespace Manifest.LogIn.Apple
 {
     public interface IAppleSignInService
     {

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.RoutineStepsPage">
+    <ContentPage.Content>
+        <Grid x:Name="mainGridLayout" RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="139"></RowDefinition>
+                <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
+                <!--<RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>-->
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
+                <!--SPACE FOR HEADER-->
+                    <Grid Margin="0,30,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="1"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Back Icon" TextColor="White">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Grid.Column="1" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
+                        </Grid>
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                             <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        </Grid>
+                    </Grid>
+ 
+            </Frame>
+            <StackLayout Grid.Row="1">
+                <!--NEW UI GOES HERE-->
+                <!--<Button Text="Back Home" Clicked="Button_Clicked"></Button>-->
+                <Frame x:Name="routineFrame" HeightRequest="100" WidthRequest="100" CornerRadius="50" VerticalOptions="Center" HorizontalOptions="Center" Padding="0" BackgroundColor="#F26D4B">
+                    <Label x:Name="routineName" Text="Routine" FontSize="Medium" LineBreakMode="WordWrap" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>                    
+                </Frame>
+                <Image x:Name="arrow" Source="downarrow.png" HeightRequest="80">
+                </Image>
+                <Grid BackgroundColor="#9DB2CB">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
+                        <ScrollView x:Name="stepsScroll" BackgroundColor="#9DB2CB" Grid.Row="0" MinimumHeightRequest="200">
+                        
+                                <StackLayout x:Name="instructions" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Start" Orientation="Vertical" Padding="10,10,10,10">
+
+                            </StackLayout>
+                        
+                    </ScrollView>
+                <Grid Grid.Row="1" BackgroundColor="#9DB2CB">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Text="I'm Done" TextColor="White" BackgroundColor="Transparent"/>
+                    <Button Grid.Column="1" Text="I'm Bored" TextColor="White" BackgroundColor="Transparent"/>
+                </Grid>
+            </Grid>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,6 +1,7 @@
-﻿using Xamarin.Auth;
+﻿using System;
+using Xamarin.Auth;
 
-namespace Manifest.Login.Classes
+namespace Manifest.LogIn.Classes
 {
     public class AuthenticationState
     {

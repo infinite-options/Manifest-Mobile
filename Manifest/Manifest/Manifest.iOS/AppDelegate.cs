@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
+
 using Foundation;
-using Manifest.Login.Classes;
+using Manifest.LogIn.Classes;
 using UIKit;
+
+using System.Diagnostics;
 // Added for in-app notifications
 using UserNotifications;
 using WindowsAzure.Messaging;
@@ -31,9 +33,11 @@ namespace Manifest.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Auth.Presenters.XamarinIOS.AuthenticationConfiguration.Init();
-            global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
-            Xamarin.Forms.Nuke.FormsHandler.Init();
+
+            //testing with forms9patch
+            Forms9Patch.iOS.Settings.Initialize(this);
+
             LoadApplication(new App());
 
             base.FinishedLaunching(app, options);
@@ -43,10 +47,10 @@ namespace Manifest.iOS
             //Added for in app notifications
             UNUserNotificationCenter.Current.Delegate = new NotificationDelegate();
             return true;
+
             //return base.FinishedLaunching(app, options);
         }
 
-        // This has to be a method inside the AppDelegate 
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
             // Convert NSUrl to Uri
@@ -78,7 +82,7 @@ namespace Manifest.iOS
                 var pushSettings = UIUserNotificationSettings.GetSettingsForTypes(
                 UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
                 new NSSet());
-
+                
                 UIApplication.SharedApplication.RegisterUserNotificationSettings(pushSettings);
                 UIApplication.SharedApplication.RegisterForRemoteNotifications();
             }
@@ -108,11 +112,17 @@ namespace Manifest.iOS
                 var guid = Guid.NewGuid();
                 GlobalVars.user_guid = guid.ToString();
                 var tag = "guid_" + guid.ToString();
+                GlobalVars.user_guid = tag;
                 Debug.WriteLine("guid:" + tag);
+
                 Preferences.Set("guid", tag);
+                
                 System.Diagnostics.Debug.WriteLine("This is the GUID from RegisteredForRemoteNotifications: " + Preferences.Get("guid", string.Empty));
                 var tags = new NSSet(AppConstants.SubscriptionTags.Append(tag).ToArray());
                 //End of Carlos's code
+
+
+
 
 
                 //var tags = new NSSet(AppConstants.SubscriptionTags.ToArray());
@@ -138,7 +148,9 @@ namespace Manifest.iOS
                     }
                 });
             });
-        }
+        }        
+
+        
 
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {

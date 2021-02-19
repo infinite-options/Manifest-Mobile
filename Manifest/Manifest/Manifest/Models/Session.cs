@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Manifest.Models
 {
+
     public class Session
     {
         public string message { get; set; }

@@ -1,9 +1,8 @@
 ﻿using System;
-using Manifest.Login.Apple;
+using AuthenticationServices;
+using Manifest.LogIn.Apple;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
-using AuthenticationServices;
-using Manifest.Login.Apple;
 
 namespace Manifest.iOS.AppleSignIn
 {

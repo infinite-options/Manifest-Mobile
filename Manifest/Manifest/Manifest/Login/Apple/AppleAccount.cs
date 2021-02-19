@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Manifest.Login.Apple
+namespace Manifest.LogIn.Apple
 {
     public class AppleAccount
     {

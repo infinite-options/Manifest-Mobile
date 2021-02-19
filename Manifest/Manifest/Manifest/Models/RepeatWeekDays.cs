@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿//This class is used to store what days a Routine/Goal is available. Each Occurance has a RepeatWeekDays property, to show what days
+//a task is available on
 
+using System;
 namespace Manifest.Models
 {
     public class RepeatWeekDays

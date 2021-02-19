@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.TemplatePage">
+    <ContentPage.Content>
+        <Grid BackgroundColor="#F2F7FC" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="139"></RowDefinition>
+                <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
+                <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="70"></RowDefinition>
+                <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
+                <!--SPACE FOR HEADER-->
+                    <Grid Margin="0,30,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="1"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Back Icon" TextColor="White">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Grid.Column="1" Text="" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent"></ImageButton>
+                        </Grid>
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                             <Label Padding="0,0,0,0" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="16" FontAttributes="Bold"></Label>
+                        </Grid>
+                    </Grid>
+ 
+            </Frame>
+            <StackLayout Grid.Row="1" >
+               
+            </StackLayout>
+            <StackLayout Grid.Row="2">
+
+            </StackLayout>
+            <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
+                <Frame BackgroundColor="Transparent">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.Column="0" Text="icon1"></Button>
+                        <Button Grid.Row="0" Grid.Column="1" Text="icon2"></Button>
+                        <Button Grid.Row="0" Grid.Column="2" Text="icon3"></Button>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+            <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
+                <Button Text="Next" WidthRequest="100" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#9DB2CB"></Button>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

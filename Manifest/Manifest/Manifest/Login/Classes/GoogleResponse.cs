@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Manifest.Login.Classes
+namespace Manifest.LogIn.Classes
 {
     public class GoogleResponse
     {

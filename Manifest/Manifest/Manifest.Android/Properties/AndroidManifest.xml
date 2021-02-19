@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="42" android:versionName="2.1.6" package="com.infiniteoptions-manifestmy.life" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="2.1.8" package="com.infiniteoptions_manifestmy.life" android:installLocation="auto" android:versionCode="51">
 	<uses-sdk android:minSdkVersion="28" android:targetSdkVersion="29" />
 	<!-- Adding stuff for notifications-->
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<!-- End of lines for notifications-->
@@ -20,4 +19,12 @@
 		<!-- End of lines for notifications-->
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 </manifest>
+<!--<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="44" android:versionName="1.0" package="com.infiniteoptions_manifestmy.life">
+	<uses-sdk android:minSdkVersion="28" android:targetSdkVersion="29" />
+	<application android:label="Manifest.Android" android:theme="@style/MainTheme"></application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+</manifest>-->

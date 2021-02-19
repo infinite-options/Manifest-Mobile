@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Manifest.Models
 {
@@ -17,4 +15,5 @@ namespace Manifest.Models
         public List<Person> ImportantPeople { get; set; }
         public TimeSettings TimeSettings { get; set; }
     }
+
 }

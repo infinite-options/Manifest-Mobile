@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace Manifest.Login.Apple
+namespace Manifest.LogIn.Apple
 {
     public class AppleSignInButton : ImageButton
     {

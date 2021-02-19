@@ -1,11 +1,10 @@
 ﻿using System;
-namespace Manifest.Login.Classes
+namespace Manifest.LogIn.Classes
 {
     public class UpdateTokensPost
     {
-        public string access_token { get; set; }
-        public string refresh_token { get; set; }
         public string uid { get; set; }
-        public string social_timestamp { get; set; }
+        public string mobile_access_token { get; set; }
+        public string mobile_refresh_token { get; set; }
     }
 }

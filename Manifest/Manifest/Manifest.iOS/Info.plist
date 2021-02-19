@@ -21,11 +21,9 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>8.0</string>
+	<string>13.0</string>
 	<key>CFBundleDisplayName</key>
-	<string>ManifestMyLife</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.infiniteoptions-manifestmy.life</string>
+	<string>Manifest</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
@@ -36,16 +34,22 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>Google Auth</string>
+			<string>GoogleAuth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.717980399518-knjetk4e5iraggbl066tl9jmp8rigdj3</string>
+				<string>com.googleusercontent.apps.1009120542229-m56ni4pvg8pj4tffuc2i6pthevrken6m</string>
 			</array>
 		</dict>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<true/>
 	<key>CFBundleShortVersionString</key>
 	<string>2</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.infiniteoptions-manifestmy.life</string>
 	<key>CFBundleVersion</key>
-	<string>1.6</string>
+	<string>1.9</string>
 </dict>
 </plist>

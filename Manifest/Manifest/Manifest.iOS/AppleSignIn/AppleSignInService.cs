@@ -2,12 +2,11 @@
 using System.Threading.Tasks;
 using AuthenticationServices;
 using Foundation;
-using Manifest.Login.Apple;
-using BlankApp.iOS.AppleSignIn;
+using Manifest.iOS.AppleSignIn;
+using Manifest.LogIn.Apple;
 using UIKit;
-
 [assembly: Xamarin.Forms.Dependency(typeof(AppleSignInService))]
-namespace BlankApp.iOS.AppleSignIn
+namespace Manifest.iOS.AppleSignIn
 {
     public class AppleSignInService : NSObject, IAppleSignInService, IASAuthorizationControllerDelegate, IASAuthorizationControllerPresentationContextProviding
     {
