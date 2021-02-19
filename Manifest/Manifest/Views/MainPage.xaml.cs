@@ -259,7 +259,7 @@ namespace Manifest.Views
 
         void WhatAreYouCurrentlyDoingClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new FirstPulsePage();
+           
         }
 
         void WhoAmIClick(System.Object sender, System.EventArgs e)
@@ -269,7 +269,7 @@ namespace Manifest.Views
 
         void NoteToFutureSelfClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new FirstPulsePage();
+            Application.Current.MainPage = new NavigationPage(new FirstPulsePage());
         }
 
         void TodayListClick(System.Object sender, System.EventArgs e)

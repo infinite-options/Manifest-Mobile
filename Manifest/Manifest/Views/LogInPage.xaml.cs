@@ -283,6 +283,12 @@ namespace Manifest.Views
                 {
                     Application.Current.Properties["guid"] = "";
                 }
+
+                foreach (string key in e.Account.Properties.Keys)
+                {
+                    Debug.WriteLine("Key: {0}, value: {1}", e.Account.Properties[key], e.Account.Properties[key]);
+                }
+
                 Application.Current.MainPage = new MainPage(e, null, "GOOGLE");
             }
             else

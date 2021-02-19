@@ -56,9 +56,9 @@ namespace Manifest.Views
                 var userID = (string)Application.Current.Properties["userId"];
                 initialiseTodaysOccurances(userID);
             }
-            catch (Exception routine)
+            catch (Exception e)
             {
-
+                DisplayAlert("Error", "Error in InitializeComponent, RoutinePage:\n" + e.ToString(), "OK");
             }
         }
 
@@ -70,12 +70,6 @@ namespace Manifest.Views
                 //Need to add userID
                 string url = RdsConfig.BaseUrl + RdsConfig.getRoutines + "/" + userID;
                 todaysRoutines = await RdsConnect.getOccurances(url);
-                //var response = await client.GetStringAsync(url);
-                //Debug.WriteLine("Getting user. User info below:");
-                //Debug.WriteLine(response);
-                //OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
-                ////Debug.WriteLine(occuranceResponse);
-                //ToOccurances(occuranceResponse);
                 SortRoutines();
                 CreateList();
             }
@@ -324,25 +318,10 @@ namespace Manifest.Views
             string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
             if (currOccurance.IsComplete == false)
             {
-                Debug.WriteLine("Should be changed to in complete");
-                currOccurance.updateIsInProgress(false);
-                currOccurance.updateIsComplete(true);
-                //numCompleted++;
-                currOccurance.DateTimeCompleted = DateTime.Now;
-                UpdateOccurance updateOccur = new UpdateOccurance()
+                string res = await RdsConnect.updateOccurance(currOccurance, false, true, url);
+                if (res == "Failure")
                 {
-                    id = currOccurance.Id,
-                    datetime_completed = currOccurance.DateTimeCompleted,
-                    datetime_started = currOccurance.DateTimeStarted,
-                    is_in_progress = currOccurance.IsInProgress,
-                    is_complete = currOccurance.IsComplete
-                };
-                string toSend = updateOccur.updateOccurance();
-                var content = new StringContent(toSend);
-                var res = await client.PostAsync(url, content);
-                if (res.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("Successfully completed the subtask");
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
                 }
 
                 //Now update the parent
@@ -350,55 +329,19 @@ namespace Manifest.Views
                 url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
                 if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
                 {
-                    parentOccurance.updateIsInProgress(false);
-                    parentOccurance.updateIsComplete(true);
-                    parentOccurance.DateTimeCompleted = DateTime.Now;
-                    updateOccur = new UpdateOccurance()
+                    res = await RdsConnect.updateOccurance(parentOccurance, false, true, url);
+                    if (res == "Failure")
                     {
-                        id = parentOccurance.Id,
-                        datetime_completed = parentOccurance.DateTimeCompleted,
-                        datetime_started = parentOccurance.DateTimeStarted,
-                        is_in_progress = parentOccurance.IsInProgress,
-                        is_complete = parentOccurance.IsComplete
-                    };
-                    toSend = updateOccur.updateOccurance();
-                    content = new StringContent(toSend);
-                    res = await client.PostAsync(url, content);
-                    if (res.IsSuccessStatusCode)
-                    {
-                        Debug.WriteLine("Wrote to the datebase");
+                        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
                     }
-                    else
-                    {
-                        Debug.WriteLine("Some error");
-                        Debug.WriteLine(toSend);
-                        Debug.WriteLine(res.ToString());
-                    }
+                    Debug.WriteLine("Wrote to the datebase");
                 }
-                else if (parentOccurance.NumSubOccurances > parentOccurance.SubOccurancesCompleted && parentOccurance.SubOccurancesCompleted > 0)
+                else if (parentOccurance.IsInProgress == false && parentOccurance.IsComplete == false)
                 {
-                    parentOccurance.updateIsInProgress(true);
-                    parentOccurance.DateTimeCompleted = DateTime.Now;
-                    updateOccur = new UpdateOccurance()
+                    res = await RdsConnect.updateOccurance(parentOccurance, true, false, url);
+                    if (res == "Failure")
                     {
-                        id = parentOccurance.Id,
-                        datetime_completed = parentOccurance.DateTimeCompleted,
-                        datetime_started = parentOccurance.DateTimeStarted,
-                        is_in_progress = parentOccurance.IsInProgress,
-                        is_complete = parentOccurance.IsComplete
-                    };
-                    toSend = updateOccur.updateOccurance();
-                    content = new StringContent(toSend);
-                    res = await client.PostAsync(url, content);
-                    if (res.IsSuccessStatusCode)
-                    {
-                        Debug.WriteLine("Wrote to the datebase");
-                    }
-                    else
-                    {
-                        Debug.WriteLine("Some error");
-                        Debug.WriteLine(toSend);
-                        Debug.WriteLine(res.ToString());
+                        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
                     }
                 }
             }
@@ -451,51 +394,22 @@ namespace Manifest.Views
                 string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
                 if (currOccurance.IsComplete == false && currOccurance.IsInProgress == false)
                 {
-                    currOccurance.updateIsInProgress(true);
-                    currOccurance.DateTimeStarted = DateTime.Now;
-                    Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
-                    //string toSend = updateOccurance(currOccurance);
-                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    string res = await RdsConnect.updateOccurance(currOccurance, true, false, url);
+                    if (res == "Failure")
                     {
-                        id = currOccurance.Id,
-                        datetime_completed = currOccurance.DateTimeCompleted,
-                        datetime_started = currOccurance.DateTimeStarted,
-                        is_in_progress = currOccurance.IsInProgress,
-                        is_complete = currOccurance.IsComplete
-                    };
-                    string toSend = updateOccur.updateOccurance();
-                    var content = new StringContent(toSend);
-                    var res = await client.PostAsync(url, content);
-                    if (res.IsSuccessStatusCode)
-                    {
-                        Debug.WriteLine("Wrote to the datebase");
+                        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
                     }
-                    else
-                    {
-                        Debug.WriteLine("Some error");
-                        Debug.WriteLine(toSend);
-                        Debug.WriteLine(res.ToString());
-                    }
-                
+                    Debug.WriteLine("Wrote to the datebase");
+
                 }
                 else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
                 {
-                    Debug.WriteLine("Should be changed to in complete");
-                    currOccurance.updateIsInProgress(false);
-                    currOccurance.updateIsComplete(true);
-                    currOccurance.DateTimeCompleted = DateTime.Now;
-                    UpdateOccurance updateOccur = new UpdateOccurance()
+                    string res = await RdsConnect.updateOccurance(currOccurance, false, true, url);
+                    if (res == "Failure")
                     {
-                        id = currOccurance.Id,
-                        datetime_completed = currOccurance.DateTimeCompleted,
-                        datetime_started = currOccurance.DateTimeStarted,
-                        is_in_progress = currOccurance.IsInProgress,
-                        is_complete = currOccurance.IsComplete
-                    };
-                    string toSend = updateOccur.updateOccurance();
-                    var content = new StringContent(toSend);
-                    _ = await client.PostAsync(url, content);
-
+                        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                    }
+                    Debug.WriteLine("Wrote to the datebase");
                 }
             }
         }

@@ -81,6 +81,25 @@ namespace Manifest.Views
                 actionFrame1.IsVisible = false;
                 leftArrow.IsVisible = false;
                 rightArrow.IsVisible = false;
+
+                //Image routineComplete = new Image();
+                //Binding completeVisible = new Binding("IsComplete");
+                //completeVisible.Source = todaysRoutines[i];
+                //routineComplete.BindingContext = todaysRoutines[i];
+                //routineComplete.Source = "greencheckmark.png";
+                //routineComplete.SetBinding(Image.IsVisibleProperty, completeVisible);
+                //routineComplete.HorizontalOptions = LayoutOptions.End;
+                Binding progVisible = new Binding("IsInProgress");
+                progVisible.Source = subTasks[0];
+                InProgress2.BindingContext = subTasks[0];
+                InProgress2.Source = "yellowclock.png";
+                InProgress2.SetBinding(Image.IsVisibleProperty, progVisible);
+
+                Binding completeVisible = new Binding("IsComplete");
+                completeVisible.Source = subTasks[0];
+                IsComplete2.BindingContext = subTasks[0];
+                IsComplete2.Source = "greencheckmark.png";
+                IsComplete2.SetBinding(Image.IsVisibleProperty, completeVisible);
             }
             else if (subTasks.Count == 2)
             {
@@ -92,6 +111,30 @@ namespace Manifest.Views
                 subOccDict.Add(actionLabel3, subTasks[1]);
                 actionFrame2.IsVisible = false;
                 downArrow.IsVisible = false;
+
+                Binding progVisible1 = new Binding("IsInProgress");
+                progVisible1.Source = subTasks[0];
+                InProgress1.BindingContext = subTasks[0];
+                InProgress1.Source = "yellowclock.png";
+                InProgress1.SetBinding(Image.IsVisibleProperty, progVisible1);
+
+                Binding completeVisible1 = new Binding("IsComplete");
+                completeVisible1.Source = subTasks[0];
+                IsComplete1.BindingContext = subTasks[0];
+                IsComplete1.Source = "greencheckmark.png";
+                IsComplete1.SetBinding(Image.IsVisibleProperty, completeVisible1);
+
+                Binding progVisible3 = new Binding("IsInProgress");
+                progVisible3.Source = subTasks[1];
+                InProgress3.BindingContext = subTasks[1];
+                InProgress3.Source = "yellowclock.png";
+                InProgress3.SetBinding(Image.IsVisibleProperty, progVisible3);
+
+                Binding completeVisible3 = new Binding("IsComplete");
+                completeVisible3.Source = subTasks[1];
+                IsComplete3.BindingContext = subTasks[1];
+                IsComplete3.Source = "greencheckmark.png";
+                IsComplete3.SetBinding(Image.IsVisibleProperty, completeVisible3);
             }
             else if (subTasks.Count >= 3)
             {
@@ -104,6 +147,42 @@ namespace Manifest.Views
 
                 actionLabel3.Text = subTasks[2].Title;
                 subOccDict.Add(actionLabel3, subTasks[2]);
+
+                Binding progVisible1 = new Binding("IsInProgress");
+                progVisible1.Source = subTasks[0];
+                InProgress1.BindingContext = subTasks[0];
+                InProgress1.Source = "yellowclock.png";
+                InProgress1.SetBinding(Image.IsVisibleProperty, progVisible1);
+
+                Binding completeVisible1 = new Binding("IsComplete");
+                completeVisible1.Source = subTasks[0];
+                IsComplete1.BindingContext = subTasks[0];
+                IsComplete1.Source = "greencheckmark.png";
+                IsComplete1.SetBinding(Image.IsVisibleProperty, completeVisible1);
+
+                Binding progVisible2 = new Binding("IsInProgress");
+                progVisible2.Source = subTasks[1];
+                InProgress2.BindingContext = subTasks[1];
+                InProgress2.Source = "yellowclock.png";
+                InProgress2.SetBinding(Image.IsVisibleProperty, progVisible2);
+
+                Binding completeVisible2 = new Binding("IsComplete");
+                completeVisible2.Source = subTasks[1];
+                IsComplete2.BindingContext = subTasks[1];
+                IsComplete2.Source = "greencheckmark.png";
+                IsComplete2.SetBinding(Image.IsVisibleProperty, completeVisible2);
+
+                Binding progVisible3 = new Binding("IsInProgress");
+                progVisible3.Source = subTasks[2];
+                InProgress3.BindingContext = subTasks[2];
+                InProgress3.Source = "yellowclock.png";
+                InProgress3.SetBinding(Image.IsVisibleProperty, progVisible3);
+
+                Binding completeVisible3 = new Binding("IsComplete");
+                completeVisible3.Source = subTasks[2];
+                IsComplete3.BindingContext = subTasks[2];
+                IsComplete3.Source = "greencheckmark.png";
+                IsComplete3.SetBinding(Image.IsVisibleProperty, completeVisible3);
             }
             else Navigation.PopAsync();
         }
@@ -131,15 +210,30 @@ namespace Manifest.Views
             actionFrame1.CornerRadius = (int)(deviceWidth / 13.5);
             actionLabel1.FontSize = deviceWidth / 45;
 
+            InProgress1.HeightRequest = deviceWidth / 18;
+            InProgress1.WidthRequest = deviceWidth / 18;
+            IsComplete1.HeightRequest = deviceWidth / 18;
+            IsComplete1.WidthRequest = deviceWidth / 18;
+
             actionFrame2.HeightRequest = deviceWidth / 10;
             actionFrame2.WidthRequest = deviceWidth / 10;
             actionFrame2.CornerRadius = (int)(deviceWidth / 13.5);
             actionLabel2.FontSize = deviceWidth / 45;
 
+            InProgress2.HeightRequest = deviceWidth / 18;
+            InProgress2.WidthRequest = deviceWidth / 18;
+            IsComplete2.HeightRequest = deviceWidth / 18;
+            IsComplete2.WidthRequest = deviceWidth / 18;
+
             actionFrame3.HeightRequest = deviceWidth / 10;
             actionFrame3.WidthRequest = deviceWidth / 10;
             actionFrame3.CornerRadius = (int)(deviceWidth / 13.5);
             actionLabel3.FontSize = deviceWidth / 45;
+
+            InProgress3.HeightRequest = deviceWidth / 18;
+            InProgress3.WidthRequest = deviceWidth / 18;
+            IsComplete3.HeightRequest = deviceWidth / 18;
+            IsComplete3.WidthRequest = deviceWidth / 18;
         }
 
         void goBackToGoals(System.Object sender, System.EventArgs e)
@@ -152,14 +246,15 @@ namespace Manifest.Views
             string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
 
             Label receiving = (Label)sender;
-            if (receiving == actionLabel1 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
+            if (receiving == actionLabel1 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0 && IsComplete1.IsVisible == false)
                 await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[receiving], actionFrame1.BackgroundColor.ToHex().ToString()), false);
-            else if (receiving == actionLabel2 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
+            else if (receiving == actionLabel2 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0 && IsComplete2.IsVisible == false)
                 await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[receiving], actionFrame2.BackgroundColor.ToHex().ToString()), false);
-            else if (receiving == actionLabel3 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0)
+            else if (receiving == actionLabel3 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0 && IsComplete3.IsVisible == false)
                 await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[receiving], actionFrame3.BackgroundColor.ToHex().ToString()), false);
-            else if (subOccDict[receiving].instructions.Count == 0)
+            else if (subOccDict[receiving].instructions.Count == 0 && subOccDict[receiving].IsComplete == false)
             {
+                Debug.WriteLine("last elseif entered");
                 if (subOccDict[receiving].IsInProgress == true)
                     await RdsConnect.updateOccurance(subOccDict[receiving], false, true, url);
                 else await RdsConnect.updateOccurance(subOccDict[receiving], true, false, url);
@@ -185,14 +280,15 @@ namespace Manifest.Views
 
             Frame receiving = (Frame)sender;
 
-            if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "" && subOccDict[actionLabel1].instructions.Count != 0)
+            if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "" && subOccDict[actionLabel1].instructions.Count != 0 && IsComplete1.IsVisible == false)
                 await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[actionLabel1], actionFrame1.BackgroundColor.ToHex().ToString()), false);
-            else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "" && subOccDict[actionLabel2].instructions.Count != 0)
+            else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "" && subOccDict[actionLabel2].instructions.Count != 0 && IsComplete2.IsVisible == false)
                 await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[actionLabel2], actionFrame2.BackgroundColor.ToHex().ToString()), false);
-            else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "" && subOccDict[actionLabel3].instructions.Count != 0)
+            else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "" && subOccDict[actionLabel3].instructions.Count != 0 && IsComplete3.IsVisible == false)
                 await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subOccDict[actionLabel3], actionFrame3.BackgroundColor.ToHex().ToString()), false);
-            else if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "")
+            else if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "" && subOccDict[actionLabel1].IsComplete == false)
             {
+                Debug.WriteLine("first else if entered");
                 if (subOccDict[actionLabel1].IsInProgress == true)
                     await RdsConnect.updateOccurance(subOccDict[actionLabel1], false, true, url);
                 else await RdsConnect.updateOccurance(subOccDict[actionLabel1], true, false, url);
@@ -209,8 +305,9 @@ namespace Manifest.Views
                     await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
                 else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
             }
-            else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "")
+            else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "" && subOccDict[actionLabel2].IsComplete == false)
             {
+                Debug.WriteLine("second else if entered");
                 if (subOccDict[actionLabel2].IsInProgress == true)
                     await RdsConnect.updateOccurance(subOccDict[actionLabel2], false, true, url);
                 else await RdsConnect.updateOccurance(subOccDict[actionLabel2], true, false, url);
@@ -227,8 +324,9 @@ namespace Manifest.Views
                     await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
                 else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
             }
-            else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "")
+            else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "" && subOccDict[actionLabel3].IsComplete == false)
             {
+                Debug.WriteLine("third else if entered");
                 if (subOccDict[actionLabel3].IsInProgress == true)
                     await RdsConnect.updateOccurance(subOccDict[actionLabel3], false, true, url);
                 else await RdsConnect.updateOccurance(subOccDict[actionLabel3], true, false, url);

@@ -142,6 +142,8 @@
                     </Frame.GestureRecognizers>
 
                     </Frame>
+                    <Image x:Name="InProgress1" HorizontalOptions="Center" VerticalOptions="Start" IsVisible="false"/>
+                    <Image x:Name="IsComplete1" HorizontalOptions="Center" VerticalOptions="Start" IsVisible="false"/>
 
                     <Frame x:Name="actionFrame2" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#F8BE28" HasShadow="False">
                         <f9p:Label x:Name="actionLabel2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goToSteps"/>
@@ -158,6 +160,8 @@
                     </Frame.GestureRecognizers>
 
                     </Frame>
+                    <Image x:Name="InProgress2" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Start" IsVisible="false"/>
+                    <Image x:Name="IsComplete2" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Start" IsVisible="false"/>
 
                     <Frame x:Name="actionFrame3" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#67ABFC" HasShadow="False">
                         <f9p:Label x:Name="actionLabel3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goToSteps"/>
@@ -174,6 +178,8 @@
                     </Frame.GestureRecognizers>
 
                     </Frame>
+                    <Image x:Name="InProgress3" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Start" IsVisible="false"/>
+                    <Image x:Name="IsComplete3" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Start" IsVisible="false"/>
 
                     <!--<Button x:Name="action1" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" Grid.Column="0" FontAttributes="Bold" BackgroundColor="#F26D4B" Clicked="goToSteps"/>-->
                     <!--<Button x:Name="action2" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1" FontAttributes="Bold" BackgroundColor="#F8BE28" Clicked="goToSteps"/>-->

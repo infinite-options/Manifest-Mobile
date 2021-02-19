@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.FirstPulsePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.SecondPulsePage">
     <ContentPage.Content>
-        <Grid x:Name="mainGridLayout" RowSpacing="0">
+ <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
@@ -25,7 +25,7 @@
                                 <ColumnDefinition Width="50"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Text="" TextColor="White"></Label>
-                            <Label Grid.Column="1" Text="How do I feel?" x:Name="title" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"></Label>
+                            <Label Grid.Column="1" Text="How do I feel?" x:Name="title" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"  ></Label>
                             <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent" Clicked="ImageButton_Clicked"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
