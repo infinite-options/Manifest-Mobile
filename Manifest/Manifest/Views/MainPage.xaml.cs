@@ -479,7 +479,7 @@ namespace Manifest.Views
                 if (activity.StartDayAndTime.TimeOfDay <= currDateTime && activity.EndDayAndTime.TimeOfDay >= currDateTime)
                 {
                     curr = activity;
-                    break;
+                    return curr;
                 }
             } 
             return null;
