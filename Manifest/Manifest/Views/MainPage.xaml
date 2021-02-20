@@ -117,7 +117,7 @@
                                 HorizontalOptions="End">
                             </Ellipse>
                             <StackLayout Rotation="-90" HorizontalOptions="Start" Margin="0,-110,0,0" HeightRequest="50" WidthRequest="150">
-                               <Label Text="What are you currently doing?" TextColor="White" FontSize="20" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
+                               <Label x:Name="CenterCircle" Text="What are you currently doing?" TextColor="White" FontSize="20" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
                                <StackLayout.GestureRecognizers>
                                    <TapGestureRecognizer Tapped="WhatAreYouCurrentlyDoingClick"></TapGestureRecognizer>
                                </StackLayout.GestureRecognizers>
