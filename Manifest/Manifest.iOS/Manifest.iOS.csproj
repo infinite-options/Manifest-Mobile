@@ -152,6 +152,7 @@
     <BundleResource Include="Resources\calendarIcon.png" />
     <BundleResource Include="Resources\helpIcon.png" />
     <BundleResource Include="Resources\personIcon.png" />
+    <BundleResource Include="Resources\phone.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />
