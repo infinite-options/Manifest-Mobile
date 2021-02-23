@@ -24,40 +24,43 @@
                     <Label x:Name="eventName" Text="Event" FontSize="30" HorizontalOptions="Start" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,0"/>
                     </StackLayout>
                 </Grid>
-                <StackLayout Grid.Row="1">
-                    <Label Text="Description:" FontAttributes="Bold" HorizontalOptions="Start" TextColor="Black" VerticalOptions="Center" FontSize="20" TextDecorations="Underline"/>
-                    <Label x:Name="eventDescription" Text="Description" FontSize="15" HorizontalOptions="Start" TextColor="Black"  VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,0"/>
-                    <CollectionView x:Name="eventInfo" SelectionMode="None">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="10,10,10,0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="100"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Frame Grid.Row="0" Grid.Column="0" HeightRequest="100" WidthRequest="100" CornerRadius="50" Padding="0" IsClippedToBounds="True">
-                                        <Image Source="{Binding PicUrl}" Aspect="AspectFill">
-                                            <Image.GestureRecognizers>
-                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="callPerson"></TapGestureRecognizer>
-                                            </Image.GestureRecognizers>
-                                        </Image>
-                                    </Frame>
-                                    <Grid Grid.Row="0" Grid.Column="1"> 
+                <Frame x:Name="mainFrame" Grid.Row="1" CornerRadius="35" BackgroundColor="#67ABFC" Margin="15,30,15,0">
+                    <StackLayout BackgroundColor="#67ABFC">
+                        <Label x:Name="eventTime" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="12"/>
+                        <Label Text="Purpose" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="24" TextDecorations="Underline"/>
+                        <Label x:Name="eventDescription" Text="Description" FontSize="15" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,0"/>
+                        <CollectionView x:Name="eventInfo" SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="10,10,10,0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="70"/>
-                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="62"/>
                                         </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" VerticalOptions="End" HorizontalOptions="Start" Text="{Binding Name}" FontSize="Large" TextDecorations="Underline" FontAttributes="Bold" TextColor="#0C1E21" Margin="10,0,0,0"/>
-                                        <Label Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Start" Text="{Binding Relation}" TextColor="#0C1E21" Margin="10,0,0,0"/>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="62"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Frame Grid.Row="0" Grid.Column="0" HeightRequest="62" WidthRequest="62" CornerRadius="31" Padding="0" IsClippedToBounds="True">
+                                            <Image Source="{Binding PicUrl}" Aspect="AspectFill">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="callPerson"></TapGestureRecognizer>
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Frame>
+                                            <!--<Grid.RowDefinitions>
+                                                <RowDefinition Height="50"/>
+                                                <RowDefinition Height="50"/>
+                                            </Grid.RowDefinitions>-->
+                                        <StackLayout Grid.Row="0" Grid.Column="1">
+                                            <Label VerticalOptions="CenterAndExpand" HorizontalOptions="Start" Text="{Binding Name}" FontSize="16" TextDecorations="Underline" FontAttributes="Bold" TextColor="White" Margin="10,0,0,0"/>
+                                            <Label VerticalOptions="Start" HorizontalOptions="Start" Text="{Binding Relation}" FontSize="12" FontAttributes="Bold" TextColor="White" Margin="10,0,0,0"/>
+                                        </StackLayout>
                                     </Grid>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </Frame>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

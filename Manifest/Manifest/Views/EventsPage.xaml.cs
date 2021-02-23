@@ -28,6 +28,7 @@ namespace Manifest.Views
                 eventDescription.Text = "No description provided";
             }
             eventInfo.ItemsSource = datagrid;
+            eventTime.Text = newEvent.StartTime.ToString("hh:mm tt") + " - " + newEvent.EndTime.ToString("hh:mm tt");
             //datagrid.Add(newEvent);
             attendees = newEvent.Attendees;
             initializeEvent();
