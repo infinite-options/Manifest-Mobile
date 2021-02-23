@@ -107,7 +107,7 @@ namespace Manifest.RDS
             currOccurance.updateIsComplete(iscomplete);
             //Now, write to the database
             currOccurance.DateTimeStarted = DateTime.Now;
-            Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+            Debug.WriteLine("InProgress = " + currOccurance.IsInProgress + "\n IsComplete = " + currOccurance.IsComplete);
             //string toSend = updateOccurance(currOccurance);
             UpdateOccurance updateOccur = new UpdateOccurance()
             {
@@ -140,7 +140,7 @@ namespace Manifest.RDS
             try
             {
                 var response = await client.GetStringAsync(url);
-                Debug.WriteLine("Getting user. User info below:");
+                //Debug.WriteLine("Getting user. User info below:");
                 Debug.WriteLine(response);
                 OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
                 //Debug.WriteLine(occuranceResponse);
@@ -233,7 +233,7 @@ namespace Manifest.RDS
                 toAdd.AtSequence = dto.at_sequence;
                 toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
                 toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                if (toAdd.IsComplete)
+                if (toAdd.IsComplete == true)
                 {
                     parent.SubOccurancesCompleted++;
                 }

@@ -416,6 +416,47 @@ namespace Manifest.Views
             }
         }
 
+
+        private async void resetSubOccurance(SubOccurance currOccurance, Occurance parentOccurance)
+        {
+            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
+            Debug.WriteLine("Suoccurance update response: " + res);
+            if (res == "Failure")
+            {
+                await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+            }
+            //Need to update instructions
+            foreach (Instruction instruction in currOccurance.instructions)
+            {
+                res = await RdsConnect.updateInstruction(false, instruction);
+                if (res == "FAILURE")
+                {
+                    Debug.WriteLine("Failed to update instruction");
+                }
+            }
+
+            //Now update the parent
+            parentOccurance.SubOccurancesCompleted--;
+            url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            if (parentOccurance.SubOccurancesCompleted == 0)
+            {
+                res = await RdsConnect.updateOccurance(parentOccurance, false, false, url);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                }
+            }
+            else if (parentOccurance.SubOccurancesCompleted < parentOccurance.NumSubOccurances && parentOccurance.SubOccurancesCompleted > 0)
+            {
+                res = await RdsConnect.updateOccurance(parentOccurance, true, false, url);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                }
+            }
+        }
+
         public async void helpNeeded(object sender, EventArgs args)
         {
             Debug.WriteLine("Help button pressed. Help needed for subTask");
@@ -458,9 +499,9 @@ namespace Manifest.Views
             Frame myvar = (Frame)sender;
             Occurance currOccurance = myvar.BindingContext as Occurance;
             //Now check if the currOccurance has any subtasks
-            if (currOccurance.NumSubOccurances == 0)
+            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            if (currOccurance.NumSubOccurances == 0 && !(currOccurance.IsInProgress == false && currOccurance.IsComplete == true))
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
                 if (currOccurance.IsComplete == false && currOccurance.IsInProgress == false)
                 {
                     string res = await RdsConnect.updateOccurance(currOccurance, true, false, url);
@@ -479,6 +520,29 @@ namespace Manifest.Views
                         await DisplayAlert("Error", "There was an error writing to the database.", "OK");
                     }
                     Debug.WriteLine("Wrote to the datebase");
+                }
+            }
+            else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == true)
+            {
+                bool reset = await DisplayAlert("Warning", "Do you want to reset this routine? All subtasks and instructions will be reset if you do.", "No", "Yes");
+                if (reset == false)
+                {
+                    if (currOccurance.IsSublistAvailable == true)
+                    {
+                        foreach (SubOccurance subtask in currOccurance.subOccurances)
+                        {
+                            resetSubOccurance(subtask, currOccurance);
+                        }
+                    }
+                    else
+                    {
+                        string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
+                        if (res == "Failure")
+                        {
+                            await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                        }
+                        Debug.WriteLine("Wrote to the datebase");
+                    }
                 }
             }
         }

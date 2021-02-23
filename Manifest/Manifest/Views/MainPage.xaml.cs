@@ -377,7 +377,7 @@ namespace Manifest.Views
                 }
                 var json = await response.Content.ReadAsStringAsync();
                 //var json = response.Content;
-                Debug.WriteLine("Calendars response:\n" + json);
+                //Debug.WriteLine("Calendars response:\n" + json);
                 //var serializer = new JavaScriptSerializer(); //using System.Web.Script.Serialization;
 
                 EventResponse eventResponse = JsonConvert.DeserializeObject<EventResponse>(json);
