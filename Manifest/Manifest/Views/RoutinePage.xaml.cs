@@ -367,15 +367,6 @@ namespace Manifest.Views
                 //Now update the parent
                 //parentOccurance.SubOccurancesCompleted++;
                 url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-                //if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
-                //{
-                //    res = await RdsConnect.updateOccurance(parentOccurance, false, true, url);
-                //    if (res == "Failure")
-                //    {
-                //        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
-                //    }
-                //    Debug.WriteLine("Wrote to the datebase");
-                //}
                 if (parentOccurance.IsInProgress == false && parentOccurance.IsComplete == false)
                 {
                     res = await RdsConnect.updateOccurance(parentOccurance, true, false, url);
@@ -384,6 +375,44 @@ namespace Manifest.Views
                         await DisplayAlert("Error", "There was an error writing to the database.", "OK");
                     }
                 }
+            }
+            else if (currOccurance.IsComplete == true && currOccurance.IsInProgress == false)
+            {
+                string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                }
+                //Need to update instructions
+                foreach (Instruction instruction in currOccurance.instructions)
+                {
+                    res = await RdsConnect.updateInstruction(false, instruction);
+                    if (res == "FAILURE")
+                    {
+                        Debug.WriteLine("Failed to update instruction");
+                    }
+                }
+
+                //Now update the parent
+                parentOccurance.SubOccurancesCompleted--;
+                url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                if (parentOccurance.SubOccurancesCompleted == 0)
+                {
+                    res = await RdsConnect.updateOccurance(parentOccurance, false, false, url);
+                    if (res == "Failure")
+                    {
+                        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                    }
+                }
+                else if (parentOccurance.SubOccurancesCompleted < parentOccurance.NumSubOccurances && parentOccurance.SubOccurancesCompleted > 0)
+                {
+                    res = await RdsConnect.updateOccurance(parentOccurance, true, false, url);
+                    if (res == "Failure")
+                    {
+                        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                    }
+                }
+
             }
         }
 

@@ -30,7 +30,7 @@
                     <CollectionView x:Name="eventInfo" SelectionMode="None">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Padding="0,10,0,0">
+                                <Grid Padding="10,10,10,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="100"/>
                                     </Grid.RowDefinitions>
@@ -39,7 +39,11 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Frame Grid.Row="0" Grid.Column="0" HeightRequest="100" WidthRequest="100" CornerRadius="50" Padding="0" IsClippedToBounds="True">
-                                        <Image Source="{Binding PicUrl}" Aspect="AspectFill"/>
+                                        <Image Source="{Binding PicUrl}" Aspect="AspectFill">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="callPerson"></TapGestureRecognizer>
+                                            </Image.GestureRecognizers>
+                                        </Image>
                                     </Frame>
                                     <Grid Grid.Row="0" Grid.Column="1"> 
                                         <Grid.RowDefinitions>

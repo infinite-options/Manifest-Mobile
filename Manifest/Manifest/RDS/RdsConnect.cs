@@ -281,6 +281,31 @@ namespace Manifest.RDS
             return instructions;
         }
 
-
+        public static async Task<string> updateInstruction(bool updateVal, Instruction currInstruction)
+        {
+            string url = RdsConfig.BaseUrl + RdsConfig.updateInstruction;
+            currInstruction.updateIsComplete(updateVal);
+            UpdateInstruction updateInstruction = new UpdateInstruction()
+            {
+                id = currInstruction.unique_id,
+                is_complete = currInstruction.IsComplete,
+                is_in_progress = currInstruction.IsInProgress
+            };
+            string toSend = updateInstruction.updateInstruction();
+            var content = new StringContent(toSend);
+            var res = await client.PostAsync(url, content);
+            if (res.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Wrote to the datebase");
+                return "SUCCESS";
+            }
+            else
+            {
+                Debug.WriteLine("Some error");
+                Debug.WriteLine(toSend);
+                Debug.WriteLine(res.ToString());
+            }
+            return "FAILURE";
+        }
     }
 }

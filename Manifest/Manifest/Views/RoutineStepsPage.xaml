@@ -72,7 +72,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Text="I'm Done" TextColor="White" BackgroundColor="Transparent"/>
+                    <Button Grid.Column="0" Text="I'm Done" TextColor="White" BackgroundColor="Transparent" Clicked="userDone"/>
                     <Button Grid.Column="1" Text="I'm Bored" TextColor="White" BackgroundColor="Transparent"/>
                 </Grid>
             </Grid>
