@@ -24,7 +24,7 @@
                     <Label x:Name="eventName" Text="Event" FontSize="30" HorizontalOptions="Start" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,0"/>
                     </StackLayout>
                 </Grid>
-                <Frame x:Name="mainFrame" Grid.Row="1" CornerRadius="35" BackgroundColor="#67ABFC" Margin="15,15,15,0">
+                <Frame x:Name="mainFrame" Grid.Row="1" CornerRadius="35" BackgroundColor="#67ABFC" Margin="15,15,15,-40" Padding="20,20,20,60">
                     <StackLayout BackgroundColor="#67ABFC">
                         <Label x:Name="eventTime" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="12"/>
                         <Label Text="Purpose" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="24" TextDecorations="Underline"/>
