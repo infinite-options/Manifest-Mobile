@@ -67,7 +67,25 @@ namespace Manifest.RDS
                 }
                 //Now, write to database
 
-                //Repository.Instance.UpdateAccessToken(jsonParsed["access_token"].ToString());
+                var accessInfo = new Dictionary<string, string> {
+            { "user_unique_id", (string)Application.Current.Properties["userId"]},
+            { "mobile_refresh_token", (string)Application.Current.Properties["refreshToken"] },
+            { "mobile_access_token", (string)Application.Current.Properties["accessToken"]}
+            };
+                var update = JsonConvert.SerializeObject(accessInfo);
+                var toSend = new StringContent(update);
+
+                string url = RdsConfig.BaseUrl + RdsConfig.updateAccessRefresh;
+
+                var res = await client.PostAsync(url, toSend);
+                if (res.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Updated the access and refresh tokens");
+                }
+                else
+                {
+                    Debug.WriteLine("Was not able to update access and refresh tokens");
+                }
             }
             catch (NullReferenceException e)
             {
@@ -77,7 +95,7 @@ namespace Manifest.RDS
                 return false;
             }
 
-            Debug.WriteLine("Manifest.Services.Google.Calendar: " + json);
+            //Debug.WriteLine("Manifest.Services.Google.Calendar: " + json);
             return true;
 
         }

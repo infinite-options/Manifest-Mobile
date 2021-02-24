@@ -38,5 +38,8 @@ namespace Manifest.Config
 
         //Endpoint used to get relations. Takes in a list of emails
         public const string getRelations = "/api/v2/userTADetails";
+
+        //Endpoint used to update access and refresh tokens
+        public const string updateAccessRefresh = "/api/v2/updateAccessRefresh";
     }
 }

@@ -24,15 +24,15 @@
                     <Label x:Name="eventName" Text="Event" FontSize="30" HorizontalOptions="Start" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,0"/>
                     </StackLayout>
                 </Grid>
-                <Frame x:Name="mainFrame" Grid.Row="1" CornerRadius="35" BackgroundColor="#67ABFC" Margin="15,30,15,0">
-                    <StackLayout BackgroundColor="#67ABFC" Padding="0,0,0,10">
+                <Frame x:Name="mainFrame" Grid.Row="1" CornerRadius="35" BackgroundColor="#67ABFC" Margin="15,15,15,0">
+                    <StackLayout BackgroundColor="#67ABFC">
                         <Label x:Name="eventTime" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="12"/>
                         <Label Text="Purpose" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="24" TextDecorations="Underline"/>
-                        <Label x:Name="eventDescription" Text="Description" FontSize="15" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,0"/>
+                        <Label x:Name="eventDescription" Text="Description" FontSize="15" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,10"/>
                         <CollectionView x:Name="eventInfo" SelectionMode="None">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Padding="10,10,10,0">
+                                    <Grid Padding="0,10,10,10">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="62"/>
                                         </Grid.RowDefinitions>
