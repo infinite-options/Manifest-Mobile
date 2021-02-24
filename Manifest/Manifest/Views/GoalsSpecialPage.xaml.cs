@@ -243,7 +243,7 @@ namespace Manifest.Views
 
         async void goToSteps(System.Object sender, System.EventArgs e)
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
 
             Label receiving = (Label)sender;
             if (receiving == actionLabel1 && receiving.Text != null && receiving.Text != "" && subOccDict[receiving].instructions.Count != 0 && IsComplete1.IsVisible == false)
@@ -266,7 +266,7 @@ namespace Manifest.Views
                         onlyInProgress = true;
                 }
 
-                string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 if (onlyInProgress == true)
                     await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
                 else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
@@ -276,7 +276,7 @@ namespace Manifest.Views
 
         async void goToStepsFrame(System.Object sender, System.EventArgs e)
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
 
             Frame receiving = (Frame)sender;
 
@@ -300,7 +300,7 @@ namespace Manifest.Views
                             onlyInProgress = true;
                     }
 
-                    string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                    string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                     if (onlyInProgress == true)
                         await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
                     else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
@@ -321,7 +321,7 @@ namespace Manifest.Views
                             onlyInProgress = true;
                     }
 
-                    string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                    string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                     if (onlyInProgress == true)
                         await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
                     else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
@@ -344,7 +344,7 @@ namespace Manifest.Views
                             onlyInProgress = true;
                     }
 
-                    string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                    string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                     if (onlyInProgress == true)
                         await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
                     else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
@@ -517,7 +517,7 @@ namespace Manifest.Views
             Debug.WriteLine("Task tapped");
             Grid myvar = (Grid)sender;
             SubOccurance currOccurance = myvar.BindingContext as SubOccurance;
-            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
             //if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
             //{
             //    currOccurance.updateIsInProgress(true);
@@ -599,7 +599,7 @@ namespace Manifest.Views
                     };
                     string toSendParent = parentOccur.updateOccurance();
                     var parentContent = new StringContent(toSendParent);
-                    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                    string parenturl = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                     var res = await client.PostAsync(parenturl, parentContent);
                     if (res.IsSuccessStatusCode)
                     {
@@ -623,7 +623,7 @@ namespace Manifest.Views
                     };
                     string toSendParent = parentOccur.updateOccurance();
                     var parentContent = new StringContent(toSendParent);
-                    string parenturl = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                    string parenturl = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                     var res = await client.PostAsync(parenturl, parentContent);
                     if (res.IsSuccessStatusCode)
                     {

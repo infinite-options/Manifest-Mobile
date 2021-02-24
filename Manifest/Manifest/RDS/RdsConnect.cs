@@ -17,7 +17,7 @@ namespace Manifest.RDS
         //Use this function to send the guid of a user to the database
         public static async void storeGUID(string guid, string uid)
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.addGuid;
+            string url = AppConstants.BaseUrl + AppConstants.addGuid;
 
             Console.WriteLine("guid = " + guid + ", uid = " + uid);
             if (guid == null || guid == "")
@@ -52,7 +52,7 @@ namespace Manifest.RDS
         {
             try
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.aboutMeUrl + "/" + uid;
+                string url = AppConstants.BaseUrl + AppConstants.aboutMeUrl + "/" + uid;
                 var res = await client.GetStringAsync(url);
                 return res;
             }

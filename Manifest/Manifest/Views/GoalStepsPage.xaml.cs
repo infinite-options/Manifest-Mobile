@@ -143,7 +143,7 @@ namespace Manifest.Views
             if (currInstruction.IsComplete == false)
             {
                 numComplete++;
-                string url = RdsConfig.BaseUrl + RdsConfig.updateInstruction;
+                string url = AppConstants.BaseUrl + AppConstants.updateInstruction;
                 currInstruction.updateIsComplete(true);
                 UpdateInstruction updateInstruction = new UpdateInstruction()
                 {
@@ -164,8 +164,8 @@ namespace Manifest.Views
                     Debug.WriteLine(toSend);
                     Debug.WriteLine(res.ToString());
                 }
-                string urlSub = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
-                string urlOccur = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                string urlSub = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
+                string urlOccur = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 if (numTasks == numComplete)
                 {
                     parentIsComplete();
@@ -181,7 +181,7 @@ namespace Manifest.Views
 
         async void parentIsComplete()
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
             await RdsConnect.updateOccurance(parent, false, true, url);
             ////parent.updateIsComplete(true);
             ////parent.updateIsInProgress(false);
@@ -225,7 +225,7 @@ namespace Manifest.Views
             }
 
             //updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete, string url)
-            string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
             if (onlyInProgress == true)
                 await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
             else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);

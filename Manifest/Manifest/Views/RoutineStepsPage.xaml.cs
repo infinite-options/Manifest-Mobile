@@ -142,7 +142,7 @@ namespace Manifest.Views
             if (currInstruction.IsComplete == false)
             {
                 numComplete++;
-                string url = RdsConfig.BaseUrl + RdsConfig.updateInstruction;
+                string url = AppConstants.BaseUrl + AppConstants.updateInstruction;
                 currInstruction.updateIsComplete(true);
                 UpdateInstruction updateInstruction = new UpdateInstruction() {
                     id = currInstruction.unique_id,
@@ -175,7 +175,7 @@ namespace Manifest.Views
 
         async void parentIsComplete()
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
             string res = await RdsConnect.updateOccurance(parent, false, true, url);
             if (res == "Failure")
             {
@@ -188,7 +188,7 @@ namespace Manifest.Views
 
         async void parentIsInProgress()
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
             string res = await RdsConnect.updateOccurance(parent, true, false, url);
             if (res == "Failure")
             {
@@ -200,7 +200,7 @@ namespace Manifest.Views
 
         async void updateRoutine()
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
             if (currRoutine.IsInProgress == false && currRoutine.IsComplete == false)
             {
                 string res = await RdsConnect.updateOccurance(currRoutine, true, false, url);

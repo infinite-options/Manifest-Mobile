@@ -27,7 +27,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>VS: com.infiniteoptions-manifestmy.life Development</CodesignProvision>
+    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
     <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
@@ -160,6 +160,8 @@
     <BundleResource Include="Resources\mood_six.png" />
     <BundleResource Include="Resources\mood_three.png" />
     <BundleResource Include="Resources\mood_two.png" />
+    <BundleResource Include="Resources\questionIcon.png" />
+    <BundleResource Include="Resources\flowerIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />

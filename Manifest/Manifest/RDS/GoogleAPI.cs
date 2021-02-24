@@ -20,13 +20,13 @@ namespace Manifest.RDS
             switch (Device.RuntimePlatform)
             {
                 case Device.iOS:
-                    clientId = Constant.GoogleiOSClientID;
-                    redirectUri = Constant.GoogleRedirectUrliOS;
+                    clientId = AppConstants.GoogleiOSClientID;
+                    redirectUri = AppConstants.GoogleRedirectUrliOS;
                     break;
 
                 case Device.Android:
-                    clientId = Constant.GoogleAndroidClientID;
-                    redirectUri = Constant.GoogleRedirectUrlAndroid;
+                    clientId = AppConstants.GoogleAndroidClientID;
+                    redirectUri = AppConstants.GoogleRedirectUrlAndroid;
                     break;
             }
 
@@ -42,7 +42,7 @@ namespace Manifest.RDS
 
 
             var client = new HttpClient();
-            var response = await client.PostAsync(Constant.GoogleAccessTokenUrl, content);
+            var response = await client.PostAsync(AppConstants.GoogleAccessTokenUrl, content);
             //var response = responseTask.Result;
             var json = await response.Content.ReadAsStringAsync();
 

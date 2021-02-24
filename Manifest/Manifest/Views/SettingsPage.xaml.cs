@@ -27,10 +27,8 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "Settings";
 
-            barStackLayoutRow.Height = 70;
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = GetCurrentTime();
 
@@ -79,17 +77,17 @@ namespace Manifest.Views
             switch (Device.RuntimePlatform)
             {
                 case Device.iOS:
-                    clientId = Constant.GoogleiOSClientID;
-                    redirectUri = Constant.GoogleRedirectUrliOS;
+                    clientId = AppConstants.GoogleiOSClientID;
+                    redirectUri = AppConstants.GoogleRedirectUrliOS;
                     break;
 
                 case Device.Android:
-                    clientId = Constant.GoogleAndroidClientID;
-                    redirectUri = Constant.GoogleRedirectUrlAndroid;
+                    clientId = AppConstants.GoogleAndroidClientID;
+                    redirectUri = AppConstants.GoogleRedirectUrlAndroid;
                     break;
             }
 
-            var authenticator = new OAuth2Authenticator(clientId, string.Empty, Constant.GoogleScope, new Uri(Constant.GoogleAuthorizeUrl), new Uri(redirectUri), new Uri(Constant.GoogleAccessTokenUrl), null, true);
+            var authenticator = new OAuth2Authenticator(clientId, string.Empty, AppConstants.GoogleScope, new Uri(AppConstants.GoogleAuthorizeUrl), new Uri(redirectUri), new Uri(AppConstants.GoogleAccessTokenUrl), null, true);
             var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
 
             authenticator.Completed += GoogleAuthenticatorCompleted;
@@ -257,6 +255,21 @@ namespace Manifest.Views
                     Application.Current.MainPage = new FirstPulsePage();
                 }
             }
+        }
+
+        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+        }
+
+        void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new MainPage();
+        }
+
+        void TapGestureRecognizer_Tapped_2(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new AboutMePage();
         }
     }
 }

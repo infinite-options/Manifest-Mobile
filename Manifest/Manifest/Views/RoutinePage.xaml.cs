@@ -35,14 +35,12 @@ namespace Manifest.Views
             InitializeComponent();
             try{
 
-
                 setting = false;
                 height = mainStackLayoutRow.Height;
                 lastRowHeight = barStackLayoutRow.Height;
 
                 mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
                 frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-                barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
                 
                 title.Text = "Routines";
 
@@ -68,7 +66,7 @@ namespace Manifest.Views
             try
             {
                 //Need to add userID
-                string url = RdsConfig.BaseUrl + RdsConfig.getRoutines + "/" + userID;
+                string url = AppConstants.BaseUrl + AppConstants.getRoutines + "/" + userID;
                 todaysRoutines = await RdsConnect.getOccurances(url);
                 SortRoutines();
                 CreateList();
@@ -326,7 +324,7 @@ namespace Manifest.Views
 
             Occurance parentOccurance = grandparent.BindingContext as Occurance;
 
-            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
             if (currOccurance.IsComplete == false && currOccurance.IsInProgress == true)
             {
                 string res = await RdsConnect.updateOccurance(currOccurance, false, true, url);
@@ -337,7 +335,7 @@ namespace Manifest.Views
 
                 //Now update the parent
                 parentOccurance.SubOccurancesCompleted++;
-                url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
                 {
                     res = await RdsConnect.updateOccurance(parentOccurance, false, true, url);
@@ -366,7 +364,7 @@ namespace Manifest.Views
 
                 //Now update the parent
                 //parentOccurance.SubOccurancesCompleted++;
-                url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 //if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
                 //{
                 //    res = await RdsConnect.updateOccurance(parentOccurance, false, true, url);
@@ -431,7 +429,7 @@ namespace Manifest.Views
             //Now check if the currOccurance has any subtasks
             if (currOccurance.NumSubOccurances == 0)
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 if (currOccurance.IsComplete == false && currOccurance.IsInProgress == false)
                 {
                     string res = await RdsConnect.updateOccurance(currOccurance, true, false, url);

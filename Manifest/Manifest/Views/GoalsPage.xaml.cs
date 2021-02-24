@@ -154,7 +154,7 @@ namespace Manifest.Views
         {
             try
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.goalsActInstrUrl + "/" + Application.Current.Properties["userId"];
+                string url = AppConstants.BaseUrl + AppConstants.goalsActInstrUrl + "/" + Application.Current.Properties["userId"];
                 currentOccurances = await RdsConnect.getOccurances(url);
                 //var response = await client.GetStringAsync(url);
 
@@ -1067,7 +1067,7 @@ namespace Manifest.Views
             //if a goal has only one subtask, navigate directly to steps page
             if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
             {
-                string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 if (chosenOccurance.IsInProgress == true)
                     await RdsConnect.updateOccurance(chosenOccurance, false, true, url2);
                 else await RdsConnect.updateOccurance(chosenOccurance, true, false, url2);

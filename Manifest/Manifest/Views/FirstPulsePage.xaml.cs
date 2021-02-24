@@ -80,7 +80,7 @@ namespace Manifest.Views
             Debug.WriteLine(feedbackJSON);
 
             var postContent = new StringContent(feedbackJSON, Encoding.UTF8, "application/json");
-            var rdsResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.addPulse, postContent);
+            var rdsResponse = await client.PostAsync(AppConstants.BaseUrl + AppConstants.addPulse, postContent);
 
             return rdsResponse.IsSuccessStatusCode;
         }

@@ -42,15 +42,15 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+            //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "Manifest";
 
 
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = GetCurrentTime();
-            barStackLayoutProperties.BackgroundColor = Color.Salmon;
-            barStackLayoutRow.Height = 0;
-            buttonStackLayoutRow.Height = lastRowHeight;
+            
+            
+            
             
             Debug.WriteLine("AUTO SIGN IN");
             foreach (string key in Application.Current.Properties.Keys)
@@ -93,7 +93,7 @@ namespace Manifest.Views
 
                 if (platform == "GOOGLE")
                 {
-                    var request = new OAuth2Request("GET", new Uri(Constant.GoogleUserInfoUrl), null, user.Account);
+                    var request = new OAuth2Request("GET", new Uri(AppConstants.GoogleUserInfoUrl), null, user.Account);
                     var GoogleResponse = await request.GetResponseAsync();
                     var googelUserData = GoogleResponse.GetResponseText();
 
@@ -107,7 +107,7 @@ namespace Manifest.Views
                 else if (platform == "FACEBOOK")
                 {
 
-                    var facebookResponse = client.GetStringAsync(Constant.FacebookUserInfoUrl + user.Account.Properties["access_token"]);
+                    var facebookResponse = client.GetStringAsync(AppConstants.FacebookUserInfoUrl + user.Account.Properties["access_token"]);
                     var facebookUserData = facebookResponse.Result;
 
                     facebookData = JsonConvert.DeserializeObject<FacebookResponse>(facebookUserData);
@@ -130,7 +130,7 @@ namespace Manifest.Views
                 var socialLogInPostSerialized = JsonConvert.SerializeObject(socialLogInPost);
                 var postContent = new StringContent(socialLogInPostSerialized, Encoding.UTF8, "application/json");
 
-                var RDSResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.login, postContent);
+                var RDSResponse = await client.PostAsync(AppConstants.BaseUrl + AppConstants.login, postContent);
                 //var RDSResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.UserIdFromEmailUrl, postContent);
 
                 var responseContent = await RDSResponse.Content.ReadAsStringAsync();
@@ -141,19 +141,19 @@ namespace Manifest.Views
                 {
                     if (responseContent != null)
                     {
-                        if (authetication.code.ToString() == Constant.EmailNotFound)
+                        if (authetication.code.ToString() == AppConstants.EmailNotFound)
                         {
                             // Missing a Oops message you don't have an account
                             Application.Current.MainPage = new LogInPage();
                         }
-                        if (authetication.code.ToString() == Constant.AutheticatedSuccesful)
+                        if (authetication.code.ToString() == AppConstants.AutheticatedSuccesful)
                         {
 
                             try
                             {
                                 Debug.WriteLine("USER AUTHENTICATED");
                                 DateTime today = DateTime.Now;
-                                DateTime expDate = today.AddDays(Constant.days);
+                                DateTime expDate = today.AddDays(AppConstants.days);
 
                                 Application.Current.Properties["userId"] = session.result[0].user_unique_id;
                                 Application.Current.Properties["timeStamp"] = expDate;
@@ -183,7 +183,7 @@ namespace Manifest.Views
 
                                     var notificationContent = new StringContent(notificationSerializedObject, Encoding.UTF8, "application/json");
 
-                                    var clientResponse = await client.PostAsync(RdsConfig.BaseUrl + RdsConfig.addGuid, notificationContent);
+                                    var clientResponse = await client.PostAsync(AppConstants.BaseUrl + AppConstants.addGuid, notificationContent);
 
                                     Debug.WriteLine("Status code: " + clientResponse.IsSuccessStatusCode);
 
@@ -207,7 +207,7 @@ namespace Manifest.Views
                                 await DisplayAlert("Something went wrong with notifications","","OK");
                             }
                         }
-                        if (authetication.code.ToString() == Constant.ErrorPlatform)
+                        if (authetication.code.ToString() == AppConstants.ErrorPlatform)
                         {
                             //var RDSCode = JsonConvert.DeserializeObject<RDSLogInMessage>(responseContent);
                             //test.Hide();
@@ -215,7 +215,7 @@ namespace Manifest.Views
                             
                         }
 
-                        if (authetication.code.ToString() == Constant.ErrorUserDirectLogIn)
+                        if (authetication.code.ToString() == AppConstants.ErrorUserDirectLogIn)
                         {
                             //test.Hide();
                             //Application.Current.MainPage = new LogInPage("Oops!", "You have an existing Serving Fresh account. Please use direct login");

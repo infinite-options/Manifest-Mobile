@@ -11,6 +11,7 @@ using System.Diagnostics;
 using UserNotifications;
 using WindowsAzure.Messaging;
 using Xamarin.Essentials;
+using Manifest.Config;
 
 namespace Manifest.iOS
 {
@@ -120,10 +121,6 @@ namespace Manifest.iOS
                 System.Diagnostics.Debug.WriteLine("This is the GUID from RegisteredForRemoteNotifications: " + Preferences.Get("guid", string.Empty));
                 var tags = new NSSet(AppConstants.SubscriptionTags.Append(tag).ToArray());
                 //End of Carlos's code
-
-
-
-
 
                 //var tags = new NSSet(AppConstants.SubscriptionTags.ToArray());
                 //Debug.WriteLine("tag = " + tags);

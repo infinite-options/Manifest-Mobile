@@ -86,7 +86,7 @@ namespace Manifest.Views
         public async Task<List<string>> GetOptions(string category, string userId)
         {
             var client = new HttpClient();
-            var url = RdsConfig.BaseUrl + RdsConfig.getOptions + category +"/"+ userId;
+            var url = AppConstants.BaseUrl + AppConstants.getOptions + category +"/"+ userId;
             Debug.WriteLine("PULSE URL: " + url);
             var response = await client.GetAsync(url);
             var list = new List<string>();

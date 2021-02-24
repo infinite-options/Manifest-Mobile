@@ -47,7 +47,7 @@ namespace Manifest.Views
                 client.DefaultRequestHeaders.Add("email", jsonObject2);
                 Debug.WriteLine("Writing headers");
                 Debug.WriteLine(client.DefaultRequestHeaders);
-                string url = RdsConfig.BaseUrl + RdsConfig.getRelations;
+                string url = AppConstants.BaseUrl + AppConstants.getRelations;
                 var res = await client.GetStringAsync(url);
                 //Debug.WriteLine(res.Content);
                 var info = JsonConvert.DeserializeObject<RelationResponse>(res);

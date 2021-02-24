@@ -81,7 +81,7 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+
             
             title.Text = "About me";
             var helperObject = new MainPage();

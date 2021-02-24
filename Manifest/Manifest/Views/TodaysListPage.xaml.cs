@@ -64,14 +64,12 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
 
             title.Text = today.ToString("dddd");
 
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
-            //barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
 
             NavigationPage.SetHasNavigationBar(this, false);
             string userInfo = (string)Application.Current.Properties["userId"];
@@ -94,7 +92,7 @@ namespace Manifest.Views
                 todaysOccurancesEvening = new List<Occurance>();
                 commonOccur = new List<Occurance>();
 
-                RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
+       
                 Debug.WriteLine(userInfo);
                 //string userID = userInfo.result[0].user_unique_id;
                 string userID = userInfo;
@@ -147,7 +145,7 @@ namespace Manifest.Views
             try
             {
                 //Need to add userID
-                string url = RdsConfig.BaseUrl + RdsConfig.goalsAndRoutinesUrl + "/" + userID;
+                string url = AppConstants.BaseUrl + AppConstants.goalsAndRoutinesUrl + "/" + userID;
                 todaysOccurances = await RdsConnect.getOccurances(url);
                 //Debug.WriteLine("URL: " + url);
                 //var response = await client.GetStringAsync(url);
@@ -455,7 +453,7 @@ namespace Manifest.Views
 
             try
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.timeSettingsUrl + "/" + Application.Current.Properties["userId"];
+                string url = AppConstants.BaseUrl + AppConstants.timeSettingsUrl + "/" + Application.Current.Properties["userId"];
                 var response2 = await client2.GetStringAsync(url);
                 Debug.WriteLine("Getting time settings:");
                 Debug.WriteLine(response2);
@@ -559,7 +557,7 @@ namespace Manifest.Views
             try
             {
                 DateTimeOffset dateTimeOffset = DateTimeOffset.Now;
-                string url = Constant.GoogleCalendarUrl + "?orderBy=startTime&singleEvents=true&";
+                string url = AppConstants.GoogleCalendarUrl + "?orderBy=startTime&singleEvents=true&";
                 var authToken = (String)Application.Current.Properties["accessToken"];
                 Debug.WriteLine("AuthToken: " + authToken);
                 int publicYear = dateTimeOffset.Year;
@@ -738,7 +736,7 @@ namespace Manifest.Views
                 }
                 Debug.WriteLine(currOccurance.Id);
                 //var currSession = (Session)Application.Current.Properties["session"];
-                string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 //If there is a sublist available, go to goals page if its a Pursue A Goal
                 //if (currOccurance.Title == "Pursue A Goal")
                 if (currOccurance.IsPersistent == false)
