@@ -232,6 +232,11 @@ namespace Manifest.Views
             Navigation.PopAsync(false);
         }
 
+        void userDone(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PopAsync(false);
+        }
+
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {
             Navigation.PushAsync(new SettingsPage(), false);

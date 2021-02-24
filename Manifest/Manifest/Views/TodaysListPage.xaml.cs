@@ -337,39 +337,39 @@ namespace Manifest.Views
             }
         }
 
-        //This function converts a string to a bool
-        private bool ToBool(string boolString)
-        {
-            if (String.IsNullOrEmpty(boolString)) {
-                return false;
-            }
-            try
-            {
-                return Boolean.Parse(boolString);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error in ToBool function in TodaysList class");
-                return false;
-            }
-        }
+        ////This function converts a string to a bool
+        //private bool ToBool(string boolString)
+        //{
+        //    if (String.IsNullOrEmpty(boolString)) {
+        //        return false;
+        //    }
+        //    try
+        //    {
+        //        return Boolean.Parse(boolString);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.WriteLine("Error in ToBool function in TodaysList class");
+        //        return false;
+        //    }
+        //}
 
-        //This function converts a string to a TimeSpan
-        private TimeSpan ToTimeSpan(string timeString)
-        {
-            if (String.IsNullOrEmpty(timeString))
-            {
-                return new TimeSpan();
-            }
-            try
-            {
-                return TimeSpan.Parse(timeString);
-            }
-            catch (Exception e) {
-                Debug.WriteLine("Error in ToTimeSpan function in TodaysList class");
-            }
-            return new TimeSpan();
-        }
+        ////This function converts a string to a TimeSpan
+        //private TimeSpan ToTimeSpan(string timeString)
+        //{
+        //    if (String.IsNullOrEmpty(timeString))
+        //    {
+        //        return new TimeSpan();
+        //    }
+        //    try
+        //    {
+        //        return TimeSpan.Parse(timeString);
+        //    }
+        //    catch (Exception e) {
+        //        Debug.WriteLine("Error in ToTimeSpan function in TodaysList class");
+        //    }
+        //    return new TimeSpan();
+        //}
 
         //This function convert a string to a DateTime
         private DateTime ToDateTime(string dateString)
@@ -714,7 +714,7 @@ namespace Manifest.Views
             }
             else
             {
-                Application.Current.MainPage = new EventsPage(currEvent);
+                await Navigation.PushAsync(new EventsPage(currEvent), false);
             }
         }
 

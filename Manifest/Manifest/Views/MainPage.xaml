@@ -81,7 +81,7 @@
                             </StackLayout.GestureRecognizers>
                         </StackLayout>
                     </StackLayout>
-                    <StackLayout Grid.Column="1" WidthRequest="150" VerticalOptions="CenterAndExpand">
+                    <StackLayout Grid.Column="1" WidthRequest="150" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                         <StackLayout WidthRequest="150" Padding="0,0,0,15">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
@@ -96,7 +96,7 @@
                                 <TapGestureRecognizer Tapped="GoalsClick"></TapGestureRecognizer>
                             </StackLayout.GestureRecognizers>
                         </StackLayout>
-                        <StackLayout HeightRequest="150" WidthRequest="150">
+                        <StackLayout HeightRequest="150" WidthRequest="150" HorizontalOptions="CenterAndExpand">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
                                     StrokeThickness="0"
@@ -104,7 +104,7 @@
                                     WidthRequest="150"
                                     HeightRequest="150">
                                 </Ellipse>
-                                <Label Padding="0,0,0,0" Text="What are you currently doing?" HorizontalTextAlignment="Center" TextColor="White" FontSize="18" FontAttributes="Bold" HeightRequest="150" VerticalTextAlignment="Center"></Label>
+                                <Label Padding="30,0,0,0" x:Name="CenterCircle" Text="What are you currently doing?" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="150"></Label>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="WhatAreYouCurrentlyDoingClick"></TapGestureRecognizer>

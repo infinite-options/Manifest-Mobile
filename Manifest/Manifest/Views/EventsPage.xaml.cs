@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Manifest.Config;
 using Manifest.Models;
 using Newtonsoft.Json;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Manifest.Views
@@ -18,6 +20,7 @@ namespace Manifest.Views
         public EventsPage(Event newEvent)
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
             eventName.Text = newEvent.Title;
             eventDescription.Text = newEvent.Description;
             if (eventDescription.Text == "" || eventDescription.Text == null)
@@ -25,17 +28,31 @@ namespace Manifest.Views
                 eventDescription.Text = "No description provided";
             }
             eventInfo.ItemsSource = datagrid;
+            eventTime.Text = newEvent.StartTime.ToString("hh:mm tt") + " - " + newEvent.EndTime.ToString("hh:mm tt");
             //datagrid.Add(newEvent);
             attendees = newEvent.Attendees;
-            GetRelations();
+            initializeEvent();
 
         }
 
-        private async void GetRelations()
+        private async void initializeEvent()
         {
-            List<string> emails = new List<string>();
-            if(attendees.Count != 0)
+            try
             {
+                await GetRelations();
+                initializeAttendees(attendees);
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", "Error in EventsPage in intializeEvent function: " + e.ToString(), "OK");
+            } 
+        }
+
+        private async Task GetRelations()
+        {
+            try
+            {
+                List<string> emails = new List<string>();
                 foreach (Attendee att in attendees)
                 {
                     emails.Add(att.Email);
@@ -71,48 +88,91 @@ namespace Manifest.Views
                     {
                         attendees[i].Relation = person.role;
                     }
+                    if (person.role != null && person.role != "")
+                    {
+                        attendees[i].Relation = "Unknown";
+                    }
                     if (person.picture != null && person.picture != "")
                     {
                         attendees[i].PicUrl = person.picture;
                         attendees[i].HavePic = true;
                     }
+                    if (person.phone_number != null && person.phone_number != "")
+                    {
+                        attendees[i].PhoneNumber = person.phone_number;
+                    }
                 }
-                initialiseAttendees(attendees);
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", "Error in EventsPage in GetRelations function: " + e.ToString(), "OK");
+            }
+        }
+
+
+        private void initializeAttendees(List<Attendee> attendees)
+        {
+            try
+            {
+                foreach (Attendee attendee in attendees)
+                {
+                    if (attendee.HavePic == false)
+                    {
+                        attendee.PicUrl = "aboutme.png";
+                    }
+                    if (attendee.Name == "" || attendee.Name == null)
+                    {
+                        if (attendee.Email != "" && attendee.Email != null)
+                        {
+                            attendee.Name = attendee.Email;
+                        }
+                        else
+                        {
+                            attendee.Name = "Anonymous";
+                        }
+                    }
+                    datagrid.Add(attendee);
+                }
+            }
+            catch (Exception e)
+            {
+                DisplayAlert("Error", "Error in EventsPage in initializeAttendees function: " + e.ToString(), "OK");
+            }
+        }
+
+
+
+        private async void callPerson(object sender, EventArgs args)
+        {
+            Image myvar = (Image)sender;
+            Person person = myvar.BindingContext as Person;
+            string phoneNumber = person.PhoneNumber;
+            if (phoneNumber == "" || phoneNumber == null)
+            {
+                await DisplayAlert("Sorry!", $"Hmmm... We don't have a phone number on file", "OK");
             }
             else
             {
-                await DisplayAlert("Message","There are no attendees","OK");
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                Debug.WriteLine("Manifest.ViewModels.AboutViewModel: Dialing Number:" + phoneNumber);
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                try
+                {
+                    PhoneDialer.Open(phoneNumber);
+                    Debug.WriteLine("IN ABOUTVIEWMODEL. LAUNCHING PHONE");
+                }
+                catch (Exception e)
+                {
+                    await DisplayAlert("Error", "Unable to perform a phone call", "OK");
+                }
+                //await Launcher.OpenAsync(new Uri("tel:" + phoneNumber));
             }
         }
 
-
-        private void initialiseAttendees(List<Attendee> attendees)
-        {
-            foreach (Attendee attendee in attendees)
-            {
-                if (attendee.HavePic == false)
-                {
-                    attendee.PicUrl = "aboutme.png";
-                }
-                if (attendee.Name == "" || attendee.Name == null)
-                {
-                    if (attendee.Email != "" && attendee.Email != null)
-                    {
-                        attendee.Name = attendee.Email;
-                    }
-                    else
-                    {
-                        attendee.Name = "Anonymous";
-                    } 
-                }
-                datagrid.Add(attendee);
-            }
-
-        }
 
         private void goToTodaysList(object sender, EventArgs args)
         {
-            Application.Current.MainPage = new TodaysListPage();
+            Navigation.PopAsync();
         }
     }
 }

@@ -52,8 +52,62 @@
                 <!--<Button Text="Sign Out" Clicked="Button_Clicked"></Button>-->
                  <!--NEW UI GOES HERE-->
 
+            <ScrollView>
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.3*"/>
+                            <RowDefinition Height="0.3*"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-            <Grid>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Frame x:Name="userImageFrame" Grid.Column="0" Padding="0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="Center" HorizontalOptions="Center">
+                               <Image x:Name="userImage" Source="aboutme.png" Aspect="AspectFill"/>
+                            </Frame>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1.5*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label x:Name="userName" Grid.Row="0" FontSize="Title" FontAttributes="Bold" Text="" VerticalOptions="End" HorizontalOptions="StartAndExpand" Padding="0,20,10,0" TextDecorations="Underline" TextColor="#0C1E21">
+                                </Label>
+                                <Label x:Name="userBirthday" Grid.Row="1" Text="Date of Birth: 4th July 1998" VerticalOptions="Start" HorizontalOptions="StartAndExpand" Padding="0,0,10,0">
+                                </Label>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                             <Frame x:Name="whoAmIButton" Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="#ff7555">
+                                 <Label VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="Who Am I?" FontAttributes="Bold" TextColor="#0C1E21" BackgroundColor="Transparent"/>
+                                 <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="navigateToWhoAmI"/>
+                                </Frame.GestureRecognizers>
+                                 </Frame>
+                            <Frame x:Name="whatMotivatesMeButton" Grid.Column="1" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="#ff7555">
+                                <Label VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="Whats Important to me?" FontAttributes="Bold" TextColor="#0C1E21" BackgroundColor="Transparent" LineBreakMode="WordWrap"/>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="navigateToWhatMotivatesMe"/>
+                                </Frame.GestureRecognizers>
+                                 </Frame>
+                        </Grid>
+                        <Label Grid.Row="2" Text="People in my life" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Large" TextColor="#0C1E21"/>
+                        <ScrollView Grid.Row="3">
+                            <StackLayout x:Name="userAdvisors" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Orientation="Vertical" Padding="0,10,0,0">
+                            </StackLayout>
+                        </ScrollView>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
+            <!--<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
@@ -86,16 +140,12 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                      <Frame x:Name="whoAmIButton" Grid.Column="0" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="#ff7555">
-                         <!--<Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Who Am I?" FontAttributes="Bold" TextColor="#0C1E21" BackgroundColor="Transparent" Clicked="navigateToWhoAmI"/>-->
                          <Label VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="Who Am I?" FontAttributes="Bold" TextColor="#0C1E21" BackgroundColor="Transparent"/>
                          <Frame.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="navigateToWhoAmI"/>
                         </Frame.GestureRecognizers>
                          </Frame>
                     <Frame x:Name="whatMotivatesMeButton" Grid.Column="1" Margin="0,0,0,0" CornerRadius="60" HeightRequest="80" WidthRequest="80"  IsClippedToBounds="True" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" BackgroundColor="#ff7555">
-                         <!--<Button VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Text="Whats Important to me?" FontAttributes="Bold" TextColor="#0C1E21" BackgroundColor="Transparent">
-                             <FlexLayout.AlignSelf/>
-                         </Button>-->
                         <Label VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Text="Whats Important to me?" FontAttributes="Bold" TextColor="#0C1E21" BackgroundColor="Transparent" LineBreakMode="WordWrap"/>
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="navigateToWhatMotivatesMe"/>
@@ -107,7 +157,7 @@
                     <StackLayout x:Name="userAdvisors" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Orientation="Vertical" Padding="0,10,0,0">
                     </StackLayout>
                 </ScrollView>
-            </Grid>
+            </Grid>-->
 
 
 
