@@ -126,11 +126,6 @@ namespace Manifest.Views
 
         }
 
-        //void Button_Clicked(System.Object sender, System.EventArgs e)
-        //{
-        //    Navigation.PushAsync(new GoalsPage(),false);
-        //}
-
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new MainPage();
@@ -169,6 +164,8 @@ namespace Manifest.Views
         }
 
         bool firstRunPassed = false;
+        bool scrollViewSet = false;
+        float scrollViewY = 0;
         //This function takes the response from the endpoint, and formats it into Occurances
         private void ToOccurances()
         {
@@ -208,14 +205,25 @@ namespace Manifest.Views
                 });
 
 
-                foreach (Occurance dto in todaysOccurances)
+                for (int i = 0; i < todaysOccurances.Count; i++)
                 {
+                    Occurance dto = todaysOccurances[i];
                     //    if (dto.IsDisplayedToday == true)
                     //    {
-                    if (dto.IsPersistent == true)
-                        dto.StatusColor = Color.FromHex("#FF6B4A");
-                    else if (dto.IsEvent == false) dto.StatusColor = Color.FromHex("#FFBD27");
-                    else dto.StatusColor = Color.FromHex("#67ABFC");
+                    if (dto.EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay) {
+                        dto.StatusColor = Color.FromHex("#BBC7D7");
+                    }
+                    else {
+                        //if (!scrollViewSet)
+                        //{
+                        //    scrollViewY = i * 100;
+                        //    scrollViewSet = true;
+                        //}
+                        if (dto.IsPersistent == true)
+                            dto.StatusColor = Color.FromHex("#FF6B4A");
+                        else if (dto.IsEvent == false) dto.StatusColor = Color.FromHex("#FFBD27");
+                        else dto.StatusColor = Color.FromHex("#67ABFC");
+                    }
 
 
                     Debug.WriteLine("occurance tracked: " + dto.Title);
@@ -452,32 +460,66 @@ namespace Manifest.Views
                 int afternoonTaskCount = 0;
                 int eveningTaskCount = 0;
                 string todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
+                scrollViewY += 75;
                 while (i < todaysTasks.Count && String.Compare(todaysTaskTime,timeResponse.afternoon_time) < 0)
                 {
                     Debug.WriteLine("taskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString() + " afternoonStart: " + ToDateTime(afternoonStart).TimeOfDay.ToString());
                     datagridMorning.Add(todaysTasks[i]);
                     todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
+                    if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                    {
+                        scrollViewY += 115;
+                    }
+                    else
+                    {
+                        scrollViewSet = true;
+                    }
                     morningTaskCount++;
                     i++;
+                }
+                if (!scrollViewSet)
+                {
+                    scrollViewY += 135;
+                    //scrollViewY += 90;
                 }
                 while (i < todaysTasks.Count && String.Compare(todaysTaskTime, timeResponse.evening_time) < 0)
                 {
                     Debug.WriteLine("afternoonTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
                     datagridAfternoon.Add(todaysTasks[i]);
                     todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
+                    if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                    {
+                        scrollViewY += 115;
+                    }
+                    else
+                    {
+                        scrollViewSet = true;
+                    }
                     afternoonTaskCount++;
                     i++;
+                }
+                if (!scrollViewSet)
+                {
+                    scrollViewY += 135;
+                    //scrollViewY += 90;
                 }
                 while (i < todaysTasks.Count)
                 {
                     Debug.WriteLine("nightTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
                     Debug.WriteLine("nightTaskStartHrMin: " + todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                     datagridEvening.Add(todaysTasks[i]);
+                    if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                    {
+                        scrollViewY += 115;
+                    }
+                    else
+                    {
+                        scrollViewSet = true;
+                    }
                     eveningTaskCount++;
                     i++;
                     //todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                 }
-
                 Debug.WriteLine("morningCount: " + morningTaskCount.ToString());
                 Debug.WriteLine("afternoonCount: " + afternoonTaskCount.ToString());
                 Debug.WriteLine("eveningCount: " + eveningTaskCount.ToString());
@@ -494,6 +536,7 @@ namespace Manifest.Views
                 if (eveningTaskCount == 0)
                     taskListEvening.HeightRequest = 60;
                 //stack3.IsVisible = false;
+                await todaysSchedule.ScrollToAsync(0, scrollViewY, true);
             }
             catch (Exception e)
             {

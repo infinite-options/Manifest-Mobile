@@ -190,7 +190,7 @@ namespace Manifest.Views
                     BackgroundColor = routineColor,
                     RowDefinitions =
                         {
-                            new RowDefinition { Height = new GridLength(3, GridUnitType.Star)},
+                            new RowDefinition { Height = new GridLength(2, GridUnitType.Star)},
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star)},
                         }
                 };
