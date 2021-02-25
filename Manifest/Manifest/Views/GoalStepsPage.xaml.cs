@@ -7,9 +7,17 @@ using Manifest.Config;
 using System.Net.Http;
 using System.Diagnostics;
 using Manifest.RDS;
+using System.Collections.ObjectModel;
 
 namespace Manifest.Views
 {
+    public class InstructionItem
+    {
+        public string title { get; set; }
+        public string color { get; set; }
+        public int time { get; set; }
+    }
+
     public partial class GoalStepsPage : ContentPage
     {
         bool setting;
@@ -19,6 +27,7 @@ namespace Manifest.Views
         string passedPhoto;
         string passedColor;
 
+        ObservableCollection<InstructionItem> items;
 
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
@@ -47,6 +56,7 @@ namespace Manifest.Views
             InitializeComponent();
             setting = false;
             height = mainStackLayoutRow.Height;
+            items = new ObservableCollection<InstructionItem>();
             //lastRowHeight = barStackLayoutRow.Height;
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
@@ -62,9 +72,9 @@ namespace Manifest.Views
 
             circleHW = (float)(deviceWidth * 0.13);
             circleRadius = (float)(circleHW * 0.5);
-            routineFrame.HeightRequest = circleHW;
-            routineFrame.WidthRequest = circleHW;
-            routineFrame.CornerRadius = circleRadius;
+            //routineFrame.HeightRequest = circleHW;
+            //routineFrame.WidthRequest = circleHW;
+            //routineFrame.CornerRadius = circleRadius;
             arrow.HeightRequest = circleHW;
 
             rowHeight = (float)Math.Min(80, 0.02 * deviceHeight);
@@ -82,7 +92,7 @@ namespace Manifest.Views
             TapGestureRecognizer doneRecognizer = new TapGestureRecognizer();
             doneRecognizer.NumberOfTapsRequired = 1;
             doneRecognizer.Tapped += stepComplete;
-
+            items.Clear();
             foreach (Instruction step in instruction_steps)
             {
                 numTasks++;
@@ -127,12 +137,17 @@ namespace Manifest.Views
 
                 gridFrame.BindingContext = step;
 
+
                 instructions.Children.Add(gridFrame);
+
+                items.Add(new InstructionItem() { time = numTasks, title = step.title, color = "#F26D4B" });
+
             }
             if (numTasks == numComplete)
             {
                 parentIsComplete();
             }
+            InstructionsList.ItemsSource = items;
         }
 
         async void stepComplete(System.Object sender, System.EventArgs e)

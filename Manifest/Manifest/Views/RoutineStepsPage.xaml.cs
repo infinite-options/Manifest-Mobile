@@ -7,6 +7,7 @@ using Manifest.Config;
 using System.Net.Http;
 using System.Diagnostics;
 using Manifest.RDS;
+using System.Collections.ObjectModel;
 
 namespace Manifest.Views
 {
@@ -34,6 +35,8 @@ namespace Manifest.Views
         int numComplete;
         int numTasks;
 
+        ObservableCollection<InstructionItem> items;
+
         public RoutineStepsPage(SubOccurance subTask, Occurance routine)
         {
             InitializeComponent();
@@ -45,18 +48,18 @@ namespace Manifest.Views
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
            
-            title.Text = "Routine Steps";
-            subTitle.Text = "";
+            title.Text = routine.Title;
+
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
 
             circleHW = (float)(deviceWidth * 0.13);
             circleRadius = (float)(circleHW * 0.5);
-            routineFrame.HeightRequest = circleHW;
-            routineFrame.WidthRequest = circleHW;
-            routineFrame.CornerRadius = circleRadius;
-            arrow.HeightRequest = circleHW;
+            //routineFrame.HeightRequest = circleHW;
+            //routineFrame.WidthRequest = circleHW;
+            //routineFrame.CornerRadius = circleRadius;
+            //arrow.HeightRequest = circleHW;
 
             rowHeight = (float)Math.Min(80, 0.02 * deviceHeight);
 
@@ -65,8 +68,9 @@ namespace Manifest.Views
 
             parent = subTask;
             currRoutine = routine;
-            routineName.Text = subTask.Title;
+            subTitle.Text =  subTask.Title;
             instruction_steps = subTask.instructions;
+            items = new ObservableCollection<InstructionItem>();
             NavigationPage.SetHasNavigationBar(this, false);
             CreateList();
 
@@ -77,7 +81,7 @@ namespace Manifest.Views
             TapGestureRecognizer doneRecognizer = new TapGestureRecognizer();
             doneRecognizer.NumberOfTapsRequired = 1;
             doneRecognizer.Tapped += stepComplete;
-
+            items.Clear();
             foreach (Instruction step in instruction_steps)
             {
                 numTasks++;
@@ -127,7 +131,11 @@ namespace Manifest.Views
                 gridFrame.BindingContext = step;
 
                 instructions.Children.Add(gridFrame);
+
+                items.Add(new InstructionItem() { time = numTasks, title = step.title, color = "#F26D4B" });
             }
+
+            InstructionsList.ItemsSource = items;
             //if (numTasks == numComplete)
             //{
             //    parentIsComplete();

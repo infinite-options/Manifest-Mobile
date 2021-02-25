@@ -304,7 +304,7 @@ namespace Manifest.Views
 
         void navigateToWhatMotivatesMe(System.Object sender, System.EventArgs e)
         {
-            Debug.WriteLine("Go to what motivates me");
+            Application.Current.MainPage = new WhatIsImportantToMePage();
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)

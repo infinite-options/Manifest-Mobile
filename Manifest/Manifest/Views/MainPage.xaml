@@ -6,7 +6,7 @@
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
                 <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="80"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="64"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0">
@@ -104,7 +104,7 @@
                                     WidthRequest="150"
                                     HeightRequest="150">
                                 </Ellipse>
-                                <Label Padding="30,0,0,0" x:Name="CenterCircle" Text="What are you currently doing?" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="150"></Label>
+                                <Label Padding="20,0,0,0" x:Name="CenterCircle" Text="" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="150"></Label>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="WhatAreYouCurrentlyDoingClick"></TapGestureRecognizer>

@@ -12,6 +12,7 @@ using UserNotifications;
 using WindowsAzure.Messaging;
 using Xamarin.Essentials;
 using Manifest.Config;
+using Xamarin.RangeSlider.Forms;
 
 namespace Manifest.iOS
 {
@@ -31,6 +32,7 @@ namespace Manifest.iOS
 
         private SBNotificationHub Hub { get; set; }
 
+
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Auth.Presenters.XamarinIOS.AuthenticationConfiguration.Init();
@@ -44,6 +46,7 @@ namespace Manifest.iOS
             base.FinishedLaunching(app, options);
 
             RegisterForRemoteNotifications();
+
 
             //Added for in app notifications
             UNUserNotificationCenter.Current.Delegate = new NotificationDelegate();
