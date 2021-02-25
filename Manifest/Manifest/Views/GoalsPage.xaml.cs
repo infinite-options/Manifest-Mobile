@@ -1059,7 +1059,7 @@ namespace Manifest.Views
 
         void navigatetoTodaysList(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new TodaysListPage();
+            Application.Current.MainPage = new TodaysListPage(null, null);
         }
 
         async void nextClicked(System.Object sender, System.EventArgs e)

@@ -39,6 +39,10 @@ namespace Manifest.Views
         {
             try
             {
+                if (attendees == null || attendees.Count == 0)
+                {
+                    return;
+                }
                 await GetRelations();
                 initializeAttendees(attendees);
             }
@@ -52,6 +56,10 @@ namespace Manifest.Views
         {
             try
             {
+                if (attendees == null || attendees.Count == 0)
+                {
+                    return;
+                }
                 List<string> emails = new List<string>();
                 foreach (Attendee att in attendees)
                 {
@@ -88,7 +96,7 @@ namespace Manifest.Views
                     {
                         attendees[i].Relation = person.role;
                     }
-                    if (person.role != null && person.role != "")
+                    else
                     {
                         attendees[i].Relation = "Unknown";
                     }

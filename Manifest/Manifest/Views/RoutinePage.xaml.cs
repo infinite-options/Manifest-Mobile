@@ -562,7 +562,7 @@ namespace Manifest.Views
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null, null));
         }
 
         void Button_Clicked_1(System.Object sender, System.EventArgs e)
