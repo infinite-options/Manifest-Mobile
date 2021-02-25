@@ -134,7 +134,6 @@
     <BundleResource Include="Resources\facebook_login.png" />
     <BundleResource Include="Resources\google_login.png" />
     <BundleResource Include="Resources\arrowLeft.png" />
-    <BundleResource Include="Resources\greencheckmark.png" />
     <BundleResource Include="Resources\yellowclock.png" />
     <BundleResource Include="Resources\fullsun.png" />
     <BundleResource Include="Resources\moon.png" />
@@ -163,6 +162,8 @@
     <BundleResource Include="Resources\questionIcon.png" />
     <BundleResource Include="Resources\flowerIcon.png" />
     <BundleResource Include="Resources\phone.png" />
+    <BundleResource Include="Resources\instructionsHelp.png" />
+    <BundleResource Include="Resources\greencheckmark.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />

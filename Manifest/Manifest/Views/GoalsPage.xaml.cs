@@ -31,7 +31,7 @@ namespace Manifest.Views
         Occurance chosenOccurance = null;
         int prevIndex = -1;
         Frame prevFrame = null;
-
+        bool goalsExist = false;
 
         public GoalsPage(string start, string end)
         {
@@ -197,12 +197,13 @@ namespace Manifest.Views
 
                 Debug.WriteLine("number of today goals: " + todayOccurs.Count.ToString());
                 Debug.WriteLine("number of ranged goals: " + goalsInRange.Count.ToString());
-
                 if (goalsInRange.Count == 0)
                 {
                     DisplayAlert("Oops", "no goals available at this time", "OK");
+                    goalsExist = false;
                 }
-                else if (goalsInRange.Count == 1)
+                goalsExist = true;
+                if (goalsInRange.Count == 1)
                 {
                     setProperties1();
                     show7();
@@ -1064,6 +1065,7 @@ namespace Manifest.Views
 
         async void nextClicked(System.Object sender, System.EventArgs e)
         {
+            if (goalsExist == false) return;
             //if a goal has only one subtask, navigate directly to steps page
             if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
             {
