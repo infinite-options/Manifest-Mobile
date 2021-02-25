@@ -97,9 +97,68 @@ namespace Manifest.iOS
             }
         }
 
-        //Overrides the RegisteredForRemoteNotifications() function
+        ////Overrides the RegisteredForRemoteNotifications() function
+        //public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        //{
+        //    Hub = new SBNotificationHub(AppConstants.ListenConnectionString, AppConstants.NotificationHubName);
+
+        //    // update registration with Azure Notification Hub
+        //    Hub.UnregisterAll(deviceToken, (error) =>
+        //    {
+        //        if (error != null)
+        //        {
+        //            Debug.WriteLine($"Unable to call unregister {error}");
+        //            return;
+        //        }
+
+
+        //        //Carlos's code to get guid
+        //        var guid = Guid.NewGuid();
+        //        GlobalVars.user_guid = guid.ToString();
+        //        var tag = "guid_" + guid.ToString();
+        //        GlobalVars.user_guid = tag;
+        //        Debug.WriteLine("guid:" + tag);
+
+        //        Preferences.Set("guid", tag);
+
+        //        System.Diagnostics.Debug.WriteLine("This is the GUID from RegisteredForRemoteNotifications: " + Preferences.Get("guid", string.Empty));
+        //        var tags = new NSSet(AppConstants.SubscriptionTags.Append(tag).ToArray());
+        //        //End of Carlos's code
+
+        //        //var tags = new NSSet(AppConstants.SubscriptionTags.ToArray());
+        //        //Debug.WriteLine("tag = " + tags);
+        //        //Debug.WriteLine("token = " + deviceToken);
+        //        Hub.RegisterNative(deviceToken, tags, (errorCallback) =>
+        //        {
+        //            if (errorCallback != null)
+        //            {
+        //                Debug.WriteLine($"RegisterNativeAsync error: {errorCallback}");
+        //            }
+        //        });
+
+        //        var templateExpiration = DateTime.Now.AddDays(120).ToString(System.Globalization.CultureInfo.CreateSpecificCulture("en-US"));
+        //        Hub.RegisterTemplate(deviceToken, "defaultTemplate", AppConstants.APNTemplateBody, templateExpiration, tags, (errorCallback) =>
+        //        {
+        //            if (errorCallback != null)
+        //            {
+        //                if (errorCallback != null)
+        //                {
+        //                    Debug.WriteLine($"RegisterTemplateAsync error: {errorCallback}");
+        //                }
+        //            }
+        //        });
+        //    });
+        //}        
+
+
         public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
+            Debug.WriteLine("Registered");
+            if (Preferences.Get("guid", null) != null)
+            {
+                return;
+            }
+
             Hub = new SBNotificationHub(AppConstants.ListenConnectionString, AppConstants.NotificationHubName);
 
             // update registration with Azure Notification Hub
@@ -111,23 +170,15 @@ namespace Manifest.iOS
                     return;
                 }
 
-
-                //Carlos's code to get guid
                 var guid = Guid.NewGuid();
-                GlobalVars.user_guid = guid.ToString();
                 var tag = "guid_" + guid.ToString();
-                GlobalVars.user_guid = tag;
-                Debug.WriteLine("guid:" + tag);
-
+                Console.WriteLine("guid:" + tag);
                 Preferences.Set("guid", tag);
-                
                 System.Diagnostics.Debug.WriteLine("This is the GUID from RegisteredForRemoteNotifications: " + Preferences.Get("guid", string.Empty));
                 var tags = new NSSet(AppConstants.SubscriptionTags.Append(tag).ToArray());
-                //End of Carlos's code
 
-                //var tags = new NSSet(AppConstants.SubscriptionTags.ToArray());
-                //Debug.WriteLine("tag = " + tags);
-                //Debug.WriteLine("token = " + deviceToken);
+                Preferences.Set("Token", deviceToken.ToString());
+
                 Hub.RegisterNative(deviceToken, tags, (errorCallback) =>
                 {
                     if (errorCallback != null)
@@ -148,9 +199,8 @@ namespace Manifest.iOS
                     }
                 });
             });
-        }        
+        }
 
-        
 
         public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
         {

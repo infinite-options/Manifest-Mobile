@@ -73,11 +73,11 @@
                         <ScrollView Grid.Row="2" x:Name="stepsScroll">
                             <StackLayout x:Name="instructions">
                                 <Label Margin="16,0,0,0" Text="mins" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></Label>
-                                <StackLayout>
+                                <StackLayout Margin="16,0,0,0">
                                     <CollectionView x:Name="InstructionsList">
                                         <CollectionView.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid Margin="15,0,0,0">
+                                                <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="30"></ColumnDefinition>
                                                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -96,7 +96,7 @@
                                                             </RelativeLayout>
                                                         </StackLayout>
                                                     </StackLayout>
-                                                    <Frame Grid.Column="1" Margin="25,10,10,0" BackgroundColor="{Binding color}" CornerRadius="20" BorderColor="White" Padding="10" HasShadow="False" >
+                                                    <Frame Grid.Column="1" Margin="25,10,10,0" BackgroundColor="{Binding color}" CornerRadius="15" BorderColor="White" Padding="10" HasShadow="False" >
                                                         <StackLayout VerticalOptions="CenterAndExpand">
                                                             <Label Margin="15,0,0,0" Text="{Binding title}" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></Label>
                                                         </StackLayout>

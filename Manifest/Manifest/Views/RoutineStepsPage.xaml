@@ -104,12 +104,4 @@
             </StackLayout>
         </Grid>
     </ContentPage.Content>
-     <!--<Grid Grid.Row="1" BackgroundColor="#9DB2CB">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Text="I'm Done" TextColor="White" BackgroundColor="Transparent" Clicked="userDone"/>
-                    <Button Grid.Column="1" Text="I'm Bored" TextColor="White" BackgroundColor="Transparent"/>
-                </Grid>-->
 </ContentPage>

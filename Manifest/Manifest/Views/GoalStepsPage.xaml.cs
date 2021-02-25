@@ -158,6 +158,8 @@ namespace Manifest.Views
             if (currInstruction.IsComplete == false)
             {
                 numComplete++;
+
+                // use global function
                 string url = AppConstants.BaseUrl + AppConstants.updateInstruction;
                 currInstruction.updateIsComplete(true);
                 UpdateInstruction updateInstruction = new UpdateInstruction()

@@ -24,7 +24,6 @@ namespace Manifest.Views
         GridLength lastRowHeight;
         string city;
         string time;
-
         string currentActivity;
         Occurance currOccurance;
         public List<Event> eventsToday;
@@ -53,17 +52,21 @@ namespace Manifest.Views
 
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = GetCurrentTime();
-            
-            
-            
-            
             Debug.WriteLine("AUTO SIGN IN");
+
             foreach (string key in Application.Current.Properties.Keys)
             {
                 Debug.WriteLine("key: {0}, value: {1}", key, Application.Current.Properties[key]);
             }
-            GetCurrOccurance();
 
+            GetCurrOccurance();
+        }
+
+        async void Re(string old, string n)
+        {
+            
+            await DisplayAlert("Update", "Please sign in again " +"OLD"+ old+ "  NEW:"+ n,"OK");
+            Application.Current.MainPage = new LogInPage();
         }
 
         public MainPage(AuthenticatorCompletedEventArgs googleFacebookAccount = null, AppleAccount appleCredentials = null, string platform = "")
