@@ -253,6 +253,9 @@ namespace Manifest.Views
                 }else if (parentName == "FirstPulsePage")
                 {
                     Application.Current.MainPage = new FirstPulsePage();
+                }else if (parentName == "WhatIsImportantToMePage")
+                {
+                    Application.Current.MainPage = new WhatIsImportantToMePage();
                 }
             }
         }

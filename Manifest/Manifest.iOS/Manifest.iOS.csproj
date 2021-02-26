@@ -145,7 +145,6 @@
     <BundleResource Include="Resources\listview.png" />
     <BundleResource Include="Resources\calendarFive.png" />
     <BundleResource Include="Resources\settingsIcon.png" />
-    <BundleResource Include="Resources\downArrow.png" />
     <BundleResource Include="Resources\leftArrow.png" />
     <BundleResource Include="Resources\progBar.png" />
     <BundleResource Include="Resources\rightArrow.png" />
@@ -165,6 +164,9 @@
     <BundleResource Include="Resources\backIcon.png" />
     <BundleResource Include="Resources\instructionsHelp.png" />
     <BundleResource Include="Resources\greencheckmark.png" />
+    <BundleResource Include="Resources\goalsIcon.png" />
+    <BundleResource Include="Resources\routinesIcon.png" />
+    <BundleResource Include="Resources\downArrow.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />

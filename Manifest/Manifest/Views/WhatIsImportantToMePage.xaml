@@ -26,7 +26,7 @@
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Text="" TextColor="White"></Label>
                         <Label Grid.Column="1" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                        <ImageButton Grid.Column="2" Source="settingsIcon.png"  BackgroundColor="Transparent"></ImageButton>
+                        <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked"  BackgroundColor="Transparent"></ImageButton>
                     </Grid>
                     <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
                     <Grid Grid.Row="2" Padding="0,5,0,0">
@@ -165,7 +165,7 @@
                         <Label Grid.Row="1" Text="Today's list" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer ></TapGestureRecognizer>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" ></TapGestureRecognizer>
                     </Frame.GestureRecognizers>
                 </Frame>
                 <Frame Grid.Column="1" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
@@ -173,6 +173,9 @@
                         <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
                         <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" ></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
                 </Frame>
                 <Frame Grid.Column="2" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                     <Grid>
@@ -180,7 +183,7 @@
                         <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer ></TapGestureRecognizer>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" ></TapGestureRecognizer>
                     </Frame.GestureRecognizers>   
                 </Frame>
             </Grid>

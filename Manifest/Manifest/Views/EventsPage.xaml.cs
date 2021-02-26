@@ -182,6 +182,14 @@ namespace Manifest.Views
         {
             // one more case
             Navigation.PopAsync();
+            if(Application.Current.MainPage.Navigation.NavigationStack.Count != 1)
+            {
+                Navigation.PopAsync();
+            }
+            else
+            {
+                Application.Current.MainPage = new MainPage();
+            }
         }
 
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)
