@@ -175,7 +175,7 @@ namespace Manifest.Views
                 displayedOccurances.Sort(delegate (Occurance a, Occurance b)
                 {
                     if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
-                    else if (a.StartDayAndTime == b.StartDayAndTime) {
+                    else if (a.StartDayAndTime.TimeOfDay == b.StartDayAndTime.TimeOfDay) {
                         if (a.IsEvent == true && b.IsEvent == false)
                         {
                             return -1;
@@ -240,13 +240,13 @@ namespace Manifest.Views
                             commonOccur.Add(dto);
                             firstRunPassed = true;
                         }
-                        else if (dto.IsPersistent == false && commonOccur.Count != 0 && ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay <= ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
+                        else if (dto.IsPersistent == false && !dto.IsEvent && commonOccur.Count != 0 && ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay <= ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
                             && ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay >= ToDateTime(dto.EndDayAndTime.ToString("t")).TimeOfDay)
                         {
                             Debug.WriteLine("second if entered");
                             commonOccur.Add(dto);
                         }
-                        else if (dto.IsPersistent == false && commonOccur.Count > 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
+                        else if (dto.IsPersistent == false && !dto.IsEvent && commonOccur.Count > 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
                             || ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay < ToDateTime(dto.EndDayAndTime.ToString("t")).TimeOfDay))
                         {
                             Debug.WriteLine("third if entered");
@@ -269,7 +269,7 @@ namespace Manifest.Views
                             commonOccur.Add(dto);
                             Debug.WriteLine("holder count after: " + holder.Count);
                         }
-                        else if (toAdd.IsPersistent == false && commonOccur.Count == 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(toAdd.StartDayAndTime.ToString("t")).TimeOfDay
+                        else if (toAdd.IsPersistent == false && !dto.IsEvent && commonOccur.Count == 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(toAdd.StartDayAndTime.ToString("t")).TimeOfDay
                             || ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay > ToDateTime(toAdd.EndDayAndTime.ToString("t")).TimeOfDay))
                         {
                             Debug.WriteLine("not lumped together: " + toAdd.Title);

@@ -183,52 +183,8 @@ namespace Manifest.Views
         {
             string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
             await RdsConnect.updateOccurance(parent, false, true, url);
-            ////parent.updateIsComplete(true);
-            ////parent.updateIsInProgress(false);
-            ////parent.updateIsComplete(true);
-
-            ////temporary fix for the above 3 function calls
-            //parent.IsComplete = true;
-            //parent.IsInProgress = false;
-            ////numCompleted++;
-            //parent.DateTimeCompleted = DateTime.Now;
-
-            ////bool inProgress = false;
-            ////bool isComplete = false;
-            ////if (parent.IsInProgress == "True")
-            ////    inProgress = true;
-            ////if (parent.is_complete == "True")
-            ////    isComplete = true;
-
-            //UpdateOccurance updateOccur = new UpdateOccurance()
-            //{
-            //    id = parent.Id,
-            //    datetime_completed = parent.DateTimeCompleted,
-            //    datetime_started = parent.DateTimeStarted,
-            //    is_in_progress = parent.IsInProgress,
-            //    is_complete = parent.IsComplete
-            //};
-            //string toSend = updateOccur.updateOccurance();
-            //var content = new StringContent(toSend);
-            //var res = await client.PostAsync(url, content);
-            //if (res.IsSuccessStatusCode)
-            //{
-            //    Debug.WriteLine("Successfully completed the subtask");
-            //}
-
-
-            bool onlyInProgress = false;
-            foreach (SubOccurance subOccur in passedOccurance.subOccurances)
-            {
-                if (subOccur.IsComplete == false && subOccur.Title != parent.Title)
-                    onlyInProgress = true;
-            }
-
-            //updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete, string url)
-            string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
-            if (onlyInProgress == true)
-                await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
-            else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
+            url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            await RdsConnect.updateOccurance(passedOccurance, false, true, url);
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)

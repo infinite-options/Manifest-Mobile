@@ -102,6 +102,10 @@ namespace Manifest.Views
             routineRecognizer.NumberOfTapsRequired = 1;
             routineRecognizer.Tapped += routineTapped;
 
+            TapGestureRecognizer resetRoutine = new TapGestureRecognizer();
+            resetRoutine.NumberOfTapsRequired = 2;
+            resetRoutine.Tapped += resetRoutineTapped;
+
             for (int i = 0; i < todaysRoutines.Count; i++)
             {
                 Occurance toAdd = todaysRoutines[i];
@@ -113,7 +117,7 @@ namespace Manifest.Views
                     },
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
-                    RowSpacing = 10
+                    RowSpacing = 20
                 };
 
                 //Add Complete and In Progress images
@@ -227,7 +231,8 @@ namespace Manifest.Views
                     CornerRadius = 15,
                     Content = gridToAdd,
                     Padding = 10,
-                    GestureRecognizers = {routineRecognizer}
+                    HasShadow = false,
+                    GestureRecognizers = {routineRecognizer, resetRoutine}
                 };
                 gridFrame.BindingContext = toAdd;
                 //Now, we have to get the subtasks and add them to our grid
@@ -565,7 +570,38 @@ namespace Manifest.Views
                     Debug.WriteLine("Wrote to the datebase");
                 }
             }
-            else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == true)
+            //else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == true)
+            //{
+            //    bool reset = await DisplayAlert("Warning", "Do you want to reset this routine? All subtasks and instructions will be reset if you do.", "No", "Yes");
+            //    if (reset == false)
+            //    {
+            //        if (currOccurance.IsSublistAvailable == true)
+            //        {
+            //            foreach (SubOccurance subtask in currOccurance.subOccurances)
+            //            {
+            //                resetSubOccurance(subtask, currOccurance);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
+            //            if (res == "Failure")
+            //            {
+            //                await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+            //            }
+            //            Debug.WriteLine("Wrote to the datebase");
+            //        }
+            //    }
+            //}
+        }
+
+        async void resetRoutineTapped(System.Object sender, System.EventArgs e)
+        {
+            Frame myvar = (Frame)sender;
+            Occurance currOccurance = myvar.BindingContext as Occurance;
+            //Now check if the currOccurance has any subtasks
+            string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            if (currOccurance.IsInProgress == false && currOccurance.IsComplete == true)
             {
                 bool reset = await DisplayAlert("Warning", "Do you want to reset this routine? All subtasks and instructions will be reset if you do.", "No", "Yes");
                 if (reset == false)
