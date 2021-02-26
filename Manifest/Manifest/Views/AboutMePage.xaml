@@ -107,7 +107,7 @@
                         </Grid>
                         <Label Grid.Row="2" Text="People in my life" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Large" TextColor="#0C1E21"/>
                         <ScrollView Grid.Row="3">
-                            <StackLayout x:Name="userAdvisors" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Orientation="Vertical" Padding="0,10,0,0">
+                            <StackLayout x:Name="userAdvisors" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Orientation="Vertical" Padding="0,10,0,0">
                             </StackLayout>
                         </ScrollView>
                     </Grid>

@@ -29,6 +29,7 @@ namespace Manifest.Views
         public List<Event> eventsToday;
         HttpClient client = new HttpClient();
         List<Occurance> todaysEvents = new List<Occurance>();
+        List<Occurance> todaysOccurances = new List<Occurance>();
         // DICTIONARY KEYS WE HAVE ACCESS TO ARE:
         // 1. "location"
         // 2. "userId"
@@ -474,7 +475,7 @@ namespace Manifest.Views
                     j++;
                 }
             }
-
+            todaysOccurances = merged;
             foreach (Occurance activity in merged)
             {
                 if (activity.StartDayAndTime.TimeOfDay <= currDateTime && activity.EndDayAndTime.TimeOfDay >= currDateTime)
@@ -561,7 +562,7 @@ namespace Manifest.Views
 
         void TodayListClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage(todaysOccurances, eventsToday));
         }
 
     }

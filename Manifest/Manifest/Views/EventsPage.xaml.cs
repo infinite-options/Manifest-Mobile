@@ -32,13 +32,16 @@ namespace Manifest.Views
             //datagrid.Add(newEvent);
             attendees = newEvent.Attendees;
             initializeEvent();
-
         }
 
         private async void initializeEvent()
         {
             try
             {
+                if (attendees == null || attendees.Count == 0)
+                {
+                    return;
+                }
                 await GetRelations();
                 initializeAttendees(attendees);
             }
@@ -52,6 +55,10 @@ namespace Manifest.Views
         {
             try
             {
+                if (attendees == null || attendees.Count == 0)
+                {
+                    return;
+                }
                 List<string> emails = new List<string>();
                 foreach (Attendee att in attendees)
                 {
@@ -88,7 +95,7 @@ namespace Manifest.Views
                     {
                         attendees[i].Relation = person.role;
                     }
-                    if (person.role != null && person.role != "")
+                    else
                     {
                         attendees[i].Relation = "Unknown";
                     }
@@ -100,6 +107,11 @@ namespace Manifest.Views
                     if (person.phone_number != null && person.phone_number != "")
                     {
                         attendees[i].PhoneNumber = person.phone_number;
+                        attendees[i].HasPhoneNumber = true;
+                    }
+                    else
+                    {
+                        attendees[i].HasPhoneNumber = false;
                     }
                 }
             }
@@ -108,7 +120,6 @@ namespace Manifest.Views
                 await DisplayAlert("Error", "Error in EventsPage in GetRelations function: " + e.ToString(), "OK");
             }
         }
-
 
         private void initializeAttendees(List<Attendee> attendees)
         {
@@ -140,8 +151,6 @@ namespace Manifest.Views
             }
         }
 
-
-
         private async void callPerson(object sender, EventArgs args)
         {
             Image myvar = (Image)sender;
@@ -168,7 +177,6 @@ namespace Manifest.Views
                 //await Launcher.OpenAsync(new Uri("tel:" + phoneNumber));
             }
         }
-
 
         private void goToTodaysList(object sender, EventArgs args)
         {

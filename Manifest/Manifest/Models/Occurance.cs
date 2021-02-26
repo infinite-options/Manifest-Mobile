@@ -47,6 +47,7 @@ namespace Manifest.Models
         //Added so we have the list of subOccurances
         public List<SubOccurance> subOccurances { get; set; }
         public Color GoalBackground { get; set; }
+        public int borderWidth { get; set; }
 
         public void updateIsInProgress(bool updatedVal)
         {
@@ -64,6 +65,12 @@ namespace Manifest.Models
 
             GoalBackground = Color.FromHex("#D3E6D3");
             PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
+        }
+
+        public void updateBorderWidth(int newWidth)
+        {
+            borderWidth = newWidth;
+            PropertyChanged(this, new PropertyChangedEventArgs("borderWidth"));
         }
     }
 
