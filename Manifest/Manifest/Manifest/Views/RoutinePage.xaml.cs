@@ -10,6 +10,7 @@ using Manifest.Models;
 using Manifest.RDS;
 using Newtonsoft.Json;
 using Xamarin.Auth;
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -35,14 +36,12 @@ namespace Manifest.Views
             InitializeComponent();
             try{
 
-
                 setting = false;
                 height = mainStackLayoutRow.Height;
                 lastRowHeight = barStackLayoutRow.Height;
 
                 mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
                 frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-                barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
                 
                 title.Text = "Routines";
 
@@ -68,7 +67,7 @@ namespace Manifest.Views
             try
             {
                 //Need to add userID
-                string url = RdsConfig.BaseUrl + RdsConfig.getRoutines + "/" + userID;
+                string url = AppConstants.BaseUrl + AppConstants.getRoutines + "/" + userID;
                 todaysRoutines = await RdsConnect.getOccurances(url);
                 SortRoutines();
                 CreateList();
@@ -103,17 +102,22 @@ namespace Manifest.Views
             routineRecognizer.NumberOfTapsRequired = 1;
             routineRecognizer.Tapped += routineTapped;
 
+            TapGestureRecognizer resetRoutine = new TapGestureRecognizer();
+            resetRoutine.NumberOfTapsRequired = 2;
+            resetRoutine.Tapped += resetRoutineTapped;
+
             for (int i = 0; i < todaysRoutines.Count; i++)
             {
                 Occurance toAdd = todaysRoutines[i];
+                Expander routineExpander = new Expander();
                 //We want to get every subtask for that routine
                 Grid newGrid = new Grid {
                     RowDefinitions = {
-                        new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute)}
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star)}
                     },
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
-                    RowSpacing = 10
+                    RowSpacing = 20
                 };
 
                 //Add Complete and In Progress images
@@ -133,12 +137,20 @@ namespace Manifest.Views
                 routineInProgress.SetBinding(Image.IsVisibleProperty, inProgressVisible);
                 routineInProgress.HorizontalOptions = LayoutOptions.End;
 
-
+                Color routineColor = new Color();
+                if (toAdd.StartDayAndTime.TimeOfDay > DateTime.Now.TimeOfDay || toAdd.EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay)
+                {
+                    routineColor = Color.FromHex("#889AB5");
+                }
+                else
+                {
+                    routineColor = Color.FromHex("#F26D4B");
+                }
 
                 newGrid.BindingContext = toAdd;
                 Grid gridToAdd =
                     new Grid {
-                        BackgroundColor = Color.FromHex("#FFBD27"),
+                        BackgroundColor = routineColor,
                         RowDefinitions =
                         {
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star)},
@@ -172,30 +184,57 @@ namespace Manifest.Views
                 gridToAdd.Children.Add(
                     new Label
                     {
-                        Text = "This takes: " + toAdd.ExpectedCompletionTime.ToString(),
+                        Text = "This takes: " + toAdd.ExpectedCompletionTime.ToString(@"%h") +"hrs " + toAdd.ExpectedCompletionTime.ToString(@"mm") + "min",
                         FontAttributes = FontAttributes.Bold,
                         TextColor = Color.White,
-                        TextDecorations = TextDecorations.Underline
+                        //TextDecorations = TextDecorations.Underline
                     }, 0, 2);
-                gridToAdd.Children.Add(
-                    new Image {
+                Grid routineImage = new Grid()
+                {
+                    BackgroundColor = routineColor,
+                    RowDefinitions =
+                        {
+                            new RowDefinition { Height = new GridLength(2, GridUnitType.Star)},
+                            new RowDefinition { Height = new GridLength(1, GridUnitType.Star)},
+                        }
+                };
+                routineImage.Children.Add(
+                    new Image
+                    {
                         Source = toAdd.PicUrl,
                         HeightRequest = rowHeight,
                         Aspect = Aspect.AspectFit
-                    }, 1, 2, 0, 3);
+                    },0,0);
+                if (toAdd.NumSubOccurances > 0)
+                {
+                    //Add sublist image to routine
+                    routineImage.Children.Add(
+                        new Image
+                        {
+                            Source = "sublist.png",
+                            VerticalOptions = LayoutOptions.Center,
+                            HorizontalOptions = LayoutOptions.End,
+                            Aspect = Aspect.AspectFit,
+                            //HeightRequest = rowHeight / 4
+                        }, 0, 1);
+                }
+                gridToAdd.Children.Add(
+                    routineImage, 1, 2, 0, 3);
 
                 gridToAdd.Children.Add(routineComplete, 1, 2, 0, 3);
                 gridToAdd.Children.Add(routineInProgress, 1, 2, 0, 3);
+
+                
+
                 Frame gridFrame = new Frame {
-                    BackgroundColor = Color.FromHex("#FFBD27"),
+                    BackgroundColor = routineColor,
                     CornerRadius = 15,
                     Content = gridToAdd,
                     Padding = 10,
-                    GestureRecognizers = {routineRecognizer}
+                    HasShadow = false,
+                    GestureRecognizers = {routineRecognizer, resetRoutine}
                 };
                 gridFrame.BindingContext = toAdd;
-                newGrid.Children.Add(gridFrame,0,0);
-                int rowToAdd = 1;
                 //Now, we have to get the subtasks and add them to our grid
                 //var subTasks = await initializeSubTasks(i);
                 var subTasks = toAdd.subOccurances;
@@ -209,92 +248,101 @@ namespace Manifest.Views
                     toAdd.updateIsInProgress(true);
                 }
                 Debug.WriteLine("SubTasks Completed = " + toAdd.SubOccurancesCompleted);
-
-                foreach (SubOccurance subTask in subTasks)
+                routineExpander.Header = gridFrame;
+                newGrid.Children.Add(routineExpander, 0, 0);
+                if (toAdd.NumSubOccurances != 0)
                 {
-                    float subGridHeight = rowHeight / (float)1.5;
-                    newGrid.RowDefinitions.Add(new RowDefinition
+                    Grid routineExpanderChildren = new Grid() {
+                        Padding = new Thickness(5, 10, 5, 10)
+                    };
+                    int rowToAdd = 0;
+                    foreach (SubOccurance subTask in subTasks)
                     {
-                        Height = new GridLength(subGridHeight, GridUnitType.Absolute)
-                    });
-                    Grid subGrid =
-                    new Grid
-                    {
-                        RowDefinitions =
+                        float subGridHeight = rowHeight / (float)1.5;
+                        routineExpanderChildren.RowDefinitions.Add(new RowDefinition
                         {
+                            Height = new GridLength(subGridHeight, GridUnitType.Absolute)
+                        });
+                        Grid subGrid =
+                        new Grid
+                        {
+                            RowDefinitions =
+                            {
                             //new RowDefinition { Height = new GridLength(3, GridUnitType.Star)},
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star)}
-                        },
-                        ColumnDefinitions =
-                        {
+                            },
+                            ColumnDefinitions =
+                            {
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
                             new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star)}
-                        }
-                    };
-                    subGrid.BindingContext = subTask;
-                    Grid icons = new Grid
-                    {
-                        ColumnDefinitions =
+                            }
+                        };
+                        subGrid.BindingContext = subTask;
+                        Grid icons = new Grid
+                        {
+                            ColumnDefinitions =
                         {
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)}
                         }
-                    };
-                    icons.Children.Add(
-                        new Image
-                        {
-                            Source = "greencheckmark.png",
-                            GestureRecognizers = { doneRecognizer },
-                            BindingContext = subTask
-                        },0,0
-                    );
-                    icons.Children.Add(
-                        new Image
-                        {
-                            Source = "dots.png",
-                            GestureRecognizers = { helpRecognizer },
-                            BindingContext = subTask
-                        },1,0);
-                    subGrid.Children.Add(icons, 0, 0);
-                    subGrid.Children.Add(
-                        new Frame
-                        {
-                            CornerRadius = 15,
-                            BackgroundColor = Color.FromHex("#FFBD27"),
-                            Content =
-                            new Label
+                        };
+                        icons.Children.Add(
+                            new Image
                             {
-                                Text = subTask.Title,
-                                TextColor = Color.Black,
-                                BackgroundColor = Color.FromHex("#FFBD27")
+                                Source = "greencheckmark.png",
+                                GestureRecognizers = { doneRecognizer },
+                                BindingContext = subTask
+                            }, 0, 0
+                        );
+                        icons.Children.Add(
+                            new Image
+                            {
+                                Source = "instructionsHelp.png",
+                                GestureRecognizers = { helpRecognizer },
+                                BindingContext = subTask
+                            }, 1, 0);
+                        subGrid.Children.Add(icons, 0, 0);
+                        subGrid.Children.Add(
+                            new Frame
+                            {
+                                CornerRadius = 15,
+                                BackgroundColor = routineColor,
+                                Content =
+                                new Label
+                                {
+                                    Text = subTask.Title,
+                                    TextColor = Color.White,
+                                    BackgroundColor = routineColor
+                                }
                             }
-                        }
-                        ,1,0
-                        );
-                    Image isComplete = new Image();
-                    Binding isVisible = new Binding("IsComplete");
-                    isVisible.Source = subTask;
-                    isComplete.BindingContext = subTask;
-                    isComplete.Source = "greencheckmark.png";
-                    isComplete.SetBinding(Image.IsVisibleProperty, isVisible);
-                    isComplete.HorizontalOptions = LayoutOptions.End;
+                            , 1, 0
+                            );
+                        Image isComplete = new Image();
+                        Binding isVisible = new Binding("IsComplete");
+                        isVisible.Source = subTask;
+                        isComplete.BindingContext = subTask;
+                        isComplete.Source = "greencheckmark.png";
+                        isComplete.SetBinding(Image.IsVisibleProperty, isVisible);
+                        isComplete.HorizontalOptions = LayoutOptions.End;
 
-                    Image isInProgress = new Image();
-                    Binding isInProgressVisible = new Binding("IsInProgress");
-                    isInProgressVisible.Source = subTask;
-                    isInProgress.BindingContext = subTask;
-                    isInProgress.Source = "yellowclock.png";
-                    isInProgress.SetBinding(Image.IsVisibleProperty, isInProgressVisible);
-                    isInProgress.HorizontalOptions = LayoutOptions.End;
-                    subGrid.Children.Add(
-                        isComplete, 1, 0
-                        );
-                    subGrid.Children.Add(
-                        isInProgress, 1, 0
-                        );
-                    newGrid.Children.Add(subGrid, 0, rowToAdd);
-                    rowToAdd++;
+                        Image isInProgress = new Image();
+                        Binding isInProgressVisible = new Binding("IsInProgress");
+                        isInProgressVisible.Source = subTask;
+                        isInProgress.BindingContext = subTask;
+                        isInProgress.Source = "yellowclock.png";
+                        isInProgress.SetBinding(Image.IsVisibleProperty, isInProgressVisible);
+                        isInProgress.HorizontalOptions = LayoutOptions.End;
+                        subGrid.Children.Add(
+                            isComplete, 1, 0
+                            );
+                        subGrid.Children.Add(
+                            isInProgress, 1, 0
+                            );
+                        routineExpanderChildren.Children.Add(subGrid, 0, rowToAdd);
+                        rowToAdd++;
 
+                    }
+                    routineExpander.Content = routineExpanderChildren;
                 }
                 routines.Children.Add(newGrid);
             }
@@ -326,7 +374,7 @@ namespace Manifest.Views
 
             Occurance parentOccurance = grandparent.BindingContext as Occurance;
 
-            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
             if (currOccurance.IsComplete == false && currOccurance.IsInProgress == true)
             {
                 string res = await RdsConnect.updateOccurance(currOccurance, false, true, url);
@@ -337,7 +385,7 @@ namespace Manifest.Views
 
                 //Now update the parent
                 parentOccurance.SubOccurancesCompleted++;
-                url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
                 {
                     res = await RdsConnect.updateOccurance(parentOccurance, false, true, url);
@@ -366,16 +414,7 @@ namespace Manifest.Views
 
                 //Now update the parent
                 //parentOccurance.SubOccurancesCompleted++;
-                url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-                //if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
-                //{
-                //    res = await RdsConnect.updateOccurance(parentOccurance, false, true, url);
-                //    if (res == "Failure")
-                //    {
-                //        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
-                //    }
-                //    Debug.WriteLine("Wrote to the datebase");
-                //}
+                url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 if (parentOccurance.IsInProgress == false && parentOccurance.IsComplete == false)
                 {
                     res = await RdsConnect.updateOccurance(parentOccurance, true, false, url);
@@ -383,6 +422,85 @@ namespace Manifest.Views
                     {
                         await DisplayAlert("Error", "There was an error writing to the database.", "OK");
                     }
+                }
+            }
+            else if (currOccurance.IsComplete == true && currOccurance.IsInProgress == false)
+            {
+                string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                }
+                //Need to update instructions
+                foreach (Instruction instruction in currOccurance.instructions)
+                {
+                    res = await RdsConnect.updateInstruction(false, instruction);
+                    if (res == "FAILURE")
+                    {
+                        Debug.WriteLine("Failed to update instruction");
+                    }
+                }
+                
+                //Now update the parent
+                parentOccurance.SubOccurancesCompleted--;
+                url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                if (parentOccurance.SubOccurancesCompleted == 0)
+                {
+                    res = await RdsConnect.updateOccurance(parentOccurance, false, false, url);
+                    if (res == "Failure")
+                    {
+                        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                    }
+                }
+                else if (parentOccurance.SubOccurancesCompleted < parentOccurance.NumSubOccurances && parentOccurance.SubOccurancesCompleted > 0)
+                {
+                    res = await RdsConnect.updateOccurance(parentOccurance, true, false, url);
+                    if (res == "Failure")
+                    {
+                        await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                    }
+                }
+
+            }
+        }
+
+
+        private async void resetSubOccurance(SubOccurance currOccurance, Occurance parentOccurance)
+        {
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
+            string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
+            Debug.WriteLine("Suoccurance update response: " + res);
+            if (res == "Failure")
+            {
+                await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+            }
+            //Need to update instructions
+            foreach (Instruction instruction in currOccurance.instructions)
+            {
+                res = await RdsConnect.updateInstruction(false, instruction);
+                if (res == "FAILURE")
+                {
+                    Debug.WriteLine("Failed to update instruction");
+                }
+            }
+
+            //Now update the parent
+            parentOccurance.SubOccurancesCompleted--;
+            url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            if (parentOccurance.SubOccurancesCompleted == 0)
+            {
+                res = await RdsConnect.updateOccurance(parentOccurance, false, false, url);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                }
+            }
+            else if (parentOccurance.SubOccurancesCompleted < parentOccurance.NumSubOccurances && parentOccurance.SubOccurancesCompleted > 0)
+            {
+                res = await RdsConnect.updateOccurance(parentOccurance, true, false, url);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Error", "There was an error writing to the database.", "OK");
                 }
             }
         }
@@ -429,9 +547,9 @@ namespace Manifest.Views
             Frame myvar = (Frame)sender;
             Occurance currOccurance = myvar.BindingContext as Occurance;
             //Now check if the currOccurance has any subtasks
-            if (currOccurance.NumSubOccurances == 0)
+            string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            if (currOccurance.NumSubOccurances == 0 && !(currOccurance.IsInProgress == false && currOccurance.IsComplete == true))
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
                 if (currOccurance.IsComplete == false && currOccurance.IsInProgress == false)
                 {
                     string res = await RdsConnect.updateOccurance(currOccurance, true, false, url);
@@ -450,6 +568,60 @@ namespace Manifest.Views
                         await DisplayAlert("Error", "There was an error writing to the database.", "OK");
                     }
                     Debug.WriteLine("Wrote to the datebase");
+                }
+            }
+            //else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == true)
+            //{
+            //    bool reset = await DisplayAlert("Warning", "Do you want to reset this routine? All subtasks and instructions will be reset if you do.", "No", "Yes");
+            //    if (reset == false)
+            //    {
+            //        if (currOccurance.IsSublistAvailable == true)
+            //        {
+            //            foreach (SubOccurance subtask in currOccurance.subOccurances)
+            //            {
+            //                resetSubOccurance(subtask, currOccurance);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
+            //            if (res == "Failure")
+            //            {
+            //                await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+            //            }
+            //            Debug.WriteLine("Wrote to the datebase");
+            //        }
+            //    }
+            //}
+        }
+
+        async void resetRoutineTapped(System.Object sender, System.EventArgs e)
+        {
+            Frame myvar = (Frame)sender;
+            Occurance currOccurance = myvar.BindingContext as Occurance;
+            //Now check if the currOccurance has any subtasks
+            string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            if (currOccurance.IsInProgress == false && currOccurance.IsComplete == true)
+            {
+                bool reset = await DisplayAlert("Warning", "Do you want to reset this routine? All subtasks and instructions will be reset if you do.", "No", "Yes");
+                if (reset == false)
+                {
+                    if (currOccurance.IsSublistAvailable == true)
+                    {
+                        foreach (SubOccurance subtask in currOccurance.subOccurances)
+                        {
+                            resetSubOccurance(subtask, currOccurance);
+                        }
+                    }
+                    else
+                    {
+                        string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
+                        if (res == "Failure")
+                        {
+                            await DisplayAlert("Error", "There was an error writing to the database.", "OK");
+                        }
+                        Debug.WriteLine("Wrote to the datebase");
+                    }
                 }
             }
         }
@@ -471,7 +643,7 @@ namespace Manifest.Views
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null, null));
         }
 
         void Button_Clicked_1(System.Object sender, System.EventArgs e)

@@ -81,7 +81,7 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+
             
             title.Text = "About me";
             var helperObject = new MainPage();
@@ -304,7 +304,7 @@ namespace Manifest.Views
 
         void navigateToWhatMotivatesMe(System.Object sender, System.EventArgs e)
         {
-            Debug.WriteLine("Go to what motivates me");
+            Application.Current.MainPage = new WhatIsImportantToMePage();
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
@@ -326,7 +326,7 @@ namespace Manifest.Views
 
         void Button_Clicked_1(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null, null));
         }
 
         void Button_Clicked_2(System.Object sender, System.EventArgs e)

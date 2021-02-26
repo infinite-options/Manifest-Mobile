@@ -16,20 +16,26 @@
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="1"></RowDefinition>
                             <RowDefinition Height="0"></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="AUTO"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="60"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="Back Icon" TextColor="White">
-                                <Label.GestureRecognizers>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="15"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="backIcon.png"></Image>
+                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <Label Grid.Column="1" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                            <Label Grid.Column="1"  Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
                             <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
@@ -99,7 +105,7 @@
                     <!--<Button Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" x:Name="goal"  TextColor="White" FontAttributes="Bold" BackgroundColor="#9DB2CB" Clicked="goBackToGoals"/>-->
 
                     <StackLayout Grid.Column="2" VerticalOptions="Center">
-                        <ImageButton x:Name="progIcon" HorizontalOptions="Fill" VerticalOptions="Fill" Source="progBar.png" Clicked="progressClicked"/>
+                        <ImageButton x:Name="progIcon" HorizontalOptions="Fill" VerticalOptions="Fill" Source="progBar.png" BackgroundColor="Transparent" Clicked="progressClicked"/>
                         <Label x:Name="progLabel" Text="Progress" TextColor="Black" HorizontalOptions="Center" Margin="0,2,0,0"/>
                     </StackLayout>
 

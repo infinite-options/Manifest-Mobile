@@ -25,8 +25,7 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-            title.Text = "Who am I?";
+            title.Text = "My Story";
 
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
@@ -46,7 +45,7 @@ namespace Manifest.Views
 
         void Button_Clicked_1(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null, null));
         }
 
         void Button_Clicked_2(System.Object sender, System.EventArgs e)

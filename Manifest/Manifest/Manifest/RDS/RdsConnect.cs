@@ -17,7 +17,7 @@ namespace Manifest.RDS
         //Use this function to send the guid of a user to the database
         public static async void storeGUID(string guid, string uid)
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.addGuid;
+            string url = AppConstants.BaseUrl + AppConstants.addGuid;
 
             Console.WriteLine("guid = " + guid + ", uid = " + uid);
             if (guid == null || guid == "")
@@ -52,7 +52,7 @@ namespace Manifest.RDS
         {
             try
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.aboutMeUrl + "/" + uid;
+                string url = AppConstants.BaseUrl + AppConstants.aboutMeUrl + "/" + uid;
                 var res = await client.GetStringAsync(url);
                 return res;
             }
@@ -66,7 +66,7 @@ namespace Manifest.RDS
         //Used to update a goal/routine
         public static async Task<string> updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete, string url)
         {
-            //string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            //string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
             currOccurance.updateIsInProgress(inprogress);
             currOccurance.updateIsComplete(iscomplete);
             //Now, write to the database
@@ -102,12 +102,12 @@ namespace Manifest.RDS
         //Used to update a goal/routine
         public static async Task<string> updateOccurance(SubOccurance currOccurance, bool inprogress, bool iscomplete, string url)
         {
-            //string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+            //string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
             currOccurance.updateIsInProgress(inprogress);
             currOccurance.updateIsComplete(iscomplete);
             //Now, write to the database
             currOccurance.DateTimeStarted = DateTime.Now;
-            Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+            Debug.WriteLine("InProgress = " + currOccurance.IsInProgress + "\n IsComplete = " + currOccurance.IsComplete);
             //string toSend = updateOccurance(currOccurance);
             UpdateOccurance updateOccur = new UpdateOccurance()
             {
@@ -140,7 +140,7 @@ namespace Manifest.RDS
             try
             {
                 var response = await client.GetStringAsync(url);
-                Debug.WriteLine("Getting user. User info below:");
+                //Debug.WriteLine("Getting user. User info below:");
                 Debug.WriteLine(response);
                 OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
                 //Debug.WriteLine(occuranceResponse);
@@ -233,7 +233,7 @@ namespace Manifest.RDS
                 toAdd.AtSequence = dto.at_sequence;
                 toAdd.IsAvailable = DataParser.ToBool(dto.is_available);
                 toAdd.IsComplete = DataParser.ToBool(dto.is_complete);
-                if (toAdd.IsComplete)
+                if (toAdd.IsComplete == true)
                 {
                     parent.SubOccurancesCompleted++;
                 }
@@ -281,6 +281,31 @@ namespace Manifest.RDS
             return instructions;
         }
 
-
+        public static async Task<string> updateInstruction(bool updateVal, Instruction currInstruction)
+        {
+            string url = AppConstants.BaseUrl + AppConstants.updateInstruction;
+            currInstruction.updateIsComplete(updateVal);
+            UpdateInstruction updateInstruction = new UpdateInstruction()
+            {
+                id = currInstruction.unique_id,
+                is_complete = currInstruction.IsComplete,
+                is_in_progress = currInstruction.IsInProgress
+            };
+            string toSend = updateInstruction.updateInstruction();
+            var content = new StringContent(toSend);
+            var res = await client.PostAsync(url, content);
+            if (res.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Wrote to the datebase");
+                return "SUCCESS";
+            }
+            else
+            {
+                Debug.WriteLine("Some error");
+                Debug.WriteLine(toSend);
+                Debug.WriteLine(res.ToString());
+            }
+            return "FAILURE";
+        }
     }
 }

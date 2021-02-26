@@ -12,23 +12,17 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Manifest.LogIn.Classes;
+using Manifest.Config;
 
 namespace Manifest.Droid.GoogleInterceptor
 {
-    //SF endpoint
-    //[Activity(Label = "CustomUrlSchemeInterceptorActivity", NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
-    //[IntentFilter(
-    //new[] { Intent.ActionView },
-    //Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-    //DataSchemes = new[] { "com.googleusercontent.apps.97916302968-7una3voi6tjhf92jmvf87rdaeblaaf3s" },
-    //DataPath = "/oauth2redirect")]
-
     [Activity(Label = "CustomUrlSchemeInterceptorActivity", NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
     [IntentFilter(
     new[] { Intent.ActionView },
     Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-    DataSchemes = new[] { "com.googleusercontent.apps.1009120542229-55an5om5ecl3it6quigclsnj0035oiap" },
+    DataSchemes = new[] { AppConstants.GoogleInterceptorUrlAndroid },
     DataPath = "/oauth2redirect")]
+
     public class CustomUrlSchemeInterceptorActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

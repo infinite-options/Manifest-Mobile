@@ -9,6 +9,8 @@ using System.Linq;
 using System.Diagnostics;
 using WindowsAzure.Messaging;
 using Xamarin.Essentials;   // Added so that Preferences would work
+using Manifest.Config;
+
 namespace Manifest.Droid
 {
     [Service]

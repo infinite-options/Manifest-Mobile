@@ -88,7 +88,7 @@ namespace Manifest.LogIn.Apple
                     if (Application.Current.Properties.ContainsKey(account.UserId.ToString()))
                     {
                         account.Email = (string)Application.Current.Properties[account.UserId.ToString()];
-                        string url = RdsConfig.BaseUrl + RdsConfig.addGuid;
+                        string url = AppConstants.BaseUrl + AppConstants.addGuid;
                         Debug.WriteLine("WRITE GUID: " + url);
 
                         if (Device.RuntimePlatform == Device.iOS)
@@ -131,7 +131,7 @@ namespace Manifest.LogIn.Apple
                             var data = JsonConvert.DeserializeObject<AppleUser>(responseContent);
                             Application.Current.Properties[account.UserId.ToString()] = data.result[0].customer_email;
                             account.Email = (string)Application.Current.Properties[account.UserId.ToString()];
-                            string url = RdsConfig.BaseUrl + RdsConfig.addGuid;
+                            string url = AppConstants.BaseUrl + AppConstants.addGuid;
                             Debug.WriteLine("WRITE GUID: " + url);
 
                             if (Device.RuntimePlatform == Device.iOS)

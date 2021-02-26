@@ -47,7 +47,7 @@ namespace Manifest.Views
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         List<Occurance> commonOccur;
 
-        public TodaysListPage()
+        public TodaysListPage(List<Occurance> occurances, List<Event> events)
         {
             today = DateTime.Today;
             todayDate = today.ToString("d");
@@ -64,14 +64,12 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
 
             title.Text = today.ToString("dddd");
 
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
-            //barStackLayoutProperties.BackgroundColor = Color.FromHex("#FF7555");
 
             NavigationPage.SetHasNavigationBar(this, false);
             string userInfo = (string)Application.Current.Properties["userId"];
@@ -79,47 +77,54 @@ namespace Manifest.Views
             {
                 Application.Current.MainPage = new LogInPage();
             }
-            try
+            todaysOccurances = new List<Occurance>();
+            displayedOccurances = new List<Occurance>();
+            todaysEvents = new List<Occurance>();
+            todaysOccurancesAfternoon = new List<Occurance>();
+            todaysOccurancesEvening = new List<Occurance>();
+            commonOccur = new List<Occurance>();
+
+
+            Debug.WriteLine(userInfo);
+            //string userID = userInfo.result[0].user_unique_id;
+            string userID = userInfo;
+            taskListMorning.ItemsSource = datagridMorning;
+            taskListAfternoon.ItemsSource = datagridAfternoon;
+            taskListEvening.ItemsSource = datagridEvening;
+            if (occurances == null)
             {
-                //today = DateTime.Today;
-                //todayDate = today.ToString("d");
-                //morningStart = todayDate + ", 12:00:00 AM";
-                //afternoonStart = todayDate + ", 11:00:00 AM";
-                //eveningStart = todayDate + ", 6:00:00 PM";
-                //Debug.WriteLine("dotw: " + today.ToString("dddd"));
-                todaysOccurances = new List<Occurance>();
-                displayedOccurances = new List<Occurance>();
-                todaysEvents = new List<Occurance>();
-                todaysOccurancesAfternoon = new List<Occurance>();
-                todaysOccurancesEvening = new List<Occurance>();
-                commonOccur = new List<Occurance>();
+                Debug.WriteLine("Entered if initializer");
+                try
+                {
+                    //today = DateTime.Today;
+                    //todayDate = today.ToString("d");
+                    //morningStart = todayDate + ", 12:00:00 AM";
+                    //afternoonStart = todayDate + ", 11:00:00 AM";
+                    //eveningStart = todayDate + ", 6:00:00 PM";
+                    //Debug.WriteLine("dotw: " + today.ToString("dddd"));
+                    initialiseTodaysOccurances(userID);
+                    Debug.WriteLine(todaysOccurances);
 
-                RdsConnect.storeGUID(GlobalVars.user_guid, userInfo);
-                Debug.WriteLine(userInfo);
-                //string userID = userInfo.result[0].user_unique_id;
-                string userID = userInfo;
-                taskListMorning.ItemsSource = datagridMorning;
-                taskListAfternoon.ItemsSource = datagridAfternoon;
-                taskListEvening.ItemsSource = datagridEvening;
-                initialiseTodaysOccurances(userID);
-                Debug.WriteLine(todaysOccurances);
-
-                Debug.WriteLine("device height: " + deviceHeight.ToString());
-                Debug.WriteLine("device width: " + deviceWidth.ToString());
-                dotw.Text = today.ToString("dddd");
+                    Debug.WriteLine("device height: " + deviceHeight.ToString());
+                    Debug.WriteLine("device width: " + deviceWidth.ToString());
+                    dotw.Text = today.ToString("dddd");
+                }
+                catch (Exception e)
+                {
+                    DisplayAlert("Alert", "Error in TodaysListTest initializer. Error: " + e.ToString(), "OK");
+                }
             }
-            catch (Exception e)
+            else
             {
-                DisplayAlert("Alert", "Error in TodaysListTest initializer. Error: " + e.ToString(), "OK");
+                Debug.WriteLine("Entered else initializer");
+                todaysOccurances = occurances;
+                eventsToday = events;
+                //displayedOccurances = occurances;
+                ToOccurances();
+                initialiseDataGrids(displayedOccurances);
             }
-
 
         }
-
-        //void Button_Clicked(System.Object sender, System.EventArgs e)
-        //{
-        //    Navigation.PushAsync(new GoalsPage(),false);
-        //}
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
@@ -128,7 +133,7 @@ namespace Manifest.Views
 
         void TodaysListPageClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null, null));
         }
 
         void AboutMeClicked(System.Object sender, System.EventArgs e)
@@ -146,15 +151,8 @@ namespace Manifest.Views
         {
             try
             {
-                //Need to add userID
-                string url = RdsConfig.BaseUrl + RdsConfig.goalsAndRoutinesUrl + "/" + userID;
+                string url = AppConstants.BaseUrl + AppConstants.goalsAndRoutinesUrl + "/" + userID;
                 todaysOccurances = await RdsConnect.getOccurances(url);
-                //Debug.WriteLine("URL: " + url);
-                //var response = await client.GetStringAsync(url);
-                //Debug.WriteLine("Getting user. User info below:");
-                //Debug.WriteLine(response);
-                //OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
-                ////Debug.WriteLine(occuranceResponse);
                 ToOccurances();
                 await CallGetEvents();
                 CreateList();
@@ -166,99 +164,89 @@ namespace Manifest.Views
         }
 
         bool firstRunPassed = false;
+        bool scrollViewSet = false;
+        float scrollViewY = 0;
         //This function takes the response from the endpoint, and formats it into Occurances
         private void ToOccurances()
         {
             try
             {
-                //sort by end time
-                for (int j = 0; j < todaysOccurances.Count - 1; j++)
+
+                displayedOccurances.Sort(delegate (Occurance a, Occurance b)
                 {
-                    for (int i = j + 1; i < todaysOccurances.Count; i++)
-                    {
-                        if (todaysOccurances[i].EndDayAndTime.TimeOfDay < todaysOccurances[j].EndDayAndTime.TimeOfDay)
+                    if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
+                    else if (a.StartDayAndTime.TimeOfDay == b.StartDayAndTime.TimeOfDay) {
+                        if (a.IsEvent == true && b.IsEvent == false)
                         {
-                            Occurance holder = todaysOccurances[i];
-                            todaysOccurances[i] = todaysOccurances[j];
-                            todaysOccurances[j] = holder;
+                            return -1;
+                        }
+                        else if (a.IsEvent == false && b.IsEvent == true)
+                        {
+                            return 1;
+                        }
+                        else if (a.IsPersistent == true && b.IsPersistent == false)
+                        {
+                            return -1;
+                        }
+                        else if (a.IsPersistent == false && b.IsPersistent == true)
+                        {
+                            return 1;
+                        }
+                        else if (a.EndDayAndTime.TimeOfDay < b.EndDayAndTime.TimeOfDay)
+                        {
+                            return -1;
+                        }
+                        else
+                        {
+                            return 1;
                         }
                     }
+                    else return 1;
+                });
 
-                }
 
-                //sort by start time
-                for (int j = 0; j < todaysOccurances.Count - 1; j++)
+                for (int i = 0; i < todaysOccurances.Count; i++)
                 {
-                    for (int i = j + 1; i < todaysOccurances.Count; i++)
-                    {
-                        if (todaysOccurances[i].StartDayAndTime.TimeOfDay < todaysOccurances[j].StartDayAndTime.TimeOfDay)
-                        {
-                            Occurance holder = todaysOccurances[i];
-                            todaysOccurances[i] = todaysOccurances[j];
-                            todaysOccurances[j] = holder;
-                        }
-                    }
-
-                }
-
-
-
-                foreach (Occurance dto in todaysOccurances)
-                {
+                    Occurance dto = todaysOccurances[i];
                     //    if (dto.IsDisplayedToday == true)
                     //    {
-                    Debug.WriteLine("occurance tracked: " + dto.Title);
-                        Occurance toAdd = new Occurance();
-                        dto.CompletionTime = "This takes " + dto.CompletionTime;
-                        dto.TimeInterval = dto.StartDayAndTime.ToString("t") + "-" + dto.EndDayAndTime.ToString("t");
-
+                    if (dto.EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay) {
+                        dto.StatusColor = Color.FromHex("#BBC7D7");
+                    }
+                    else {
+                        //if (!scrollViewSet)
+                        //{
+                        //    scrollViewY = i * 100;
+                        //    scrollViewSet = true;
+                        //}
                         if (dto.IsPersistent == true)
                             dto.StatusColor = Color.FromHex("#FF6B4A");
-                        else dto.StatusColor = Color.FromHex("#FFBD27");
+                        else if (dto.IsEvent == false) dto.StatusColor = Color.FromHex("#FFBD27");
+                        else dto.StatusColor = Color.FromHex("#67ABFC");
+                    }
 
-                        //highlighting occurances happening now
-                        //if (DateTime.Now.TimeOfDay >= toAdd.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAdd.EndDayAndTime.TimeOfDay)
-                        //    toAdd.StatusColor = Color.FromHex("#FFBD27");
-                        //else toAdd.StatusColor = Color.FromHex("#9DB2CB");
 
-                        //Debug.WriteLine("start time: " + dto.start_day_and_time);
+                    Debug.WriteLine("occurance tracked: " + dto.Title);
+                        Occurance toAdd = new Occurance();
+                    if (!dto.IsEvent)
+                    {
+                        dto.CompletionTime = "This takes " + dto.CompletionTime;
+                        dto.TimeInterval = dto.StartDayAndTime.ToString("t") + "-" + dto.EndDayAndTime.ToString("t");
+                    }
 
-                        //toAdd.RepeatWeekDays = ParseRepeatWeekDays(repeat_week_days);
-
-                        //if ("6:00 AM" == "6:00 AM")
-                        //{
-                        //    Debug.WriteLine("first if passed");
-                        //}
-                        //if (String.Compare("6:00 PM", "6:00 AM") >= 0)
-                        //{
-                        //    Debug.WriteLine("second if passed");
-                        //}
-                        //if (String.Compare("11:00 AM", "6:00 AM") >= 0)
-                        //{
-                        //    Debug.WriteLine("third if passed");
-                        //}
-                        //if (String.Compare("11:00 AM", "2:00 PM") >= 0)
-                        //{
-                        //    Debug.WriteLine("fourth if passed");
-                        //}
-                        //if (ToDateTime("11:00 AM").TimeOfDay <= ToDateTime("2:00 PM").TimeOfDay)
-                        //{
-                        //    Debug.WriteLine("testing if passed");
-                        //}
-
-                        if (firstRunPassed == false && dto.IsPersistent == false)
+                    if (firstRunPassed == false && dto.IsPersistent == false)
                         {
                             Debug.WriteLine("first if entered");
                             commonOccur.Add(dto);
                             firstRunPassed = true;
                         }
-                        else if (dto.IsPersistent == false && commonOccur.Count != 0 && ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay <= ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
+                        else if (dto.IsPersistent == false && !dto.IsEvent && commonOccur.Count != 0 && ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay <= ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
                             && ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay >= ToDateTime(dto.EndDayAndTime.ToString("t")).TimeOfDay)
                         {
                             Debug.WriteLine("second if entered");
                             commonOccur.Add(dto);
                         }
-                        else if (dto.IsPersistent == false && commonOccur.Count > 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
+                        else if (dto.IsPersistent == false && !dto.IsEvent && commonOccur.Count > 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
                             || ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay < ToDateTime(dto.EndDayAndTime.ToString("t")).TimeOfDay))
                         {
                             Debug.WriteLine("third if entered");
@@ -272,9 +260,6 @@ namespace Manifest.Views
                             toAddPursue.IsEvent = false;
 
                             toAddPursue.StatusColor = Color.FromHex("#FFBD27");
-                            //if (DateTime.Now.TimeOfDay >= toAddPursue.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAddPursue.EndDayAndTime.TimeOfDay)
-                            //    toAddPursue.StatusColor = Color.FromHex("#FFBD27");
-                            //else toAddPursue.StatusColor = Color.FromHex("#9DB2CB");
 
                             List<Occurance> holder = new List<Occurance>(commonOccur);
                             Debug.WriteLine("holder count before: " + holder.Count);
@@ -284,7 +269,7 @@ namespace Manifest.Views
                             commonOccur.Add(dto);
                             Debug.WriteLine("holder count after: " + holder.Count);
                         }
-                        else if (toAdd.IsPersistent == false && commonOccur.Count == 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(toAdd.StartDayAndTime.ToString("t")).TimeOfDay
+                        else if (toAdd.IsPersistent == false && !dto.IsEvent && commonOccur.Count == 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(toAdd.StartDayAndTime.ToString("t")).TimeOfDay
                             || ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay > ToDateTime(toAdd.EndDayAndTime.ToString("t")).TimeOfDay))
                         {
                             Debug.WriteLine("not lumped together: " + toAdd.Title);
@@ -317,9 +302,6 @@ namespace Manifest.Views
                     toAddPursue.IsEvent = false;
 
                     toAddPursue.StatusColor = Color.FromHex("#FFBD27");
-                    //if (DateTime.Now.TimeOfDay >= toAddPursue.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAddPursue.EndDayAndTime.TimeOfDay)
-                    //    toAddPursue.StatusColor = Color.FromHex("#FFBD27");
-                    //else toAddPursue.StatusColor = Color.FromHex("#9DB2CB");
 
                     List<Occurance> holder = new List<Occurance>(commonOccur);
                     Debug.WriteLine("holder count before: " + holder.Count);
@@ -339,39 +321,39 @@ namespace Manifest.Views
             }
         }
 
-        //This function converts a string to a bool
-        private bool ToBool(string boolString)
-        {
-            if (String.IsNullOrEmpty(boolString)) {
-                return false;
-            }
-            try
-            {
-                return Boolean.Parse(boolString);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error in ToBool function in TodaysList class");
-                return false;
-            }
-        }
+        ////This function converts a string to a bool
+        //private bool ToBool(string boolString)
+        //{
+        //    if (String.IsNullOrEmpty(boolString)) {
+        //        return false;
+        //    }
+        //    try
+        //    {
+        //        return Boolean.Parse(boolString);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.WriteLine("Error in ToBool function in TodaysList class");
+        //        return false;
+        //    }
+        //}
 
-        //This function converts a string to a TimeSpan
-        private TimeSpan ToTimeSpan(string timeString)
-        {
-            if (String.IsNullOrEmpty(timeString))
-            {
-                return new TimeSpan();
-            }
-            try
-            {
-                return TimeSpan.Parse(timeString);
-            }
-            catch (Exception e) {
-                Debug.WriteLine("Error in ToTimeSpan function in TodaysList class");
-            }
-            return new TimeSpan();
-        }
+        ////This function converts a string to a TimeSpan
+        //private TimeSpan ToTimeSpan(string timeString)
+        //{
+        //    if (String.IsNullOrEmpty(timeString))
+        //    {
+        //        return new TimeSpan();
+        //    }
+        //    try
+        //    {
+        //        return TimeSpan.Parse(timeString);
+        //    }
+        //    catch (Exception e) {
+        //        Debug.WriteLine("Error in ToTimeSpan function in TodaysList class");
+        //    }
+        //    return new TimeSpan();
+        //}
 
         //This function convert a string to a DateTime
         private DateTime ToDateTime(string dateString)
@@ -450,12 +432,13 @@ namespace Manifest.Views
         //}
 
         //This function is going to initialise our three data grids
+
         private async void initialiseDataGrids(List<Occurance> todaysTasks)
         {
 
             try
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.timeSettingsUrl + "/" + Application.Current.Properties["userId"];
+                string url = AppConstants.BaseUrl + AppConstants.timeSettingsUrl + "/" + Application.Current.Properties["userId"];
                 var response2 = await client2.GetStringAsync(url);
                 Debug.WriteLine("Getting time settings:");
                 Debug.WriteLine(response2);
@@ -478,32 +461,72 @@ namespace Manifest.Views
                 int afternoonTaskCount = 0;
                 int eveningTaskCount = 0;
                 string todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
+                scrollViewY += 75;
                 while (i < todaysTasks.Count && String.Compare(todaysTaskTime,timeResponse.afternoon_time) < 0)
                 {
+                    todaysTasks[i].borderWidth = 0;
                     Debug.WriteLine("taskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString() + " afternoonStart: " + ToDateTime(afternoonStart).TimeOfDay.ToString());
                     datagridMorning.Add(todaysTasks[i]);
                     todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
+                    if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                    {
+                        scrollViewY += 115;
+                    }
+                    else if (!scrollViewSet)
+                    {
+                        scrollViewSet = true;
+                        todaysTasks[i].updateBorderWidth(5);
+                    }
                     morningTaskCount++;
                     i++;
                 }
+                if (!scrollViewSet)
+                {
+                    scrollViewY += 135;
+                    //scrollViewY += 90;
+                }
                 while (i < todaysTasks.Count && String.Compare(todaysTaskTime, timeResponse.evening_time) < 0)
                 {
+                    todaysTasks[i].borderWidth = 0;
                     Debug.WriteLine("afternoonTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
                     datagridAfternoon.Add(todaysTasks[i]);
                     todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
+                    if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                    {
+                        scrollViewY += 115;
+                    }
+                    else if (!scrollViewSet)
+                    {
+                        scrollViewSet = true;
+                        todaysTasks[i].updateBorderWidth(5);
+                    }
                     afternoonTaskCount++;
                     i++;
                 }
+                if (!scrollViewSet)
+                {
+                    scrollViewY += 135;
+                    //scrollViewY += 90;
+                }
                 while (i < todaysTasks.Count)
                 {
+                    todaysTasks[i].borderWidth = 0;
                     Debug.WriteLine("nightTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
                     Debug.WriteLine("nightTaskStartHrMin: " + todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                     datagridEvening.Add(todaysTasks[i]);
+                    if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                    {
+                        scrollViewY += 115;
+                    }
+                    else if (!scrollViewSet)
+                    {
+                        scrollViewSet = true;
+                        todaysTasks[i].updateBorderWidth(5);
+                    }
                     eveningTaskCount++;
                     i++;
                     //todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                 }
-
                 Debug.WriteLine("morningCount: " + morningTaskCount.ToString());
                 Debug.WriteLine("afternoonCount: " + afternoonTaskCount.ToString());
                 Debug.WriteLine("eveningCount: " + eveningTaskCount.ToString());
@@ -520,6 +543,7 @@ namespace Manifest.Views
                 if (eveningTaskCount == 0)
                     taskListEvening.HeightRequest = 60;
                 //stack3.IsVisible = false;
+                await todaysSchedule.ScrollToAsync(0, scrollViewY, true);
             }
             catch (Exception e)
             {
@@ -559,7 +583,7 @@ namespace Manifest.Views
             try
             {
                 DateTimeOffset dateTimeOffset = DateTimeOffset.Now;
-                string url = Constant.GoogleCalendarUrl + "?orderBy=startTime&singleEvents=true&";
+                string url = AppConstants.GoogleCalendarUrl + "?orderBy=startTime&singleEvents=true&";
                 var authToken = (String)Application.Current.Properties["accessToken"];
                 Debug.WriteLine("AuthToken: " + authToken);
                 int publicYear = dateTimeOffset.Year;
@@ -716,7 +740,7 @@ namespace Manifest.Views
             }
             else
             {
-                Application.Current.MainPage = new EventsPage(currEvent);
+                await Navigation.PushAsync(new EventsPage(currEvent), false);
             }
         }
 
@@ -738,7 +762,7 @@ namespace Manifest.Views
                 }
                 Debug.WriteLine(currOccurance.Id);
                 //var currSession = (Session)Application.Current.Properties["session"];
-                string url = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 //If there is a sublist available, go to goals page if its a Pursue A Goal
                 //if (currOccurance.Title == "Pursue A Goal")
                 if (currOccurance.IsPersistent == false)

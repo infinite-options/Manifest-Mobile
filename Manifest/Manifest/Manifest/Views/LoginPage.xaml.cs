@@ -72,7 +72,7 @@ namespace Manifest.Views
             Application.Current.Properties["timeStamp"] = "";
             Application.Current.Properties["accessToken"] = "";
             Application.Current.Properties["refreshToken"] = "";
-
+            Application.Current.Properties["platform"] = "";
             // Color keys
             Application.Current.Properties["colorScheme"] = "classic";
             Application.Current.Properties["background"] = "#F2F7FC";
@@ -144,16 +144,16 @@ namespace Manifest.Views
             switch (Device.RuntimePlatform)
             {
                 case Device.iOS:
-                    clientID = Constant.FacebookiOSClientID;
-                    redirectURL = Constant.FacebookiOSRedirectUrl;
+                    clientID = AppConstants.FacebookiOSClientID;
+                    redirectURL = AppConstants.FacebookiOSRedirectUrl;
                     break;
                 case Device.Android:
-                    clientID = Constant.FacebookAndroidClientID;
-                    redirectURL = Constant.FacebookAndroidRedirectUrl;
+                    clientID = AppConstants.FacebookAndroidClientID;
+                    redirectURL = AppConstants.FacebookAndroidRedirectUrl;
                     break;
             }
 
-            var authenticator = new OAuth2Authenticator(clientID, Constant.FacebookScope, new Uri(Constant.FacebookAuthorizeUrl), new Uri(redirectURL), null, false);  // Initializes variable authenticator
+            var authenticator = new OAuth2Authenticator(clientID, AppConstants.FacebookScope, new Uri(AppConstants.FacebookAuthorizeUrl), new Uri(redirectURL), null, false);  // Initializes variable authenticator
             var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
 
             // Is this like clicking a button?  ie I just clicked FacebookAuthenticatorCompleted and then that function ran?
@@ -177,7 +177,7 @@ namespace Manifest.Views
 
             if (e.IsAuthenticated)                                                                                      // How does this statement work?
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.addGuid;
+                string url = AppConstants.BaseUrl + AppConstants.addGuid;
                 Debug.WriteLine("WRITE GUID: " + url);
 
                 if (Device.RuntimePlatform == Device.iOS)
@@ -227,17 +227,17 @@ namespace Manifest.Views
             switch (Device.RuntimePlatform)
             {
                 case Device.iOS:
-                    clientId = Constant.GoogleiOSClientID;
-                    redirectUri = Constant.GoogleRedirectUrliOS;
+                    clientId = AppConstants.GoogleiOSClientID;
+                    redirectUri = AppConstants.GoogleRedirectUrliOS;
                     break;
 
                 case Device.Android:
-                    clientId = Constant.GoogleAndroidClientID;
-                    redirectUri = Constant.GoogleRedirectUrlAndroid;
+                    clientId = AppConstants.GoogleAndroidClientID;
+                    redirectUri = AppConstants.GoogleRedirectUrlAndroid;
                     break;
             }
 
-            var authenticator = new OAuth2Authenticator(clientId, string.Empty, Constant.GoogleScope, new Uri(Constant.GoogleAuthorizeUrl), new Uri(redirectUri), new Uri(Constant.GoogleAccessTokenUrl), null, true);
+            var authenticator = new OAuth2Authenticator(clientId, string.Empty, AppConstants.GoogleScope, new Uri(AppConstants.GoogleAuthorizeUrl), new Uri(redirectUri), new Uri(AppConstants.GoogleAccessTokenUrl), null, true);
             var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
 
             authenticator.Completed += GoogleAuthenticatorCompleted;
@@ -262,7 +262,7 @@ namespace Manifest.Views
 
             if (e.IsAuthenticated)
             {
-                string url = RdsConfig.BaseUrl + RdsConfig.addGuid;
+                string url = AppConstants.BaseUrl + AppConstants.addGuid;
                 Debug.WriteLine("WRITE GUID: " + url);
 
                 if (Device.RuntimePlatform == Device.iOS)

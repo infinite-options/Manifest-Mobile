@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Manifest.Config;
 using Manifest.Models;
 using Newtonsoft.Json;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Manifest.Views
@@ -18,24 +20,46 @@ namespace Manifest.Views
         public EventsPage(Event newEvent)
         {
             InitializeComponent();
-            eventName.Text = newEvent.Title;
+            NavigationPage.SetHasNavigationBar(this, false);
+            title.Text = newEvent.Title;
             eventDescription.Text = newEvent.Description;
             if (eventDescription.Text == "" || eventDescription.Text == null)
             {
                 eventDescription.Text = "No description provided";
             }
             eventInfo.ItemsSource = datagrid;
+            eventTime.Text = newEvent.StartTime.ToString("hh:mm tt") + " - " + newEvent.EndTime.ToString("hh:mm tt");
             //datagrid.Add(newEvent);
             attendees = newEvent.Attendees;
-            GetRelations();
-
+            initializeEvent();
         }
 
-        private async void GetRelations()
+        private async void initializeEvent()
         {
-            List<string> emails = new List<string>();
-            if(attendees.Count != 0)
+            try
             {
+                if (attendees == null || attendees.Count == 0)
+                {
+                    return;
+                }
+                await GetRelations();
+                initializeAttendees(attendees);
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", "Error in EventsPage in intializeEvent function: " + e.ToString(), "OK");
+            } 
+        }
+
+        private async Task GetRelations()
+        {
+            try
+            {
+                if (attendees == null || attendees.Count == 0)
+                {
+                    return;
+                }
+                List<string> emails = new List<string>();
                 foreach (Attendee att in attendees)
                 {
                     emails.Add(att.Email);
@@ -47,7 +71,7 @@ namespace Manifest.Views
                 client.DefaultRequestHeaders.Add("email", jsonObject2);
                 Debug.WriteLine("Writing headers");
                 Debug.WriteLine(client.DefaultRequestHeaders);
-                string url = RdsConfig.BaseUrl + RdsConfig.getRelations;
+                string url = AppConstants.BaseUrl + AppConstants.getRelations;
                 var res = await client.GetStringAsync(url);
                 //Debug.WriteLine(res.Content);
                 var info = JsonConvert.DeserializeObject<RelationResponse>(res);
@@ -71,48 +95,106 @@ namespace Manifest.Views
                     {
                         attendees[i].Relation = person.role;
                     }
+                    else
+                    {
+                        attendees[i].Relation = "Unknown";
+                    }
                     if (person.picture != null && person.picture != "")
                     {
                         attendees[i].PicUrl = person.picture;
                         attendees[i].HavePic = true;
                     }
-                }
-                initialiseAttendees(attendees);
-            }
-            else
-            {
-                await DisplayAlert("Message","There are no attendees","OK");
-            }
-        }
-
-
-        private void initialiseAttendees(List<Attendee> attendees)
-        {
-            foreach (Attendee attendee in attendees)
-            {
-                if (attendee.HavePic == false)
-                {
-                    attendee.PicUrl = "aboutme.png";
-                }
-                if (attendee.Name == "" || attendee.Name == null)
-                {
-                    if (attendee.Email != "" && attendee.Email != null)
+                    if (person.phone_number != null && person.phone_number != "")
                     {
-                        attendee.Name = attendee.Email;
+                        attendees[i].PhoneNumber = person.phone_number;
+                        attendees[i].HasPhoneNumber = true;
                     }
                     else
                     {
-                        attendee.Name = "Anonymous";
-                    } 
+                        attendees[i].HasPhoneNumber = false;
+                    }
                 }
-                datagrid.Add(attendee);
             }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", "Error in EventsPage in GetRelations function: " + e.ToString(), "OK");
+            }
+        }
 
+        private void initializeAttendees(List<Attendee> attendees)
+        {
+            try
+            {
+                foreach (Attendee attendee in attendees)
+                {
+                    if (attendee.HavePic == false)
+                    {
+                        attendee.PicUrl = "aboutme.png";
+                    }
+                    if (attendee.Name == "" || attendee.Name == null)
+                    {
+                        if (attendee.Email != "" && attendee.Email != null)
+                        {
+                            attendee.Name = attendee.Email;
+                        }
+                        else
+                        {
+                            attendee.Name = "Anonymous";
+                        }
+                    }
+                    datagrid.Add(attendee);
+                }
+            }
+            catch (Exception e)
+            {
+                DisplayAlert("Error", "Error in EventsPage in initializeAttendees function: " + e.ToString(), "OK");
+            }
+        }
+
+        private async void callPerson(object sender, EventArgs args)
+        {
+            Image myvar = (Image)sender;
+            Person person = myvar.BindingContext as Person;
+            string phoneNumber = person.PhoneNumber;
+            if (phoneNumber == "" || phoneNumber == null)
+            {
+                await DisplayAlert("Sorry!", $"Hmmm... We don't have a phone number on file", "OK");
+            }
+            else
+            {
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                Debug.WriteLine("Manifest.ViewModels.AboutViewModel: Dialing Number:" + phoneNumber);
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                try
+                {
+                    PhoneDialer.Open(phoneNumber);
+                    Debug.WriteLine("IN ABOUTVIEWMODEL. LAUNCHING PHONE");
+                }
+                catch (Exception e)
+                {
+                    await DisplayAlert("Error", "Unable to perform a phone call", "OK");
+                }
+                //await Launcher.OpenAsync(new Uri("tel:" + phoneNumber));
+            }
         }
 
         private void goToTodaysList(object sender, EventArgs args)
         {
-            Application.Current.MainPage = new TodaysListPage();
+            // one more case
+            Navigation.PopAsync();
+            if(Application.Current.MainPage.Navigation.NavigationStack.Count != 1)
+            {
+                Navigation.PopAsync();
+            }
+            else
+            {
+                Application.Current.MainPage = new MainPage();
+            }
+        }
+
+        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new SettingsPage());
         }
     }
 }

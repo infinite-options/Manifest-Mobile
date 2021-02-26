@@ -20,9 +20,9 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Text="" TextColor="White"></Label>
                             <Label Grid.Column="1" Text="How do I feel?" x:Name="title" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"  ></Label>
@@ -362,9 +362,7 @@
 
             </StackLayout>
             <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
-                <Frame Margin="0,25,0,0" Padding="150,0,150,0" BackgroundColor="Transparent" HasShadow="False">
-                     <Button Text="Submit" TextColor="White" FontSize="20" FontAttributes="Bold" BackgroundColor="#FF7555" Clicked="Button_Clicked"></Button>
-                </Frame>
+                <Button Text="Submit" TextColor="White" WidthRequest="140" HeightRequest="45" CornerRadius="20" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" BackgroundColor="#889AB5" Clicked="Button_Clicked"></Button>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

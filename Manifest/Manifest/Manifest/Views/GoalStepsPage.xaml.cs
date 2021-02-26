@@ -7,9 +7,17 @@ using Manifest.Config;
 using System.Net.Http;
 using System.Diagnostics;
 using Manifest.RDS;
+using System.Collections.ObjectModel;
 
 namespace Manifest.Views
 {
+    public class InstructionItem
+    {
+        public string title { get; set; }
+        public string color { get; set; }
+        public int time { get; set; }
+    }
+
     public partial class GoalStepsPage : ContentPage
     {
         bool setting;
@@ -19,6 +27,7 @@ namespace Manifest.Views
         string passedPhoto;
         string passedColor;
 
+        ObservableCollection<InstructionItem> items;
 
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
@@ -47,6 +56,7 @@ namespace Manifest.Views
             InitializeComponent();
             setting = false;
             height = mainStackLayoutRow.Height;
+            items = new ObservableCollection<InstructionItem>();
             //lastRowHeight = barStackLayoutRow.Height;
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
@@ -62,9 +72,9 @@ namespace Manifest.Views
 
             circleHW = (float)(deviceWidth * 0.13);
             circleRadius = (float)(circleHW * 0.5);
-            routineFrame.HeightRequest = circleHW;
-            routineFrame.WidthRequest = circleHW;
-            routineFrame.CornerRadius = circleRadius;
+            //routineFrame.HeightRequest = circleHW;
+            //routineFrame.WidthRequest = circleHW;
+            //routineFrame.CornerRadius = circleRadius;
             arrow.HeightRequest = circleHW;
 
             rowHeight = (float)Math.Min(80, 0.02 * deviceHeight);
@@ -82,7 +92,7 @@ namespace Manifest.Views
             TapGestureRecognizer doneRecognizer = new TapGestureRecognizer();
             doneRecognizer.NumberOfTapsRequired = 1;
             doneRecognizer.Tapped += stepComplete;
-
+            items.Clear();
             foreach (Instruction step in instruction_steps)
             {
                 numTasks++;
@@ -127,12 +137,17 @@ namespace Manifest.Views
 
                 gridFrame.BindingContext = step;
 
+
                 instructions.Children.Add(gridFrame);
+
+                items.Add(new InstructionItem() { time = numTasks, title = step.title, color = "#F26D4B" });
+
             }
             if (numTasks == numComplete)
             {
                 parentIsComplete();
             }
+            InstructionsList.ItemsSource = items;
         }
 
         async void stepComplete(System.Object sender, System.EventArgs e)
@@ -143,7 +158,9 @@ namespace Manifest.Views
             if (currInstruction.IsComplete == false)
             {
                 numComplete++;
-                string url = RdsConfig.BaseUrl + RdsConfig.updateInstruction;
+
+                // use global function
+                string url = AppConstants.BaseUrl + AppConstants.updateInstruction;
                 currInstruction.updateIsComplete(true);
                 UpdateInstruction updateInstruction = new UpdateInstruction()
                 {
@@ -164,8 +181,8 @@ namespace Manifest.Views
                     Debug.WriteLine(toSend);
                     Debug.WriteLine(res.ToString());
                 }
-                string urlSub = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
-                string urlOccur = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
+                string urlSub = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
+                string urlOccur = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 if (numTasks == numComplete)
                 {
                     parentIsComplete();
@@ -181,54 +198,10 @@ namespace Manifest.Views
 
         async void parentIsComplete()
         {
-            string url = RdsConfig.BaseUrl + RdsConfig.updateActionAndTask;
+            string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
             await RdsConnect.updateOccurance(parent, false, true, url);
-            ////parent.updateIsComplete(true);
-            ////parent.updateIsInProgress(false);
-            ////parent.updateIsComplete(true);
-
-            ////temporary fix for the above 3 function calls
-            //parent.IsComplete = true;
-            //parent.IsInProgress = false;
-            ////numCompleted++;
-            //parent.DateTimeCompleted = DateTime.Now;
-
-            ////bool inProgress = false;
-            ////bool isComplete = false;
-            ////if (parent.IsInProgress == "True")
-            ////    inProgress = true;
-            ////if (parent.is_complete == "True")
-            ////    isComplete = true;
-
-            //UpdateOccurance updateOccur = new UpdateOccurance()
-            //{
-            //    id = parent.Id,
-            //    datetime_completed = parent.DateTimeCompleted,
-            //    datetime_started = parent.DateTimeStarted,
-            //    is_in_progress = parent.IsInProgress,
-            //    is_complete = parent.IsComplete
-            //};
-            //string toSend = updateOccur.updateOccurance();
-            //var content = new StringContent(toSend);
-            //var res = await client.PostAsync(url, content);
-            //if (res.IsSuccessStatusCode)
-            //{
-            //    Debug.WriteLine("Successfully completed the subtask");
-            //}
-
-
-            bool onlyInProgress = false;
-            foreach (SubOccurance subOccur in passedOccurance.subOccurances)
-            {
-                if (subOccur.IsComplete == false && subOccur.Title != parent.Title)
-                    onlyInProgress = true;
-            }
-
-            //updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete, string url)
-            string url2 = RdsConfig.BaseUrl + RdsConfig.updateGoalAndRoutine;
-            if (onlyInProgress == true)
-                await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
-            else await RdsConnect.updateOccurance(passedOccurance, false, true, url2);
+            url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            await RdsConnect.updateOccurance(passedOccurance, false, true, url);
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)

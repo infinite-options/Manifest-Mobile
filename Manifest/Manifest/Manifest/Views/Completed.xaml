@@ -8,12 +8,12 @@
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
                 <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="70"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
                 <!--SPACE FOR HEADER-->
-                    <Grid Margin="0,44,0,0">
+                    <Grid Margin="0,30,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="1"></RowDefinition>
@@ -22,17 +22,23 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="60"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="Back Icon" TextColor="White">
-                                <Label.GestureRecognizers>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="15"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="backIcon.png"></Image>
+                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <Label Grid.Column="1" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                            <ImageButton Grid.Column="2" Source="settingsIcon.png" ></ImageButton>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                            <Label Grid.Column="1"  Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
                         <Grid Grid.Row="2">
@@ -51,7 +57,7 @@
             </Frame>
 
 
-            <Frame x:Name="mainFrame" Grid.Row="1" CornerRadius="35">
+            <Frame x:Name="mainFrame" Grid.Row="1" CornerRadius="35" HasShadow="False">
             <StackLayout x:Name="newUIStack">
                 <!--NEW UI GOES HERE-->
                 <Label x:Name="congratsLabel" Text="Congratulations!" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
@@ -68,7 +74,7 @@
             </StackLayout>
 
 
-            <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
+            <!--<StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
                 <Frame BackgroundColor="#376DAC" CornerRadius="15" Padding="0, 10, 0, 18">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -94,7 +100,36 @@
                     <Button Grid.Column="2" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="HelpClicked"  BackgroundColor="Transparent"></Button>
                 </Grid>
                 </Frame>
-            </StackLayout>
+            </StackLayout>-->
+            <Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,0" >
+                <Frame Grid.Column="0" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
+                    <Grid>
+                        <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Text="Today's list" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TodaysListPageClicked"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame Grid.Column="1" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True">
+                    <Grid>
+                        <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="AboutMeClicked"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame Grid.Column="2" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
+                    <Grid>
+                        <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="HelpClicked"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>   
+                </Frame>
+            </Grid>
 
 
             <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
