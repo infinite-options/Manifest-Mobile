@@ -108,6 +108,11 @@ namespace Manifest.Views
                     if (person.phone_number != null && person.phone_number != "")
                     {
                         attendees[i].PhoneNumber = person.phone_number;
+                        attendees[i].HasPhoneNumber = true;
+                    }
+                    else
+                    {
+                        attendees[i].HasPhoneNumber = false;
                     }
                 }
             }

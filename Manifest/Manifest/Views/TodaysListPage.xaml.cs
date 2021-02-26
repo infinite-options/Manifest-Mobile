@@ -432,6 +432,7 @@ namespace Manifest.Views
         //}
 
         //This function is going to initialise our three data grids
+
         private async void initialiseDataGrids(List<Occurance> todaysTasks)
         {
 
@@ -463,6 +464,7 @@ namespace Manifest.Views
                 scrollViewY += 75;
                 while (i < todaysTasks.Count && String.Compare(todaysTaskTime,timeResponse.afternoon_time) < 0)
                 {
+                    todaysTasks[i].borderWidth = 0;
                     Debug.WriteLine("taskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString() + " afternoonStart: " + ToDateTime(afternoonStart).TimeOfDay.ToString());
                     datagridMorning.Add(todaysTasks[i]);
                     todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
@@ -470,9 +472,10 @@ namespace Manifest.Views
                     {
                         scrollViewY += 115;
                     }
-                    else
+                    else if (!scrollViewSet)
                     {
                         scrollViewSet = true;
+                        todaysTasks[i].updateBorderWidth(5);
                     }
                     morningTaskCount++;
                     i++;
@@ -484,6 +487,7 @@ namespace Manifest.Views
                 }
                 while (i < todaysTasks.Count && String.Compare(todaysTaskTime, timeResponse.evening_time) < 0)
                 {
+                    todaysTasks[i].borderWidth = 0;
                     Debug.WriteLine("afternoonTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
                     datagridAfternoon.Add(todaysTasks[i]);
                     todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
@@ -491,9 +495,10 @@ namespace Manifest.Views
                     {
                         scrollViewY += 115;
                     }
-                    else
+                    else if (!scrollViewSet)
                     {
                         scrollViewSet = true;
+                        todaysTasks[i].updateBorderWidth(5);
                     }
                     afternoonTaskCount++;
                     i++;
@@ -505,6 +510,7 @@ namespace Manifest.Views
                 }
                 while (i < todaysTasks.Count)
                 {
+                    todaysTasks[i].borderWidth = 0;
                     Debug.WriteLine("nightTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
                     Debug.WriteLine("nightTaskStartHrMin: " + todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                     datagridEvening.Add(todaysTasks[i]);
@@ -512,9 +518,10 @@ namespace Manifest.Views
                     {
                         scrollViewY += 115;
                     }
-                    else
+                    else if (!scrollViewSet)
                     {
                         scrollViewSet = true;
+                        todaysTasks[i].updateBorderWidth(5);
                     }
                     eveningTaskCount++;
                     i++;

@@ -13,5 +13,6 @@ namespace Manifest.Models
         public string Relation { get; set; }
         public string UserId { get; set; }
         public string PhoneNumber { get; set; }
+        public bool HasPhoneNumber { get; set; }
     }
 }
