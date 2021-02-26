@@ -21,7 +21,7 @@ namespace Manifest.Views
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
-            eventName.Text = newEvent.Title;
+            title.Text = newEvent.Title;
             eventDescription.Text = newEvent.Description;
             if (eventDescription.Text == "" || eventDescription.Text == null)
             {
@@ -172,7 +172,13 @@ namespace Manifest.Views
 
         private void goToTodaysList(object sender, EventArgs args)
         {
+            // one more case
             Navigation.PopAsync();
+        }
+
+        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new SettingsPage());
         }
     }
 }

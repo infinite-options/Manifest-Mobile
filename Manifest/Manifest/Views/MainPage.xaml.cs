@@ -277,7 +277,7 @@ namespace Manifest.Views
             {
                 currentActivity = "Goal";
             }
-            CenterCircle.Text = currentActivity + ":\n" + currOccurance.Title;
+            CenterCircle.Text = currentActivity + ": " + currOccurance.Title;
             Debug.WriteLine("CurrOccurance = " + currOccurance.Title);
         }
         private async Task CallGetEvents()
@@ -525,7 +525,7 @@ namespace Manifest.Views
             }
             else
             {
-                Navigation.PushAsync(new EventsPage(currEvent), false);
+                Application.Current.MainPage = new NavigationPage(new EventsPage(currEvent));
             }
         }
 

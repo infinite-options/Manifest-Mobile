@@ -103,7 +103,19 @@
                                     WidthRequest="150"
                                     HeightRequest="150">
                                 </Ellipse>
-                                <Label Padding="20,0,0,0" x:Name="CenterCircle" Text="" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="150"></Label>
+                                <StackLayout HeightRequest="150"  VerticalOptions="CenterAndExpand">
+                                    <Grid HorizontalOptions="CenterAndExpand" Margin="25,45,25,0">
+                                         <Ellipse
+                                        StrokeThickness="0"
+                                        Fill="#FFBD27"
+                                        WidthRequest="100"
+                                        HeightRequest="100"
+                                        VerticalOptions="Center">
+                                    </Ellipse>
+                                    </Grid>
+                                </StackLayout>
+                                <Label Margin="0,10,0,0"  Padding="20,0,20,0" Text="What are you currently doing?" TextColor="White" FontSize="12" FontAttributes="Bold" WidthRequest="150" HeightRequest="150" HorizontalTextAlignment="Center"></Label>
+                                <Label Padding="27,40,27,0" x:Name="CenterCircle" Text="" MaxLines="3" LineBreakMode="TailTruncation" TextDecorations="Underline" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" WidthRequest="150"  HeightRequest="150"></Label>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="WhatAreYouCurrentlyDoingClick"></TapGestureRecognizer>

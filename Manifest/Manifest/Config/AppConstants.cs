@@ -42,6 +42,9 @@ namespace Manifest.Config
         public const string getOptions = "/api/v2/";
         public const string login = "/api/v2/login";
 
+        // --- /api/v2/getVersionNumber
+        // --- /api/v2/updateVersionNumber
+
         //Accelerometer
         public const string addCoordinates = "/api/v2/addCoordinates";
 
