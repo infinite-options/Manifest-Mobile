@@ -54,12 +54,12 @@ namespace Manifest.Views
 
         void AboutMeClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new AboutMePage();
+            Application.Current.MainPage = new MainPage();
         }
 
         void HelpClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new WhoAmIPage();
+            Application.Current.MainPage = new AboutMePage();
         }
     }
 }

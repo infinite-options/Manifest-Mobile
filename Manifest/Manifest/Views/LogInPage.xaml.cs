@@ -72,7 +72,7 @@ namespace Manifest.Views
             Application.Current.Properties["timeStamp"] = "";
             Application.Current.Properties["accessToken"] = "";
             Application.Current.Properties["refreshToken"] = "";
-
+            Application.Current.Properties["platform"] = "";
             // Color keys
             Application.Current.Properties["colorScheme"] = "classic";
             Application.Current.Properties["background"] = "#F2F7FC";

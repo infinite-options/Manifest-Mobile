@@ -6,7 +6,7 @@
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
                 <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="80"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="64"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0">
@@ -20,7 +20,7 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="30"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="30"></ColumnDefinition>
                         </Grid.ColumnDefinitions>

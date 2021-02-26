@@ -6,7 +6,7 @@
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
                 <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="80"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="64"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
@@ -20,15 +20,21 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="60"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="Back Icon" TextColor="White">
-                                <Label.GestureRecognizers>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="15"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="backIcon.png"></Image>
+                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                                </Label.GestureRecognizers>
-                            </Label>
+                                </Grid.GestureRecognizers>
+                            </Grid>
                             <Label Grid.Column="1" Text="" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
                             <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
                         </Grid>

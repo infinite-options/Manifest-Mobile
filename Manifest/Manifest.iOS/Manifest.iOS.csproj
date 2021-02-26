@@ -163,6 +163,7 @@
     <BundleResource Include="Resources\questionIcon.png" />
     <BundleResource Include="Resources\flowerIcon.png" />
     <BundleResource Include="Resources\phone.png" />
+    <BundleResource Include="Resources\backIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />

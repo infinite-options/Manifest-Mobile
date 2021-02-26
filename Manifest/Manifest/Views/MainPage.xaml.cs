@@ -58,15 +58,7 @@ namespace Manifest.Views
             {
                 Debug.WriteLine("key: {0}, value: {1}", key, Application.Current.Properties[key]);
             }
-
             GetCurrOccurance();
-        }
-
-        async void Re(string old, string n)
-        {
-            
-            await DisplayAlert("Update", "Please sign in again " +"OLD"+ old+ "  NEW:"+ n,"OK");
-            Application.Current.MainPage = new LogInPage();
         }
 
         public MainPage(AuthenticatorCompletedEventArgs googleFacebookAccount = null, AppleAccount appleCredentials = null, string platform = "")
@@ -167,9 +159,10 @@ namespace Manifest.Views
                                 DateTime expDate = today.AddDays(AppConstants.days);
 
                                 Application.Current.Properties["userId"] = session.result[0].user_unique_id;
-                                Application.Current.Properties["timeStamp"] = expDate;
+                                Application.Current.Properties["timeStamp"] = expDate; 
+                                Application.Current.Properties["platform"] = platform;
 
-                                if(platform == "GOOGLE")
+                                if (platform == "GOOGLE")
                                 {
                                     Application.Current.Properties["showCalendar"] = true;
                                     Application.Current.Properties["accessToken"] = user.Account.Properties["access_token"];

@@ -116,7 +116,7 @@ namespace Manifest.Config
         // PLATFORM
         public const string Google = "GOOGLE";
         public const string Facebook = "FACEBOOK";
-        public const string Apple = "Apple";
+        public const string Apple = "APPLE";
 
         // EXTENDED TIME
         public const double days = 14;
