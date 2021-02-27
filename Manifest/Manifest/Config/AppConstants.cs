@@ -11,7 +11,7 @@ namespace Manifest.Config
 
         // BASE URL, GOOGLE INTERECEPTOR ANDROID (ONLY), NOTIFICATION HUB NAME,
         // AND NOTIFICATION LISTENER
-       
+
         public const string BaseUrl = "https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev";
         public const string GoogleInterceptorUrlAndroid = "com.googleusercontent.apps.1009120542229-55an5om5ecl3it6quigclsnj0035oiap";
         public static string NotificationHubName { get; set; } = "Manifest-Notification-Hub";
@@ -24,8 +24,8 @@ namespace Manifest.Config
 
         //public const string BaseUrl = "https://gyn3vgy3fb.execute-api.us-west-1.amazonaws.com/dev";
         //public const string GoogleInterceptorUrlAndroid = "com.googleusercontent.apps.1009120542229-55an5om5ecl3it6quigclsnj0035oiap";
-        //public static string NotificationHubName { get; set; } = "Manifest-MyLife-Notification-Namespace";
-        //public static string ListenConnectionString { get; set; } = "Endpoint=sb://manifest-mylife-notification-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=mTelt5YCK6pDrS8FDlj4K/+AMRFR0ScZXfKtDvFGZps=";
+        //public static string NotificationHubName { get; set; } = "Manifest-MyLife-Notification-Hub";
+        //public static string ListenConnectionString { get; set; } = "Endpoint=sb://manifest-mylife-notification-namespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=5qjUCYi5MhG8mwB9XmNGpxLxOeDcUJCtCuwodeDEsoc=";
 
         // ENDPOINTS
 
@@ -166,5 +166,94 @@ namespace Manifest.Config
         // ====================================================================
         // NOTIFICATION CREDENTIALS - END
         // ====================================================================
+
+        // ====================================================================
+        // FIREABASE JSON MY SPACE
+        // ====================================================================
+
+        //{
+        //  "project_info": {
+        //    "project_number": "868277658186",
+        //    "project_id": "manifest-notifications",
+        //    "storage_bucket": "manifest-notifications.appspot.com"
+        //  },
+        //  "client": [
+        //    {
+        //      "client_info": {
+        //        "mobilesdk_app_id": "1:868277658186:android:8fdd3a9d9059f99d65bcb3",
+        //        "android_client_info": {
+        //          "package_name": "com.infiniteoptions_manifestmy.space"
+        //        }
+        //      },
+        //      "oauth_client": [
+        //        {
+        //          "client_id": "868277658186-c14er8nq0jvj7apti4h1869gdc5kn460.apps.googleusercontent.com",
+        //          "client_type": 3
+        //        }
+        //      ],
+        //      "api_key": [
+        //        {
+        //          "current_key": "AIzaSyBxBdPy3nNdwoTMNDHoK6mxRZD1t7WUMYM"
+        //        }
+        //      ],
+        //      "services": {
+        //        "appinvite_service": {
+        //          "other_platform_oauth_client": [
+        //            {
+        //              "client_id": "868277658186-c14er8nq0jvj7apti4h1869gdc5kn460.apps.googleusercontent.com",
+        //              "client_type": 3
+        //            }
+        //          ]
+        //        }
+        //      }
+        //    }
+        //  ],
+        //  "configuration_version": "1"
+        //}
+
+        // ====================================================================
+        // FIREABASE JSON MY LIFE
+        // ====================================================================
+
+        //{
+        //  "project_info": {
+        //    "project_number": "933643945554",
+        //    "project_id": "manifest-mylife",
+        //    "storage_bucket": "manifest-mylife.appspot.com"
+        //  },
+        //  "client": [
+        //    {
+        //      "client_info": {
+        //        "mobilesdk_app_id": "1:933643945554:android:1dcbfec30e782e92a7818b",
+        //        "android_client_info": {
+        //          "package_name": "com.infiniteoptions_manifestmy.life"
+        //        }
+        //      },
+        //      "oauth_client": [
+        //        {
+        //          "client_id": "933643945554-us6f587cekdjmrbiatmo2acut1tlqpa1.apps.googleusercontent.com",
+        //          "client_type": 3
+        //        }
+        //      ],
+        //      "api_key": [
+        //        {
+        //          "current_key": "AIzaSyAQ7adjsPqs_HlVVqcYrhHrsoRN-T7flGE"
+        //        }
+        //      ],
+        //      "services": {
+        //        "appinvite_service": {
+        //          "other_platform_oauth_client": [
+        //            {
+        //              "client_id": "933643945554-us6f587cekdjmrbiatmo2acut1tlqpa1.apps.googleusercontent.com",
+        //              "client_type": 3
+        //            }
+        //          ]
+        //        }
+        //      }
+        //    }
+        //  ],
+        //  "configuration_version": "1"
+        //}
+
     }
 }

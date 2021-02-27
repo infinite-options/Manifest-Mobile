@@ -8,14 +8,29 @@ using System.Net.Http;
 using System.Diagnostics;
 using Manifest.RDS;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Manifest.Views
 {
-    public class InstructionItem
+    public class InstructionItem: INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public int stepIndex { get; set; }
+        public string image { get; set; }
         public string title { get; set; }
         public string color { get; set; }
         public int time { get; set; }
+        public bool isCompleted { get; set; }
+        public double opacity { get; set; }
+        public void updateImage()
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs("image"));
+        }
+        public void updateOpacity()
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs("opacity"));
+        }
+        //public I
     }
 
     public partial class GoalStepsPage : ContentPage
@@ -27,8 +42,8 @@ namespace Manifest.Views
         string passedPhoto;
         string passedColor;
 
-        ObservableCollection<InstructionItem> items;
-
+        ObservableCollection<Instruction> items;
+        List<int> processedInstructions;
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
 
@@ -56,7 +71,8 @@ namespace Manifest.Views
             InitializeComponent();
             setting = false;
             height = mainStackLayoutRow.Height;
-            items = new ObservableCollection<InstructionItem>();
+            items = new ObservableCollection<Instruction>();
+            processedInstructions = new List<int>();
             //lastRowHeight = barStackLayoutRow.Height;
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
@@ -89,64 +105,27 @@ namespace Manifest.Views
 
         private async void CreateList()
         {
-            TapGestureRecognizer doneRecognizer = new TapGestureRecognizer();
-            doneRecognizer.NumberOfTapsRequired = 1;
-            doneRecognizer.Tapped += stepComplete;
+            var instructionStep = 0;
             items.Clear();
+
             foreach (Instruction step in instruction_steps)
             {
-                numTasks++;
-                if (step.IsComplete == true) numComplete++;
-                Image routineComplete = new Image();
-                Binding completeVisible = new Binding("IsComplete");
-                completeVisible.Source = step;
-                routineComplete.BindingContext = step;
-                routineComplete.Source = "greencheckmark.png";
-                routineComplete.SetBinding(Image.IsVisibleProperty, completeVisible);
-                routineComplete.HorizontalOptions = LayoutOptions.End;
-                //We want to get every subtask for that routine
-                Grid newGrid = new Grid
+                if(step.IsComplete == true)
                 {
-                    RowDefinitions = {
-                        new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute)}
-                    },
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center,
-                    RowSpacing = 10
-                };
-                newGrid.Children.Add(
-                    new Label
-                    {
-                        Text = step.title,
-                        TextColor = Color.Black,
-                        FontSize = 30,
-                        LineBreakMode = LineBreakMode.WordWrap
-                    }, 0, 0);
-                newGrid.Children.Add(routineComplete, 0, 0);
-
-                float corner_radius = (float)(rowHeight * 0.3);
-
-                Frame gridFrame = new Frame
+                    step.opacity = 0.5;
+                    processedInstructions.Add(instructionStep);
+                }
+                else
                 {
-                    BackgroundColor = Color.White,
-                    CornerRadius = corner_radius,
-                    Content = newGrid,
-                    Padding = 10,
-                    GestureRecognizers = { doneRecognizer }
-                };
-
-                gridFrame.BindingContext = step;
-
-
-                instructions.Children.Add(gridFrame);
-
-                items.Add(new InstructionItem() { time = numTasks, title = step.title, color = "#F26D4B" });
-
+                    step.opacity = 1;
+                }
+                step.time = instructionStep + 1;
+                step.color = "#F26D4B";
+                step.stepIndex = instructionStep;
+                items.Add(step);
+                instructionStep++;
             }
-            if (numTasks == numComplete)
-            {
-                parentIsComplete();
-            }
+            
             InstructionsList.ItemsSource = items;
         }
 
@@ -192,7 +171,6 @@ namespace Manifest.Views
                     await RdsConnect.updateOccurance(parent, true, false, urlSub);
                     await RdsConnect.updateOccurance(passedOccurance, true, false, urlOccur);
                 }
-                    
             }
         }
 
@@ -209,9 +187,24 @@ namespace Manifest.Views
             Application.Current.MainPage = new MainPage();
         }
 
-        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
-            Navigation.PopAsync(false);
+            foreach (int i in processedInstructions)
+            {
+                await RdsConnect.updateInstruction(true, items[i]);
+            }
+
+            if (processedInstructions.Count == parent.instructions.Count)
+            {
+                parentIsComplete();
+                await Navigation.PopAsync(false);
+            }
+            else
+            {
+                await Navigation.PopAsync(false);
+                // Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
+            }
+            //Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
         }
 
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)
@@ -231,9 +224,83 @@ namespace Manifest.Views
             return new DateTime();
         }
 
-        void doneClicked(System.Object sender, System.EventArgs e)
+        async void doneClicked(System.Object sender, System.EventArgs e)
         {
-            Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
+            foreach (int i in processedInstructions)
+            {
+                await RdsConnect.updateInstruction(true, items[i]);
+            }
+
+            if (processedInstructions.Count == parent.instructions.Count)
+            {
+                parentIsComplete();
+                await Navigation.PopAsync(false);
+            }
+            else
+            {
+                await Navigation.PopAsync(false);
+               // Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
+            }
+            //Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
+        }
+
+        void RegistedStep(int i, bool status, double newOpacity)
+        {
+            items[i].opacity = newOpacity;
+            items[i].IsComplete = status;
+            items[i].updateOpacity();
+        }
+
+        async void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
+        {
+            var frame = (Frame)sender;
+            if (frame.ClassId != "" && frame.ClassId != null)
+            {
+                var i = Int16.Parse(frame.ClassId);
+
+                if (items[i].IsComplete == false)
+                {
+                    if (processedInstructions.Count == 0)
+                    {
+                        if (i == 0)
+                        {
+                            RegistedStep(i, true, 0.5);
+                            processedInstructions.Add(i);
+                        }
+                        else
+                        {
+                            await DisplayAlert("Oops", "You must follow the steps in order", "OK");
+                        }
+                    }
+                    else
+                    {
+                        var previousStep = processedInstructions[processedInstructions.Count - 1];
+
+                        if (previousStep + 1 == i)
+                        {
+                            RegistedStep(i, true, 0.5);
+                            processedInstructions.Add(i);
+                        }
+                        else
+                        {
+                            await DisplayAlert("Oops", "You must follow the steps in order", "OK");
+                        }
+                    }
+                }
+                else
+                {
+                    var previousStep = processedInstructions[processedInstructions.Count - 1];
+                    if (previousStep == i)
+                    {
+                        RegistedStep(i, false, 1);
+                        processedInstructions.RemoveAt(i);
+                    }
+                    else
+                    {
+                        await DisplayAlert("Oops", "You must undo the steps in order", "OK");
+                    }
+                }
+            }
         }
     }
 }

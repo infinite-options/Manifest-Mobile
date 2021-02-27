@@ -16,6 +16,7 @@ namespace Manifest.Models
         public bool IsInProgress { get; set; }
         public bool IsTimed { get; set; }
         public string Photo { get; set; }
+
         public TimeSpan expected_completion_time { get; set; }
 
         public void updateIsInProgress(bool updatedVal)
@@ -29,6 +30,20 @@ namespace Manifest.Models
             IsComplete = updatedVal;
             PropertyChanged(this, new PropertyChangedEventArgs("IsComplete"));
         }
+        public int time { get; set; }
+        public string color { get; set; }
+        public double opacity { get; set; }
+        public int stepIndex { get; set; }
+
+        public void updateImage()
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs("Photo"));
+        }
+        public void updateOpacity()
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs("opacity"));
+        }
+
     }
 
     public class InstructionDto

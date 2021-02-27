@@ -73,7 +73,7 @@
                         <Label x:Name="routineName" Text="Routine" Padding="10" LineBreakMode="TailTruncation" MaxLines="3" FontSize="Large" TextColor="Black" HeightRequest="100" WidthRequest="100"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
                     </RelativeLayout>
                 </StackLayout>
-                <Image Grid.Row="1" x:Name="arrow" Source="downarrow.png" HeightRequest="100"></Image>
+                <Image Grid.Row="1" x:Name="arrow" Source="downArrow.png" HeightRequest="100"></Image>
                 <Grid Grid.Row="2" Margin="5,0,5,-10">
                     <Frame BackgroundColor="#889AB5" CornerRadius="15" VerticalOptions="FillAndExpand" Margin="0,0,0,-15" HasShadow="False">
                         <ScrollView Grid.Row="2" x:Name="stepsScroll">
@@ -102,10 +102,13 @@
                                                             </RelativeLayout>
                                                         </StackLayout>
                                                     </StackLayout>
-                                                    <Frame Grid.Column="1" Margin="25,10,10,0" BackgroundColor="{Binding color}" CornerRadius="15" BorderColor="White" Padding="10" HasShadow="False" >
+                                                    <Frame Grid.Column="1" Margin="25,10,10,0" BackgroundColor="{Binding color}" CornerRadius="15" BorderColor="White" Padding="10" HasShadow="False" Opacity="{Binding opacity}" ClassId="{Binding stepIndex}" >
                                                         <StackLayout VerticalOptions="CenterAndExpand">
                                                             <Label Margin="15,0,0,0" Text="{Binding title}" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></Label>
                                                         </StackLayout>
+                                                        <Frame.GestureRecognizers>
+                                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                                                        </Frame.GestureRecognizers>
                                                     </Frame>
                                                 </Grid>
                                             </DataTemplate>

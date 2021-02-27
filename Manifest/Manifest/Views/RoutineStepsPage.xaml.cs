@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Diagnostics;
 using Manifest.RDS;
 using System.Collections.ObjectModel;
+using Manifest.RDS;
 
 namespace Manifest.Views
 {
@@ -28,14 +29,14 @@ namespace Manifest.Views
         HttpClient client = new HttpClient();
 
         List<Instruction> instruction_steps;
-
+        List<int> processedSteps;
         SubOccurance parent;
         Occurance currRoutine;
 
         int numComplete;
         int numTasks;
 
-        ObservableCollection<InstructionItem> items;
+        ObservableCollection<Instruction> items;
 
         public RoutineStepsPage(SubOccurance subTask, Occurance routine)
         {
@@ -70,7 +71,8 @@ namespace Manifest.Views
             currRoutine = routine;
             subTitle.Text =  subTask.Title;
             instruction_steps = subTask.instructions;
-            items = new ObservableCollection<InstructionItem>();
+            items = new ObservableCollection<Instruction>();
+            processedSteps = new List<int>();
             NavigationPage.SetHasNavigationBar(this, false);
             CreateList();
 
@@ -78,68 +80,27 @@ namespace Manifest.Views
 
         private void CreateList()
         {
-            TapGestureRecognizer doneRecognizer = new TapGestureRecognizer();
-            doneRecognizer.NumberOfTapsRequired = 1;
-            doneRecognizer.Tapped += stepComplete;
+            var stepsCount = 0;
             items.Clear();
+
             foreach (Instruction step in instruction_steps)
             {
-                numTasks++;
-                if (step.IsComplete) numComplete++;
-                Image routineComplete = new Image();
-                Binding completeVisible = new Binding("IsComplete");
-                completeVisible.Source = step;
-                routineComplete.BindingContext = step;
-                routineComplete.Source = "greencheckmark.png";
-                routineComplete.SetBinding(Image.IsVisibleProperty, completeVisible);
-                routineComplete.HorizontalOptions = LayoutOptions.End;
-                //We want to get every subtask for that routine
-                Grid newGrid = new Grid
+                if(step.IsComplete == true)
                 {
-                    RowDefinitions = {
-                        new RowDefinition { Height = new GridLength(rowHeight, GridUnitType.Absolute) }
-                    },
-                    ColumnDefinitions =
-                    {
-                        new ColumnDefinition {Width = new GridLength(1, GridUnitType.Star)}
-                    },
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center,
-                    RowSpacing = 10
-                };
-                newGrid.Children.Add(
-                    new Label
-                    {
-                        Text = step.title,
-                        TextColor = Color.Black,
-                        FontSize = 25,
-                        LineBreakMode = LineBreakMode.WordWrap
-                    },0,0);
-                newGrid.Children.Add(routineComplete,0,0);
-
-                float corner_radius = (float)(rowHeight * 0.3);
-
-                Frame gridFrame = new Frame
+                    step.Photo = "greencheckmark.png";
+                    processedSteps.Add(stepsCount);
+                }
+                else
                 {
-                    BackgroundColor = Color.White,
-                    CornerRadius = corner_radius,
-                    Content = newGrid,
-                    Padding = 5,
-                    GestureRecognizers = { doneRecognizer }
-                };
-
-                gridFrame.BindingContext = step;
-
-                instructions.Children.Add(gridFrame);
-
-                items.Add(new InstructionItem() { time = numTasks, title = step.title, color = "#F26D4B" });
+                    step.Photo = parent.PicUrl;
+                }
+                step.stepIndex = stepsCount;
+                step.color = "#F26D4B";
+                items.Add(step);
+                stepsCount++;
             }
 
             InstructionsList.ItemsSource = items;
-            //if (numTasks == numComplete)
-            //{
-            //    parentIsComplete();
-            //}
         }
 
         async void stepComplete(System.Object sender, System.EventArgs e)
@@ -150,26 +111,27 @@ namespace Manifest.Views
             if (currInstruction.IsComplete == false)
             {
                 numComplete++;
-                string url = AppConstants.BaseUrl + AppConstants.updateInstruction;
-                currInstruction.updateIsComplete(true);
-                UpdateInstruction updateInstruction = new UpdateInstruction() {
-                    id = currInstruction.unique_id,
-                    is_complete = currInstruction.IsComplete,
-                    is_in_progress = currInstruction.IsInProgress
-                };
-                string toSend = updateInstruction.updateInstruction();
-                var content = new StringContent(toSend);
-                var res = await client.PostAsync(url, content);
-                if (res.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("Wrote to the datebase");
-                }
-                else
-                {
-                    Debug.WriteLine("Some error");
-                    Debug.WriteLine(toSend);
-                    Debug.WriteLine(res.ToString());
-                }
+                //(true, currInstruction);
+                //string url = AppConstants.BaseUrl + AppConstants.updateInstruction;
+                //currInstruction.updateIsComplete(true);
+                //UpdateInstruction updateInstruction = new UpdateInstruction() {
+                //    id = currInstruction.unique_id,
+                //    is_complete = currInstruction.IsComplete,
+                //    is_in_progress = currInstruction.IsInProgress
+                //};
+                //string toSend = updateInstruction.updateInstruction();
+                //var content = new StringContent(toSend);
+                //var res = await client.PostAsync(url, content);
+                //if (res.IsSuccessStatusCode)
+                //{
+                //    Debug.WriteLine("Wrote to the datebase");
+                //}
+                //else
+                //{
+                //    Debug.WriteLine("Some error");
+                //    Debug.WriteLine(toSend);
+                //    Debug.WriteLine(res.ToString());
+                //}
                 if (numTasks == numComplete)
                 {
                     parentIsComplete();
@@ -235,19 +197,109 @@ namespace Manifest.Views
             Application.Current.MainPage = new MainPage();
         }
 
-        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
-            Navigation.PopAsync(false);
+
+            foreach (int i in processedSteps)
+            {
+                await RdsConnect.updateInstruction(true, items[i]);
+            }
+
+            if (processedSteps.Count == parent.instructions.Count)
+            {
+                parentIsComplete();
+            }
+            else
+            {
+                parentIsInProgress();
+            }
+            await Navigation.PopAsync(false);
         }
 
-        void userDone(System.Object sender, System.EventArgs e)
+        async void userDone(System.Object sender, System.EventArgs e)
         {
-            Navigation.PopAsync(false);
+            // cases if it all steps are done, if none are done, if some are done
+            foreach (int i in processedSteps)
+            {
+                await RdsConnect.updateInstruction(true, items[i]);
+            }
+
+            if(processedSteps.Count == parent.instructions.Count)
+            {
+                parentIsComplete();
+            }
+            else
+            {
+                parentIsInProgress();
+            }
+
+            await Navigation.PopAsync(false);
         }
 
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {
             Navigation.PushAsync(new SettingsPage(), false);
+        }
+
+        async void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
+        {
+            var frame = (Frame)sender;
+            if(frame.ClassId != "" && frame.ClassId != null)
+            {
+                var i = Int16.Parse(frame.ClassId);
+                
+                if (items[i].IsComplete == false)
+                {
+                    if(processedSteps.Count == 0)
+                    {
+                        if(i == 0)
+                        {
+                            RegistedStep(i, true, "greencheckmark.png");
+                            processedSteps.Add(i);
+                        }
+                        else
+                        {
+                            await DisplayAlert("Oops","You must follow the steps in order","OK");
+                        }
+                    }
+                    else
+                    {
+                        var previousStep = processedSteps[processedSteps.Count - 1];
+                        
+                        if(previousStep + 1 == i)
+                        {
+                            RegistedStep(i, true, "greencheckmark.png");
+                            processedSteps.Add(i);
+                        }
+                        else
+                        {
+                            await DisplayAlert("Oops", "You must follow the steps in order", "OK");
+                        }
+                    }
+                }
+                else
+                {
+                    var previousStep = processedSteps[processedSteps.Count - 1];
+                    if (previousStep == i)
+                    {
+                        RegistedStep(i, false, parent.PicUrl);
+                        processedSteps.RemoveAt(i);
+                    }
+                    else
+                    {
+                        await DisplayAlert("Oops", "You must undo the steps in order", "OK");
+                    }
+                }
+            }
+        }
+
+        void RegistedStep(int i, bool status, string newImage)
+        {
+            items[i].Photo = newImage;
+            items[i].IsComplete = status;
+            items[i].updateImage();
+            
+            //updateInstruction(status, Instruction currInstruction);
         }
     }
 }

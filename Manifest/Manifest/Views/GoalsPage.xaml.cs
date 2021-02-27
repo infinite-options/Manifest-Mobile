@@ -1067,26 +1067,32 @@ namespace Manifest.Views
 
         async void nextClicked(System.Object sender, System.EventArgs e)
         {
-            if (goalsExist == false) return;
-            //if a goal has only one subtask, navigate directly to steps page
-            if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
+            try
             {
-                string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
-                if (chosenOccurance.IsInProgress == true)
-                    await RdsConnect.updateOccurance(chosenOccurance, false, true, url2);
-                else await RdsConnect.updateOccurance(chosenOccurance, true, false, url2);
-            }
-            else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.subOccurances.Count == 1 && chosenOccurance.IsComplete == false)
+                if (goalsExist == false) return;
+                //if a goal has only one subtask, navigate directly to steps page
+                if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
+                {
+                    string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                    if (chosenOccurance.IsInProgress == true)
+                        await RdsConnect.updateOccurance(chosenOccurance, false, true, url2);
+                    else await RdsConnect.updateOccurance(chosenOccurance, true, false, url2);
+                }
+                else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.subOccurances.Count == 1 && chosenOccurance.IsComplete == false)
+                {
+                    await Navigation.PushAsync(new GoalStepsPage(chosenOccurance, chosenOccurance.subOccurances[0], "#F8BE28"));
+                }
+                else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.IsComplete == false)
+                    await Navigation.PushAsync(new GoalsSpecialPage(chosenOccurance));
+                else if (chosenOccurance.IsComplete == true)
+                    await DisplayAlert("Oops", "this goal has already been completed", "OK");
+                //else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
+                //    await DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
+                else await DisplayAlert("Oops", "please select a goal first", "OK");
+            }catch(Exception goals)
             {
-                await Navigation.PushAsync(new GoalStepsPage(chosenOccurance, chosenOccurance.subOccurances[0], "#F8BE28"));
+                await DisplayAlert("Oops",goals.Message,"OK");
             }
-            else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.IsComplete == false)
-                await Navigation.PushAsync(new GoalsSpecialPage(chosenOccurance));
-            else if (chosenOccurance.IsComplete == true)
-                await DisplayAlert("Oops", "this goal has already been completed", "OK");
-            //else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
-            //    await DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
-            else await DisplayAlert("Oops", "please select a goal first", "OK");
         }
 
         void navigatetoActions(System.Object sender, System.EventArgs e)
