@@ -201,6 +201,7 @@ namespace Manifest.Views
             }
             else
             {
+                
                 await Navigation.PopAsync(false);
                 // Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
             }

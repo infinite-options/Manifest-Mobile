@@ -135,6 +135,7 @@ namespace Manifest.Views
                 IsComplete3.BindingContext = subTasks[1];
                 IsComplete3.Source = "greencheckmark.png";
                 IsComplete3.SetBinding(Image.IsVisibleProperty, completeVisible3);
+
             }
             else if (subTasks.Count >= 3)
             {
