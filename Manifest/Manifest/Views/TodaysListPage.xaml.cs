@@ -120,7 +120,7 @@ namespace Manifest.Views
                 todaysOccurances = occurances;
                 eventsToday = events;
                 //displayedOccurances = occurances;
-                ToOccurances();
+                SortOccurancesAndGroupGoals();
                 initialiseDataGrids(displayedOccurances);
             }
 
@@ -153,7 +153,7 @@ namespace Manifest.Views
             {
                 string url = AppConstants.BaseUrl + AppConstants.goalsAndRoutinesUrl + "/" + userID;
                 todaysOccurances = await RdsConnect.getOccurances(url);
-                ToOccurances();
+                SortOccurancesAndGroupGoals();
                 await CallGetEvents();
                 CreateList();
             }
@@ -163,62 +163,22 @@ namespace Manifest.Views
             }
         }
 
-        bool firstRunPassed = false;
+        bool hasItems = false;
         bool scrollViewSet = false;
         float scrollViewY = 0;
         //This function takes the response from the endpoint, and formats it into Occurances
-        private void ToOccurances()
+        private void SortOccurancesAndGroupGoals()
         {
             try
             {
-
-                displayedOccurances.Sort(delegate (Occurance a, Occurance b)
-                {
-                    if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
-                    else if (a.StartDayAndTime.TimeOfDay == b.StartDayAndTime.TimeOfDay) {
-                        if (a.IsEvent == true && b.IsEvent == false)
-                        {
-                            return -1;
-                        }
-                        else if (a.IsEvent == false && b.IsEvent == true)
-                        {
-                            return 1;
-                        }
-                        else if (a.IsPersistent == true && b.IsPersistent == false)
-                        {
-                            return -1;
-                        }
-                        else if (a.IsPersistent == false && b.IsPersistent == true)
-                        {
-                            return 1;
-                        }
-                        else if (a.EndDayAndTime.TimeOfDay < b.EndDayAndTime.TimeOfDay)
-                        {
-                            return -1;
-                        }
-                        else
-                        {
-                            return 1;
-                        }
-                    }
-                    else return 1;
-                });
-
-
+                SortOccurances();
                 for (int i = 0; i < todaysOccurances.Count; i++)
                 {
                     Occurance dto = todaysOccurances[i];
-                    //    if (dto.IsDisplayedToday == true)
-                    //    {
                     if (dto.EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay) {
                         dto.StatusColor = Color.FromHex("#BBC7D7");
                     }
                     else {
-                        //if (!scrollViewSet)
-                        //{
-                        //    scrollViewY = i * 100;
-                        //    scrollViewSet = true;
-                        //}
                         if (dto.IsPersistent == true)
                             dto.StatusColor = Color.FromHex("#FF6B4A");
                         else if (dto.IsEvent == false) dto.StatusColor = Color.FromHex("#FFBD27");
@@ -236,11 +196,11 @@ namespace Manifest.Views
 
                     if (!dto.IsEvent && !dto.IsPersistent)
                     {
-                        if (firstRunPassed == false)
+                        if (hasItems == false)
                         {
                             Debug.WriteLine("first if entered");
                             commonOccur.Add(dto);
-                            firstRunPassed = true;
+                            hasItems = true;
                         }
                         else if (commonOccur.Count != 0 && commonOccur[0].StartDayAndTime.TimeOfDay <= dto.StartDayAndTime.TimeOfDay
                             && commonOccur[0].EndDayAndTime.TimeOfDay >= dto.EndDayAndTime.TimeOfDay)
@@ -287,60 +247,81 @@ namespace Manifest.Views
                     }
                     else
                     {
-                        if (commonOccur.Count > 1)
-                        {
-                            Occurance toAddPursue = new Occurance();
-                            toAddPursue.Title = "Pursue A Goal";
-                            toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
-                            toAddPursue.EndDayAndTime = commonOccur[0].EndDayAndTime;
-                            toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
-                            toAddPursue.IsEvent = false;
-
-                            toAddPursue.StatusColor = Color.FromHex("#FFBD27");
-
-                            List<Occurance> holder = new List<Occurance>(commonOccur);
-                            Debug.WriteLine("holder count before: " + holder.Count);
-                            toAddPursue.commonTimeOccurs = holder;
-                            displayedOccurances.Add(toAddPursue);
-                        }
-                        else if (commonOccur.Count == 1)
-                        {
-                            displayedOccurances.Add(commonOccur[0]);
-                        }
-                        commonOccur.Clear();
-                        firstRunPassed = false;
+                        addCommonOccur(commonOccur);
                         displayedOccurances.Add(dto);
 
                     }
                 }
-
-                if (commonOccur.Count > 1 && commonOccur[0].IsPersistent == false)
-                {
-                    Occurance toAddPursue = new Occurance();
-                    toAddPursue.Title = "Pursue A Goal";
-                    toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
-                    toAddPursue.EndDayAndTime = commonOccur[0].EndDayAndTime;
-                    toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
-                    toAddPursue.IsEvent = false;
-
-                    toAddPursue.StatusColor = Color.FromHex("#FFBD27");
-
-                    List<Occurance> holder = new List<Occurance>(commonOccur);
-                    Debug.WriteLine("holder count before: " + holder.Count);
-                    toAddPursue.commonTimeOccurs = holder;
-                    displayedOccurances.Add(toAddPursue);
-                }
-                else if (commonOccur.Count == 1 && commonOccur[0].IsPersistent == false)
-                {
-                    displayedOccurances.Add(commonOccur[0]);
-                }
-
+                addCommonOccur(commonOccur);
                 return;
             }
             catch (Exception e)
             {
                 DisplayAlert("Alert", "Error in TodaysListTest ToOccurances(). Error: " + e.ToString(), "OK");
             }
+        }
+
+        private void SortOccurances()
+        {
+            displayedOccurances.Sort(delegate (Occurance a, Occurance b)
+            {
+                if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
+                else if (a.StartDayAndTime.TimeOfDay == b.StartDayAndTime.TimeOfDay)
+                {
+                    if (a.IsEvent == true && b.IsEvent == false)
+                    {
+                        return -1;
+                    }
+                    else if (a.IsEvent == false && b.IsEvent == true)
+                    {
+                        return 1;
+                    }
+                    else if (a.IsPersistent == true && b.IsPersistent == false)
+                    {
+                        return -1;
+                    }
+                    else if (a.IsPersistent == false && b.IsPersistent == true)
+                    {
+                        return 1;
+                    }
+                    else if (a.EndDayAndTime.TimeOfDay < b.EndDayAndTime.TimeOfDay)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                }
+                else return 1;
+            });
+        }
+
+        //This function groups goals for us
+        private void addCommonOccur(List<Occurance> commonOccur)
+        {
+            if (commonOccur.Count > 1)
+            {
+                Occurance toAddPursue = new Occurance();
+                toAddPursue.Title = "Pursue A Goal";
+                toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
+                toAddPursue.EndDayAndTime = commonOccur[0].EndDayAndTime;
+                toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
+                toAddPursue.IsEvent = false;
+
+                toAddPursue.StatusColor = Color.FromHex("#FFBD27");
+
+                List<Occurance> holder = new List<Occurance>(commonOccur);
+                Debug.WriteLine("holder count before: " + holder.Count);
+                toAddPursue.commonTimeOccurs = holder;
+                displayedOccurances.Add(toAddPursue);
+            }
+            else if (commonOccur.Count == 1)
+            {
+                displayedOccurances.Add(commonOccur[0]);
+            }
+            commonOccur.Clear();
+            hasItems = false;
         }
 
         //This function convert a string to a DateTime
@@ -368,14 +349,7 @@ namespace Manifest.Views
                 int i = 0;
                 int j = 0;
                 //First sort todaysOccurances
-                //displayedOccurances.Sort(delegate (Occurance a, Occurance b)
-                //{
-                //    if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
-                //    else return 1;
-                //});
                 List<Occurance> merged = new List<Occurance>();
-                //Debug.WriteLine("Num occurances = " + todaysOccurances.Count);
-                //Debug.WriteLine("Num Event = " + todaysEvents.Count);
                 while (i < displayedOccurances.Count || j < todaysEvents.Count)
                 {
                     //xDebug.WriteLine(i.ToString() + j.ToString());
@@ -422,16 +396,14 @@ namespace Manifest.Views
             try
             {
                 string url = AppConstants.BaseUrl + AppConstants.timeSettingsUrl + "/" + Application.Current.Properties["userId"];
-                var response2 = await client2.GetStringAsync(url);
-                Debug.WriteLine("Getting time settings:");
-                Debug.WriteLine(response2);
+                var response2 = await client2.GetStringAsync(url);  
                 int subtract = response2.Length - 4;
                 response2 = response2.Substring(1, subtract);
+                Debug.WriteLine("Getting time settings:");
                 Debug.WriteLine(response2);
 
                 Times timeResponse = JsonConvert.DeserializeObject<Times>(response2);
 
-                //Debug.WriteLine("daytime: " + timeResponse.morning_time);
 
                 datagridMorning.Clear();
                 datagridAfternoon.Clear();
@@ -463,7 +435,6 @@ namespace Manifest.Views
                 if (!scrollViewSet)
                 {
                     scrollViewY += 135;
-                    //scrollViewY += 90;
                 }
                 while (i < todaysTasks.Count && String.Compare(todaysTaskTime, timeResponse.evening_time) < 0)
                 {
@@ -486,7 +457,6 @@ namespace Manifest.Views
                 if (!scrollViewSet)
                 {
                     scrollViewY += 135;
-                    //scrollViewY += 90;
                 }
                 while (i < todaysTasks.Count)
                 {
@@ -505,7 +475,6 @@ namespace Manifest.Views
                     }
                     eveningTaskCount++;
                     i++;
-                    //todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                 }
                 Debug.WriteLine("morningCount: " + morningTaskCount.ToString());
                 Debug.WriteLine("afternoonCount: " + afternoonTaskCount.ToString());
@@ -514,15 +483,12 @@ namespace Manifest.Views
                 taskListMorning.HeightRequest = (morningTaskCount * 115) + 60;
                 if (morningTaskCount == 0)
                     taskListEvening.HeightRequest = 60;
-                //stack1.IsVisible = false;
                 taskListAfternoon.HeightRequest = (afternoonTaskCount * 115) + 60;
                 if (afternoonTaskCount == 0)
                     taskListEvening.HeightRequest = 60;
-                //stack2.IsVisible = false;
                 taskListEvening.HeightRequest = (eveningTaskCount * 115) + 60;
                 if (eveningTaskCount == 0)
                     taskListEvening.HeightRequest = 60;
-                //stack3.IsVisible = false;
                 await todaysSchedule.ScrollToAsync(0, scrollViewY, true);
             }
             catch (Exception e)
@@ -662,11 +628,6 @@ namespace Manifest.Views
                     toAdd.TimeInterval = dto.StartTime.LocalDateTime.ToString("t") + "-" + dto.EndTime.LocalDateTime.ToString("t");
 
                     toAdd.StatusColor = Color.FromHex("#67ABFC");
-                    //highlighting events happening now
-                    //if (DateTime.Now.TimeOfDay >= toAdd.StartDayAndTime.TimeOfDay && DateTime.Now.TimeOfDay <= toAdd.EndDayAndTime.TimeOfDay)
-                    //    toAdd.StatusColor = Color.FromHex("#FFBD27");
-                    //else toAdd.StatusColor = Color.FromHex("#9DB2CB");
-
                     toAdd.Id = dto.Id;
                     toAdd.IsEvent = true;
                     toAdd.PicUrl = "calendarFive.png"; //Image must be a png
@@ -678,23 +639,6 @@ namespace Manifest.Views
                 DisplayAlert("Alert", "Error in TodaysListTest EventsToOccurances. Error: " + e.ToString(), "OK");
             }
         }
-
-        // void navigateToAboutMe(System.Object sender, System.EventArgs e)
-        // {
-        //     Application.Current.MainPage = new AboutMePage();
-        // }
-
-        // void navigatetoTodaysList(System.Object sender, System.EventArgs e)
-        // {
-        //     Debug.WriteLine(Application.Current.Properties["userID"]);
-        //     Application.Current.MainPage = new TodaysListTest((String)Application.Current.Properties["userID"]);
-        // }
-
-        // void navigatetoRoutines(System.Object sender, System.EventArgs e)
-        // {
-        //     Debug.WriteLine(Application.Current.Properties["userID"]);
-        //     Application.Current.MainPage = new RoutinesPage((String)Application.Current.Properties["userID"]);
-        // }
 
         void navigateToGoals(System.Object sender, System.EventArgs e)
         {
