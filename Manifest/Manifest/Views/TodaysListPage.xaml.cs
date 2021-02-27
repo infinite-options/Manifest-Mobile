@@ -234,20 +234,22 @@ namespace Manifest.Views
                         dto.TimeInterval = dto.StartDayAndTime.ToString("t") + "-" + dto.EndDayAndTime.ToString("t");
                     }
 
-                    if (firstRunPassed == false && dto.IsPersistent == false)
+                    if (!dto.IsEvent && !dto.IsPersistent)
+                    {
+                        if (firstRunPassed == false)
                         {
                             Debug.WriteLine("first if entered");
                             commonOccur.Add(dto);
                             firstRunPassed = true;
                         }
-                        else if (dto.IsPersistent == false && !dto.IsEvent && commonOccur.Count != 0 && ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay <= ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
-                            && ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay >= ToDateTime(dto.EndDayAndTime.ToString("t")).TimeOfDay)
+                        else if (commonOccur.Count != 0 && commonOccur[0].StartDayAndTime.TimeOfDay <= dto.StartDayAndTime.TimeOfDay
+                            && commonOccur[0].EndDayAndTime.TimeOfDay >= dto.EndDayAndTime.TimeOfDay)
                         {
                             Debug.WriteLine("second if entered");
                             commonOccur.Add(dto);
                         }
-                        else if (dto.IsPersistent == false && !dto.IsEvent && commonOccur.Count > 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(dto.StartDayAndTime.ToString("t")).TimeOfDay
-                            || ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay < ToDateTime(dto.EndDayAndTime.ToString("t")).TimeOfDay))
+                        else if (commonOccur.Count > 1 && (commonOccur[0].StartDayAndTime.TimeOfDay < dto.StartDayAndTime.TimeOfDay
+                            || commonOccur[0].EndDayAndTime.TimeOfDay < dto.EndDayAndTime.TimeOfDay))
                         {
                             Debug.WriteLine("third if entered");
                             Debug.WriteLine("starttimes: " + commonOccur[0].StartDayAndTime.TimeOfDay + " " + dto.StartDayAndTime.TimeOfDay);
@@ -269,10 +271,10 @@ namespace Manifest.Views
                             commonOccur.Add(dto);
                             Debug.WriteLine("holder count after: " + holder.Count);
                         }
-                        else if (toAdd.IsPersistent == false && !dto.IsEvent && commonOccur.Count == 1 && (ToDateTime(commonOccur[0].StartDayAndTime.ToString("t")).TimeOfDay < ToDateTime(toAdd.StartDayAndTime.ToString("t")).TimeOfDay
-                            || ToDateTime(commonOccur[0].EndDayAndTime.ToString("t")).TimeOfDay > ToDateTime(toAdd.EndDayAndTime.ToString("t")).TimeOfDay))
+                        else if (commonOccur.Count == 1 && (commonOccur[0].StartDayAndTime.TimeOfDay < dto.StartDayAndTime.TimeOfDay
+                            || commonOccur[0].EndDayAndTime.TimeOfDay > dto.EndDayAndTime.TimeOfDay))
                         {
-                            Debug.WriteLine("not lumped together: " + toAdd.Title);
+                            Debug.WriteLine("not lumped together: " + dto.Title);
                             displayedOccurances.Add(commonOccur[0]);
                             commonOccur.Clear();
                             commonOccur.Add(dto);
@@ -282,14 +284,34 @@ namespace Manifest.Views
                             Debug.WriteLine("else entered");
                             displayedOccurances.Add(dto);
                         }
+                    }
+                    else
+                    {
+                        if (commonOccur.Count > 1)
+                        {
+                            Occurance toAddPursue = new Occurance();
+                            toAddPursue.Title = "Pursue A Goal";
+                            toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
+                            toAddPursue.EndDayAndTime = commonOccur[0].EndDayAndTime;
+                            toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
+                            toAddPursue.IsEvent = false;
 
-                        //todaysOccurances.Add(toAdd);
-                        //need a isPursueAGoal variable to know if the thing being clicked needs to be navigated to
-                        //send in list of goals for the pursue a goal into goals page instead of calling the endpoint again
-                        //
-                        //store the incoming occurance in listOccur, if it doesn't have the same time as the last occurance, clear listOccur,
-                        //if the incoming occurance is at the same hour and minutes as the one in listOccur, add the time to listTime (that will be passed to goals.xaml.cs)
-                    //}
+                            toAddPursue.StatusColor = Color.FromHex("#FFBD27");
+
+                            List<Occurance> holder = new List<Occurance>(commonOccur);
+                            Debug.WriteLine("holder count before: " + holder.Count);
+                            toAddPursue.commonTimeOccurs = holder;
+                            displayedOccurances.Add(toAddPursue);
+                        }
+                        else if (commonOccur.Count == 1)
+                        {
+                            displayedOccurances.Add(commonOccur[0]);
+                        }
+                        commonOccur.Clear();
+                        firstRunPassed = false;
+                        displayedOccurances.Add(dto);
+
+                    }
                 }
 
                 if (commonOccur.Count > 1 && commonOccur[0].IsPersistent == false)
@@ -321,40 +343,6 @@ namespace Manifest.Views
             }
         }
 
-        ////This function converts a string to a bool
-        //private bool ToBool(string boolString)
-        //{
-        //    if (String.IsNullOrEmpty(boolString)) {
-        //        return false;
-        //    }
-        //    try
-        //    {
-        //        return Boolean.Parse(boolString);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.WriteLine("Error in ToBool function in TodaysList class");
-        //        return false;
-        //    }
-        //}
-
-        ////This function converts a string to a TimeSpan
-        //private TimeSpan ToTimeSpan(string timeString)
-        //{
-        //    if (String.IsNullOrEmpty(timeString))
-        //    {
-        //        return new TimeSpan();
-        //    }
-        //    try
-        //    {
-        //        return TimeSpan.Parse(timeString);
-        //    }
-        //    catch (Exception e) {
-        //        Debug.WriteLine("Error in ToTimeSpan function in TodaysList class");
-        //    }
-        //    return new TimeSpan();
-        //}
-
         //This function convert a string to a DateTime
         private DateTime ToDateTime(string dateString)
         {
@@ -380,11 +368,11 @@ namespace Manifest.Views
                 int i = 0;
                 int j = 0;
                 //First sort todaysOccurances
-                displayedOccurances.Sort(delegate (Occurance a, Occurance b)
-                {
-                    if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
-                    else return 1;
-                });
+                //displayedOccurances.Sort(delegate (Occurance a, Occurance b)
+                //{
+                //    if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
+                //    else return 1;
+                //});
                 List<Occurance> merged = new List<Occurance>();
                 //Debug.WriteLine("Num occurances = " + todaysOccurances.Count);
                 //Debug.WriteLine("Num Event = " + todaysEvents.Count);
@@ -426,11 +414,6 @@ namespace Manifest.Views
             }
         }
 
-        //public async Times timeSettings()
-        //{
-
-        //}
-
         //This function is going to initialise our three data grids
 
         private async void initialiseDataGrids(List<Occurance> todaysTasks)
@@ -446,9 +429,6 @@ namespace Manifest.Views
                 response2 = response2.Substring(1, subtract);
                 Debug.WriteLine(response2);
 
-                //int subtract2 = response2.Length - 3;
-                //response2 = response2.Substring(0, subtract);
-                //Debug.WriteLine(response2);
                 Times timeResponse = JsonConvert.DeserializeObject<Times>(response2);
 
                 //Debug.WriteLine("daytime: " + timeResponse.morning_time);

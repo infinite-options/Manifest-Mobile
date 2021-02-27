@@ -96,7 +96,7 @@
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Frame CornerRadius="22" Padding="{Binding borderWidth}" HasShadow="False" BackgroundColor="Black">
+                                <Frame CornerRadius="25" Padding="{Binding borderWidth}" HasShadow="False" BackgroundColor="Black">
                                     <Frame CornerRadius="25" Padding="15" HasShadow="False" BackgroundColor="{Binding StatusColor}">
                                         <Grid BackgroundColor="{Binding StatusColor}">
                                              <Grid.RowDefinitions>
