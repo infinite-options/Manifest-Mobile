@@ -73,6 +73,13 @@ namespace Manifest.Models
             borderWidth = newWidth;
             PropertyChanged(this, new PropertyChangedEventArgs("borderWidth"));
         }
+
+        public void updateStatusColor(string hexColor)
+        {
+            StatusColor = Color.FromHex(hexColor);
+            if (StatusColor.Luminosity > 0.8) textColor = Color.Black;
+            else textColor = Color.White;
+        }
     }
 
     public class OccuranceResponse

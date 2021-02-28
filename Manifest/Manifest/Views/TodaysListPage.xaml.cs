@@ -15,6 +15,7 @@ using System.Collections;
 using Xamarin.Auth;
 using Manifest.LogIn.Classes;
 using Manifest.RDS;
+using System.Linq;
 
 namespace Manifest.Views
 {
@@ -46,7 +47,7 @@ namespace Manifest.Views
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         List<Occurance> commonOccur;
-        public TodaysListPage(List<Occurance> occurances, List<Event> events)
+        public TodaysListPage()
         {
             today = DateTime.Today;
             todayDate = today.ToString("d");
@@ -91,34 +92,21 @@ namespace Manifest.Views
             taskListAfternoon.ItemsSource = datagridAfternoon;
             taskListEvening.ItemsSource = datagridEvening;
             todaysSchedule.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
-            if (occurances == null)
+            Debug.WriteLine("Entered if initializer");
+            try
             {
-                Debug.WriteLine("Entered if initializer");
-                try
-                {
 
-                    initialiseTodaysOccurances(userID);
-                    Debug.WriteLine(todaysOccurances);
+                initialiseTodaysOccurances(userID);
+                Debug.WriteLine(todaysOccurances);
 
-                    Debug.WriteLine("device height: " + deviceHeight.ToString());
-                    Debug.WriteLine("device width: " + deviceWidth.ToString());
-                    dotw.Text = today.ToString("dddd");
-                }
-                catch (Exception e)
-                {
-                    DisplayAlert("Alert", "Error in TodaysListTest initializer. Error: " + e.ToString(), "OK");
-                }
+                Debug.WriteLine("device height: " + deviceHeight.ToString());
+                Debug.WriteLine("device width: " + deviceWidth.ToString());
+                dotw.Text = today.ToString("dddd");
             }
-            else
+            catch (Exception e)
             {
-                Debug.WriteLine("Entered else initializer");
-                todaysOccurances = occurances;
-                eventsToday = events;
-                //displayedOccurances = occurances;
-                SortOccurancesAndGroupGoals();
-                initialiseDataGrids(displayedOccurances);
+                DisplayAlert("Alert", "Error in TodaysListTest initializer. Error: " + e.ToString(), "OK");
             }
-
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
@@ -128,7 +116,7 @@ namespace Manifest.Views
 
         void TodaysListPageClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null, null));
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
         }
 
         void AboutMeClicked(System.Object sender, System.EventArgs e)
@@ -148,14 +136,20 @@ namespace Manifest.Views
             {
                 string url = AppConstants.BaseUrl + AppConstants.goalsAndRoutinesUrl + "/" + userID;
                 todaysOccurances = await RdsConnect.getOccurances(url);
-                SortOccurancesAndGroupGoals();
                 await CallGetEvents();
+                todaysOccurances = todaysOccurances.Concat(todaysEvents).ToList();
+                SortOccurancesAndGroupGoals();
                 CreateList();
             }
             catch (Exception e)
             {
                 await DisplayAlert("Alert", "Error in TodaysListTest initialiseTodaysOccurances. Error: " + e.ToString(), "OK");
             }
+        }
+
+        private async void getTimeSettings(string userID)
+        {
+            string url = AppConstants.BaseUrl + AppConstants.timeSettingsUrl + "/" + userID;
         }
 
         bool hasItems = false;
@@ -259,7 +253,7 @@ namespace Manifest.Views
 
         private void SortOccurances()
         {
-            displayedOccurances.Sort(delegate (Occurance a, Occurance b)
+            todaysOccurances.Sort(delegate (Occurance a, Occurance b)
             {
                 if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
                 else if (a.StartDayAndTime.TimeOfDay == b.StartDayAndTime.TimeOfDay)
@@ -342,41 +336,7 @@ namespace Manifest.Views
             Debug.WriteLine("Entered CreateList");
             try
             {
-                int i = 0;
-                int j = 0;
-                //First sort todaysOccurances
-                List<Occurance> merged = new List<Occurance>();
-                while (i < displayedOccurances.Count || j < todaysEvents.Count)
-                {
-                    //xDebug.WriteLine(i.ToString() + j.ToString());
-                    if (i >= displayedOccurances.Count && j < todaysEvents.Count)
-                    {
-                        merged.Add(todaysEvents[j]);
-                        Debug.WriteLine(todaysEvents[j].Title + " start time: " + todaysEvents[j].StartDayAndTime);
-                        j++;
-                        continue;
-                    }
-                    else if (i < displayedOccurances.Count && j >= todaysEvents.Count)
-                    {
-                        merged.Add(displayedOccurances[i]);
-                        Debug.WriteLine(displayedOccurances[i].Title + " start time: " + displayedOccurances[i].StartDayAndTime);
-                        i++;
-                        continue;
-                    }
-                    else if (displayedOccurances[i].StartDayAndTime.TimeOfDay < todaysEvents[j].StartDayAndTime.TimeOfDay)
-                    {
-                        merged.Add(displayedOccurances[i]);
-                        Debug.WriteLine(displayedOccurances[i].Title + " start time: " + displayedOccurances[i].StartDayAndTime);
-                        i++;
-                    }
-                    else
-                    {
-                        merged.Add(todaysEvents[j]);
-                        Debug.WriteLine(todaysEvents[j].Title + " start time: " + todaysEvents[j].StartDayAndTime);
-                        j++;
-                    }
-                }
-                initialiseDataGrids(merged);
+                initialiseDataGrids(displayedOccurances);
             }
             catch (Exception e)
             {
@@ -384,8 +344,16 @@ namespace Manifest.Views
             }
         }
 
-        //This function is going to initialise our three data grids
 
+        private void occuranceHappeningNow(Occurance occurance)
+        {
+            if (occurance.StartDayAndTime.TimeOfDay <= DateTime.Now.TimeOfDay && occurance.EndDayAndTime.TimeOfDay >= DateTime.Now.TimeOfDay)
+            {
+                occurance.updateBorderWidth(5);
+            }
+        }
+
+        //This function is going to initialise our three data grids
         private async void initialiseDataGrids(List<Occurance> todaysTasks)
         {
 
@@ -425,6 +393,7 @@ namespace Manifest.Views
                         scrollViewSet = true;
                         todaysTasks[i].updateBorderWidth(5);
                     }
+                    occuranceHappeningNow(todaysTasks[i]);
                     morningTaskCount++;
                     i++;
                 }
@@ -447,6 +416,7 @@ namespace Manifest.Views
                         scrollViewSet = true;
                         todaysTasks[i].updateBorderWidth(5);
                     }
+                    occuranceHappeningNow(todaysTasks[i]);
                     afternoonTaskCount++;
                     i++;
                 }
@@ -469,6 +439,7 @@ namespace Manifest.Views
                         scrollViewSet = true;
                         todaysTasks[i].updateBorderWidth(5);
                     }
+                    occuranceHappeningNow(todaysTasks[i]);
                     eveningTaskCount++;
                     i++;
                 }

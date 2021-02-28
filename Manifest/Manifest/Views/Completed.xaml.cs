@@ -49,7 +49,7 @@ namespace Manifest.Views
 
         void TodaysListPageClicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null, null));
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
         }
 
         void AboutMeClicked(System.Object sender, System.EventArgs e)

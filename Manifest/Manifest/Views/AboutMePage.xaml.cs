@@ -326,7 +326,7 @@ namespace Manifest.Views
 
         void Button_Clicked_1(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null, null));
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
         }
 
         void Button_Clicked_2(System.Object sender, System.EventArgs e)

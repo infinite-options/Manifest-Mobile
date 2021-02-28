@@ -483,7 +483,7 @@ namespace Manifest.Views
 
         private void goToTodaysList(object sender, EventArgs args)
         {
-            Application.Current.MainPage = new TodaysListPage(null, null);
+            Application.Current.MainPage = new TodaysListPage();
         }
 
         //public class UpdateSubOccuranceDataType

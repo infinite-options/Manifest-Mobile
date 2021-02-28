@@ -149,7 +149,7 @@ namespace Manifest.Views
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null,null)); ;
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage()); ;
         }
 
         void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
