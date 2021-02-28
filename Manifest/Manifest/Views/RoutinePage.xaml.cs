@@ -144,7 +144,8 @@ namespace Manifest.Views
                 }
                 else
                 {
-                    routineColor = Color.FromHex("#F26D4B");
+                    routineColor = Color.FromHex((string)Application.Current.Properties["routine"]);
+                    routineExpander.IsExpanded = true;
                 }
 
                 newGrid.BindingContext = toAdd;

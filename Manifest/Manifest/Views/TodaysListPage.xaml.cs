@@ -46,7 +46,6 @@ namespace Manifest.Views
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         List<Occurance> commonOccur;
-
         public TodaysListPage(List<Occurance> occurances, List<Event> events)
         {
             today = DateTime.Today;
@@ -91,17 +90,13 @@ namespace Manifest.Views
             taskListMorning.ItemsSource = datagridMorning;
             taskListAfternoon.ItemsSource = datagridAfternoon;
             taskListEvening.ItemsSource = datagridEvening;
+            todaysSchedule.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             if (occurances == null)
             {
                 Debug.WriteLine("Entered if initializer");
                 try
                 {
-                    //today = DateTime.Today;
-                    //todayDate = today.ToString("d");
-                    //morningStart = todayDate + ", 12:00:00 AM";
-                    //afternoonStart = todayDate + ", 11:00:00 AM";
-                    //eveningStart = todayDate + ", 6:00:00 PM";
-                    //Debug.WriteLine("dotw: " + today.ToString("dddd"));
+
                     initialiseTodaysOccurances(userID);
                     Debug.WriteLine(todaysOccurances);
 
@@ -179,12 +174,13 @@ namespace Manifest.Views
                         dto.StatusColor = Color.FromHex("#BBC7D7");
                     }
                     else {
-                        if (dto.IsPersistent == true)
-                            dto.StatusColor = Color.FromHex("#FF6B4A");
-                        else if (dto.IsEvent == false) dto.StatusColor = Color.FromHex("#FFBD27");
-                        else dto.StatusColor = Color.FromHex("#67ABFC");
+                        if (dto.IsPersistent) dto.StatusColor = Color.FromHex((string)Application.Current.Properties["routine"]);
+                        else if (dto.IsEvent) dto.StatusColor = Color.FromHex((string)Application.Current.Properties["event"]);
+                        else dto.StatusColor = Color.FromHex((string)Application.Current.Properties["goal"]);
                     }
 
+                    if (dto.StatusColor.Luminosity > 0.8) dto.textColor = Color.Black;
+                    else dto.textColor = Color.White;
 
                     Debug.WriteLine("occurance tracked: " + dto.Title);
                         Occurance toAdd = new Occurance();
