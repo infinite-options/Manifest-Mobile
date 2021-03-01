@@ -14,6 +14,7 @@ namespace Manifest.Models
         public string PicUrl { get; set; }
         public List<Person> ImportantPeople { get; set; }
         public TimeSettings TimeSettings { get; set; }
+        public string user_birth_date { get; set; }
     }
 
 }

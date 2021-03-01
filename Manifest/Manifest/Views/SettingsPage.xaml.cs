@@ -257,7 +257,7 @@ namespace Manifest.Views
                     }
                     else if (parentName == "AboutMePage")
                     {
-                        Application.Current.MainPage = new MainPage();
+                        Application.Current.MainPage = new AboutMePage();
                     }
                     else if (parentName == "WhoAmIPage")
                     {

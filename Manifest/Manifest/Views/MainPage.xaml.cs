@@ -52,6 +52,17 @@ namespace Manifest.Views
             lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
 
+
+            goalsEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["goal"]));
+            routineEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["goal"]));
+            pulseEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["goal"]));
+            whoAmIEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["goal"]));
+            infoEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["goal"]));
+            centerEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
+            subCenterEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["goal"]));
+            scheduleEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["goal"]));
+
+
             //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "Manifest";
 

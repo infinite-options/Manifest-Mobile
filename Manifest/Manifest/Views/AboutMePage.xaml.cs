@@ -45,6 +45,7 @@ namespace Manifest.Views
             public string day_end { get; set; }
             public string day_start { get; set; }
             public string time_zone { get; set; }
+            public string user_birth_date { get; set; }
 
             // Important People or TA details below
             public string ta_people_id { get; set; }
@@ -85,6 +86,9 @@ namespace Manifest.Views
             scheduleFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+            whoAmIButton.BackgroundColor = Color.FromHex((string)Application.Current.Properties["goal"]);
+            whatMotivatesMeButton.BackgroundColor = Color.FromHex((string)Application.Current.Properties["event"]);
 
             title.Text = "About me";
             var helperObject = new MainPage();
@@ -132,11 +136,22 @@ namespace Manifest.Views
                 {
                     await DisplayAlert("Alert", "Error in getUser() in initializeUser() in AboutMePage", "OK");
                 }
+                //Debug.WriteLine("ABOUT ME: " + res);
                 UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(res);
                 ToUser(userResponse);
                 //userID.Text = (String)Application.Current.Properties["userID"];
+                
                 userName.Text = user.FirstName + " " + user.LastName;
                 userImage.Source = user.PicUrl;
+                if(user.user_birth_date == null)
+                {
+                    userBirthday.Text = "";
+                }
+                else
+                {
+                    userBirthday.Text = user.user_birth_date;
+                }
+                
                 CreateList();
             }
             catch (Exception a)
@@ -165,7 +180,8 @@ namespace Manifest.Views
                             PicUrl = dto.user_picture,
                             MessageCard = dto.message_card,
                             MessageDay = dto.message_day,
-                            TimeSettings = ToTimeSettings(dto)
+                            TimeSettings = ToTimeSettings(dto),
+                            user_birth_date = dto.user_birth_date
                         };
                     }
                     else

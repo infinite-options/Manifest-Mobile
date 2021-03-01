@@ -12,7 +12,7 @@ namespace Manifest.Views
     public class Options
     {
         public string color { get; set; }
-        public int height { get; set; }
+        public double height { get; set; }
         public string name { get; set; }
     }
 
@@ -82,19 +82,45 @@ namespace Manifest.Views
             var important = JsonConvert.DeserializeObject<IDictionary<string, int>>(parser.result.important.ToString());
 
             happyItems.Clear();
+
+            var factor = 0.0;
+            foreach(string key in happy.Keys)
+            {
+                factor = Math.Max(factor, happy[key]);
+            }
+
+            var temp = factor;
+            factor = 100 / factor;
             foreach (string key in happy.Keys)
             {
-                happyItems.Add(new Options { name = key, height = happy[key], color = (string)Application.Current.Properties["event"] });
+                happyItems.Add(new Options { name = key, height = happy[key]*factor, color = (string)Application.Current.Properties["event"] });
             }
+
+            factor = 0.0;
+            foreach (string key in motivation.Keys)
+            {
+                factor = Math.Max(factor, motivation[key]);
+            }
+
+            temp = factor;
+            factor = 100 / factor;
             motivationItems.Clear();
             foreach (string key in motivation.Keys)
             {
-                motivationItems.Add(new Options { name = key, height = motivation[key], color = (string)Application.Current.Properties["routine"] });
+                motivationItems.Add(new Options { name = key, height = motivation[key]*factor, color = (string)Application.Current.Properties["routine"] });
             }
+            factor = 0.0;
+            foreach (string key in important.Keys)
+            {
+                factor = Math.Max(factor, important[key]);
+            }
+
+            temp = factor;
+            factor = 100 / factor;
             importantItems.Clear();
             foreach (string key in important.Keys)
             {
-                importantItems.Add(new Options { name = key, height = important[key], color = (string)Application.Current.Properties["goal"]});
+                importantItems.Add(new Options { name = key, height = important[key]*factor, color = (string)Application.Current.Properties["goal"]});
             }
             ImportantList.ItemsSource = importantItems;
             HappyList.ItemsSource = happyItems;

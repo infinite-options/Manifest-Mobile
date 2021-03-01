@@ -77,8 +77,19 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+            goalsFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            navBarFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+
+            doneButton.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            boredButon.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+
+
+            goalsEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["routine"]));
+
             //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-            
+
             //title.Text = subOccur.Title;
             title.Text = "Goals";
             subTitle.Text = occurance.Title;
@@ -120,7 +131,7 @@ namespace Manifest.Views
                     step.opacity = 1;
                 }
                 step.time = instructionStep + 1;
-                step.color = "#F26D4B";
+                step.color = (string)Application.Current.Properties["routine"];
                 step.stepIndex = instructionStep;
                 items.Add(step);
                 instructionStep++;

@@ -48,8 +48,15 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-            
+
+            goalFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+            actionFrame1.BackgroundColor = Color.FromHex((string)Application.Current.Properties["routine"]);
+            actionFrame2.BackgroundColor = Color.FromHex((string)Application.Current.Properties["goal"]);
+            actionFrame3.BackgroundColor = Color.FromHex((string)Application.Current.Properties["event"]);
+
+            //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+
             title.Text = "Goals";
             subTitle.Text = occurance.Title;
             var helperObject = new MainPage();

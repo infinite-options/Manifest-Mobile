@@ -53,6 +53,7 @@
                         <StackLayout WidthRequest="150" Padding="0,0,0,10">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
+                                    x:Name="pulseEllipse"
                                     StrokeThickness="0"
                                     Fill="#FFBD27"
                                     WidthRequest="98"
@@ -68,6 +69,7 @@
                         <StackLayout WidthRequest="150" Padding="0,10,0,0">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
+                                    x:Name="scheduleEllipse"
                                     StrokeThickness="0"
                                     Fill="#FFBD27"
                                     WidthRequest="98"
@@ -85,6 +87,7 @@
                         <StackLayout WidthRequest="150" Padding="0,0,0,5">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
+                                    x:Name="goalsEllipse"
                                     StrokeThickness="0"
                                     Fill="#FFBD27"
                                     WidthRequest="98"
@@ -100,6 +103,7 @@
                         <StackLayout HeightRequest="150" WidthRequest="150" HorizontalOptions="CenterAndExpand">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
+                                    x:Name="centerEllipse"
                                     StrokeThickness="0"
                                     Fill="#889AB5"
                                     WidthRequest="150"
@@ -108,6 +112,7 @@
                                 <StackLayout HeightRequest="150"  VerticalOptions="CenterAndExpand">
                                     <Grid HorizontalOptions="CenterAndExpand" Margin="25,45,25,0">
                                          <Ellipse
+                                        x:Name="subCenterEllipse"
                                         StrokeThickness="0"
                                         Fill="#FFBD27"
                                         WidthRequest="100"
@@ -126,6 +131,7 @@
                         <StackLayout HeightRequest="98" WidthRequest="150" Padding="0,5,0,0">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
+                                    x:Name="whoAmIEllipse"
                                     StrokeThickness="0"
                                     Fill="#FFBD27"
                                     WidthRequest="98"
@@ -143,6 +149,7 @@
                         <StackLayout  WidthRequest="150" Padding="-10,0,0,10">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
+                                    x:Name="routineEllipse"
                                     StrokeThickness="0"
                                     Fill="#FFBD27"
                                     WidthRequest="98"
@@ -158,6 +165,7 @@
                         <StackLayout WidthRequest="150" Padding="-10,10,0,0">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
+                                    x:Name="infoEllipse"
                                     StrokeThickness="0"
                                     Fill="#FFBD27"
                                     WidthRequest="98"
