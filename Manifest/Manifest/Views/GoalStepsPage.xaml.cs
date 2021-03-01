@@ -189,9 +189,14 @@ namespace Manifest.Views
 
         async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
-            foreach (int i in processedInstructions)
+            //foreach (int i in processedInstructions)
+            //{
+            //    await RdsConnect.updateInstruction(true, items[i]);
+            //}
+
+            foreach(Instruction i in parent.instructions)
             {
-                await RdsConnect.updateInstruction(true, items[i]);
+                await RdsConnect.updateInstruction(true, i);
             }
 
             if (processedInstructions.Count == parent.instructions.Count)

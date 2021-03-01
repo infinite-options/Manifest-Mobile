@@ -200,9 +200,14 @@ namespace Manifest.Views
         async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
 
-            foreach (int i in processedSteps)
+            //foreach (int i in processedSteps)
+            //{
+            //    await RdsConnect.updateInstruction(true, items[i]);
+            //}
+
+            foreach (Instruction i in parent.instructions)
             {
-                await RdsConnect.updateInstruction(true, items[i]);
+                await RdsConnect.updateInstruction(true, i);
             }
 
             if (processedSteps.Count == parent.instructions.Count)
@@ -219,17 +224,25 @@ namespace Manifest.Views
         async void userDone(System.Object sender, System.EventArgs e)
         {
             // cases if it all steps are done, if none are done, if some are done
-            foreach (int i in processedSteps)
-            {
-                await RdsConnect.updateInstruction(true, items[i]);
-            }
+            //foreach (int i in processedSteps)
+            //{
+            //    await RdsConnect.updateInstruction(true, items[i]);
+            //}
 
             if(processedSteps.Count == parent.instructions.Count)
             {
+                foreach (Instruction i in parent.instructions)
+                {
+                    await RdsConnect.updateInstruction(true, i);
+                }
                 parentIsComplete();
             }
             else
             {
+                foreach (Instruction i in parent.instructions)
+                {
+                    await RdsConnect.updateInstruction(true, i);
+                }
                 parentIsInProgress();
             }
 

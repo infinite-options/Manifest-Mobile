@@ -167,6 +167,7 @@
     <BundleResource Include="Resources\goalsIcon.png" />
     <BundleResource Include="Resources\routinesIcon.png" />
     <BundleResource Include="Resources\downArrow.png" />
+    <BundleResource Include="Resources\pulseIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />

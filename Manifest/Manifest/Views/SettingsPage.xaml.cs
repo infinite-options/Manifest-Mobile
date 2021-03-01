@@ -230,33 +230,44 @@ namespace Manifest.Views
             Application.Current.MainPage = new LogInPage();
         }
 
-        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        async void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {
             //REMOVE FROM THE STACK
-            
-            if(Navigation.NavigationStack.Count != 0)
+
+            try
             {
-                Navigation.PopAsync(false);
+                if (Navigation.NavigationStack.Count != 0)
+                {
+                    await Navigation.PopAsync(false);
+                }
+                else
+                {
+                    if (parentName == "MainPage")
+                    {
+                        Application.Current.MainPage = new MainPage();
+                    }
+                    else if (parentName == "AboutMePage")
+                    {
+                        Application.Current.MainPage = new MainPage();
+                    }
+                    else if (parentName == "WhoAmIPage")
+                    {
+                        Application.Current.MainPage = new WhoAmIPage();
+                    }
+                    else if (parentName == "FirstPulsePage")
+                    {
+                        Application.Current.MainPage = new FirstPulsePage();
+                    }
+                    else if (parentName == "WhatIsImportantToMePage")
+                    {
+                        Application.Current.MainPage = new WhatIsImportantToMePage();
+                    }
+                }
             }
-            else
+            catch (Exception unknowPage)
             {
-                if(parentName == "MainPage")
-                {
-                    Application.Current.MainPage = new MainPage();
-                }
-                else if(parentName == "AboutMePage")
-                {
-                    Application.Current.MainPage = new MainPage();
-                }else if (parentName == "WhoAmIPage")
-                {
-                    Application.Current.MainPage = new WhoAmIPage();
-                }else if (parentName == "FirstPulsePage")
-                {
-                    Application.Current.MainPage = new FirstPulsePage();
-                }else if (parentName == "WhatIsImportantToMePage")
-                {
-                    Application.Current.MainPage = new WhatIsImportantToMePage();
-                }
+                await DisplayAlert("Notice", unknowPage.Message, "OK");
+                Application.Current.MainPage = new MainPage();
             }
         }
 

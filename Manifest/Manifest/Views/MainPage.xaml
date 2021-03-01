@@ -58,7 +58,7 @@
                                     WidthRequest="98"
                                     HeightRequest="98">
                                 </Ellipse>
-                                <Image Margin="0,15,0,0" Source="goalsIcon.png" HeightRequest="35" WidthRequest="98"></Image>
+                                <Image Margin="0,15,0,0" Source="pulseIcon.png" HeightRequest="35" WidthRequest="98"></Image>
                                 <Label Margin="0,-15,0,0" Text="Pulse" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" WidthRequest="98" HeightRequest="98" VerticalTextAlignment="End"></Label>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
@@ -74,7 +74,7 @@
                                     HeightRequest="98">
                                 </Ellipse>
                                 <Image Margin="0,15,0,0" Source="calendarIcon.png" HeightRequest="35" WidthRequest="98"></Image>
-                                <Label Margin="0,-25,0,0" Padding="0,0,0,0" Text="Today's List" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" WidthRequest="98" HeightRequest="98" VerticalTextAlignment="End"></Label>
+                                <Label Margin="0,-15,0,0" Padding="0,0,0,0" Text="Schedule" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" WidthRequest="98" HeightRequest="98" VerticalTextAlignment="End"></Label>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TodayListClick"></TapGestureRecognizer>
@@ -148,7 +148,7 @@
                                     WidthRequest="98"
                                     HeightRequest="98">
                                 </Ellipse>
-                                <Image Margin="-5,15,0,0" Source="routinesIcon.png" HeightRequest="35" WidthRequest="98"></Image>
+                                <Image Margin="0,15,0,0" Source="routinesIcon.png" HeightRequest="35" WidthRequest="98"></Image>
                                 <Label Margin="0,-15,0,0" Text="Routines" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98" VerticalTextAlignment="End"></Label>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
