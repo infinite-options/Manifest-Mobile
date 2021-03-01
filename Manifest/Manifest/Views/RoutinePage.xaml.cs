@@ -212,7 +212,7 @@ namespace Manifest.Views
                     new Image
                     {
                         Source = toAdd.PicUrl,
-                        HeightRequest = 60,
+                        HeightRequest = 40,
                         Aspect = Aspect.AspectFit
                     }, 0, 0);
                 if (toAdd.NumSubOccurances > 0)
@@ -224,7 +224,7 @@ namespace Manifest.Views
                             Source = "sublist.png",
                             VerticalOptions = LayoutOptions.Center,
                             HorizontalOptions = LayoutOptions.End,
-                            HeightRequest = 40,
+                            HeightRequest = 20,
                             Aspect = Aspect.AspectFit,
                             //HeightRequest = rowHeight / 4
                         }, 0, 1);
@@ -485,7 +485,7 @@ namespace Manifest.Views
 
         private async Task<bool> canStartNow(Occurance occurance)
         {
-            if (!occurance.IsInProgress && ((occurance.StartDayAndTime.TimeOfDay > DateTime.Now.TimeOfDay) || occurance.EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay))
+            if (!occurance.IsInProgress && occurance.StartDayAndTime.TimeOfDay > DateTime.Now.TimeOfDay)
             {
                 await DisplayAlert("Notice", "This routine is not available right now. Please wait till the appropriate time to start", "OK");
                 return false;

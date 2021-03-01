@@ -72,71 +72,6 @@ namespace Manifest.Views
                 locationTitle.Text = (string)Application.Current.Properties["location"];
                 dateTitle.Text = helperObject.GetCurrentTime();
 
-
-                //if (goalsInRange.Count == 1)
-                //{
-                //    setProperties1();
-                //    show7();
-                //    first7.Text = goalsInRange[0].gr_title;
-                //}
-                //else if (goalsInRange.Count == 2)
-                //{
-                //    setProperties2();
-                //    show7();
-                //    first7.Text = goalsInRange[0].gr_title;
-                //    second7.Text = goalsInRange[1].gr_title;
-                //}
-                //else if (goalsInRange.Count == 3)
-                //{
-                //    setProperties3();
-                //    show3();
-                //    first7.Text = goalsInRange[0].gr_title;
-                //    second7.Text = goalsInRange[1].gr_title;
-                //    third7.Text = goalsInRange[2].gr_title;
-                //}
-                //else if (goalsInRange.Count == 4)
-                //{
-                //    setProperties4();
-                //    show4();
-                //    first4.Text = goalsInRange[0].gr_title;
-                //    second4.Text = goalsInRange[1].gr_title;
-                //    third4.Text = goalsInRange[2].gr_title;
-                //    fourth4.Text = goalsInRange[3].gr_title;
-                //}
-                //else if (goalsInRange.Count == 5)
-                //{
-                //    setProperties5();
-                //    show5();
-                //    first5.Text = goalsInRange[0].gr_title;
-                //    second5.Text = goalsInRange[1].gr_title;
-                //    third5.Text = goalsInRange[2].gr_title;
-                //    fourth5.Text = goalsInRange[3].gr_title;
-                //    fifth5.Text = goalsInRange[4].gr_title;
-                //}
-                //else if (goalsInRange.Count == 6)
-                //{
-                //    setProperties6();
-                //    show6();
-                //    first6.Text = goalsInRange[0].gr_title;
-                //    second6.Text = goalsInRange[1].gr_title;
-                //    third6.Text = goalsInRange[2].gr_title;
-                //    fourth6.Text = goalsInRange[3].gr_title;
-                //    fifth6.Text = goalsInRange[4].gr_title;
-                //    sixth6.Text = goalsInRange[5].gr_title;
-                //}
-                //else
-                //{
-                //    setProperties7();
-                //    show7();
-                //    first7.Text = goalsInRange[0].gr_title;
-                //    second7.Text = goalsInRange[1].gr_title;
-                //    third7.Text = goalsInRange[2].gr_title;
-                //    fourth7.Text = goalsInRange[3].gr_title;
-                //    fifth7.Text = goalsInRange[4].gr_title;
-                //    sixth7.Text = goalsInRange[5].gr_title;
-                //    seventh7.Text = goalsInRange[6].gr_title;
-                //}
-
                 NavigationPage.SetHasNavigationBar(this, false);
             }
             catch (Exception goalPage)
@@ -212,13 +147,7 @@ namespace Manifest.Views
                     //first7.Text = goalsInRange[0].gr_title;
                     text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1, goalsInRange[0]);
-                    //occuranceDict.Add(first7, goalsInRange[0]);
 
-                    //Binding progVisible2 = new Binding("IsInProgress");
-                    //progVisible2.Source = subTasks[2];
-                    //InProgress2.BindingContext = subTasks[2];
-                    //InProgress2.Source = "yellowclock.png";
-                    //InProgress2.SetBinding(Image.IsVisibleProperty, progVisible2);
                     foreach(Occurance occur in goalsInRange)
                     {
                         if (occur.IsInProgress == true)
@@ -270,9 +199,7 @@ namespace Manifest.Views
                 {
                     setProperties3();
                     show3();
-                    //first7.Text = goalsInRange[0].gr_title;
-                    //second7.Text = goalsInRange[1].gr_title;
-                    //third7.Text = goalsInRange[2].gr_title;
+
                     text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1, goalsInRange[0]);
                     //occuranceDict.Add(first7, goalsInRange[0]);
@@ -670,10 +597,6 @@ namespace Manifest.Views
             fifth7.HeightRequest = 0;
             sixth7.HeightRequest = 0;
             seventh7.HeightRequest = 0;
-
-            //next7.HeightRequest = deviceHeight * 0.025;
-            //next7.WidthRequest = deviceWidth * 0.14;
-            //next7.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties2()
@@ -704,9 +627,6 @@ namespace Manifest.Views
             sixth7.HeightRequest = 0;
             seventh7.HeightRequest = 0;
 
-            //next7.HeightRequest = deviceHeight * 0.025;
-            //next7.WidthRequest = deviceWidth * 0.14;
-            //next7.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties3()
@@ -723,16 +643,14 @@ namespace Manifest.Views
             second7.HeightRequest = deviceWidth * 0.30;
             second7.WidthRequest = deviceWidth * 0.30;
             second7.CornerRadius = (int)((deviceWidth * 0.30) / 2);
-            //second7.Text = "Goal 2";
-            //second7.FontSize = deviceWidth / 24;
+
             text2.FontSize = deviceWidth / 24;
 
             AbsoluteLayout.SetLayoutBounds(third7, new Rectangle(0.14, 0.80, deviceWidth * 0.22, deviceWidth * 0.22));
             third7.HeightRequest = deviceWidth * 0.22;
             third7.WidthRequest = deviceWidth * 0.22;
             third7.CornerRadius = (int)((deviceWidth * 0.22) / 2);
-            //third7.Text = "Goal 3";
-            //third7.FontSize = deviceWidth / 28;
+
             text3.Text = "Goal 3";
             text3.FontSize = deviceWidth / 28;
 
@@ -745,9 +663,6 @@ namespace Manifest.Views
             sixth7.HeightRequest = 0;
             seventh7.HeightRequest = 0;
 
-            //next7.HeightRequest = deviceHeight * 0.025;
-            //next7.WidthRequest = deviceWidth * 0.14;
-            //next7.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties4()
@@ -756,25 +671,21 @@ namespace Manifest.Views
             first7.HeightRequest = deviceWidth * 0.23;
             first7.WidthRequest = deviceWidth * 0.23;
             first7.CornerRadius = (int)((deviceWidth * 0.23) / 2);
-            //first7.Text = "Goal 1";
-            //first7.FontSize = deviceWidth / 25;
-            //first7.Text = "Goal 1";
+
             text1.FontSize = deviceWidth / 25;
 
             AbsoluteLayout.SetLayoutBounds(second7, new Rectangle(0.85, 0.45, deviceWidth * 0.30, deviceWidth * 0.30));
             second7.HeightRequest = deviceWidth * 0.30;
             second7.WidthRequest = deviceWidth * 0.30;
             second7.CornerRadius = (int)((deviceWidth * 0.30) / 2);
-            //second7.Text = "Goal 2";
-            //second7.FontSize = deviceWidth / 22;
+
             text2.FontSize = deviceWidth / 22;
 
             AbsoluteLayout.SetLayoutBounds(third7, new Rectangle(0.14, 0.81, deviceWidth * 0.22, deviceWidth * 0.22));
             third7.HeightRequest = deviceWidth * 0.22;
             third7.WidthRequest = deviceWidth * 0.22;
             third7.CornerRadius = (int)((deviceWidth * 0.22) / 2);
-            //third7.Text = "Goal 3";
-            //third7.FontSize = deviceWidth / 26;
+
             text3.FontSize = deviceWidth / 26;
 
             AbsoluteLayout.SetLayoutBounds(fourth7, new Rectangle(0.82, 0.84, deviceWidth * 0.16, deviceWidth * 0.16));
@@ -789,9 +700,6 @@ namespace Manifest.Views
             AbsoluteLayout.SetLayoutBounds(sixth7, new Rectangle(0, 0, 0, 0));
             AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0, 0, 0, 0));
 
-            //next4.HeightRequest = deviceHeight * 0.025;
-            //next4.WidthRequest = deviceWidth * 0.14;
-            //next4.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties5()
@@ -800,9 +708,7 @@ namespace Manifest.Views
             first5.HeightRequest = deviceWidth * 0.21;
             first5.WidthRequest = deviceWidth * 0.21;
             first7.CornerRadius = (int)((deviceWidth * 0.21) / 2);
-            //first5.Text = "Goal 1";
-            //first7.FontSize = deviceWidth / 26;
-            //text.Text = "Goal 1";
+
             text1.FontSize = deviceWidth / 26;
 
             AbsoluteLayout.SetLayoutBounds(second7, new Rectangle(0.75, 0.32, deviceWidth * 0.26, deviceWidth * 0.26));
@@ -840,9 +746,6 @@ namespace Manifest.Views
             AbsoluteLayout.SetLayoutBounds(sixth7, new Rectangle(0, 0, 0, 0));
             AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0, 0, 0, 0));
 
-            //next5.HeightRequest = deviceHeight * 0.025;
-            //next5.WidthRequest = deviceWidth * 0.14;
-            //next5.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties6()
@@ -897,9 +800,6 @@ namespace Manifest.Views
 
             AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0, 0, 0, 0));
 
-            //next6.HeightRequest = deviceHeight * 0.025;
-            //next6.WidthRequest = deviceWidth * 0.14;
-            //next6.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
         void setProperties7()
@@ -959,10 +859,6 @@ namespace Manifest.Views
             //seventh7.Text = "Goal 7";
             //seventh7.FontSize = deviceWidth / 30;
             text7.FontSize = deviceWidth / 30;
-
-            //next7.HeightRequest = deviceHeight * 0.025;
-            //next7.WidthRequest = deviceWidth * 0.14;
-            //next7.CornerRadius = (int)((deviceHeight * 0.025) / 2);
         }
 
 
@@ -1067,6 +963,12 @@ namespace Manifest.Views
 
         async void nextClicked(System.Object sender, System.EventArgs e)
         {
+            if (chosenOccurance == null)
+            {
+                await DisplayAlert("Note", "Please select a goal.", "OK");
+                return;
+            }
+
             if (goalsExist == false) return;
             //if a goal has only one subtask, navigate directly to steps page
             if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
@@ -1080,10 +982,8 @@ namespace Manifest.Views
             {
                 await Navigation.PushAsync(new GoalStepsPage(chosenOccurance, chosenOccurance.subOccurances[0], "#F8BE28"));
             }
-            else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.IsComplete == false)
+            else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true)
                 await Navigation.PushAsync(new GoalsSpecialPage(chosenOccurance));
-            else if (chosenOccurance.IsComplete == true)
-                await DisplayAlert("Oops", "this goal has already been completed", "OK");
             //else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
             //    await DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
             else await DisplayAlert("Oops", "please select a goal first", "OK");
@@ -1091,45 +991,21 @@ namespace Manifest.Views
 
         void navigatetoActions(System.Object sender, System.EventArgs e)
         {
-            //int navigationStackCount = Application.Current.MainPage.Navigation.NavigationStack.Count;
-            //if (navigationStackCount > 2)
-            //    Navigation.PopAsync();
 
             Label receiving = (Label)sender;
             chosenOccurance = occuranceDict[receiving];
-            //if (occuranceDict[receiving].is_sublist_available == "True")
-            //    Navigation.PushAsync(new GoalsSpecialPage(occuranceDict[receiving]));
-            //else DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
-            //Application.Current.MainPage = new GoalsSpecialPage();
             if (receiving == text1)
             {
-                //first7.BackgroundColor = Color.FromHex("#FFBD27");
-                //second7.BackgroundColor = Color.Transparent;
-                //third7.BackgroundColor = Color.Transparent;
-                //fourth7.BackgroundColor = Color.Transparent;
-                //fifth7.BackgroundColor = Color.Transparent;
-                //sixth7.BackgroundColor = Color.Transparent;
-                //seventh7.BackgroundColor = Color.Transparent;
             }
             else if (receiving == text2)
             {
-                //first7.BackgroundColor = Color.Transparent;
                 second7.BackgroundColor = Color.FromHex("#FFBD27");
-                //third7.BackgroundColor = Color.Transparent;
-                //fourth7.BackgroundColor = Color.Transparent;
-                //fifth7.BackgroundColor = Color.Transparent;
-                //sixth7.BackgroundColor = Color.Transparent;
-                //seventh7.BackgroundColor = Color.Transparent;
             }
             else if (receiving == text3)
             {
-                //first7.BackgroundColor = Color.Transparent;
-                //second7.BackgroundColor = Color.Transparent;
+
                 third7.BackgroundColor = Color.FromHex("#FFBD27"); 
-                //fourth7.BackgroundColor = Color.Transparent;
-                //fifth7.BackgroundColor = Color.Transparent;
-                //sixth7.BackgroundColor = Color.Transparent;
-                //seventh7.BackgroundColor = Color.Transparent;
+
             }
             else if (receiving == text4)
             {
@@ -1176,10 +1052,6 @@ namespace Manifest.Views
         //only one used when the user clicks a goal circle
         void navigatetoActionsFrame(System.Object sender, System.EventArgs e)
         {
-            //int navigationStackCount = Application.Current.MainPage.Navigation.NavigationStack.Count;
-            //if (navigationStackCount > 2)
-            //    Navigation.PopAsync();
-
             Frame receiving = (Frame)sender;
             
             if (receiving == first7)
@@ -1198,24 +1070,11 @@ namespace Manifest.Views
                 prevIndex = 0;
 
                 chosenOccurance = occuranceDict[text1];
-                //first7.BackgroundColor = Color.FromHex("#FFBD27");
-                //second7.BackgroundColor = Color.Transparent;
-                //third7.BackgroundColor = Color.Transparent;
-                //fourth7.BackgroundColor = Color.Transparent;
-                //fifth7.BackgroundColor = Color.Transparent;
-                //sixth7.BackgroundColor = Color.Transparent;
-                //seventh7.BackgroundColor = Color.Transparent;
             }
             else if (receiving == second7)
             {
                 chosenOccurance = occuranceDict[text2];
-                //first7.BackgroundColor = Color.Transparent;
-                //second7.BackgroundColor = Color.FromHex("#FFBD27");
-                //third7.BackgroundColor = Color.Transparent;
-                //fourth7.BackgroundColor = Color.Transparent;
-                //fifth7.BackgroundColor = Color.Transparent;
-                //sixth7.BackgroundColor = Color.Transparent;
-                //seventh7.BackgroundColor = Color.Transparent;
+
                 if (prevFrame != null)
                 {
                     prevFrame.BindingContext = goalsInRange[prevIndex];
@@ -1232,13 +1091,7 @@ namespace Manifest.Views
             else if (receiving == third7)
             {
                 chosenOccurance = occuranceDict[text3];
-                //first7.BackgroundColor = Color.Transparent;
-                //second7.BackgroundColor = Color.Transparent;
-                //third7.BackgroundColor = Color.FromHex("#FFBD27");
-                //fourth7.BackgroundColor = Color.Transparent;
-                //fifth7.BackgroundColor = Color.Transparent;
-                //sixth7.BackgroundColor = Color.Transparent;
-                //seventh7.BackgroundColor = Color.Transparent;
+
                 if (prevFrame != null)
                 {
                     prevFrame.BindingContext = goalsInRange[prevIndex];
@@ -1255,13 +1108,7 @@ namespace Manifest.Views
             else if (receiving == fourth7)
             {
                 chosenOccurance = occuranceDict[text4];
-                //first7.BackgroundColor = Color.Transparent;
-                //second7.BackgroundColor = Color.Transparent;
-                //third7.BackgroundColor = Color.Transparent;
-                //fourth7.BackgroundColor = Color.FromHex("#FFBD27");
-                //fifth7.BackgroundColor = Color.Transparent;
-                //sixth7.BackgroundColor = Color.Transparent;
-                //seventh7.BackgroundColor = Color.Transparent;
+
                 if (prevFrame != null)
                 {
                     prevFrame.BindingContext = goalsInRange[prevIndex];
@@ -1278,13 +1125,7 @@ namespace Manifest.Views
             else if (receiving == fifth7)
             {
                 chosenOccurance = occuranceDict[text5];
-                //first7.BackgroundColor = Color.Transparent;
-                //second7.BackgroundColor = Color.Transparent;
-                //third7.BackgroundColor = Color.Transparent;
-                //fourth7.BackgroundColor = Color.Transparent;
-                //fifth7.BackgroundColor = Color.FromHex("#FFBD27");
-                //sixth7.BackgroundColor = Color.Transparent;
-                //seventh7.BackgroundColor = Color.Transparent;
+
                 if (prevFrame != null)
                 {
                     prevFrame.BindingContext = goalsInRange[prevIndex];
@@ -1301,13 +1142,7 @@ namespace Manifest.Views
             else if (receiving == sixth7)
             {
                 chosenOccurance = occuranceDict[text6];
-                //first7.BackgroundColor = Color.Transparent;
-                //second7.BackgroundColor = Color.Transparent;
-                //third7.BackgroundColor = Color.Transparent;
-                //fourth7.BackgroundColor = Color.Transparent;
-                //fifth7.BackgroundColor = Color.Transparent;
-                //sixth7.BackgroundColor = Color.FromHex("#FFBD27");
-                //seventh7.BackgroundColor = Color.Transparent;
+
                 if (prevFrame != null)
                 {
                     prevFrame.BindingContext = goalsInRange[prevIndex];
@@ -1324,13 +1159,7 @@ namespace Manifest.Views
             else if (receiving == seventh7)
             {
                 chosenOccurance = occuranceDict[text7];
-                //first7.BackgroundColor = Color.Transparent;
-                //second7.BackgroundColor = Color.Transparent;
-                //third7.BackgroundColor = Color.Transparent;
-                //fourth7.BackgroundColor = Color.Transparent;
-                //fifth7.BackgroundColor = Color.Transparent;
-                //sixth7.BackgroundColor = Color.Transparent;
-                //seventh7.BackgroundColor = Color.FromHex("#FFBD27");
+
                 if (prevFrame != null)
                 {
                     prevFrame.BindingContext = goalsInRange[prevIndex];
