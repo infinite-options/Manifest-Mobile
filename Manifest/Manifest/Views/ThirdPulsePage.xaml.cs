@@ -32,7 +32,9 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+            submitButton.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+            //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "What is important to me?";
             subTitle.Text = "Choose 1";
             NavigationPage.SetHasNavigationBar(this, false);

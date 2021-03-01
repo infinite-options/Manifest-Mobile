@@ -42,7 +42,11 @@ namespace Manifest.Views
 
                 mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
                 frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-                
+
+                scheduleFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+                lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+                supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
                 title.Text = "Routines";
 
                 var helperObject = new MainPage();

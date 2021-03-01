@@ -47,8 +47,14 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            routinesStepsFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["routine"]);
+
+            buttonFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["routine"]);
+            routinesStepsFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["routine"]);
+            doneButton.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
             //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-           
+
             title.Text = routine.Title;
 
             var helperObject = new MainPage();
@@ -95,7 +101,7 @@ namespace Manifest.Views
                     step.Photo = parent.PicUrl;
                 }
                 step.stepIndex = stepsCount;
-                step.color = "#F26D4B";
+                step.color = (string)Application.Current.Properties["routine"];
                 items.Add(step);
                 stepsCount++;
             }

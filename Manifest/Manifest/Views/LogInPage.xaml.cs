@@ -75,9 +75,9 @@ namespace Manifest.Views
             Application.Current.Properties["platform"] = "";
             // Color keys
             Application.Current.Properties["colorScheme"] = "classic";
-            Application.Current.Properties["background"] = "#F2F7FC";
-            Application.Current.Properties["header"] = "#9DB2CB";
-            Application.Current.Properties["navBar"] = "#376DAC";
+            Application.Current.Properties["background"] = "#FDFDFD";
+            Application.Current.Properties["header"] = "#889AB5";
+            Application.Current.Properties["navBar"] = "#889AB5";
             Application.Current.Properties["goal"] = "#F8BE28";
             Application.Current.Properties["routine"] = "#F26D4B";
             Application.Current.Properties["event"] = "#67ABFC";

@@ -27,6 +27,11 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+            scheduleFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
             title.Text = "Settings";
 
             locationTitle.Text = (string)Application.Current.Properties["location"];
@@ -140,10 +145,10 @@ namespace Manifest.Views
             if (selectedFrame.ClassId == "retro")
             {
                 retroScheme.BackgroundColor = Color.FromHex("#0C1E21");
-                vibrantScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                coolScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                cottonScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                classicScheme.BackgroundColor = Color.FromHex("#F2F7FC");
+                vibrantScheme.BackgroundColor = Color.Transparent;
+                coolScheme.BackgroundColor = Color.Transparent;
+                cottonScheme.BackgroundColor = Color.Transparent;
+                classicScheme.BackgroundColor = Color.Transparent;
                 retroLabel.TextColor = Color.FromHex("#FFFFFF");
                 vibrantLabel.TextColor = Color.FromHex("#0C1E21");
                 coolLabel.TextColor = Color.FromHex("#0C1E21");
@@ -153,11 +158,11 @@ namespace Manifest.Views
             }
             else if (selectedFrame.ClassId == "vibrant")
             {
-                retroScheme.BackgroundColor = Color.FromHex("#F2F7FC");
+                retroScheme.BackgroundColor = Color.Transparent;
                 vibrantScheme.BackgroundColor = Color.FromHex("#0C1E21");
-                coolScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                cottonScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                classicScheme.BackgroundColor = Color.FromHex("#F2F7FC");
+                coolScheme.BackgroundColor = Color.Transparent;
+                cottonScheme.BackgroundColor = Color.Transparent;
+                classicScheme.BackgroundColor = Color.Transparent;
                 retroLabel.TextColor = Color.FromHex("#0C1E21");
                 vibrantLabel.TextColor = Color.FromHex("#FFFFFF");
                 coolLabel.TextColor = Color.FromHex("#0C1E21");
@@ -167,11 +172,11 @@ namespace Manifest.Views
             }
             else if (selectedFrame.ClassId == "cool")
             {
-                retroScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                vibrantScheme.BackgroundColor = Color.FromHex("#F2F7FC");
+                retroScheme.BackgroundColor = Color.Transparent;
+                vibrantScheme.BackgroundColor = Color.Transparent;
                 coolScheme.BackgroundColor = Color.FromHex("#0C1E21");
-                cottonScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                classicScheme.BackgroundColor = Color.FromHex("#F2F7FC");
+                cottonScheme.BackgroundColor = Color.Transparent;
+                classicScheme.BackgroundColor = Color.Transparent;
                 retroLabel.TextColor = Color.FromHex("#0C1E21");
                 vibrantLabel.TextColor = Color.FromHex("#0C1E21");
                 coolLabel.TextColor = Color.FromHex("#FFFFFF");
@@ -181,11 +186,11 @@ namespace Manifest.Views
             }
             else if (selectedFrame.ClassId == "cotton")
             {
-                retroScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                vibrantScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                coolScheme.BackgroundColor = Color.FromHex("#F2F7FC");
+                retroScheme.BackgroundColor = Color.Transparent;
+                vibrantScheme.BackgroundColor = Color.Transparent;
+                coolScheme.BackgroundColor = Color.Transparent;
                 cottonScheme.BackgroundColor = Color.FromHex("#0C1E21");
-                classicScheme.BackgroundColor = Color.FromHex("#F2F7FC");
+                classicScheme.BackgroundColor = Color.Transparent;
                 retroLabel.TextColor = Color.FromHex("#0C1E21");
                 vibrantLabel.TextColor = Color.FromHex("#0C1E21");
                 coolLabel.TextColor = Color.FromHex("#0C1E21");
@@ -195,17 +200,17 @@ namespace Manifest.Views
             }
             else if (selectedFrame.ClassId == "classic")
             {
-                retroScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                vibrantScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                coolScheme.BackgroundColor = Color.FromHex("#F2F7FC");
-                cottonScheme.BackgroundColor = Color.FromHex("#F2F7FC");
+                retroScheme.BackgroundColor = Color.Transparent;
+                vibrantScheme.BackgroundColor = Color.Transparent;
+                coolScheme.BackgroundColor = Color.Transparent;
+                cottonScheme.BackgroundColor = Color.Transparent;
                 classicScheme.BackgroundColor = Color.FromHex("#0C1E21");
                 retroLabel.TextColor = Color.FromHex("#0C1E21");
                 vibrantLabel.TextColor = Color.FromHex("#0C1E21");
                 coolLabel.TextColor = Color.FromHex("#0C1E21");
                 cottonLabel.TextColor = Color.FromHex("#0C1E21");
                 classicLabel.TextColor = Color.FromHex("#FFFFFF");
-                SaveColorScheme(selectedFrame.ClassId, "#F2F7FC", "#9DB2CB", "#376DAC", "#F8BE28", "#F26D4B", "#67ABFC");
+                SaveColorScheme(selectedFrame.ClassId, "#F2F7FC", "#889AB5", "#376DAC", "#F8BE28", "#F26D4B", "#67ABFC");
             }
         }
 
@@ -221,8 +226,12 @@ namespace Manifest.Views
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-            logOutFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
+
+            scheduleFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+            logOutFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
         }
 
         void LogOutClick(System.Object sender, System.EventArgs e)

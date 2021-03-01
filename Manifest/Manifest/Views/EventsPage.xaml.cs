@@ -196,5 +196,20 @@ namespace Manifest.Views
         {
             Navigation.PushAsync(new SettingsPage());
         }
+
+        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null,null));
+        }
+
+        void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new MainPage();
+        }
+
+        void TapGestureRecognizer_Tapped_2(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new AboutMePage();
+        }
     }
 }

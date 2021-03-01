@@ -105,7 +105,7 @@
                         <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer></TapGestureRecognizer>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                     </Frame.GestureRecognizers>
                 </Frame>
                 <Frame Grid.Column="1" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
@@ -114,7 +114,7 @@
                         <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer ></TapGestureRecognizer>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
                     </Frame.GestureRecognizers>  
                 </Frame>
                 <Frame Grid.Column="2" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
@@ -123,7 +123,7 @@
                         <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer ></TapGestureRecognizer>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2"></TapGestureRecognizer>
                     </Frame.GestureRecognizers>   
                 </Frame>
             </Grid>

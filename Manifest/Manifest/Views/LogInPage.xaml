@@ -6,7 +6,7 @@
                 <RelativeLayout HeightRequest="300">
                     <Ellipse
                         StrokeThickness="0"
-                        Fill="#9DB2CB"
+                        Fill="#889AB5"
                         WidthRequest="230"
                         HeightRequest="230"
                         HorizontalOptions="Center">

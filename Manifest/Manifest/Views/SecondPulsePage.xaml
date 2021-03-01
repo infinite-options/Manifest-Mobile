@@ -9,7 +9,7 @@
                 <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="80"></RowDefinition>
             </Grid.RowDefinitions>
-            <Frame Grid.Row="0" BackgroundColor="#9DB2CD" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
+            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
                 <!--SPACE FOR HEADER-->
                     <Grid Margin="0,30,0,0">
                         <Grid.RowDefinitions>
@@ -92,7 +92,7 @@
                 <!--<Button x:Name="next6" Text="Next" FontSize="20" FontAttributes="Bold" BackgroundColor="White" TextColor="Black" AbsoluteLayout.LayoutBounds="0.5,0.97" AbsoluteLayout.LayoutFlags="PositionProportional"/>-->
             </AbsoluteLayout>
 
-            <AbsoluteLayout x:Name="goals7" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="#F2F7FC" IsVisible="false">
+            <AbsoluteLayout x:Name="goals7" Grid.Row="0" VerticalOptions="Fill" BackgroundColor="Transparent" IsVisible="false">
                 <!--<Button x:Name="first7" FontAttributes="Bold" BorderColor="#ADBCCE" BorderWidth="3" TextColor="Black" AbsoluteLayout.LayoutBounds="0.10,0.05" AbsoluteLayout.LayoutFlags="PositionProportional" Clicked="navigatetoActions"/>-->
                 <Frame x:Name="first7" BorderColor="#FFBD27" BackgroundColor="Transparent" AbsoluteLayout.LayoutFlags="PositionProportional" HasShadow="False" ClassId="0">
                     <f9p:Label x:Name="text1" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="navigatetoActions"/>
@@ -362,7 +362,7 @@
 
             </StackLayout>
             <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
-                <Button Text="Submit" TextColor="White" WidthRequest="140" HeightRequest="45" CornerRadius="20" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" BackgroundColor="#889AB5" Clicked="Button_Clicked"></Button>
+                <Button x:Name="submitButton" Text="Submit" TextColor="White" WidthRequest="140" HeightRequest="45" CornerRadius="20" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" BackgroundColor="#889AB5" Clicked="Button_Clicked"></Button>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
