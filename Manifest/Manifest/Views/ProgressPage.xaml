@@ -188,7 +188,27 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <!--NEW UI GOES HERE-->
+                <Grid Margin="5,-15,0,0">
+                    <StackLayout Grid.Column="0" HorizontalOptions="CenterAndExpand">
+                        <CheckBox x:Name="goalNotStarted" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand"
+                            IsEnabled="False">
+                         </CheckBox>
+                        <Label Text="Goals not started"></Label>
+                    </StackLayout>
+                    <StackLayout  Grid.Column="1" HorizontalOptions="CenterAndExpand">
+                        <CheckBox x:Name="goalStarted" HeightRequest="20" WidthRequest="20"  HorizontalOptions="CenterAndExpand"
+                            IsEnabled="False">
+                        </CheckBox>
+                        <Label Text="Goals started"></Label>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" HorizontalOptions="CenterAndExpand">
+                        <CheckBox x:Name="goalCompleted" HeightRequest="20" WidthRequest="20"  HorizontalOptions="CenterAndExpand"
+                            IsEnabled="False"
+                            IsChecked="True">
+                        </CheckBox>
+                        <Label Text="Goals completed"></Label>
+                    </StackLayout>
+                </Grid>
                
             </StackLayout>
             <StackLayout Grid.Row="2">

@@ -60,7 +60,12 @@ namespace Manifest.Views
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-            
+
+
+            goalNotStarted.Color = Color.FromHex((string)Application.Current.Properties["goal"]);
+            goalStarted.Color = Color.FromHex((string)Application.Current.Properties["routine"]);
+            goalCompleted.Color = Color.FromHex((string)Application.Current.Properties["event"]);
+
             title.Text = "Progress";
             subTitle.Text = "Your progress";
             var helperObject = new MainPage();
