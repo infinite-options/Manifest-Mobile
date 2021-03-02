@@ -159,7 +159,6 @@ namespace Manifest.Views
             }
             currRoutine.SubOccurancesCompleted++;
             updateRoutine();
-            
         }
 
         async void parentIsInProgress()
@@ -206,51 +205,81 @@ namespace Manifest.Views
         async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
 
-            //foreach (int i in processedSteps)
+            foreach (int i in processedSteps)
+            {
+                await RdsConnect.updateInstruction(true, items[i]);
+            }
+            
+            //foreach (Instruction i in parent.instructions)
             //{
-            //    await RdsConnect.updateInstruction(true, items[i]);
+            //    await RdsConnect.updateInstruction(true, i);
             //}
-
-            foreach (Instruction i in parent.instructions)
+            if(processedSteps.Count != 0)
             {
-                await RdsConnect.updateInstruction(true, i);
+                if (processedSteps.Count == parent.instructions.Count)
+                {
+                    parentIsComplete();
+                }
+                else
+                {
+                    if (parent.IsComplete != true)
+                    {
+                        parentIsComplete();
+                    }
+                }
             }
 
-            if (processedSteps.Count == parent.instructions.Count)
-            {
-                parentIsComplete();
-            }
-            else
-            {
-                parentIsInProgress();
-            }
             await Navigation.PopAsync(false);
         }
 
         async void userDone(System.Object sender, System.EventArgs e)
         {
             // cases if it all steps are done, if none are done, if some are done
+            if(parent.IsComplete != true)
+            {
+                foreach (Instruction steps in items)
+                {
+                    await RdsConnect.updateInstruction(true, steps);
+                }
+                parentIsComplete();
+            }
+           
+            //parentIsComplete();
+
+            //if (processedSteps.Count != 0)
+            //{
+            //    if (processedSteps.Count == parent.instructions.Count)
+            //    {
+            //        parentIsComplete();
+            //    }
+            //    else
+            //    {
+            //        parentIsInProgress();
+            //    }
+            //}
+
             //foreach (int i in processedSteps)
             //{
             //    await RdsConnect.updateInstruction(true, items[i]);
             //}
 
-            if(processedSteps.Count == parent.instructions.Count)
-            {
-                foreach (Instruction i in parent.instructions)
-                {
-                    await RdsConnect.updateInstruction(true, i);
-                }
-                parentIsComplete();
-            }
-            else
-            {
-                foreach (Instruction i in parent.instructions)
-                {
-                    await RdsConnect.updateInstruction(true, i);
-                }
-                parentIsInProgress();
-            }
+
+            //if (processedSteps.Count == parent.instructions.Count)
+            //{
+            //    foreach (Instruction i in parent.instructions)
+            //    {
+            //        await RdsConnect.updateInstruction(true, i);
+            //    }
+            //    parentIsComplete();
+            //}
+            //else
+            //{
+            //    foreach (Instruction i in parent.instructions)
+            //    {
+            //        await RdsConnect.updateInstruction(true, i);
+            //    }
+            //    parentIsInProgress();
+            //}
 
             await Navigation.PopAsync(false);
         }

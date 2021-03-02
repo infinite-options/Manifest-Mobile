@@ -584,7 +584,7 @@ namespace Manifest.Views
 
         void TodayListClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage(todaysOccurances, eventsToday));
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
         }
 
     }

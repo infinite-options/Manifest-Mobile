@@ -30,6 +30,15 @@ namespace Manifest.Views
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             submitButton.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+            mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+
             //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "How do I feel?";
             subTitle.Text = "Choose 1";
@@ -59,6 +68,77 @@ namespace Manifest.Views
         {
             var selection = (StackLayout)sender;
             option = selection.ClassId;
+
+            if(option == "1")
+            {
+                mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            }
+            else if(option == "2")
+            {
+                mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            }
+            else if (option == "3")
+            {
+                mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            }
+            else if (option == "4")
+            {
+                mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            }
+            else if (option == "5")
+            {
+                mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            }
+            else if (option == "6")
+            {
+                mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            }
+            else if (option == "7")
+            {
+                mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+                mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["background"]));
+            }
         }
 
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)

@@ -67,8 +67,16 @@ namespace Manifest.RDS
         public static async Task<string> updateOccurance(Occurance currOccurance, bool inprogress, bool iscomplete, string url)
         {
             //string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+
+            Debug.WriteLine("VAlUES BEFORE UPDATE: INPROGESS: {0}, ISCOMPLETE: {1}", currOccurance.IsInProgress, currOccurance.IsComplete);
+
+            Debug.WriteLine("OCCURANCE VALUES: INPROGESS: {0}, ISCOMPLETE:{1}", inprogress, iscomplete);
+
             currOccurance.updateIsInProgress(inprogress);
             currOccurance.updateIsComplete(iscomplete);
+
+            Debug.WriteLine("VAlUES AFTER UPDATE: INPROGESS: {0}, ISCOMPLETE: {1}", currOccurance.IsInProgress, currOccurance.IsComplete);
+
             //Now, write to the database
             currOccurance.DateTimeStarted = DateTime.Now;
             Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
@@ -82,6 +90,7 @@ namespace Manifest.RDS
                 is_complete = currOccurance.IsComplete
             };
             string toSend = updateOccur.updateOccurance();
+            Debug.WriteLine("LINE 85 " + toSend);
             var content = new StringContent(toSend);
             var res = await client.PostAsync(url, content);
             if (res.IsSuccessStatusCode)
@@ -118,6 +127,7 @@ namespace Manifest.RDS
                 is_complete = currOccurance.IsComplete
             };
             string toSend = updateOccur.updateOccurance();
+            Debug.WriteLine("LINE 122 " + toSend);
             var content = new StringContent(toSend);
             var res = await client.PostAsync(url, content);
             if (res.IsSuccessStatusCode)

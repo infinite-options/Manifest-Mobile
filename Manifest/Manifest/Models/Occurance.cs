@@ -48,6 +48,7 @@ namespace Manifest.Models
         public List<SubOccurance> subOccurances { get; set; }
         public Color GoalBackground { get; set; }
         public int borderWidth { get; set; }
+        public Color textColor { get; set; }
 
         public void updateIsInProgress(bool updatedVal)
         {
@@ -71,6 +72,13 @@ namespace Manifest.Models
         {
             borderWidth = newWidth;
             PropertyChanged(this, new PropertyChangedEventArgs("borderWidth"));
+        }
+
+        public void updateStatusColor(string hexColor)
+        {
+            StatusColor = Color.FromHex(hexColor);
+            if (StatusColor.Luminosity > 0.8) textColor = Color.Black;
+            else textColor = Color.White;
         }
     }
 

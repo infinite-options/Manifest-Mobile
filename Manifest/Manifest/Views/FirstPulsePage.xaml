@@ -52,11 +52,12 @@
                     <StackLayout Grid.Column="0" ClassId="3">
                         <RelativeLayout  HorizontalOptions="CenterAndExpand">
                             <Ellipse
+                                x:Name="mood_three"
                                 Fill="white"
                                 HeightRequest="90"
                                 WidthRequest="90"
                                 Stroke="#67ABFC"
-                                StrokeThickness="5">
+                                StrokeThickness="10">
                             </Ellipse>
                             <Image Margin="2.5,2.5,0,0" Source="mood_three.png" HeightRequest="85" WidthRequest="85"></Image>
                         </RelativeLayout>
@@ -67,11 +68,12 @@
                      <StackLayout Grid.Column="1" ClassId="5">
                         <RelativeLayout  HorizontalOptions="CenterAndExpand">
                             <Ellipse
+                                x:Name="mood_five"
                                 Fill="white"
                                 HeightRequest="90"
                                 WidthRequest="90"
                                 Stroke="#67ABFC"
-                                StrokeThickness="5">
+                                StrokeThickness="10">
                             </Ellipse>
                             <Image Margin="2.5,2.5,0,0" Source="mood_five.png" HeightRequest="85" WidthRequest="85"></Image>
                         </RelativeLayout>
@@ -89,11 +91,12 @@
                     <StackLayout Grid.Column="0" ClassId="2">
                         <RelativeLayout  HorizontalOptions="EndAndExpand" Margin="0,0,5,0">
                             <Ellipse
+                                x:Name="mood_two"
                                 Fill="white"
                                 HeightRequest="90"
                                 WidthRequest="90"
                                 Stroke="#67ABFC"
-                                StrokeThickness="5">
+                                StrokeThickness="10">
                             </Ellipse>
                             <Image Margin="2.5,2.5,0,0" Source="mood_two.png" HeightRequest="85" WidthRequest="85"></Image>
                         </RelativeLayout>
@@ -104,11 +107,12 @@
                     <StackLayout Grid.Column="1" ClassId="4">
                         <RelativeLayout  HorizontalOptions="CenterAndExpand">
                             <Ellipse
+                                x:Name="mood_four"
                                 Fill="white"
                                 HeightRequest="90"
                                 WidthRequest="90"
                                 Stroke="#67ABFC"
-                                StrokeThickness="5">
+                                StrokeThickness="10">
                             </Ellipse>
                             <Image Margin="2.5,2.5,0,0" Source="mood_four.png" HeightRequest="85" WidthRequest="85"></Image>
                         </RelativeLayout>
@@ -119,11 +123,12 @@
                     <StackLayout Grid.Column="2" ClassId="6">
                         <RelativeLayout  HorizontalOptions="StartAndExpand" Margin="5,0,0,0">
                             <Ellipse
+                                x:Name="mood_six"
                                 Fill="white"
                                 HeightRequest="90"
                                 WidthRequest="90"
                                 Stroke="#67ABFC"
-                                StrokeThickness="5">
+                                StrokeThickness="10">
                             </Ellipse>
                             <Image Margin="2.5,2.5,0,0" Source="mood_six.png" HeightRequest="85" WidthRequest="85"></Image>
                         </RelativeLayout>
@@ -140,26 +145,34 @@
                     <StackLayout Grid.Column="0" ClassId="1">
                         <RelativeLayout HorizontalOptions="StartAndExpand">
                             <Ellipse
+                                x:Name="mood_one"
                                 Fill="white"
                                 HeightRequest="90"
                                 WidthRequest="90"
                                 Stroke="#67ABFC"
-                                StrokeThickness="5">
+                                StrokeThickness="10">
                             </Ellipse>
                             <Image Margin="2.5,2.5,0,0" Source="mood_one.png" HeightRequest="85" WidthRequest="85"></Image>
                         </RelativeLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
                      <StackLayout Grid.Column="1" ClassId="7">
                         <RelativeLayout HorizontalOptions="EndAndExpand">
                             <Ellipse
+                                x:Name="mood_seven"
                                 Fill="white"
                                 HeightRequest="90"
                                 WidthRequest="90"
                                 Stroke="#67ABFC"
-                                StrokeThickness="5">
+                                StrokeThickness="10">
                             </Ellipse>
                             <Image Margin="2.5,2.5,0,0" Source="mood_seven.png" HeightRequest="85" WidthRequest="85"></Image>
                         </RelativeLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
                     </StackLayout>
                 </Grid>
             </StackLayout>

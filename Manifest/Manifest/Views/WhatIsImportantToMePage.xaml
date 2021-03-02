@@ -162,7 +162,7 @@
                 <Frame Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                     <Grid>
                         <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>
-                        <Label Grid.Row="1" Text="Today's list" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                        <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" ></TapGestureRecognizer>

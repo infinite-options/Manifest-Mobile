@@ -119,9 +119,9 @@ namespace Manifest.Views
             var instructionStep = 0;
             items.Clear();
 
-            foreach (Instruction step in instruction_steps)
+            foreach (Instruction step in parent.instructions)
             {
-                if(step.IsComplete == true)
+                if (step.IsComplete == true)
                 {
                     step.opacity = 0.5;
                     processedInstructions.Add(instructionStep);
@@ -200,27 +200,34 @@ namespace Manifest.Views
 
         async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
-            //foreach (int i in processedInstructions)
-            //{
-            //    await RdsConnect.updateInstruction(true, items[i]);
-            //}
 
-            foreach(Instruction i in parent.instructions)
+            if(processedInstructions.Count != 0)
             {
-                await RdsConnect.updateInstruction(true, i);
-            }
+                foreach (int i in processedInstructions)
+                {
+                    await RdsConnect.updateInstruction(true, items[i]);
+                }
 
-            if (processedInstructions.Count == parent.instructions.Count)
-            {
-                parentIsComplete();
-                await Navigation.PopAsync(false);
+                if (processedInstructions.Count == parent.instructions.Count)
+                {
+                    if (parent.IsComplete != true)
+                    {
+                        parentIsComplete();
+                    }
+                }
+                else
+                {
+                    string urlSub = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
+                    await RdsConnect.updateOccurance(parent, true, false, urlSub);
+                }
             }
             else
             {
-                
-                await Navigation.PopAsync(false);
-                // Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
+                string urlSub = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
+                await RdsConnect.updateOccurance(parent, false, false, urlSub);
             }
+
+            await Navigation.PopAsync(false);
             //Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
         }
 
@@ -243,21 +250,56 @@ namespace Manifest.Views
 
         async void doneClicked(System.Object sender, System.EventArgs e)
         {
-            foreach (int i in processedInstructions)
+
+            foreach (Instruction steps in parent.instructions)
             {
-                await RdsConnect.updateInstruction(true, items[i]);
+                await RdsConnect.updateInstruction(true, steps);
             }
 
-            if (processedInstructions.Count == parent.instructions.Count)
+            if (parent.IsComplete != true)
             {
                 parentIsComplete();
-                await Navigation.PopAsync(false);
             }
-            else
-            {
-                await Navigation.PopAsync(false);
-               // Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
-            }
+            await Navigation.PopAsync(false);
+
+            //foreach (int i in processedInstructions)
+            //{
+            //    await RdsConnect.updateInstruction(true, items[i]);
+            //}
+            //parentIsComplete();
+            //await Navigation.PopAsync(false);
+
+            //foreach (int i in processedInstructions)
+            //{
+            //    await RdsConnect.updateInstruction(true, items[i]);
+            //}
+
+            //if (processedInstructions.Count == parent.instructions.Count)
+            //{
+            //    parentIsComplete();
+            //}
+            //else
+            //{
+            //    string urlOccur = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            //    await RdsConnect.updateOccurance(passedOccurance, true, false, urlOccur);
+            //    await Navigation.PopAsync(false);
+            //}
+
+            //foreach (int i in processedInstructions)
+            //{
+            //    await RdsConnect.updateInstruction(true, items[i]);
+            //}
+
+            //if (processedInstructions.Count == parent.instructions.Count)
+            //{
+            //    parentIsComplete();
+            //    await Navigation.PopAsync(false);
+            //}
+            //else
+            //{
+            //    await Navigation.PopAsync(false);
+            //   // Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
+            //}
             //Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
         }
 

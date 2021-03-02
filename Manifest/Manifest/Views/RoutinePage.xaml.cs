@@ -117,7 +117,10 @@ namespace Manifest.Views
                 //We want to get every subtask for that routine
                 Grid newGrid = new Grid {
                     RowDefinitions = {
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star)}
+                        new RowDefinition {
+                            Height = new GridLength(1, GridUnitType.Star),
+                            
+                                }
                     },
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
@@ -125,7 +128,10 @@ namespace Manifest.Views
                 };
 
                 //Add Complete and In Progress images
-                Image routineComplete = new Image();
+                Image routineComplete = new Image()
+                {
+                    HeightRequest = 40
+                };
                 Binding completeVisible = new Binding("IsComplete");
                 completeVisible.Source = todaysRoutines[i];
                 routineComplete.BindingContext = todaysRoutines[i];
@@ -133,7 +139,10 @@ namespace Manifest.Views
                 routineComplete.SetBinding(Image.IsVisibleProperty, completeVisible);
                 routineComplete.HorizontalOptions = LayoutOptions.End;
 
-                Image routineInProgress = new Image();
+                Image routineInProgress = new Image()
+                {
+                    HeightRequest = 40
+                };
                 Binding inProgressVisible = new Binding("IsInProgress");
                 inProgressVisible.Source = todaysRoutines[i];
                 routineInProgress.BindingContext = todaysRoutines[i];
@@ -141,20 +150,20 @@ namespace Manifest.Views
                 routineInProgress.SetBinding(Image.IsVisibleProperty, inProgressVisible);
                 routineInProgress.HorizontalOptions = LayoutOptions.End;
 
-                Color routineColor = new Color();
                 if (toAdd.StartDayAndTime.TimeOfDay > DateTime.Now.TimeOfDay || toAdd.EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay)
                 {
-                    routineColor = Color.FromHex("#889AB5");
+                    toAdd.updateStatusColor("#889AB5");
                 }
                 else
                 {
-                    routineColor = Color.FromHex("#F26D4B");
+                    toAdd.updateStatusColor((string)Application.Current.Properties["routine"]);
+                    routineExpander.IsExpanded = true;
                 }
 
                 newGrid.BindingContext = toAdd;
                 Grid gridToAdd =
                     new Grid {
-                        BackgroundColor = routineColor,
+                        BackgroundColor = toAdd.StatusColor,
                         RowDefinitions =
                         {
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star)},
@@ -163,9 +172,10 @@ namespace Manifest.Views
                         },
                         ColumnDefinitions =
                         {
-                            new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star)},
-                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)}
-                        }
+                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
+                            new ColumnDefinition { Width = new GridLength(100, GridUnitType.Absolute)}
+                        },
+                        MinimumHeightRequest = 150
                     };
                 float fontsize = rowHeight / 4;
                 string timespan = toAdd.StartDayAndTime.ToString("hh:mm tt") + " - " + toAdd.EndDayAndTime.ToString("hh:mm tt");
@@ -174,14 +184,14 @@ namespace Manifest.Views
                     {
                         Text = timespan,
                         FontAttributes = FontAttributes.Bold,
-                        TextColor = Color.White
+                        TextColor = toAdd.textColor
                     }, 0, 0);
                 gridToAdd.Children.Add(
                     new Label
                     {
                         Text = toAdd.Title,
                         FontAttributes = FontAttributes.Bold,
-                        TextColor = Color.White,
+                        TextColor = toAdd.textColor,
                         TextDecorations = TextDecorations.Underline,
                         FontSize = fontsize
                     }, 0, 1);
@@ -195,7 +205,7 @@ namespace Manifest.Views
                     }, 0, 2);
                 Grid routineImage = new Grid()
                 {
-                    BackgroundColor = routineColor,
+                    BackgroundColor = toAdd.StatusColor,
                     RowDefinitions =
                         {
                             new RowDefinition { Height = new GridLength(2, GridUnitType.Star)},
@@ -206,9 +216,9 @@ namespace Manifest.Views
                     new Image
                     {
                         Source = toAdd.PicUrl,
-                        HeightRequest = rowHeight,
+                        HeightRequest = 40,
                         Aspect = Aspect.AspectFit
-                    },0,0);
+                    }, 0, 0);
                 if (toAdd.NumSubOccurances > 0)
                 {
                     //Add sublist image to routine
@@ -218,6 +228,7 @@ namespace Manifest.Views
                             Source = "sublist.png",
                             VerticalOptions = LayoutOptions.Center,
                             HorizontalOptions = LayoutOptions.End,
+                            HeightRequest = 20,
                             Aspect = Aspect.AspectFit,
                             //HeightRequest = rowHeight / 4
                         }, 0, 1);
@@ -225,16 +236,16 @@ namespace Manifest.Views
                 gridToAdd.Children.Add(
                     routineImage, 1, 2, 0, 3);
 
-                gridToAdd.Children.Add(routineComplete, 1, 2, 0, 3);
-                gridToAdd.Children.Add(routineInProgress, 1, 2, 0, 3);
+                gridToAdd.Children.Add(routineComplete, 1, 2, 0, 2);
+                gridToAdd.Children.Add(routineInProgress, 1, 2, 0, 2);
 
                 
 
                 Frame gridFrame = new Frame {
-                    BackgroundColor = routineColor,
-                    CornerRadius = 15,
+                    BackgroundColor = toAdd.StatusColor,
+                    CornerRadius = 20,
                     Content = gridToAdd,
-                    Padding = 10,
+                    Padding = 15,
                     HasShadow = false,
                     GestureRecognizers = {routineRecognizer, resetRoutine}
                 };
@@ -310,18 +321,19 @@ namespace Manifest.Views
                             new Frame
                             {
                                 CornerRadius = 15,
-                                BackgroundColor = routineColor,
+                                BackgroundColor = toAdd.StatusColor,
+                                HasShadow = false,
                                 Content =
                                 new Label
                                 {
                                     Text = subTask.Title,
-                                    TextColor = Color.White,
-                                    BackgroundColor = routineColor
+                                    TextColor = toAdd.textColor,
+                                    BackgroundColor = toAdd.StatusColor
                                 }
                             }
                             , 1, 0
                             );
-                        Image isComplete = new Image();
+                        Image isComplete = new Image() { HeightRequest = 30, Margin = new Thickness(0, 0, 5, 0) };
                         Binding isVisible = new Binding("IsComplete");
                         isVisible.Source = subTask;
                         isComplete.BindingContext = subTask;
@@ -329,7 +341,7 @@ namespace Manifest.Views
                         isComplete.SetBinding(Image.IsVisibleProperty, isVisible);
                         isComplete.HorizontalOptions = LayoutOptions.End;
 
-                        Image isInProgress = new Image();
+                        Image isInProgress = new Image() { HeightRequest = 30, Margin = new Thickness(0, 0, 5, 0) };
                         Binding isInProgressVisible = new Binding("IsInProgress");
                         isInProgressVisible.Source = subTask;
                         isInProgress.BindingContext = subTask;
@@ -354,6 +366,7 @@ namespace Manifest.Views
 
         public async void subTaskComplete(object sender, EventArgs args)
         {
+            //Need to add checks that display and alert when the subtask is in the future or in the past, and then you can't complete or view it
             Debug.WriteLine("Task tapped");
             Image myvar = (Image)sender;
             SubOccurance currOccurance = myvar.BindingContext as SubOccurance;
@@ -378,6 +391,11 @@ namespace Manifest.Views
 
             Occurance parentOccurance = grandparent.BindingContext as Occurance;
 
+            if (await canStartNow(parentOccurance) == false)
+            {
+                return;
+            }
+
             string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
             if (currOccurance.IsComplete == false && currOccurance.IsInProgress == true)
             {
@@ -389,6 +407,7 @@ namespace Manifest.Views
 
                 //Now update the parent
                 parentOccurance.SubOccurancesCompleted++;
+
                 url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
                 if (parentOccurance.NumSubOccurances == parentOccurance.SubOccurancesCompleted)
                 {
@@ -468,6 +487,16 @@ namespace Manifest.Views
             }
         }
 
+
+        private async Task<bool> canStartNow(Occurance occurance)
+        {
+            if (!occurance.IsInProgress && occurance.StartDayAndTime.TimeOfDay > DateTime.Now.TimeOfDay)
+            {
+                await DisplayAlert("Notice", "This routine is not available right now. Please wait till the appropriate time to start", "OK");
+                return false;
+            }
+            return true;
+        }
 
         private async void resetSubOccurance(SubOccurance currOccurance, Occurance parentOccurance)
         {
@@ -552,8 +581,12 @@ namespace Manifest.Views
             Occurance currOccurance = myvar.BindingContext as Occurance;
             //Now check if the currOccurance has any subtasks
             string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
-            if (currOccurance.NumSubOccurances == 0 && !(currOccurance.IsInProgress == false && currOccurance.IsComplete == true))
+            if (currOccurance.NumSubOccurances == 0 && !currOccurance.IsComplete)
             {
+                if (await canStartNow(currOccurance) == false)
+                {
+                    return;
+                }
                 if (currOccurance.IsComplete == false && currOccurance.IsInProgress == false)
                 {
                     string res = await RdsConnect.updateOccurance(currOccurance, true, false, url);
@@ -574,29 +607,6 @@ namespace Manifest.Views
                     Debug.WriteLine("Wrote to the datebase");
                 }
             }
-            //else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == true)
-            //{
-            //    bool reset = await DisplayAlert("Warning", "Do you want to reset this routine? All subtasks and instructions will be reset if you do.", "No", "Yes");
-            //    if (reset == false)
-            //    {
-            //        if (currOccurance.IsSublistAvailable == true)
-            //        {
-            //            foreach (SubOccurance subtask in currOccurance.subOccurances)
-            //            {
-            //                resetSubOccurance(subtask, currOccurance);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
-            //            if (res == "Failure")
-            //            {
-            //                await DisplayAlert("Error", "There was an error writing to the database.", "OK");
-            //            }
-            //            Debug.WriteLine("Wrote to the datebase");
-            //        }
-            //    }
-            //}
         }
 
         async void resetRoutineTapped(System.Object sender, System.EventArgs e)
@@ -647,7 +657,7 @@ namespace Manifest.Views
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NavigationPage(new TodaysListPage(null, null));
+            Application.Current.MainPage = new NavigationPage(new TodaysListPage());
         }
 
         void Button_Clicked_1(System.Object sender, System.EventArgs e)
