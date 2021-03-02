@@ -23,12 +23,26 @@ namespace Manifest.Views
         public string date { get; set; }
     }
 
+    public class ProgressRow
+    {
+        public string name { get; set; }
+        public string statusA { get; set; }
+        public string statusB { get; set; }
+        public string statusC { get; set; }
+        public string statusD { get; set; }
+        public string statusE { get; set; }
+        public string statusF { get; set; }
+        public string statusG { get; set; }
+    }
+
     public partial class ProgressPage : ContentPage
     {
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
         ObservableCollection<HeaderInfo> dates;
+        ObservableCollection<ProgressRow> rows;
+
         public ProgressPage()
         {
             InitializeComponent();
@@ -46,6 +60,7 @@ namespace Manifest.Views
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
             dates = new ObservableCollection<HeaderInfo>();
+            rows = new ObservableCollection<ProgressRow>();
             GetUserProgress();
             NavigationPage.SetHasNavigationBar(this, false);
         }
@@ -85,6 +100,41 @@ namespace Manifest.Views
                 var user = JsonConvert.DeserializeObject<History>(data);
                 Debug.WriteLine("HISTORY DATA: " + user.result);
                 var dates = JsonConvert.DeserializeObject<IDictionary<string, object>>(user.result.ToString());
+
+
+
+                var dateItems = new List<string>();
+                var goalsItems = new List<string>();
+
+                
+                foreach (string key in dates.Keys)
+                {
+                    dateItems.Add(key);
+                }
+
+                if(dates.Keys.Count != 0)
+                {
+                    var subSet = JsonConvert.DeserializeObject<IDictionary<string, object>>(dates[dateItems[0]].ToString());
+                    foreach (string key in subSet.Keys)
+                    {
+                        goalsItems.Add(key);
+                    }
+                }
+
+                var grid = new int[dateItems.Count,goalsItems.Count];
+                foreach(string key in dates.Keys)
+                {
+
+                }
+
+                foreach(string key in goalsItems)
+                {
+
+                    rows.Add(new ProgressRow() { name = key });
+                }
+
+
+                GoalsStatusList.ItemsSource = rows;
 
             }
             else
