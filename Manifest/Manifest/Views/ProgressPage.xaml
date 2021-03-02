@@ -54,8 +54,104 @@
  
             </Frame>
             <StackLayout Grid.Row="1">
-                <Button Text="MOVE TO HOME PAGE" Clicked="Button_Clicked"></Button>
+                <!--<Button Text="MOVE TO HOME PAGE" Clicked="Button_Clicked"></Button>-->
+                
+                
+                <CollectionView x:Name="DatesList" Margin="25,10,10,0" ItemsLayout="HorizontalList" HeightRequest="50" HorizontalOptions="CenterAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout WidthRequest="40" HorizontalOptions="CenterAndExpand">
+                                <Label Text="{Binding name}" HorizontalTextAlignment="Center"></Label>
+                                <Label Text="{Binding date}" HorizontalTextAlignment="Center"></Label>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <StackLayout Margin="10,0,10,0">
+                    <BoxView HeightRequest="1" Color="Gray" ></BoxView>
+                </StackLayout>
+                 <CollectionView x:Name="GoalsStatusList" Margin="25,10,10,0" HorizontalOptions="CenterAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Margin="25,0,0,0" Orientation="Horizontal">
+                                <StackLayout WidthRequest="40">
+                                    <Label Text="Goal Name"></Label>
+                                </StackLayout>
+                                <StackLayout VerticalOptions="Center" Margin="10,0,10,0">
+                                    <Ellipse
+                                        Stroke="gray"
+                                        Fill="white"
+                                        StrokeThickness="2"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
+                                    </Ellipse>
+                                </StackLayout>
+
+                                    <StackLayout VerticalOptions="Center" Margin="10,0,10,0">
+                                    <Ellipse
+                                        Stroke="gray"
+                                        Fill="white"
+                                        StrokeThickness="2"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
+                                    </Ellipse>
+                                </StackLayout>
+
+                                    <StackLayout VerticalOptions="Center" Margin="10,0,10,0">
+                                    <Ellipse
+                                        Stroke="gray"
+                                        Fill="white"
+                                        StrokeThickness="2"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
+                                    </Ellipse>
+                                </StackLayout>
+
+                                    <StackLayout VerticalOptions="Center" Margin="10,0,10,0">
+                                    <Ellipse
+                                        Stroke="gray"
+                                        Fill="white"
+                                        StrokeThickness="2"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
+                                    </Ellipse>
+                                </StackLayout>
+
+                                    <StackLayout VerticalOptions="Center" Margin="10,0,10,0">
+                                    <Ellipse
+                                        Stroke="gray"
+                                        Fill="white"
+                                        StrokeThickness="2"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
+                                    </Ellipse>
+                                </StackLayout>
+
+                                    <StackLayout VerticalOptions="Center" Margin="10,0,10,0">
+                                    <Ellipse
+                                        Stroke="gray"
+                                        Fill="white"
+                                        StrokeThickness="2"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
+                                    </Ellipse>
+                                </StackLayout>
+
+                                    <StackLayout VerticalOptions="Center" Margin="10,0,10,0">
+                                    <Ellipse
+                                        Stroke="gray"
+                                        Fill="white"
+                                        StrokeThickness="2"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
+                                    </Ellipse>
+                                </StackLayout>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
                 <!--NEW UI GOES HERE-->
+               
             </StackLayout>
             <StackLayout Grid.Row="2">
                

@@ -7,6 +7,7 @@ using Xamarin.Auth;
 using Xamarin.Forms;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace Manifest.Views
 {
@@ -16,11 +17,18 @@ namespace Manifest.Views
         public object result { get; set; }
     }
 
+    public class HeaderInfo
+    {
+        public string name { get; set; }
+        public string date { get; set; }
+    }
+
     public partial class ProgressPage : ContentPage
     {
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
+        ObservableCollection<HeaderInfo> dates;
         public ProgressPage()
         {
             InitializeComponent();
@@ -37,7 +45,7 @@ namespace Manifest.Views
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
-
+            dates = new ObservableCollection<HeaderInfo>();
             GetUserProgress();
             NavigationPage.SetHasNavigationBar(this, false);
         }
@@ -54,6 +62,16 @@ namespace Manifest.Views
             }
             Debug.WriteLine("START: " + startDate);
             Debug.WriteLine("END: " + endDate);
+
+            dates.Add(new HeaderInfo() { name = "Goals", date = "" });
+            for(int i = 0; i < 7; i++)
+            {
+                var temp = startDate.AddDays(i);
+
+                dates.Add(new HeaderInfo() { name = temp.ToString("ddd"), date = temp.ToString("MM/dd") });
+            }
+
+            DatesList.ItemsSource = dates;
 
             client.DefaultRequestHeaders.Add("start-date", startDate.ToString("yyyy-MM-dd"));
             client.DefaultRequestHeaders.Add("end-date", endDate.ToString("yyyy-MM-dd"));
