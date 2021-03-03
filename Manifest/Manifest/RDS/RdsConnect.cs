@@ -47,6 +47,39 @@ namespace Manifest.RDS
             //{     "user_unique_id": "100-000045",     "guid": "ndbfndbfnbn",     "notification": "FALSE" }
         }
 
+        public static async Task<TimeSettings> getTimeSettings(string uid)
+        {
+            try
+            {
+                string url = AppConstants.BaseUrl + AppConstants.timeSettingsUrl + "/" + uid;
+                var response = await client.GetStringAsync(url);
+                //Debug.WriteLine("Getting user. User info below:");
+                Debug.WriteLine("Time Settings");
+                Debug.WriteLine(response);
+                TimeResponse timeArr = new TimeResponse();
+                timeArr.result = JsonConvert.DeserializeObject<List<Times>>(response);
+                Times times = timeArr.result[0];
+                TimeSettings userTimes = new TimeSettings()
+                {
+                    MorningStartTime = DataParser.ToTimeSpan(times.morning_time),
+                    AfterNoonStartTime = DataParser.ToTimeSpan(times.afternoon_time),
+                    EveningStartTime = DataParser.ToTimeSpan(times.evening_time),
+                    NightStartTime = DataParser.ToTimeSpan(times.night_time),
+                    TimeZone = times.time_zone,
+                    DayStart = DataParser.ToTimeSpan(times.day_start),
+                    DayEnd = DataParser.ToTimeSpan(times.day_end)
+                };
+                Debug.WriteLine(userTimes.MorningStartTime);
+                Debug.WriteLine(userTimes.AfterNoonStartTime);
+                Debug.WriteLine(userTimes.EveningStartTime);
+                return userTimes;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return null;
+            }
+        }
         //
         public static async Task<string> getUser(string uid)
         {

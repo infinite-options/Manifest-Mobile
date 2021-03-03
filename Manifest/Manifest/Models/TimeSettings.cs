@@ -25,4 +25,10 @@ namespace Manifest.Models
         public string time_zone { get; set; }
     }
 
+    public class TimeResponse
+    {
+        public string message { get; set; }
+        public List<Times> result { get; set; }
+    }
+
 }
