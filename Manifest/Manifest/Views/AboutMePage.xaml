@@ -59,8 +59,78 @@
                  <!--NEW UI GOES HERE-->
 
             <ScrollView>
-                <StackLayout>
+                <StackLayout Padding="0,20,0,0">
+
                     <Grid>
+                        <StackLayout HorizontalOptions="CenterAndExpand" Grid.Column="0">
+                        <Frame x:Name="userFrame" HasShadow="False" IsClippedToBounds="True" WidthRequest="140" HeightRequest="140" CornerRadius="70" Padding="0">
+                           <Image x:Name="userPic" Aspect="AspectFill"/>
+                        </Frame>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
+                        <Label x:Name="userName" Text="First Name Last Name" TextDecorations="Underline" TextColor="Black" FontSize="24" FontAttributes="Bold"></Label>
+                        <Label x:Name="userBirthDate" Text="Date of birth" TextColor="Black" FontSize="12" FontAttributes="Bold"></Label>
+                        </StackLayout>
+                    </Grid>
+                    <Grid Margin="0,25,0,25" ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <StackLayout Grid.Column="0" HorizontalOptions="End">
+                            <RelativeLayout>
+                                <Ellipse
+                                    x:Name="myStoryEllipse"
+                                    StrokeThickness="0"
+                                    Fill="#FFBD27"
+                                    HeightRequest="117"
+                                    WidthRequest="117">
+                                </Ellipse>
+                                <Label Text="My Story" TextColor="White" FontAttributes="Bold" FontSize="16" WidthRequest="117" HeightRequest="117" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="navigateToWhoAmI"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                            
+                         <StackLayout Grid.Column="1" HorizontalOptions="Center">
+                              <RelativeLayout>
+                                    <Ellipse
+                                        x:Name="myMemoriesEllipse"
+                                        StrokeThickness="0"
+                                        Fill="#FF603C"
+                                        HeightRequest="117"
+                                        WidthRequest="117">
+                                    </Ellipse>
+                                    <Label Text="My Memories" TextColor="White" FontAttributes="Bold" FontSize="16" WidthRequest="117" HeightRequest="117" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+                            </RelativeLayout>
+                        </StackLayout>
+                         <StackLayout Grid.Column="2">
+                              <RelativeLayout>
+                                    <Ellipse
+                                        x:Name="whatIsImportantEllipse"
+                                        StrokeThickness="0"
+                                        Fill="#67ABFC"
+                                        HeightRequest="117"
+                                        WidthRequest="117">
+                                    </Ellipse>
+                                    <Label Text="Whats important to me" TextColor="White" FontAttributes="Bold" FontSize="16" WidthRequest="117" HeightRequest="117" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+                            </RelativeLayout>
+                             <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="navigateToWhatMotivatesMe"/>
+                             </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </Grid>
+
+                    <Label Grid.Row="2" Text="People in my life" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Large" TextColor="#0C1E21"/>
+                        <ScrollView Grid.Row="3">
+                            <StackLayout x:Name="userAdvisors" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Orientation="Vertical" Padding="0,10,0,0">
+                            </StackLayout>
+                        </ScrollView>
+
+                    <!--<Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.3*"/>
                             <RowDefinition Height="0.3*"/>
@@ -110,7 +180,7 @@
                             <StackLayout x:Name="userAdvisors" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Orientation="Vertical" Padding="0,10,0,0">
                             </StackLayout>
                         </ScrollView>
-                    </Grid>
+                    </Grid>-->
                 </StackLayout>
             </ScrollView>
             <!--<Grid>

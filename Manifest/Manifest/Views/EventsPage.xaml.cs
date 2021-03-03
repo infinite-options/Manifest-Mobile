@@ -21,6 +21,17 @@ namespace Manifest.Views
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
+
+
+            mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+            frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            eventFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["event"]);
+
+            scheduleFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+
             title.Text = newEvent.Title;
             eventDescription.Text = newEvent.Description;
             if (eventDescription.Text == "" || eventDescription.Text == null)

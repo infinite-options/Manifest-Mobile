@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
+using Manifest.Config;
 using Manifest.Models;
 using Newtonsoft.Json;
 using Xamarin.Forms;
@@ -60,71 +61,78 @@ namespace Manifest.Views
 
         public async void GetHistoryData(string startDate = null, string endDate = null)
         {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("start-date", startDate);
-            client.DefaultRequestHeaders.Add("end-date", endDate);
-
-            var userId = (string)Application.Current.Properties["userId"];
-            var response = await client.GetAsync("https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/progress/" + userId);
-            var data = await response.Content.ReadAsStringAsync();
-            Debug.WriteLine("IS CALL TO ENDPOINT SUCCESSFUL: " + response.IsSuccessStatusCode);
-            Debug.WriteLine("RETURNED DATA: " + data);
-
-            var parser = JsonConvert.DeserializeObject<UserHistory>(data);
-            //Debug.WriteLine("FELLINGS: " + parser.result.feelings);
-            Debug.WriteLine("HAPPY: " + parser.result.happy);
-            Debug.WriteLine("MOTIVATION: " + parser.result.motivation);
-            Debug.WriteLine("IMPORTANT: " + parser.result.important);
-
-            //var feelings = JsonConvert.DeserializeObject<IDictionary<string, int>>(parser.result.feelings.ToString());
-            var happy = JsonConvert.DeserializeObject<IDictionary<string, int>>(parser.result.happy.ToString());
-            var motivation = JsonConvert.DeserializeObject<IDictionary<string, int>>(parser.result.motivation.ToString());
-            var important = JsonConvert.DeserializeObject<IDictionary<string, int>>(parser.result.important.ToString());
-
-            happyItems.Clear();
-
-            var factor = 0.0;
-            foreach(string key in happy.Keys)
+            try
             {
-                factor = Math.Max(factor, happy[key]);
-            }
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("start-date", startDate);
+                client.DefaultRequestHeaders.Add("end-date", endDate);
 
-            var temp = factor;
-            factor = 100 / factor;
-            foreach (string key in happy.Keys)
-            {
-                happyItems.Add(new Options { name = key, height = happy[key]*factor, color = (string)Application.Current.Properties["event"] });
-            }
+                var userId = (string)Application.Current.Properties["userId"];
+                var response = await client.GetAsync(AppConstants.BaseUrl + AppConstants.history + userId);
+                var data = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine("IS CALL TO ENDPOINT SUCCESSFUL: " + response.IsSuccessStatusCode);
+                Debug.WriteLine("RETURNED DATA: " + data);
 
-            factor = 0.0;
-            foreach (string key in motivation.Keys)
-            {
-                factor = Math.Max(factor, motivation[key]);
-            }
+                var parser = JsonConvert.DeserializeObject<UserHistory>(data);
+                //Debug.WriteLine("FELLINGS: " + parser.result.feelings);
+                Debug.WriteLine("HAPPY: " + parser.result.happy);
+                Debug.WriteLine("MOTIVATION: " + parser.result.motivation);
+                Debug.WriteLine("IMPORTANT: " + parser.result.important);
 
-            temp = factor;
-            factor = 100 / factor;
-            motivationItems.Clear();
-            foreach (string key in motivation.Keys)
-            {
-                motivationItems.Add(new Options { name = key, height = motivation[key]*factor, color = (string)Application.Current.Properties["routine"] });
-            }
-            factor = 0.0;
-            foreach (string key in important.Keys)
-            {
-                factor = Math.Max(factor, important[key]);
-            }
+                //var feelings = JsonConvert.DeserializeObject<IDictionary<string, int>>(parser.result.feelings.ToString());
+                var happy = JsonConvert.DeserializeObject<IDictionary<string, int>>(parser.result.happy.ToString());
+                var motivation = JsonConvert.DeserializeObject<IDictionary<string, int>>(parser.result.motivation.ToString());
+                var important = JsonConvert.DeserializeObject<IDictionary<string, int>>(parser.result.important.ToString());
 
-            temp = factor;
-            factor = 100 / factor;
-            importantItems.Clear();
-            foreach (string key in important.Keys)
-            {
-                importantItems.Add(new Options { name = key, height = important[key]*factor, color = (string)Application.Current.Properties["goal"]});
+                happyItems.Clear();
+
+                var factor = 0.0;
+                foreach (string key in happy.Keys)
+                {
+                    factor = Math.Max(factor, happy[key]);
+                }
+
+                var temp = factor;
+                factor = 100 / factor;
+                foreach (string key in happy.Keys)
+                {
+                    happyItems.Add(new Options { name = key, height = happy[key] * factor, color = (string)Application.Current.Properties["event"] });
+                }
+
+                factor = 0.0;
+                foreach (string key in motivation.Keys)
+                {
+                    factor = Math.Max(factor, motivation[key]);
+                }
+
+                temp = factor;
+                factor = 100 / factor;
+                motivationItems.Clear();
+                foreach (string key in motivation.Keys)
+                {
+                    motivationItems.Add(new Options { name = key, height = motivation[key] * factor, color = (string)Application.Current.Properties["routine"] });
+                }
+                factor = 0.0;
+                foreach (string key in important.Keys)
+                {
+                    factor = Math.Max(factor, important[key]);
+                }
+
+                temp = factor;
+                factor = 100 / factor;
+                importantItems.Clear();
+                foreach (string key in important.Keys)
+                {
+                    importantItems.Add(new Options { name = key, height = important[key] * factor, color = (string)Application.Current.Properties["goal"] });
+                }
+                ImportantList.ItemsSource = importantItems;
+                HappyList.ItemsSource = happyItems;
+                MotivationList.ItemsSource = motivationItems;
             }
-            ImportantList.ItemsSource = importantItems;
-            HappyList.ItemsSource = happyItems;
-            MotivationList.ItemsSource = motivationItems;
+            catch (Exception history)
+            {
+                await DisplayAlert("Oops",history.Message,"OK");
+            }
         }
 
         void StartDate_Completed(System.Object sender, System.EventArgs e)

@@ -188,7 +188,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Grid Margin="5,-15,0,0">
+                <Grid Margin="5,-35,0,0">
                     <StackLayout Grid.Column="0" HorizontalOptions="CenterAndExpand">
                         <CheckBox x:Name="goalNotStarted" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand"
                             IsEnabled="False">

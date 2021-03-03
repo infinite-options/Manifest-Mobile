@@ -54,7 +54,7 @@
             </Frame>
          
             <StackLayout  Grid.Row="1">
-                <Frame BackgroundColor="#67ABFC" CornerRadius="20" Margin="10,20,10,-40">
+                <Frame x:Name="eventFrame" BackgroundColor="#67ABFC" CornerRadius="20" Margin="10,20,10,-40">
                     <StackLayout>
                         <Label x:Name="eventTime" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="12"/>
                         <Label Text="Purpose" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="24" TextDecorations="Underline"/>
@@ -99,7 +99,7 @@
 
             </StackLayout>
             <Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,-20" >
-                <Frame Grid.Column="0" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                <Frame Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
                     <Grid>
                         <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>
                         <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
@@ -108,7 +108,7 @@
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                     </Frame.GestureRecognizers>
                 </Frame>
-                <Frame Grid.Column="1" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                <Frame Grid.Column="1" x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
                     <Grid>
                         <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
                         <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
@@ -117,7 +117,7 @@
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
                     </Frame.GestureRecognizers>  
                 </Frame>
-                <Frame Grid.Column="2" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                <Frame Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
                     <Grid>
                         <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
                         <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>

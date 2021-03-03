@@ -41,6 +41,8 @@ namespace Manifest.Config
         public const string addPulse = "/api/v2/changeAboutMeHistory";
         public const string getOptions = "/api/v2/";
         public const string login = "/api/v2/login";
+        public const string history = "/api/v2/progress/";
+        public const string progress = "/api/v2/goalRoutineHistory/";
 
         // --- /api/v2/getVersionNumber
         // --- /api/v2/updateVersionNumber

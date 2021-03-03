@@ -547,8 +547,8 @@ namespace Manifest.Views
             }
             else
             {
-                Application.Current.MainPage = new NavigationPage();
-                Navigation.PushAsync(new EventsPage(currEvent), false);
+                Application.Current.MainPage = new NavigationPage(new EventsPage(currEvent));
+                //Navigation.PushAsync(new EventsPage(currEvent), false);
             }
         }
 

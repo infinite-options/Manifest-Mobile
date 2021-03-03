@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Manifest.Config;
+using Manifest.Interfaces;
 using Manifest.LogIn.Classes;
 using Xamarin.Auth;
 using Xamarin.Forms;
@@ -49,6 +50,15 @@ namespace Manifest.Views
             NavigationPage.SetHasNavigationBar(this, false);
 
             parentName = name;
+
+
+            string version = "";
+            string build = "";
+            version = DependencyService.Get<IAppVersionAndBuild>().GetVersionNumber();
+            build = DependencyService.Get<IAppVersionAndBuild>().GetBuildNumber();
+
+            appVersion.Text = "App version: " + version +", App build: " + build;
+
         }
 
         public string GetCurrentTime()

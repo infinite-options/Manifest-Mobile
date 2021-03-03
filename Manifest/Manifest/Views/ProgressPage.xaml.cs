@@ -105,7 +105,7 @@ namespace Manifest.Views
                 client.DefaultRequestHeaders.Add("start-date", startDate.ToString("yyyy-MM-dd"));
                 client.DefaultRequestHeaders.Add("end-date", endDate.ToString("yyyy-MM-dd"));
 
-                var response = await client.GetAsync("https://3s3sftsr90.execute-api.us-west-1.amazonaws.com/dev/api/v2/goalRoutineHistory/" + userId);
+                var response = await client.GetAsync(AppConstants.BaseUrl + AppConstants.progress + userId);
 
                 if (response.IsSuccessStatusCode)
                 {

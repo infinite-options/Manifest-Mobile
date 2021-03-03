@@ -29,5 +29,6 @@
     <Folder Include="LogIn\Classes\" />
     <Folder Include="RDS\" />
     <Folder Include="Notifications\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 </Project>

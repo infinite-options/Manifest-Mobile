@@ -87,8 +87,11 @@ namespace Manifest.Views
             lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
 
-            whoAmIButton.BackgroundColor = Color.FromHex((string)Application.Current.Properties["goal"]);
-            whatMotivatesMeButton.BackgroundColor = Color.FromHex((string)Application.Current.Properties["event"]);
+
+            myStoryEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["goal"])); ;
+            myMemoriesEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["routine"])); ;
+            whatIsImportantEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"])); ;
+
 
             title.Text = "About me";
             var helperObject = new MainPage();
@@ -101,15 +104,15 @@ namespace Manifest.Views
             smallCircleRadius = (float)(smallCircleHW * 0.5);
             bigImageCircleHW = (float)(deviceWidth * 0.11);
             bigImageCircleRadius = (float)(bigCircleHW * 0.5);
-            userImageFrame.CornerRadius = bigImageCircleRadius;
-            userImageFrame.HeightRequest = bigImageCircleHW;
-            userImageFrame.WidthRequest = bigImageCircleHW;
-            whoAmIButton.CornerRadius = bigCircleRadius;
-            whoAmIButton.HeightRequest = bigCircleHW;
-            whoAmIButton.WidthRequest = bigCircleHW;
-            whatMotivatesMeButton.CornerRadius = bigCircleRadius;
-            whatMotivatesMeButton.HeightRequest = bigCircleHW;
-            whatMotivatesMeButton.WidthRequest = bigCircleHW;
+            //userImageFrame.CornerRadius = bigImageCircleRadius;
+            //userImageFrame.HeightRequest = bigImageCircleHW;
+            //userImageFrame.WidthRequest = bigImageCircleHW;
+            //whoAmIButton.CornerRadius = bigCircleRadius;
+            //whoAmIButton.HeightRequest = bigCircleHW;
+            //whoAmIButton.WidthRequest = bigCircleHW;
+            //whatMotivatesMeButton.CornerRadius = bigCircleRadius;
+            //whatMotivatesMeButton.HeightRequest = bigCircleHW;
+            //whatMotivatesMeButton.WidthRequest = bigCircleHW;
 
             if (Device.RuntimePlatform == Device.Android)
             {
@@ -127,6 +130,42 @@ namespace Manifest.Views
         }
 
 
+        //private async void initializeUser(string uid)
+        //{
+        //    try
+        //    {
+        //        string res = await RdsConnect.getUser(uid);
+        //        if (res == "Failure")
+        //        {
+        //            await DisplayAlert("Alert", "Error in getUser() in initializeUser() in AboutMePage", "OK");
+        //        }
+        //        //Debug.WriteLine("ABOUT ME: " + res);
+        //        UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(res);
+        //        ToUser(userResponse);
+        //        //userID.Text = (String)Application.Current.Properties["userID"];
+
+                
+
+        //        userName.Text = user.FirstName + " " + user.LastName;
+        //        userImage.Source = user.PicUrl;
+        //        if(user.user_birth_date == null)
+        //        {
+        //            userBirthday.Text = "";
+        //        }
+        //        else
+        //        {
+        //            userBirthday.Text = user.user_birth_date;
+        //        }
+                
+                
+        //    }
+        //    catch (Exception a)
+        //    {
+
+        //    }
+
+        //}
+
         private async void initializeUser(string uid)
         {
             try
@@ -140,18 +179,33 @@ namespace Manifest.Views
                 UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(res);
                 ToUser(userResponse);
                 //userID.Text = (String)Application.Current.Properties["userID"];
-                
+
                 userName.Text = user.FirstName + " " + user.LastName;
-                userImage.Source = user.PicUrl;
-                if(user.user_birth_date == null)
+                //userImage.Source = user.PicUrl;
+                if (user.user_birth_date == null)
                 {
-                    userBirthday.Text = "";
+                    userBirthDate.Text = "Date of birth: N/A";
                 }
                 else
                 {
-                    userBirthday.Text = user.user_birth_date;
+                    try
+                    {
+                        var date = DateTime.Parse(user.user_birth_date);
+                        Debug.WriteLine("DATE OF BIRTH: " + date.ToString("dd MMMM yyyy"));
+                        userBirthDate.Text = "Date of birth: " + date.ToString("dd MMMM yyyy");
+                    }
+                    catch (Exception birthDate)
+                    {
+                        await DisplayAlert("Oops", birthDate.Message, "OK");
+                        userBirthDate.Text = "Date of birth: N/A";
+                    }
                 }
-                
+
+                if (user.PicUrl != null && user.PicUrl != "")
+                {
+                    userPic.Source = user.PicUrl;
+                }
+
                 CreateList();
             }
             catch (Exception a)
@@ -161,6 +215,8 @@ namespace Manifest.Views
 
         }
 
+
+        //CreateList();
         private void ToUser(UserResponse userResponse)
         {
             //User newUser = null;
@@ -286,7 +342,9 @@ namespace Manifest.Views
                         HeightRequest = smallCircleHW,
                         WidthRequest = smallCircleHW,
                         Padding = 0,
+                        HasShadow = false,
                         IsClippedToBounds = true,
+                        BorderColor = Color.Black,
                         //Padding = new Thickness(10.0,0.0,10.0,0.0),
                         Content =  new Image{
                             Source = importantPeople[i].PicUrl,
@@ -295,7 +353,7 @@ namespace Manifest.Views
                             Aspect = Aspect.AspectFill
                         },
                         GestureRecognizers = { tapGestureRecognizer }
-                    }, col, 0);
+                    }, col, 0);;;
                     tempGrid.Children.Add(new Label
                     {
                         Text = importantPeople[i].Name,

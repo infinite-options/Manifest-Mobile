@@ -55,17 +55,14 @@
             </Frame>
             <StackLayout Grid.Row="1" Padding="0,20,0,0">
                  <Grid>
-                        <RelativeLayout Grid.Column="0" HeightRequest="100" HorizontalOptions="CenterAndExpand">
-                        <Ellipse Grid.Column="0"
-                            Stroke="black"
-                            StrokeThickness="2"
-                            HeightRequest="100"
-                            WidthRequest="100">
-                        </Ellipse>
-                       </RelativeLayout>
+                        <StackLayout HorizontalOptions="CenterAndExpand" Grid.Column="0">
+                        <Frame x:Name="userFrame" HasShadow="False" IsClippedToBounds="True" WidthRequest="140" HeightRequest="140" CornerRadius="70" Padding="0">
+                           <Image x:Name="userPic" Aspect="AspectFill"/>
+                        </Frame>
+                        </StackLayout>
                         <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
-                        <Label Text="First Name Last Name"></Label>
-                        <Label Text="Date of birth"></Label>
+                        <Label x:Name="userName" Text="First Name Last Name" TextDecorations="Underline" TextColor="Black" FontSize="24" FontAttributes="Bold"></Label>
+                        <Label x:Name="userBirthDate" Text="Date of birth" TextColor="Black" FontSize="12" FontAttributes="Bold"></Label>
                         </StackLayout>
                  </Grid>
                 <StackLayout Padding="45,40,0,0">
@@ -74,6 +71,17 @@
                      <Label Text="Friends" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
                      <Label Text="Major events" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
                 </StackLayout>
+
+                <Grid Margin="-5,30,0,0">
+                    <StackLayout Grid.Column="0">
+                         <Label Text="Message Card" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <Label x:Name="messageCard" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1">
+                         <Label Text="Message Day" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <Label x:Name="messageDay" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                    </StackLayout>
+                </Grid>
             </StackLayout>
             <StackLayout Grid.Row="2">
                
