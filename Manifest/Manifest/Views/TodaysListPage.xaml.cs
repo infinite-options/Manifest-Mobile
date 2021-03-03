@@ -144,20 +144,20 @@ namespace Manifest.Views
                 if (timeSettings != null)
                 {
                     DateTime morning = today.Date + timeSettings.MorningStartTime;
-                    //morningStart = morning.ToString("G");
                     morningStart = morning;
                     DateTime afternoon = today.Date + timeSettings.AfterNoonStartTime;
-                    //afternoonStart = afternoon.ToString("G");
                     afternoonStart = afternoon;
                     DateTime evening = today.Date + timeSettings.EveningStartTime;
-                    //eveningStart = evening.ToString("G");
                     eveningStart = evening;
                     Debug.WriteLine(morningStart.ToString() + ", " + afternoonStart.ToString() + ", " + eveningStart.ToString());
                 }
 
                 string url = AppConstants.BaseUrl + AppConstants.goalsAndRoutinesUrl + "/" + userID;
                 todaysOccurances = await RdsConnect.getOccurances(url);
-                await CallGetEvents();
+                if ((bool)Application.Current.Properties["showCalendar"])
+                {
+                    await CallGetEvents();
+                }
                 todaysOccurances = todaysOccurances.Concat(todaysEvents).ToList();
                 SortOccurancesAndGroupGoals();
                 CreateList();
@@ -166,11 +166,6 @@ namespace Manifest.Views
             {
                 await DisplayAlert("Alert", "Error in TodaysListTest initialiseTodaysOccurances. Error: " + e.ToString(), "OK");
             }
-        }
-
-        private async void getTimeSettings(string userID)
-        {
-            string url = AppConstants.BaseUrl + AppConstants.timeSettingsUrl + "/" + userID;
         }
 
         bool hasItems = false;
