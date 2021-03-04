@@ -47,6 +47,7 @@ namespace Manifest.Models
         //Added so we have the list of subOccurances
         public List<SubOccurance> subOccurances { get; set; }
         public Color GoalBackground { get; set; }
+        public Color BorderColor { get; set; }
         public int borderWidth { get; set; }
         public Color textColor { get; set; }
 
@@ -54,18 +55,22 @@ namespace Manifest.Models
         {
             IsInProgress = updatedVal;
             PropertyChanged(this, new PropertyChangedEventArgs("IsInProgress"));
-
-            GoalBackground = Color.FromHex("#FFE07E");
-            PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
+            if (updatedVal)
+            {
+                GoalBackground = Color.FromHex("#FFE07E");
+                PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
+            }
         }
 
         public void updateIsComplete(bool updatedVal)
         {
             IsComplete = updatedVal;
             PropertyChanged(this, new PropertyChangedEventArgs("IsComplete"));
-
-            GoalBackground = Color.FromHex("#D3E6D3");
-            PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
+            if (updatedVal)
+            {
+                GoalBackground = Color.FromHex("#D3E6D3");
+                PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
+            }
         }
 
         public void updateBorderWidth(int newWidth)
@@ -79,6 +84,42 @@ namespace Manifest.Models
             StatusColor = Color.FromHex(hexColor);
             if (StatusColor.Luminosity > 0.8) textColor = Color.Black;
             else textColor = Color.White;
+        }
+
+        public static void SortOccurances(List<Occurance> todaysOccurances)
+        {
+            todaysOccurances.Sort(delegate (Occurance a, Occurance b)
+            {
+                if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
+                else if (a.StartDayAndTime.TimeOfDay == b.StartDayAndTime.TimeOfDay)
+                {
+                    if (a.IsEvent == true && b.IsEvent == false)
+                    {
+                        return -1;
+                    }
+                    else if (a.IsEvent == false && b.IsEvent == true)
+                    {
+                        return 1;
+                    }
+                    else if (a.IsPersistent == true && b.IsPersistent == false)
+                    {
+                        return -1;
+                    }
+                    else if (a.IsPersistent == false && b.IsPersistent == true)
+                    {
+                        return 1;
+                    }
+                    else if (a.EndDayAndTime.TimeOfDay < b.EndDayAndTime.TimeOfDay)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                }
+                else return 1;
+            });
         }
     }
 
@@ -117,4 +158,5 @@ namespace Manifest.Models
         public List<SubOccuranceDto> actions_tasks { get; set; }
         //public List<Json> actions_tasks { get; set; }
     }
+
 }

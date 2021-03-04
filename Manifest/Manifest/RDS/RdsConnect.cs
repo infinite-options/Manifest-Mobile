@@ -101,10 +101,6 @@ namespace Manifest.RDS
         {
             //string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
 
-            Debug.WriteLine("VAlUES BEFORE UPDATE: INPROGESS: {0}, ISCOMPLETE: {1}", currOccurance.IsInProgress, currOccurance.IsComplete);
-
-            Debug.WriteLine("OCCURANCE VALUES: INPROGESS: {0}, ISCOMPLETE:{1}", inprogress, iscomplete);
-
             currOccurance.updateIsInProgress(inprogress);
             currOccurance.updateIsComplete(iscomplete);
 
@@ -112,7 +108,6 @@ namespace Manifest.RDS
 
             //Now, write to the database
             currOccurance.DateTimeStarted = DateTime.Now;
-            Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
             //string toSend = updateOccurance(currOccurance);
             UpdateOccurance updateOccur = new UpdateOccurance()
             {
