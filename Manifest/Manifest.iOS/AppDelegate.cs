@@ -14,6 +14,13 @@ using Xamarin.Essentials;
 using Manifest.Config;
 using Xamarin.RangeSlider.Forms;
 
+
+#if NETFX_CORE
+[assembly: Xamarin.Forms.Platform.WinRT.ExportRenderer(typeof(Xamarin.RangeSlider.Forms.RangeSlider), typeof(Xamarin.RangeSlider.Forms.RangeSliderRenderer))]
+#else
+[assembly: Xamarin.Forms.ExportRenderer(typeof(Xamarin.RangeSlider.Forms.RangeSlider), typeof(Xamarin.RangeSlider.Forms.RangeSliderRenderer))]
+#endif
+
 namespace Manifest.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
@@ -40,19 +47,21 @@ namespace Manifest.iOS
 
             //testing with forms9patch
             Forms9Patch.iOS.Settings.Initialize(this);
-
+            var t1 = typeof(Xamarin.RangeSlider.RangeSliderControl);
+            var t2 = typeof(RangeSliderRenderer);
             LoadApplication(new App());
 
-            base.FinishedLaunching(app, options);
+            //base.FinishedLaunching(app, options);
 
             RegisterForRemoteNotifications();
 
 
             //Added for in app notifications
             UNUserNotificationCenter.Current.Delegate = new NotificationDelegate();
-            return true;
-
-            //return base.FinishedLaunching(app, options);
+            //return true;
+            //var t1 = typeof(Xamarin.RangeSlider.RangeSliderControl);
+            //var t2 = typeof(RangeSliderRenderer);
+            return base.FinishedLaunching(app, options);
         }
 
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)

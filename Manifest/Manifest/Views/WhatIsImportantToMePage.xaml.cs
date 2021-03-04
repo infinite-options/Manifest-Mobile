@@ -15,6 +15,8 @@ namespace Manifest.Views
         public string color { get; set; }
         public double height { get; set; }
         public string name { get; set; }
+
+
     }
 
     public partial class WhatIsImportantToMePage : ContentPage
@@ -29,6 +31,8 @@ namespace Manifest.Views
         ObservableCollection<Options> importantItems;
         ObservableCollection<Options> happyItems;
         ObservableCollection<Options> motivationItems;
+
+        DateTime start;
 
         public WhatIsImportantToMePage()
         {
@@ -49,14 +53,32 @@ namespace Manifest.Views
 
             //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "My Values";
-
+            var date = DateTime.Now;
+            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+            start = firstDayOfMonth;
+            rangeSliderAge.MinimumValue = (float)Double.Parse(firstDayOfMonth.ToString("dd"));
+            rangeSliderAge.LowerValue = (float)Double.Parse(firstDayOfMonth.ToString("dd"));
+            rangeSliderAge.MaximumValue = (float)Double.Parse(lastDayOfMonth.ToString("dd"));
+            rangeSliderAge.UpperValue = (float)Double.Parse(lastDayOfMonth.ToString("dd"));
 
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = GetCurrentTime();
-            startDate = "2021-02-19";
-            endDate = "2021-02-24";
-            GetHistoryData(startDate, endDate);
+           
+            GetHistoryData(firstDayOfMonth.ToString("yyyy-MM-dd"), lastDayOfMonth.ToString("yyyy-MM-dd"));
 
+        }
+
+        void rangeSliderAge_DragCompleted(System.Object sender, System.EventArgs e)
+        {
+            Debug.WriteLine("DRAG IS COMPLETED");
+
+            var startDate = start.AddDays(rangeSliderAge.LowerValue - 1);
+            var endDate = start.AddDays(rangeSliderAge.UpperValue - 1);
+            Debug.WriteLine("START:" + startDate.ToString("yyyy-MM-dd"));
+            Debug.WriteLine("END:" + endDate.ToString("yyyy-MM-dd"));
+
+            GetHistoryData(startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
         }
 
         public async void GetHistoryData(string startDate = null, string endDate = null)
@@ -135,50 +157,11 @@ namespace Manifest.Views
             }
         }
 
-        void StartDate_Completed(System.Object sender, System.EventArgs e)
-        {
-            Debug.WriteLine("COMPLETED");
-            if(StartDate.Text.Length != 10 && StartDate.Text != null)
-            {
-                startDate = StartDate.Text.Replace(".","-");
-                GetHistoryData(startDate, endDate);
-            }
-        }
-
-        void EndDate_Completed(System.Object sender, System.EventArgs e)
-        {
-            if (EndDate.Text.Length != 10 && EndDate.Text != null)
-            {
-                endDate = EndDate.Text.Replace(".", "-");
-                GetHistoryData(startDate, endDate);
-            }
-        }
-
         public string GetCurrentTime()
         {
             var currentTime = DateTime.Now;
             time = currentTime.ToString("MMMM d, yyyy");
             return time;
-        }
-
-        void StartDate_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
-        {
-            Debug.WriteLine("START - UNFOCUSED");
-            if (StartDate.Text.Length == 10 && StartDate.Text != null)
-            {
-                startDate = StartDate.Text.Replace(".", "-");
-                GetHistoryData(startDate, endDate);
-            }
-        }
-
-        void EndDate_Unfocused(System.Object sender, Xamarin.Forms.FocusEventArgs e)
-        {
-            Debug.WriteLine("END - UNFOCUSED");
-            if (EndDate.Text.Length == 10 && EndDate.Text != null)
-            {
-                endDate = EndDate.Text.Replace(".", "-");
-                GetHistoryData(startDate, endDate);
-            }
         }
 
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)

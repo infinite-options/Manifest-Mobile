@@ -27,8 +27,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
-    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
+    <CodesignProvision>ManifestMySpaceDistribution</CodesignProvision>
+    <CodesignKey>Apple Distribution: Infinite Options, LLC (8V66NC2T37)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -56,13 +56,15 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
-    <MtouchInterpreter>-all</MtouchInterpreter>
+    <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
     <CodesignProvision>VS: com.infiniteoptions-manifestmy.space Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
+    <DefineConstants></DefineConstants>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
@@ -122,6 +124,9 @@
     <PackageReference Include="Forms9Patch">
       <Version>2.4.9</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Forms.RangeSlider">
+      <Version>1.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -169,6 +174,16 @@
     <BundleResource Include="Resources\routinesIcon.png" />
     <BundleResource Include="Resources\downArrow.png" />
     <BundleResource Include="Resources\pulseIcon.png" />
+    <BundleResource Include="Resources\slider-default7-handle-disabled.png" />
+    <BundleResource Include="Resources\slider-default7-handle-disabled%402x.png" />
+    <BundleResource Include="Resources\slider-default7-handle.png" />
+    <BundleResource Include="Resources\slider-default7-handle%402x.png" />
+    <BundleResource Include="Resources\slider-default7-track.png" />
+    <BundleResource Include="Resources\slider-default7-track%402x.png" />
+    <BundleResource Include="Resources\slider-default7-trackBackground.png" />
+    <BundleResource Include="Resources\slider-default7-trackBackground%402x.png" />
+    <BundleResource Include="Resources\slider-default7-trackCrossedOver.png" />
+    <BundleResource Include="Resources\slider-default7-trackCrossedOver%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />
