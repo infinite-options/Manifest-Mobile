@@ -208,8 +208,9 @@ namespace Manifest.Views
                     BackgroundColor = toAdd.StatusColor,
                     RowDefinitions =
                         {
-                            new RowDefinition { Height = new GridLength(2, GridUnitType.Star)},
+                            new RowDefinition { Height = new GridLength(40, GridUnitType.Absolute)},
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star)},
+                            new RowDefinition { Height = new GridLength(20, GridUnitType.Absolute)},
                         }
                 };
                 routineImage.Children.Add(
@@ -217,7 +218,6 @@ namespace Manifest.Views
                     {
                         Source = toAdd.PicUrl,
                         HeightRequest = 40,
-                        Aspect = Aspect.AspectFit
                     }, 0, 0);
                 if (toAdd.NumSubOccurances > 0)
                 {
@@ -231,7 +231,7 @@ namespace Manifest.Views
                             HeightRequest = 20,
                             Aspect = Aspect.AspectFit,
                             //HeightRequest = rowHeight / 4
-                        }, 0, 1);
+                        }, 0, 2);
                 }
                 gridToAdd.Children.Add(
                     routineImage, 1, 2, 0, 3);
@@ -490,7 +490,7 @@ namespace Manifest.Views
 
         private async Task<bool> canStartNow(Occurance occurance)
         {
-            if (!occurance.IsInProgress && occurance.StartDayAndTime.TimeOfDay > DateTime.Now.TimeOfDay)
+            if (occurance.StartDayAndTime.TimeOfDay > DateTime.Now.TimeOfDay)
             {
                 await DisplayAlert("Notice", "This routine is not available right now. Please wait till the appropriate time to start", "OK");
                 return false;

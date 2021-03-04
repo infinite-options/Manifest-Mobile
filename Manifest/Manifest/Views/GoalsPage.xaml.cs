@@ -32,6 +32,8 @@ namespace Manifest.Views
         int prevIndex = -1;
         Frame prevFrame = null;
         bool goalsExist = false;
+        Color selectedBorderColor = Color.Blue;
+        Color unselectedBorderColor = Color.FromHex("#FFBD27");
 
         public GoalsPage(string start, string end)
         {
@@ -967,6 +969,7 @@ namespace Manifest.Views
         {
             try
             {
+                Debug.WriteLine(chosenOccurance.Title + ", InProgress = " + chosenOccurance.IsInProgress.ToString() + ", IsComplete = " + chosenOccurance.IsComplete.ToString());
                 if (chosenOccurance == null)
                 {
                     await DisplayAlert("Note", "Please select a goal.", "OK");
@@ -977,10 +980,16 @@ namespace Manifest.Views
                 //if a goal has only one subtask, navigate directly to steps page
                 if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
                 {
-                    string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
-                    if (chosenOccurance.IsInProgress == true)
-                        await RdsConnect.updateOccurance(chosenOccurance, false, true, url2);
-                    else await RdsConnect.updateOccurance(chosenOccurance, true, false, url2);
+                    bool complete = await DisplayAlert("Note", "This Goal has no subtasks. Click OK if you want to proceed and finish the goal", "Cancel", "OK");
+                    if (!complete)
+                    {
+                        string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                        if (chosenOccurance.IsInProgress == true)
+                        {
+                            await RdsConnect.updateOccurance(chosenOccurance, false, true, url2);
+                        }
+                        else await RdsConnect.updateOccurance(chosenOccurance, true, false, url2);
+                    }
                 }
                 else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.subOccurances.Count == 1 && chosenOccurance.IsComplete == false)
                 {
@@ -1000,15 +1009,17 @@ namespace Manifest.Views
 
         void navigatetoActions(System.Object sender, System.EventArgs e)
         {
-
+            Debug.WriteLine("NavigateToActions called");
             Label receiving = (Label)sender;
             chosenOccurance = occuranceDict[receiving];
             if (receiving == text1)
             {
+                first7.BorderColor = Color.Blue;
             }
             else if (receiving == text2)
             {
-                second7.BackgroundColor = Color.FromHex("#FFBD27");
+                second7.BorderColor = Color.Blue;
+                //second7.BackgroundColor = Color.FromHex("#FFBD27");
             }
             else if (receiving == text3)
             {
@@ -1062,127 +1073,143 @@ namespace Manifest.Views
         void navigatetoActionsFrame(System.Object sender, System.EventArgs e)
         {
             Frame receiving = (Frame)sender;
-            
-            if (receiving == first7)
+            Debug.WriteLine("Entered navigateToActionsFrame");
+            receiving.BorderColor = selectedBorderColor;
+            if (prevFrame != null && prevFrame != receiving)
             {
-                if (prevFrame != null)
-                {
-                    prevFrame.BindingContext = goalsInRange[prevIndex];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[prevIndex];
-                    prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-                }
-
-
-                first7.BackgroundColor = Color.FromHex("#FFBD27");
-                prevFrame = first7;
-                prevIndex = 0;
-
-                chosenOccurance = occuranceDict[text1];
+                prevFrame.BorderColor = unselectedBorderColor;
+                //prevFrame.BindingContext = goalsInRange[prevIndex];
+                //Binding color = new Binding("GoalBackground");
+                //color.Source = goalsInRange[prevIndex];
+                //prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
             }
-            else if (receiving == second7)
-            {
-                chosenOccurance = occuranceDict[text2];
-
-                if (prevFrame != null)
-                {
-                    prevFrame.BindingContext = goalsInRange[prevIndex];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[prevIndex];
-                    prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-                }
-
-
-                second7.BackgroundColor = Color.FromHex("#FFBD27");
-                prevFrame = second7;
-                prevIndex = 1;
-            }
-            else if (receiving == third7)
-            {
-                chosenOccurance = occuranceDict[text3];
-
-                if (prevFrame != null)
-                {
-                    prevFrame.BindingContext = goalsInRange[prevIndex];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[prevIndex];
-                    prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-                }
+            prevFrame = receiving;
+            Element child = receiving.Children[0];
+            Label childAsLabel = (Label) child;
+            Debug.WriteLine(childAsLabel.Text);
+            chosenOccurance = occuranceDict[childAsLabel];
+            //if (receiving == first7)
+            //{
+            //    first7.BorderColor = selectedBorderColor;
+            //    if (prevFrame != null)
+            //    {
+            //        prevFrame.BorderColor = unselectedBorderColor;
+            //        prevFrame.BindingContext = goalsInRange[prevIndex];
+            //        Binding color = new Binding("GoalBackground");
+            //        color.Source = goalsInRange[prevIndex];
+            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
+            //    }
 
 
-                third7.BackgroundColor = Color.FromHex("#FFBD27");
-                prevFrame = third7;
-                prevIndex = 2;
-            }
-            else if (receiving == fourth7)
-            {
-                chosenOccurance = occuranceDict[text4];
+            //    //first7.BackgroundColor = Color.FromHex("#FFBD27");
+            //    prevFrame = first7;
+            //    prevIndex = 0;
 
-                if (prevFrame != null)
-                {
-                    prevFrame.BindingContext = goalsInRange[prevIndex];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[prevIndex];
-                    prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-                }
+            //    chosenOccurance = occuranceDict[text1];
+            //}
+            //else if (receiving == second7)
+            //{
+            //    chosenOccurance = occuranceDict[text2];
 
-
-                fourth7.BackgroundColor = Color.FromHex("#FFBD27");
-                prevFrame = fourth7;
-                prevIndex = 3;
-            }
-            else if (receiving == fifth7)
-            {
-                chosenOccurance = occuranceDict[text5];
-
-                if (prevFrame != null)
-                {
-                    prevFrame.BindingContext = goalsInRange[prevIndex];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[prevIndex];
-                    prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-                }
+            //    if (prevFrame != null)
+            //    {
+            //        prevFrame.BindingContext = goalsInRange[prevIndex];
+            //        Binding color = new Binding("GoalBackground");
+            //        color.Source = goalsInRange[prevIndex];
+            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
+            //    }
 
 
-                fifth7.BackgroundColor = Color.FromHex("#FFBD27");
-                prevFrame = fifth7;
-                prevIndex = 4;
-            }
-            else if (receiving == sixth7)
-            {
-                chosenOccurance = occuranceDict[text6];
+            //    second7.BackgroundColor = Color.FromHex("#FFBD27");
+            //    prevFrame = second7;
+            //    prevIndex = 1;
+            //}
+            //else if (receiving == third7)
+            //{
+            //    chosenOccurance = occuranceDict[text3];
 
-                if (prevFrame != null)
-                {
-                    prevFrame.BindingContext = goalsInRange[prevIndex];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[prevIndex];
-                    prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-                }
-
-
-                sixth7.BackgroundColor = Color.FromHex("#FFBD27");
-                prevFrame = sixth7;
-                prevIndex = 5;
-            }
-            else if (receiving == seventh7)
-            {
-                chosenOccurance = occuranceDict[text7];
-
-                if (prevFrame != null)
-                {
-                    prevFrame.BindingContext = goalsInRange[prevIndex];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[prevIndex];
-                    prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-                }
+            //    if (prevFrame != null)
+            //    {
+            //        prevFrame.BindingContext = goalsInRange[prevIndex];
+            //        Binding color = new Binding("GoalBackground");
+            //        color.Source = goalsInRange[prevIndex];
+            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
+            //    }
 
 
-                seventh7.BackgroundColor = Color.FromHex("#FFBD27");
-                prevFrame = seventh7;
-                prevIndex = 6;
-            }
-            else DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
+            //    third7.BackgroundColor = Color.FromHex("#FFBD27");
+            //    prevFrame = third7;
+            //    prevIndex = 2;
+            //}
+            //else if (receiving == fourth7)
+            //{
+            //    chosenOccurance = occuranceDict[text4];
+
+            //    if (prevFrame != null)
+            //    {
+            //        prevFrame.BindingContext = goalsInRange[prevIndex];
+            //        Binding color = new Binding("GoalBackground");
+            //        color.Source = goalsInRange[prevIndex];
+            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
+            //    }
+
+
+            //    fourth7.BackgroundColor = Color.FromHex("#FFBD27");
+            //    prevFrame = fourth7;
+            //    prevIndex = 3;
+            //}
+            //else if (receiving == fifth7)
+            //{
+            //    chosenOccurance = occuranceDict[text5];
+
+            //    if (prevFrame != null)
+            //    {
+            //        prevFrame.BindingContext = goalsInRange[prevIndex];
+            //        Binding color = new Binding("GoalBackground");
+            //        color.Source = goalsInRange[prevIndex];
+            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
+            //    }
+
+
+            //    fifth7.BackgroundColor = Color.FromHex("#FFBD27");
+            //    prevFrame = fifth7;
+            //    prevIndex = 4;
+            //}
+            //else if (receiving == sixth7)
+            //{
+            //    chosenOccurance = occuranceDict[text6];
+
+            //    if (prevFrame != null)
+            //    {
+            //        prevFrame.BindingContext = goalsInRange[prevIndex];
+            //        Binding color = new Binding("GoalBackground");
+            //        color.Source = goalsInRange[prevIndex];
+            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
+            //    }
+
+
+            //    sixth7.BackgroundColor = Color.FromHex("#FFBD27");
+            //    prevFrame = sixth7;
+            //    prevIndex = 5;
+            //}
+            //else if (receiving == seventh7)
+            //{
+            //    chosenOccurance = occuranceDict[text7];
+
+            //    if (prevFrame != null)
+            //    {
+            //        prevFrame.BindingContext = goalsInRange[prevIndex];
+            //        Binding color = new Binding("GoalBackground");
+            //        color.Source = goalsInRange[prevIndex];
+            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
+            //    }
+
+
+            //    seventh7.BackgroundColor = Color.FromHex("#FFBD27");
+            //    prevFrame = seventh7;
+            //    prevIndex = 6;
+            //}
+            //else DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
 
         }
     }

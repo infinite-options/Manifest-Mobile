@@ -41,19 +41,21 @@ namespace Manifest.Views
         public ObservableCollection<Occurance> datagridEvening = new ObservableCollection<Occurance>();
         DateTime today;
         string todayDate;
-        string morningStart;
-        string afternoonStart;
-        string eveningStart;
+        DateTime morningStart;
+        DateTime afternoonStart;
+        DateTime eveningStart;
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         List<Occurance> commonOccur;
         public TodaysListPage()
         {
+            Debug.WriteLine("Displaying time format");
             today = DateTime.Today;
             todayDate = today.ToString("d");
-            morningStart = todayDate + ", 12:00:00 AM";
-            afternoonStart = todayDate + ", 11:00:00 AM";
-            eveningStart = todayDate + ", 6:00:00 PM";
+            morningStart = today + new TimeSpan(0, 0, 0);
+            afternoonStart = today + new TimeSpan(11, 0, 0);
+            eveningStart = today + new TimeSpan(16, 0, 0);
+            Debug.WriteLine(morningStart);
             Debug.WriteLine("dotw: " + today.ToString("dddd"));
 
             InitializeComponent();
@@ -139,9 +141,24 @@ namespace Manifest.Views
         {
             try
             {
+                TimeSettings timeSettings = await RdsConnect.getTimeSettings(userID);
+                if (timeSettings != null)
+                {
+                    DateTime morning = today.Date + timeSettings.MorningStartTime;
+                    morningStart = morning;
+                    DateTime afternoon = today.Date + timeSettings.AfterNoonStartTime;
+                    afternoonStart = afternoon;
+                    DateTime evening = today.Date + timeSettings.EveningStartTime;
+                    eveningStart = evening;
+                    Debug.WriteLine(morningStart.ToString() + ", " + afternoonStart.ToString() + ", " + eveningStart.ToString());
+                }
+
                 string url = AppConstants.BaseUrl + AppConstants.goalsAndRoutinesUrl + "/" + userID;
                 todaysOccurances = await RdsConnect.getOccurances(url);
-                await CallGetEvents();
+                if ((bool)Application.Current.Properties["showCalendar"])
+                {
+                    await CallGetEvents();
+                }
                 todaysOccurances = todaysOccurances.Concat(todaysEvents).ToList();
                 SortOccurancesAndGroupGoals();
                 CreateList();
@@ -150,11 +167,6 @@ namespace Manifest.Views
             {
                 await DisplayAlert("Alert", "Error in TodaysListTest initialiseTodaysOccurances. Error: " + e.ToString(), "OK");
             }
-        }
-
-        private async void getTimeSettings(string userID)
-        {
-            string url = AppConstants.BaseUrl + AppConstants.timeSettingsUrl + "/" + userID;
         }
 
         bool hasItems = false;
@@ -364,16 +376,6 @@ namespace Manifest.Views
 
             try
             {
-                string url = AppConstants.BaseUrl + AppConstants.timeSettingsUrl + "/" + Application.Current.Properties["userId"];
-                var response2 = await client2.GetStringAsync(url);  
-                int subtract = response2.Length - 4;
-                response2 = response2.Substring(1, subtract);
-                Debug.WriteLine("Getting time settings:");
-                Debug.WriteLine(response2);
-
-                Times timeResponse = JsonConvert.DeserializeObject<Times>(response2);
-
-
                 datagridMorning.Clear();
                 datagridAfternoon.Clear();
                 datagridEvening.Clear();
@@ -381,49 +383,68 @@ namespace Manifest.Views
                 int morningTaskCount = 0;
                 int afternoonTaskCount = 0;
                 int eveningTaskCount = 0;
-                string todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
+                DateTime todaysTaskTime = DateTime.Today + new TimeSpan(0, 0, 0);
                 scrollViewY += 75;
-                while (i < todaysTasks.Count && String.Compare(todaysTaskTime,timeResponse.afternoon_time) < 0)
+                if (todaysTasks.Count == 0)
                 {
-                    todaysTasks[i].borderWidth = 0;
-                    Debug.WriteLine("taskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString() + " afternoonStart: " + ToDateTime(afternoonStart).TimeOfDay.ToString());
-                    datagridMorning.Add(todaysTasks[i]);
-                    todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
-                    if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                    return;
+                }
+                while (i < todaysTasks.Count)
+                {
+                    todaysTaskTime = DateTime.Today + todaysTasks[i].StartDayAndTime.TimeOfDay;
+                    if (DateTime.Compare(todaysTaskTime, afternoonStart) < 0)
                     {
-                        scrollViewY += 115;
+                        Debug.WriteLine("start time: " + todaysTaskTime.ToString() + " afternoonStart: " + afternoonStart.ToString());
+                        todaysTasks[i].borderWidth = 0;
+                        datagridMorning.Add(todaysTasks[i]);
+                        //todaysTaskTime = DateTime.Today + todaysTasks[i].StartDayAndTime.TimeOfDay;
+                        if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                        {
+                            scrollViewY += 115;
+                        }
+                        else if (!scrollViewSet)
+                        {
+                            scrollViewSet = true;
+                            todaysTasks[i].updateBorderWidth(5);
+                        }
+                        occuranceHappeningNow(todaysTasks[i]);
+                        morningTaskCount++;
+                        i++;
                     }
-                    else if (!scrollViewSet)
+                    else
                     {
-                        scrollViewSet = true;
-                        todaysTasks[i].updateBorderWidth(5);
+                        break;
                     }
-                    occuranceHappeningNow(todaysTasks[i]);
-                    morningTaskCount++;
-                    i++;
                 }
                 if (!scrollViewSet)
                 {
                     scrollViewY += 135;
                 }
-                while (i < todaysTasks.Count && String.Compare(todaysTaskTime, timeResponse.evening_time) < 0)
+                while (i < todaysTasks.Count)
                 {
-                    todaysTasks[i].borderWidth = 0;
-                    Debug.WriteLine("afternoonTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
-                    datagridAfternoon.Add(todaysTasks[i]);
-                    todaysTaskTime = (todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
-                    if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                    todaysTaskTime = DateTime.Today + todaysTasks[i].StartDayAndTime.TimeOfDay;
+                    if (DateTime.Compare(todaysTaskTime, eveningStart) < 0)
                     {
-                        scrollViewY += 115;
+                        todaysTasks[i].borderWidth = 0;
+                        Debug.WriteLine("afternoonTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
+                        datagridAfternoon.Add(todaysTasks[i]);
+                        if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
+                        {
+                            scrollViewY += 115;
+                        }
+                        else if (!scrollViewSet)
+                        {
+                            scrollViewSet = true;
+                            todaysTasks[i].updateBorderWidth(5);
+                        }
+                        occuranceHappeningNow(todaysTasks[i]);
+                        afternoonTaskCount++;
+                        i++;
                     }
-                    else if (!scrollViewSet)
+                    else
                     {
-                        scrollViewSet = true;
-                        todaysTasks[i].updateBorderWidth(5);
+                        break;
                     }
-                    occuranceHappeningNow(todaysTasks[i]);
-                    afternoonTaskCount++;
-                    i++;
                 }
                 if (!scrollViewSet)
                 {
@@ -432,8 +453,8 @@ namespace Manifest.Views
                 while (i < todaysTasks.Count)
                 {
                     todaysTasks[i].borderWidth = 0;
-                    Debug.WriteLine("nightTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
-                    Debug.WriteLine("nightTaskStartHrMin: " + todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
+                    //Debug.WriteLine("nightTaskStartTime: " + todaysTasks[i].StartDayAndTime.TimeOfDay.ToString());
+                    //Debug.WriteLine("nightTaskStartHrMin: " + todaysTasks[i].StartDayAndTime.ToString("HH") + ":" + todaysTasks[i].StartDayAndTime.ToString("mm"));
                     datagridEvening.Add(todaysTasks[i]);
                     if (todaysTasks[i].EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay && !scrollViewSet)
                     {

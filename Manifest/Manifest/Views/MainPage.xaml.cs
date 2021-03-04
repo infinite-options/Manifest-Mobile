@@ -284,8 +284,8 @@ namespace Manifest.Views
             if (currOccurance== null)
             {
                 currOccurance = new Occurance();
-                currentActivity = "Free time";
-                currOccurance.Title = "Go have fun!";
+                currentActivity = "Free Time:";
+                currOccurance.Title = "Pursue a Goal";
             }
             else if (currOccurance.IsEvent == true)
             {
@@ -457,45 +457,40 @@ namespace Manifest.Views
 
             int i = 0;
             int j = 0;
-            //First sort todaysOccurances
-            occurances.Sort(delegate (Occurance a, Occurance b)
-            {
-                if (a.StartDayAndTime.TimeOfDay < b.StartDayAndTime.TimeOfDay) return -1;
-                else return 1;
-            });
-            List<Occurance> merged = new List<Occurance>();
+            List<Occurance> merged = occurances.Concat(events).ToList();
+            Occurance.SortOccurances(merged);
             //Debug.WriteLine("Num occurances = " + todaysOccurances.Count);
             //Debug.WriteLine("Num Event = " + todaysEvents.Count);
-            while (i < occurances.Count || j < events.Count)
-            {
-                //xDebug.WriteLine(i.ToString() + j.ToString());
-                if (i >= occurances.Count && j < events.Count)
-                {
-                    merged.Add(events[j]);
-                    Debug.WriteLine(events[j].Title + " start time: " + events[j].StartDayAndTime);
-                    j++;
-                    continue;
-                }
-                else if (i < occurances.Count && j >= events.Count)
-                {
-                    merged.Add(occurances[i]);
-                    Debug.WriteLine(occurances[i].Title + " start time: " + occurances[i].StartDayAndTime);
-                    i++;
-                    continue;
-                }
-                else if (occurances[i].StartDayAndTime.TimeOfDay < events[j].StartDayAndTime.TimeOfDay)
-                {
-                    merged.Add(occurances[i]);
-                    Debug.WriteLine(occurances[i].Title + " start time: " + occurances[i].StartDayAndTime);
-                    i++;
-                }
-                else
-                {
-                    merged.Add(events[j]);
-                    Debug.WriteLine(events[j].Title + " start time: " + events[j].StartDayAndTime);
-                    j++;
-                }
-            }
+            //while (i < occurances.Count || j < events.Count)
+            //{
+            //    //xDebug.WriteLine(i.ToString() + j.ToString());
+            //    if (i >= occurances.Count && j < events.Count)
+            //    {
+            //        merged.Add(events[j]);
+            //        Debug.WriteLine(events[j].Title + " start time: " + events[j].StartDayAndTime);
+            //        j++;
+            //        continue;
+            //    }
+            //    else if (i < occurances.Count && j >= events.Count)
+            //    {
+            //        merged.Add(occurances[i]);
+            //        Debug.WriteLine(occurances[i].Title + " start time: " + occurances[i].StartDayAndTime);
+            //        i++;
+            //        continue;
+            //    }
+            //    else if (occurances[i].StartDayAndTime.TimeOfDay < events[j].StartDayAndTime.TimeOfDay)
+            //    {
+            //        merged.Add(occurances[i]);
+            //        Debug.WriteLine(occurances[i].Title + " start time: " + occurances[i].StartDayAndTime);
+            //        i++;
+            //    }
+            //    else
+            //    {
+            //        merged.Add(events[j]);
+            //        Debug.WriteLine(events[j].Title + " start time: " + events[j].StartDayAndTime);
+            //        j++;
+            //    }
+            //}
             todaysOccurances = merged;
             foreach (Occurance activity in merged)
             {
@@ -568,7 +563,9 @@ namespace Manifest.Views
             }
             else
             {
-                DisplayAlert("Message", "Nothing scheduled right now. Just relax and have fun!", "OK");
+                DateTime start = DateTime.Today + new TimeSpan(0, 0, 0);
+                DateTime end = DateTime.Today + new TimeSpan(23, 59, 59);
+                Application.Current.MainPage = new NavigationPage(new GoalsPage(start.ToString("t"), end.ToString("t")));
             }
         }
 
