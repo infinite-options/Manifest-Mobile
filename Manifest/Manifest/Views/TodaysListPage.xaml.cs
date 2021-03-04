@@ -692,7 +692,7 @@ namespace Manifest.Views
                 }
                 else if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
                 {
-                    await Navigation.PushAsync(new RoutinePage());
+                    await Navigation.PushAsync(new RoutinePage(),false);
                 }
                 else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
                 {

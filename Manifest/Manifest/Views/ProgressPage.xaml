@@ -55,18 +55,25 @@
             </Frame>
             <StackLayout Grid.Row="1" VerticalOptions="Center">
                 <!--<Button Text="MOVE TO HOME PAGE" Clicked="Button_Clicked"></Button>-->
+                <Grid HeightRequest="60" BackgroundColor="Pink" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label WidthRequest="150" Text="Goals" FontSize="12" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black" BackgroundColor="LightGreen"></Label>
+                    <CollectionView x:Name="DatesList" Grid.Column="1" ItemsLayout="HorizontalList" >
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout WidthRequest="35"  HorizontalOptions="CenterAndExpand">
+                                    <Label Margin="0,15,0,0" Text="{Binding name}" HorizontalTextAlignment="Center" ></Label>
+                                    <!--<Label Text="{Binding date}" HorizontalTextAlignment="Center"></Label>-->
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
                 
-                
-                <CollectionView x:Name="DatesList" Margin="25,10,10,0" ItemsLayout="HorizontalList" HeightRequest="25" HorizontalOptions="CenterAndExpand">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout WidthRequest="40" HorizontalOptions="CenterAndExpand">
-                                <Label Text="{Binding name}" HorizontalTextAlignment="Center"></Label>
-                                <!--<Label Text="{Binding date}" HorizontalTextAlignment="Center"></Label>-->
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+              
                 <StackLayout Margin="10,0,10,0">
                     <BoxView HeightRequest="1" Color="Gray" ></BoxView>
                 </StackLayout>
@@ -75,10 +82,10 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Margin="0,10,10,0" Orientation="Horizontal">
-                                <StackLayout WidthRequest="100">
-                                    <Label Text="{Binding name}" MaxLines="2" HeightRequest="20" WidthRequest="100"></Label>
+                                <StackLayout WidthRequest="150">
+                                    <Label Text="{Binding name}" HeightRequest="30" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></Label>
                                 </StackLayout>
-                                <StackLayout HorizontalOptions="CenterAndExpand" WidthRequest="25" Margin="0,0,0,0">
+                                <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
                                     <!--<Ellipse
                                         Stroke="{Binding strokeColorA}"
                                         Fill="{Binding fillColorA}"
@@ -93,7 +100,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" WidthRequest="25" Margin="0,0,0,0">
+                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
                                     <!--<Ellipse
                                         Stroke="{Binding strokeColorB}"
                                         Fill="{Binding fillColorB}"
@@ -108,7 +115,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" WidthRequest="25" Margin="0,0,0,0">
+                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
                                     <!--<Ellipse
                                         Stroke="{Binding strokeColorC}"
                                         Fill="{Binding fillColorC}"
@@ -123,7 +130,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" WidthRequest="25"  Margin="0,0,0,0">
+                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
                                     <!--<Ellipse
                                         Stroke="{Binding strokeColorD}"
                                         Fill="{Binding fillColorD}"
@@ -138,7 +145,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" WidthRequest="25" Margin="0,0,0,0">
+                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
                                     <!--<Ellipse
                                         Stroke="{Binding strokeColorE}"
                                         Fill="{Binding fillColorE}"
@@ -154,7 +161,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" WidthRequest="25"  Margin="0,0,0,0">
+                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
                                     <!--<Ellipse
                                         Stroke="{Binding strokeColorF}"
                                         Fill="{Binding fillColorF}"
@@ -170,7 +177,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" WidthRequest="25"  Margin="0,0,0,0">
+                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
                                     <!--<Ellipse
                                         Stroke="{Binding strokeColorG}"
                                         Fill="{Binding fillColorG}"

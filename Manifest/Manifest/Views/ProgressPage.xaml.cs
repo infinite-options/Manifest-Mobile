@@ -92,7 +92,7 @@ namespace Manifest.Views
                 Debug.WriteLine("START: " + startDate);
                 Debug.WriteLine("END: " + endDate);
 
-                dates.Add(new HeaderInfo() { name = "Goals", date = "" });
+                //dates.Add(new HeaderInfo() { name = "Goals", date = "" });
                 for (int i = 0; i < 7; i++)
                 {
                     var temp = startDate.AddDays(i);

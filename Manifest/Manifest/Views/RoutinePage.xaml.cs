@@ -642,7 +642,15 @@ namespace Manifest.Views
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new MainPage();
+            Debug.WriteLine("STACK COUNT: " + Navigation.NavigationStack.Count);
+            if (Navigation.NavigationStack.Count != 1)
+            {
+                 Navigation.PopAsync(false);
+            }
+            else
+            {
+                Application.Current.MainPage = new MainPage();
+            }
         }
 
         // void Button_Clicked(System.Object sender, System.EventArgs e)
