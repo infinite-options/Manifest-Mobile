@@ -192,10 +192,10 @@ namespace Manifest.Views
         private void goToTodaysList(object sender, EventArgs args)
         {
             // one more case
-            Navigation.PopAsync();
+            
             if(Application.Current.MainPage.Navigation.NavigationStack.Count != 1)
             {
-                Navigation.PopAsync();
+                Navigation.PopAsync(false);
             }
             else
             {
