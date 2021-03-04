@@ -85,7 +85,17 @@ namespace Manifest.Views
 
                 if (user.MessageDay != null)
                 {
-                    messageCard.Text = user.MessageDay;
+                    messageDay.Text = user.MessageDay;
+                }
+
+                if (user.MajorEvents != null)
+                {
+                    majorEvents.Text = user.MajorEvents;
+                }
+
+                if (user.MyHistory != null)
+                {
+                    myHistory.Text = user.MyHistory;
                 }
 
                 if (user.PicUrl != null && user.PicUrl != "")
@@ -118,6 +128,8 @@ namespace Manifest.Views
                             PicUrl = dto.user_picture,
                             MessageCard = dto.message_card,
                             MessageDay = dto.message_day,
+                            MajorEvents = dto.user_major_events,
+                            MyHistory = dto.user_history,
                             TimeSettings = ToTimeSettings(dto),
                             user_birth_date = dto.user_birth_date
                         };

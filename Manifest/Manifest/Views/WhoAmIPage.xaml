@@ -66,22 +66,45 @@
                         </StackLayout>
                  </Grid>
                 <StackLayout Padding="45,40,0,0">
-                     <Label Text="My history" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
+                     <!--<Label Text="My history" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>-->
                      <Label Text="Family" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
                      <Label Text="Friends" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
-                     <Label Text="Major events" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
+                     <!--<Label Text="Major events" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>-->
                 </StackLayout>
 
-                <Grid Margin="-5,30,0,0">
+                 <Grid Margin="-5,30,0,0">
                     <StackLayout Grid.Column="0">
                          <Label Text="Message Card" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                         <Label x:Name="messageCard" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <Label Padding="20,0,0,0" x:Name="messageCard" TextColor="Black" FontSize="12" FontAttributes="Bold" ></Label>
                     </StackLayout>
                     <StackLayout Grid.Column="1">
                          <Label Text="Message Day" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                         <Label x:Name="messageDay" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <Label Padding="20,0,0,0" x:Name="messageDay" TextColor="Black" FontSize="12" FontAttributes="Bold" ></Label>
                     </StackLayout>
                 </Grid>
+
+                <Grid Margin="-5,30,0,0">
+                    <StackLayout Grid.Column="0">
+                         <Label Text="Major Events" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <Label Padding="20,0,0,0" x:Name="majorEvents" TextColor="Black" FontSize="12" FontAttributes="Bold"></Label>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1">
+                         <Label Text="My History" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <Label Padding="20,0,0,0" x:Name="myHistory" TextColor="Black" FontSize="12" FontAttributes="Bold" ></Label>
+                    </StackLayout>
+                </Grid>
+
+
+                <!--<Grid Margin="-5,30,0,0">
+                    <StackLayout Grid.Column="0">
+                         <Label Text="Message Card" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <Label Padding="10,0,0,0" x:Name="messageCard" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1">
+                         <Label Text="Message Day" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <Label Padding="10,0,0,0" x:Name="messageDay" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                    </StackLayout>
+                </Grid>-->
             </StackLayout>
             <StackLayout Grid.Row="2">
                

@@ -11,6 +11,8 @@ namespace Manifest.Models
         public string LastName { get; set; }
         public string MessageCard { get; set; }
         public string MessageDay { get; set; }
+        public string MajorEvents { get; set; }
+        public string MyHistory { get; set; }
         public string PicUrl { get; set; }
         public List<Person> ImportantPeople { get; set; }
         public TimeSettings TimeSettings { get; set; }

@@ -96,6 +96,7 @@ namespace Manifest.Views
             taskListAfternoon.ItemsSource = datagridAfternoon;
             taskListEvening.ItemsSource = datagridEvening;
             todaysSchedule.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
+            
             Debug.WriteLine("Entered if initializer");
             try
             {

@@ -5,9 +5,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
-                <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
                 <RowDefinition x:Name="barStackLayoutRow" Height="64"></RowDefinition>
-                <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
                 <!--SPACE FOR HEADER-->
@@ -30,7 +28,7 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <Label Grid.Column="1" Text="Lobby" TextColor="White" VerticalTextAlignment="Center"></Label>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
@@ -341,13 +339,7 @@
             </Grid>
             </ScrollView>
 
-            <!--imported ui-->
-
-            <StackLayout Grid.Row="2">
-                
-            </StackLayout>
-
-            <Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,-15" >
+            <Grid Grid.Row="2" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,-15" >
                 <Frame Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True" >
                     <Grid>
                         <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>

@@ -44,7 +44,7 @@
  
             </Frame>
             <StackLayout Grid.Row="1" VerticalOptions="Center" Margin="20,0,20,0" BackgroundColor="Transparent" >
-                <Grid HeightRequest="90" >
+                <!--<Grid HeightRequest="90" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -174,10 +174,137 @@
                             <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
+                </Grid>-->
+            <StackLayout Padding="20,0,20,0" >
+                <Grid VerticalOptions="CenterAndExpand" HeightRequest="400">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" VerticalOptions="CenterAndExpand" >
+                         <StackLayout ClassId="5" Margin="0,0,0,10">
+                            <RelativeLayout  HorizontalOptions="EndAndExpand">
+                                <Ellipse
+                                    x:Name="mood_five"
+                                    Fill="white"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    Stroke="#67ABFC"
+                                    StrokeThickness="10">
+                                </Ellipse>
+                                <Image Margin="2.5,2.5,0,0" Source="mood_five.png" HeightRequest="85" WidthRequest="85"></Image>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout Grid.Column="0" ClassId="3">
+                            <RelativeLayout HorizontalOptions="EndAndExpand">
+                                <Ellipse
+                                    x:Name="mood_three"
+                                    Fill="white"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    Stroke="#67ABFC"
+                                    StrokeThickness="10">
+                                </Ellipse>
+                                <Image Margin="2.5,2.5,0,0" Source="mood_three.png" HeightRequest="85" WidthRequest="85"></Image>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" WidthRequest="150" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                        <StackLayout ClassId="6" Margin="0,0,0,15">
+                            <RelativeLayout  HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
+                                <Ellipse
+                                    x:Name="mood_six"
+                                    Fill="white"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    Stroke="#67ABFC"
+                                    StrokeThickness="10">
+                                </Ellipse>
+                                <Image Margin="2.5,2.5,0,0" Source="mood_six.png" HeightRequest="85" WidthRequest="85"></Image>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout ClassId="4">
+                            <RelativeLayout  HorizontalOptions="CenterAndExpand">
+                                <Ellipse
+                                    x:Name="mood_four"
+                                    Fill="white"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    Stroke="#67ABFC"
+                                    StrokeThickness="10">
+                                </Ellipse>
+                                <Image Margin="2.5,2.5,0,0" Source="mood_four.png" HeightRequest="85" WidthRequest="85"></Image>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout ClassId="2" Margin="0,15,0,0">
+                            <RelativeLayout  HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
+                                <Ellipse
+                                    x:Name="mood_two"
+                                    Fill="white"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    Stroke="#67ABFC"
+                                    StrokeThickness="10">
+                                </Ellipse>
+                                <Image Margin="2.5,2.5,0,0" Source="mood_two.png" HeightRequest="85" WidthRequest="85"></Image>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" VerticalOptions="CenterAndExpand" >
+                         <StackLayout ClassId="7" Margin="0,0,0,10">
+                            <RelativeLayout>
+                                <Ellipse
+                                    x:Name="mood_seven"
+                                    Fill="white"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    Stroke="#67ABFC"
+                                    StrokeThickness="10">
+                                </Ellipse>
+                                <Image Margin="2.5,2.5,0,0" Source="mood_seven.png" HeightRequest="85" WidthRequest="85"></Image>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                          <StackLayout ClassId="1">
+                            <RelativeLayout >
+                                <Ellipse
+                                    x:Name="mood_one"
+                                    Fill="white"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    Stroke="#67ABFC"
+                                    StrokeThickness="10">
+                                </Ellipse>
+                                <Image Margin="2.5,2.5,0,0" Source="mood_one.png" HeightRequest="85" WidthRequest="85"></Image>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </StackLayout>
                 </Grid>
             </StackLayout>
+            </StackLayout>
             <StackLayout Grid.Row="2">
-                
+           
             </StackLayout>
             <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
                 <Frame CornerRadius="15" Padding="0, 10, 0, 18" BackgroundColor="Transparent">

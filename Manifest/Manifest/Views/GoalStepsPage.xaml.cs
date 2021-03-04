@@ -30,7 +30,6 @@ namespace Manifest.Views
         {
             PropertyChanged(this, new PropertyChangedEventArgs("opacity"));
         }
-        //public I
     }
 
     public partial class GoalStepsPage : ContentPage
@@ -301,6 +300,11 @@ namespace Manifest.Views
             //   // Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
             //}
             //Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
+        }
+
+        void boredButon_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new MainPage();
         }
 
         void RegistedStep(int i, bool status, double newOpacity)

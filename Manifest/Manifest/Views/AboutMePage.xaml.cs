@@ -46,6 +46,8 @@ namespace Manifest.Views
             public string day_start { get; set; }
             public string time_zone { get; set; }
             public string user_birth_date { get; set; }
+            public string user_history { get; set; }
+            public string user_major_events { get; set; }
 
             // Important People or TA details below
             public string ta_people_id { get; set; }

@@ -26,7 +26,7 @@
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Text="" TextColor="White"></Label>
                         <Label Grid.Column="1" Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
-                        <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent" Clicked="ImageButton_Clicked"></ImageButton>
+                        <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent" Clicked="ImageButton_Clicked" IsVisible="false" IsEnabled="False"></ImageButton>
                     </Grid>
                     <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
                     <Grid Grid.Row="2" Padding="0,5,0,0">

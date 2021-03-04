@@ -106,11 +106,18 @@ namespace Manifest.Views
 
         public async Task SetAboutMeHappyOptionsAsync(string category, string userId)
         {
-            options = await GetOptions(category, userId);
+            //options = await GetOptions(category, userId);
             try
             {
                 options = await GetOptions(category, userId);
-                setGoals();
+                if(options.Count != 0 && options != null)
+                {
+                    setGoals();
+                }
+                else
+                {
+                    Application.Current.MainPage = new MainPage();
+                }
             }
             catch (Exception e)
             {
