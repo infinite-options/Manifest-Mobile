@@ -284,8 +284,8 @@ namespace Manifest.Views
             if (currOccurance== null)
             {
                 currOccurance = new Occurance();
-                currentActivity = "Free time";
-                currOccurance.Title = "Go have fun!";
+                currentActivity = "Free Time:";
+                currOccurance.Title = "Pursue a Goal";
             }
             else if (currOccurance.IsEvent == true)
             {
@@ -563,7 +563,9 @@ namespace Manifest.Views
             }
             else
             {
-                DisplayAlert("Message", "Nothing scheduled right now. Just relax and have fun!", "OK");
+                DateTime start = DateTime.Today + new TimeSpan(0, 0, 0);
+                DateTime end = DateTime.Today + new TimeSpan(23, 59, 59);
+                Application.Current.MainPage = new NavigationPage(new GoalsPage(start.ToString("t"), end.ToString("t")));
             }
         }
 
