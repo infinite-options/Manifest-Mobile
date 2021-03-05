@@ -206,6 +206,7 @@ namespace Manifest.RDS
                     Debug.WriteLine("No tasks today");
                     //DisplayAlert("No tasks today", "OK", "Cancel");
                 }
+                Debug.WriteLine("Getting goals and routines");
                 foreach (OccuranceDto dto in occuranceResponse.result)
                 {
                     Occurance toAdd = new Occurance();
@@ -239,7 +240,8 @@ namespace Manifest.RDS
                         toAdd.IsEvent = false;
                         toAdd.NumSubOccurances = 0;
                         toAdd.SubOccurancesCompleted = 0;
-                        toAdd.subOccurances = GetSubOccurances(dto.actions_tasks, toAdd);
+                        toAdd.subOccurances = GetSubOccurances(dto.actions_tasks, ref toAdd);
+                        Debug.WriteLine("Title: " + toAdd.Title + ", Subtasks: " + toAdd.NumSubOccurances.ToString());
                         todaysRoutines.Add(toAdd);
                     }
                 }
@@ -253,7 +255,7 @@ namespace Manifest.RDS
             return null;
         }
 
-        public static List<SubOccurance> GetSubOccurances(List<SubOccuranceDto> actions_tasks, Occurance parent)
+        public static List<SubOccurance> GetSubOccurances(List<SubOccuranceDto> actions_tasks, ref Occurance parent)
         {
             List<SubOccurance> subTasks = new List<SubOccurance>();
             if (actions_tasks == null || actions_tasks.Count == 0)
@@ -262,7 +264,7 @@ namespace Manifest.RDS
             }
             foreach (SubOccuranceDto dto in actions_tasks)
             {
-                parent.NumSubOccurances++;
+                parent.NumSubOccurances = parent.NumSubOccurances + 1;
                 //numTasks++;
                 SubOccurance toAdd = new SubOccurance();
                 toAdd.Id = dto.at_unique_id;
@@ -289,7 +291,7 @@ namespace Manifest.RDS
                 subTasks.Add(toAdd);
                 Debug.WriteLine(toAdd.Id);
             }
-
+            Debug.WriteLine("Subtasks in GetSubOccurances = " + parent.NumSubOccurances.ToString());
             return subTasks;
         }
 

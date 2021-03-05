@@ -60,6 +60,11 @@ namespace Manifest.Models
                 GoalBackground = Color.FromHex("#FFE07E");
                 PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
             }
+            else if(!IsComplete && !IsInProgress)
+            {
+                GoalBackground = Color.Transparent;
+                PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
+            }
         }
 
         public void updateIsComplete(bool updatedVal)
@@ -69,6 +74,11 @@ namespace Manifest.Models
             if (updatedVal)
             {
                 GoalBackground = Color.FromHex("#D3E6D3");
+                PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
+            }
+            else if (!IsComplete && !IsInProgress)
+            {
+                GoalBackground = Color.Transparent;
                 PropertyChanged(this, new PropertyChangedEventArgs("GoalBackground"));
             }
         }

@@ -19,6 +19,7 @@
     <PackageReference Include="Forms9Patch" Version="2.4.9" />
     <PackageReference Include="Xamarin.Forms.RangeSlider" Version="1.0.2" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.3" />
+    <PackageReference Include="particle.forms" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config\" />

@@ -278,13 +278,16 @@ namespace Manifest.Views
             //Debug.WriteLine(response);
             //OccuranceResponse occuranceResponse = JsonConvert.DeserializeObject<OccuranceResponse>(response);
             ////Debug.WriteLine(occuranceResponse);
-            await CallGetEvents();
+            if ((bool)Application.Current.Properties["showCalendar"])
+            {
+                await CallGetEvents();
+            }
             DateTime dateTime = DateTime.Now;
             currOccurance = SortAndGetActivity(todaysOccurances, todaysEvents, dateTime.TimeOfDay);
             if (currOccurance== null)
             {
                 currOccurance = new Occurance();
-                currentActivity = "Free Time:";
+                currentActivity = "Free Time";
                 currOccurance.Title = "Pursue a Goal";
             }
             else if (currOccurance.IsEvent == true)
@@ -453,54 +456,33 @@ namespace Manifest.Views
 
         private Occurance SortAndGetActivity(List<Occurance> occurances, List<Occurance> events, TimeSpan currDateTime)
         {
-            Occurance curr = new Occurance();
+            Occurance curr = null;
 
             int i = 0;
             int j = 0;
             List<Occurance> merged = occurances.Concat(events).ToList();
             Occurance.SortOccurances(merged);
-            //Debug.WriteLine("Num occurances = " + todaysOccurances.Count);
-            //Debug.WriteLine("Num Event = " + todaysEvents.Count);
-            //while (i < occurances.Count || j < events.Count)
-            //{
-            //    //xDebug.WriteLine(i.ToString() + j.ToString());
-            //    if (i >= occurances.Count && j < events.Count)
-            //    {
-            //        merged.Add(events[j]);
-            //        Debug.WriteLine(events[j].Title + " start time: " + events[j].StartDayAndTime);
-            //        j++;
-            //        continue;
-            //    }
-            //    else if (i < occurances.Count && j >= events.Count)
-            //    {
-            //        merged.Add(occurances[i]);
-            //        Debug.WriteLine(occurances[i].Title + " start time: " + occurances[i].StartDayAndTime);
-            //        i++;
-            //        continue;
-            //    }
-            //    else if (occurances[i].StartDayAndTime.TimeOfDay < events[j].StartDayAndTime.TimeOfDay)
-            //    {
-            //        merged.Add(occurances[i]);
-            //        Debug.WriteLine(occurances[i].Title + " start time: " + occurances[i].StartDayAndTime);
-            //        i++;
-            //    }
-            //    else
-            //    {
-            //        merged.Add(events[j]);
-            //        Debug.WriteLine(events[j].Title + " start time: " + events[j].StartDayAndTime);
-            //        j++;
-            //    }
-            //}
             todaysOccurances = merged;
             foreach (Occurance activity in merged)
             {
                 if (activity.StartDayAndTime.TimeOfDay <= currDateTime && activity.EndDayAndTime.TimeOfDay >= currDateTime)
                 {
-                    curr = activity;
-                    return curr;
+                    if (curr == null)
+                    {
+                        curr = activity;
+                    }
+                    else
+                    {
+                        //Changes the activity if we see a more recent one
+                        if (activity.StartDayAndTime.TimeOfDay.Hours > curr.StartDayAndTime.TimeOfDay.Hours || (activity.StartDayAndTime.TimeOfDay.Hours == curr.StartDayAndTime.TimeOfDay.Hours && activity.StartDayAndTime.TimeOfDay.Minutes > curr.StartDayAndTime.TimeOfDay.Minutes))
+                        {
+                            curr = activity;
+                        }
+                    }
+                    Debug.WriteLine("Title: " + curr.Title + ", StartTime: " + curr.StartDayAndTime.ToString());
                 }
             } 
-            return null;
+            return curr;
         }
         void Button_Clicked(System.Object sender, System.EventArgs e)
         {

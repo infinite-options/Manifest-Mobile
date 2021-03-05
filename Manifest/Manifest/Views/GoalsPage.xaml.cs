@@ -502,41 +502,6 @@ namespace Manifest.Views
         }
 
 
-        //This function converts a string to a bool
-        private bool ToBool(string boolString)
-        {
-            if (String.IsNullOrEmpty(boolString))
-            {
-                return false;
-            }
-            try
-            {
-                return Boolean.Parse(boolString);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error in ToBool function in TodaysList class");
-                return false;
-            }
-        }
-
-        //This function converts a string to a TimeSpan
-        private TimeSpan ToTimeSpan(string timeString)
-        {
-            if (String.IsNullOrEmpty(timeString))
-            {
-                return new TimeSpan();
-            }
-            try
-            {
-                return TimeSpan.Parse(timeString);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error in ToTimeSpan function in TodaysList class");
-            }
-            return new TimeSpan();
-        }
 
         //This function convert a string to a DateTime
         private DateTime ToDateTime(string dateString)
@@ -980,15 +945,26 @@ namespace Manifest.Views
                 //if a goal has only one subtask, navigate directly to steps page
                 if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
                 {
-                    bool complete = await DisplayAlert("Note", "This Goal has no subtasks. Click OK if you want to proceed and finish the goal", "Cancel", "OK");
-                    if (!complete)
+                    string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                    if (!chosenOccurance.IsComplete)
                     {
-                        string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                        bool complete = await DisplayAlert("Note", "This Goal has no subtasks. Click OK if you want to proceed and finish the goal", "Cancel", "OK");
                         if (chosenOccurance.IsInProgress == true)
                         {
                             await RdsConnect.updateOccurance(chosenOccurance, false, true, url2);
                         }
-                        else await RdsConnect.updateOccurance(chosenOccurance, true, false, url2);
+                        else if (chosenOccurance.IsInProgress == false && chosenOccurance.IsComplete == false)
+                        {
+                            await RdsConnect.updateOccurance(chosenOccurance, true, false, url2);
+                        }
+                    }
+                    else
+                    {
+                        bool reset = await DisplayAlert("Note", "This Goal has no subtasks, and it has already been completed. Click OK if you want to reset it ", "Cancel", "OK");
+                        if (!reset)
+                        {
+                            await RdsConnect.updateOccurance(chosenOccurance, false, false, url2);
+                        }
                     }
                 }
                 else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.subOccurances.Count == 1 && chosenOccurance.IsComplete == false)

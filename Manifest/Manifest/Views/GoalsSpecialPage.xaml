@@ -1,5 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch" x:Class="Manifest.Views.GoalsSpecialPage">
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch"
+    xmlns:particle="clr-namespace:Particle.Forms;assembly=Particle.Forms"
+    x:Class="Manifest.Views.GoalsSpecialPage">
+    <ContentPage.Resources>
+        <x:Array Type="{x:Type Color}" x:Key="ConfettiColors">
+            <Color>#a864fd</Color>
+            <Color>#29cdff</Color>
+            <Color>#78ff44</Color>
+            <Color>#ff718d</Color>
+            <Color>#fdff6a</Color>
+            <Color>#ffcbf2</Color>
+        </x:Array>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid x:Name="mainGridLayout" Padding="0">
             <Grid.RowDefinitions>
@@ -56,6 +71,7 @@
 
 
             <!--imported ui-->
+            <particle:ParticleView x:Name="showParticles" Grid.Row="1" IsActive="True" HasFallingParticles="True" FallingParticlesPerSecond="30" ParticleColors="{StaticResource ConfettiColors}"></particle:ParticleView>
             <Grid Grid.Row="1" Margin="15,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
