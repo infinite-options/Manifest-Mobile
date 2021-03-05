@@ -385,7 +385,7 @@ namespace Manifest.Views
 
         void progressClicked(System.Object sender, System.EventArgs e)
         {
-            Navigation.PushAsync(new ProgressPage());
+            Navigation.PushAsync(new ProgressPage(),false);
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)

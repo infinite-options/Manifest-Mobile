@@ -53,19 +53,19 @@
                     </Grid>
  
             </Frame>
-            <StackLayout Grid.Row="1" VerticalOptions="Center">
+            <StackLayout Grid.Row="1" >
                 <!--<Button Text="MOVE TO HOME PAGE" Clicked="Button_Clicked"></Button>-->
-                <Grid HeightRequest="60" BackgroundColor="Pink" Grid.Column="0">
+                <Grid HeightRequest="60"  Grid.Column="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label WidthRequest="150" Text="Goals" FontSize="12" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black" BackgroundColor="LightGreen"></Label>
+                    <Label WidthRequest="150" Grid.Column="0" Text="Goals" FontSize="12" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></Label>
                     <CollectionView x:Name="DatesList" Grid.Column="1" ItemsLayout="HorizontalList" >
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout WidthRequest="35"  HorizontalOptions="CenterAndExpand">
-                                    <Label Margin="0,15,0,0" Text="{Binding name}" HorizontalTextAlignment="Center" ></Label>
+                                <StackLayout WidthRequest="28" Spacing="0">
+                                    <Label Margin="0,15,0,0" Text="{Binding name}" WidthRequest="28" HorizontalTextAlignment="Center" ></Label>
                                     <!--<Label Text="{Binding date}" HorizontalTextAlignment="Center"></Label>-->
                                 </StackLayout>
                             </DataTemplate>
@@ -74,25 +74,18 @@
                 </Grid>
                 
               
-                <StackLayout Margin="10,0,10,0">
+                <StackLayout Margin="10,-20,10,0">
                     <BoxView HeightRequest="1" Color="Gray" ></BoxView>
                 </StackLayout>
                 
-                 <CollectionView x:Name="GoalsStatusList" Margin="10,10,10,0" HorizontalOptions="CenterAndExpand">
+                 <CollectionView x:Name="GoalsStatusList" Margin="0,10,0,0" HeightRequest="200" >
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Margin="0,10,10,0" Orientation="Horizontal">
-                                <StackLayout WidthRequest="150">
-                                    <Label Text="{Binding name}" HeightRequest="30" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></Label>
+                            <StackLayout Margin="0,0,10,0" Orientation="Horizontal" Spacing="0">
+                                <StackLayout WidthRequest="200">
+                                    <Label Text="{Binding name}" Padding="10,0,0,0" HeightRequest="30" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></Label>
                                 </StackLayout>
-                                <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
-                                    <!--<Ellipse
-                                        Stroke="{Binding strokeColorA}"
-                                        Fill="{Binding fillColorA}"
-                                        StrokeThickness="2"
-                                        HeightRequest="20"
-                                        WidthRequest="20">
-                                    </Ellipse>-->
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorA}"
                                         IsChecked="{Binding fillA}"
@@ -100,14 +93,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
-                                    <!--<Ellipse
-                                        Stroke="{Binding strokeColorB}"
-                                        Fill="{Binding fillColorB}"
-                                        StrokeThickness="2"
-                                        HeightRequest="20"
-                                        WidthRequest="20">
-                                    </Ellipse>-->
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorB}"
                                         IsChecked="{Binding fillB}"
@@ -115,14 +101,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
-                                    <!--<Ellipse
-                                        Stroke="{Binding strokeColorC}"
-                                        Fill="{Binding fillColorC}"
-                                        StrokeThickness="2"
-                                        HeightRequest="20"
-                                        WidthRequest="20">
-                                    </Ellipse>-->
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorC}"
                                         IsChecked="{Binding fillC}"
@@ -130,14 +109,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
-                                    <!--<Ellipse
-                                        Stroke="{Binding strokeColorD}"
-                                        Fill="{Binding fillColorD}"
-                                        StrokeThickness="2"
-                                        HeightRequest="20"
-                                        WidthRequest="20">
-                                    </Ellipse>-->
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorD}"
                                         IsChecked="{Binding fillD}"
@@ -145,15 +117,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
-                                    <!--<Ellipse
-                                        Stroke="{Binding strokeColorE}"
-                                        Fill="{Binding fillColorE}"
-                                        StrokeThickness="2"
-                                        HeightRequest="20"
-                                        WidthRequest="20">
-                                    </Ellipse>-->
-
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand" >
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorE}"
                                         IsChecked="{Binding fillE}"
@@ -161,15 +125,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
-                                    <!--<Ellipse
-                                        Stroke="{Binding strokeColorF}"
-                                        Fill="{Binding fillColorF}"
-                                        StrokeThickness="2"
-                                        HeightRequest="20"
-                                        WidthRequest="20">
-                                    </Ellipse>-->
-
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorF}"
                                         IsChecked="{Binding fillF}"
@@ -177,14 +133,7 @@
                                     </CheckBox>
                                 </StackLayout>
 
-                                    <StackLayout HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
-                                    <!--<Ellipse
-                                        Stroke="{Binding strokeColorG}"
-                                        Fill="{Binding fillColorG}"
-                                        StrokeThickness="2"
-                                        HeightRequest="20"
-                                        WidthRequest="20">
-                                    </Ellipse>-->
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorG}"
                                         IsChecked="{Binding fillG}"
@@ -195,7 +144,88 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Grid Margin="5,-35,0,0">
+
+                 <Grid HeightRequest="60"  Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label WidthRequest="150" Grid.Column="0" Text="Routines" FontSize="12" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></Label>
+                    <Label Grid.Column="1"></Label>
+                </Grid>
+                
+                <StackLayout Margin="10,-20,10,0">
+                    <BoxView HeightRequest="1" Color="Gray" ></BoxView>
+                </StackLayout>
+                
+                 <CollectionView x:Name="RoutinesStatusList" Margin="0,10,0,0" HeightRequest="200" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Margin="0,0,10,0" Orientation="Horizontal" Spacing="0">
+                                <StackLayout WidthRequest="10">
+                                    <Label Text="{Binding name}" Padding="10,0,0,0" HeightRequest="15" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></Label>
+                                </StackLayout>
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
+                                    <CheckBox HeightRequest="20" WidthRequest="20"
+                                        Color="{Binding strokeColorA}"
+                                        IsChecked="{Binding fillA}"
+                                        IsEnabled="False">
+                                    </CheckBox>
+                                </StackLayout>
+
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
+                                    <CheckBox HeightRequest="20" WidthRequest="20"
+                                        Color="{Binding strokeColorB}"
+                                        IsChecked="{Binding fillB}"
+                                        IsEnabled="False">
+                                    </CheckBox>
+                                </StackLayout>
+
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
+                                    <CheckBox HeightRequest="20" WidthRequest="20"
+                                        Color="{Binding strokeColorC}"
+                                        IsChecked="{Binding fillC}"
+                                        IsEnabled="False">
+                                    </CheckBox>
+                                </StackLayout>
+
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
+                                    <CheckBox HeightRequest="20" WidthRequest="20"
+                                        Color="{Binding strokeColorD}"
+                                        IsChecked="{Binding fillD}"
+                                        IsEnabled="False">
+                                    </CheckBox>
+                                </StackLayout>
+
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand" >
+                                    <CheckBox HeightRequest="20" WidthRequest="20"
+                                        Color="{Binding strokeColorE}"
+                                        IsChecked="{Binding fillE}"
+                                        IsEnabled="False">
+                                    </CheckBox>
+                                </StackLayout>
+
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
+                                    <CheckBox HeightRequest="20" WidthRequest="20"
+                                        Color="{Binding strokeColorF}"
+                                        IsChecked="{Binding fillF}"
+                                        IsEnabled="False">
+                                    </CheckBox>
+                                </StackLayout>
+
+                                <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
+                                    <CheckBox HeightRequest="20" WidthRequest="20"
+                                        Color="{Binding strokeColorG}"
+                                        IsChecked="{Binding fillG}"
+                                        IsEnabled="False">
+                                    </CheckBox>
+                                </StackLayout>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Grid Margin="5,0,0,0">
                     <StackLayout Grid.Column="0" HorizontalOptions="CenterAndExpand">
                         <CheckBox x:Name="goalNotStarted" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand"
                             IsEnabled="False">

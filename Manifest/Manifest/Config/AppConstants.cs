@@ -43,6 +43,8 @@ namespace Manifest.Config
         public const string login = "/api/v2/login";
         public const string history = "/api/v2/progress/";
         public const string progress = "/api/v2/goalRoutineHistory/";
+        public const string goalsHistory = "/api/v2/goalHistory/";
+        public const string routineHistory = "/api/v2/routineHistory/";
 
         // --- /api/v2/getVersionNumber
         // --- /api/v2/updateVersionNumber
