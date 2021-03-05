@@ -94,7 +94,7 @@
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Frame CornerRadius="25" Padding="{Binding borderWidth}" HasShadow="False" BackgroundColor="Black">
+                                <Frame CornerRadius="25" Margin="0,0,5,0" Padding="{Binding borderWidth}" HasShadow="False" BackgroundColor="Black">
                                     <Frame CornerRadius="20" Padding="15" HasShadow="False" BackgroundColor="{Binding StatusColor}">
                                         <Grid BackgroundColor="{Binding StatusColor}">
                                              <Grid.RowDefinitions>
@@ -156,7 +156,7 @@
                 </CollectionView>
             </StackLayout>
 
-            <StackLayout x:Name="stack2" Grid.Row="2"  Margin="20, 15, 20, 0">
+                <StackLayout x:Name="stack2" Grid.Row="2"  Margin="20, 15, 20, 0">
 
             <Grid ColumnSpacing="5" Margin="0, 0, 0, 0">
                         <Grid.ColumnDefinitions>
@@ -184,8 +184,8 @@
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Frame CornerRadius="25" Padding="{Binding borderWidth}" HasShadow="False" BackgroundColor="Black">
-                                    <Frame CornerRadius="20" Padding="15" HasShadow="False" BackgroundColor="{Binding StatusColor}">
+                                <Frame CornerRadius="25" Margin="0,0,5,0" Padding="{Binding borderWidth}" HasShadow="False" BackgroundColor="Black">
+                                    <Frame CornerRadius="20"  Padding="15" HasShadow="False" BackgroundColor="{Binding StatusColor}">
                                         <Grid BackgroundColor="{Binding StatusColor}">
                                                  <Grid.RowDefinitions>
                                                       <RowDefinition Height="15"></RowDefinition>
@@ -274,8 +274,8 @@
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Frame CornerRadius="25" Padding="{Binding borderWidth}" HasShadow="False" BackgroundColor="Black">
-                                    <Frame CornerRadius="20" Padding="15" HasShadow="False" BackgroundColor="{Binding StatusColor}">
+                                <Frame CornerRadius="25" Margin="0,0,5,0" Padding="{Binding borderWidth}" HasShadow="False" BackgroundColor="Black">
+                                    <Frame CornerRadius="20" Margin="0,0,0,0" Padding="15" HasShadow="False" BackgroundColor="{Binding StatusColor}">
                                         <Grid BackgroundColor="{Binding StatusColor}">
                                              <Grid.RowDefinitions>
                                                   <RowDefinition Height="15"></RowDefinition>
@@ -339,7 +339,7 @@
             </Grid>
             </ScrollView>
 
-            <Grid Grid.Row="2" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,0" BackgroundColor="Blue" >
+            <Grid Grid.Row="2" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,0">
                 <StackLayout Grid.Column="0" Margin="0,-14,0,0">
                     <RelativeLayout >
                         

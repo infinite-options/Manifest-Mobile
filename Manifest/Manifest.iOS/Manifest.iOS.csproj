@@ -172,7 +172,6 @@
     <BundleResource Include="Resources\greencheckmark.png" />
     <BundleResource Include="Resources\goalsIcon.png" />
     <BundleResource Include="Resources\routinesIcon.png" />
-    <BundleResource Include="Resources\downArrow.png" />
     <BundleResource Include="Resources\pulseIcon.png" />
     <BundleResource Include="Resources\slider-default7-handle-disabled.png" />
     <BundleResource Include="Resources\slider-default7-handle-disabled%402x.png" />
@@ -184,6 +183,7 @@
     <BundleResource Include="Resources\slider-default7-trackBackground%402x.png" />
     <BundleResource Include="Resources\slider-default7-trackCrossedOver.png" />
     <BundleResource Include="Resources\slider-default7-trackCrossedOver%402x.png" />
+    <BundleResource Include="Resources\downArrow.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppleSignIn\" />
