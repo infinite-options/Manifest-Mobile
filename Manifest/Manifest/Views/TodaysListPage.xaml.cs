@@ -209,8 +209,9 @@ namespace Manifest.Views
                             commonOccur.Add(dto);
                             hasItems = true;
                         }
-                        else if (commonOccur.Count != 0 && commonOccur[0].StartDayAndTime.TimeOfDay <= dto.StartDayAndTime.TimeOfDay
-                            && commonOccur[0].EndDayAndTime.TimeOfDay >= dto.EndDayAndTime.TimeOfDay)
+                        //else if (commonOccur.Count != 0 && commonOccur[0].StartDayAndTime.TimeOfDay <= dto.StartDayAndTime.TimeOfDay
+                        //    && commonOccur[0].EndDayAndTime.TimeOfDay >= dto.EndDayAndTime.TimeOfDay)
+                        else if (commonOccur.Count != 0 && commonOccur[0].StartDayAndTime.TimeOfDay.Hours == dto.StartDayAndTime.TimeOfDay.Hours && commonOccur[0].StartDayAndTime.TimeOfDay.Minutes == dto.StartDayAndTime.TimeOfDay.Minutes)
                         {
                             Debug.WriteLine("second if entered");
                             commonOccur.Add(dto);
@@ -218,23 +219,24 @@ namespace Manifest.Views
                         else if (commonOccur.Count > 1 && (commonOccur[0].StartDayAndTime.TimeOfDay < dto.StartDayAndTime.TimeOfDay
                             || commonOccur[0].EndDayAndTime.TimeOfDay < dto.EndDayAndTime.TimeOfDay))
                         {
-                            Debug.WriteLine("third if entered");
-                            Debug.WriteLine("starttimes: " + commonOccur[0].StartDayAndTime.TimeOfDay + " " + dto.StartDayAndTime.TimeOfDay);
-                            Debug.WriteLine("endtimes: " + commonOccur[0].EndDayAndTime.TimeOfDay + " " + dto.EndDayAndTime.TimeOfDay);
-                            Occurance toAddPursue = new Occurance();
-                            toAddPursue.Title = "Pursue A Goal";
-                            toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
-                            toAddPursue.EndDayAndTime = commonOccur[0].EndDayAndTime;
-                            toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
-                            toAddPursue.IsEvent = false;
+                            //Debug.WriteLine("third if entered");
+                            //Debug.WriteLine("starttimes: " + commonOccur[0].StartDayAndTime.TimeOfDay + " " + dto.StartDayAndTime.TimeOfDay);
+                            //Debug.WriteLine("endtimes: " + commonOccur[0].EndDayAndTime.TimeOfDay + " " + dto.EndDayAndTime.TimeOfDay);
+                            //Occurance toAddPursue = new Occurance();
+                            //toAddPursue.Title = "Pursue A Goal";
+                            //toAddPursue.StartDayAndTime = commonOccur[0].StartDayAndTime;
+                            //toAddPursue.EndDayAndTime = commonOccur[0].EndDayAndTime;
+                            //toAddPursue.TimeInterval = commonOccur[0].TimeInterval;
+                            //toAddPursue.IsEvent = false;
 
-                            toAddPursue.StatusColor = Color.FromHex("#FFBD27");
+                            //toAddPursue.StatusColor = Color.FromHex("#FFBD27");
 
                             List<Occurance> holder = new List<Occurance>(commonOccur);
-                            Debug.WriteLine("holder count before: " + holder.Count);
-                            toAddPursue.commonTimeOccurs = holder;
-                            displayedOccurances.Add(toAddPursue);
-                            commonOccur.Clear();
+                            //Debug.WriteLine("holder count before: " + holder.Count);
+                            //toAddPursue.commonTimeOccurs = holder;
+                            //displayedOccurances.Add(toAddPursue);
+                            //commonOccur.Clear();
+                            addCommonOccur(commonOccur);
                             commonOccur.Add(dto);
                             Debug.WriteLine("holder count after: " + holder.Count);
                         }
@@ -317,6 +319,9 @@ namespace Manifest.Views
                 toAddPursue.IsEvent = false;
 
                 toAddPursue.StatusColor = Color.FromHex((string)Application.Current.Properties["goal"]);
+                //Set text color
+                if (toAddPursue.StatusColor.Luminosity > 0.8) toAddPursue.textColor = Color.Black;
+                else toAddPursue.textColor = Color.White;
 
                 List<Occurance> holder = new List<Occurance>(commonOccur);
                 Debug.WriteLine("holder count before: " + holder.Count);
@@ -402,10 +407,11 @@ namespace Manifest.Views
                         {
                             scrollViewY += 115;
                         }
-                        else if (!scrollViewSet)
+                        else if (!scrollViewSet && todaysTasks[i].StartDayAndTime.Hour >= DateTime.Now.Hour)
                         {
                             scrollViewSet = true;
                             todaysTasks[i].updateBorderWidth(5);
+                            Debug.WriteLine("Center task = " + todaysTasks[i].Title);
                         }
                         occuranceHappeningNow(todaysTasks[i]);
                         morningTaskCount++;
@@ -432,10 +438,11 @@ namespace Manifest.Views
                         {
                             scrollViewY += 115;
                         }
-                        else if (!scrollViewSet)
+                        else if (!scrollViewSet && todaysTasks[i].StartDayAndTime.Hour >= DateTime.Now.Hour)
                         {
                             scrollViewSet = true;
                             todaysTasks[i].updateBorderWidth(5);
+                            Debug.WriteLine("Center task = " + todaysTasks[i].Title);
                         }
                         occuranceHappeningNow(todaysTasks[i]);
                         afternoonTaskCount++;
@@ -460,10 +467,11 @@ namespace Manifest.Views
                     {
                         scrollViewY += 115;
                     }
-                    else if (!scrollViewSet)
+                    else if (!scrollViewSet && todaysTasks[i].StartDayAndTime.Hour >= DateTime.Now.Hour)
                     {
                         scrollViewSet = true;
                         todaysTasks[i].updateBorderWidth(5);
+                        Debug.WriteLine("Center task = " + todaysTasks[i].Title);
                     }
                     occuranceHappeningNow(todaysTasks[i]);
                     eveningTaskCount++;
@@ -686,7 +694,10 @@ namespace Manifest.Views
                 {
                     if (currOccurance.Title == "Pursue A Goal")
                         await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
-                    else await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
+                    else
+                    {
+                        await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
+                    }
                     //old code
                     //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
                 }

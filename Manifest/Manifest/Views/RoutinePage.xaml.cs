@@ -78,7 +78,7 @@ namespace Manifest.Views
             }
             catch (Exception e)
             {
-                await DisplayAlert("Alert", "Error in TodaysListTest initialiseTodaysOccurances. Error: " + e.ToString(), "OK");
+                await DisplayAlert("Alert", "Error in Routines initialiseTodaysOccurances. Error: " + e.ToString(), "OK");
             }
         }
 

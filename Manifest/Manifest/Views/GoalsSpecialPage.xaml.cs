@@ -46,6 +46,8 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
+            bindParticles(passedOccurance);
+
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
 
@@ -193,6 +195,14 @@ namespace Manifest.Views
                 IsComplete3.SetBinding(Image.IsVisibleProperty, completeVisible3);
             }
             else Navigation.PopAsync();
+        }
+
+        private void bindParticles(Occurance occurance)
+        {
+            Binding particlesActive = new Binding("IsComplete");
+            particlesActive.Source = occurance;
+            showParticles.BindingContext = occurance;
+            showParticles.SetBinding(Particle.Forms.ParticleView.IsActiveProperty, particlesActive);
         }
 
         void checkPlatform()
