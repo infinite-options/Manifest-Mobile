@@ -69,7 +69,8 @@ namespace Manifest.Views
             // App keys
             Application.Current.Properties["location"] = "";
             Application.Current.Properties["userId"] = "";
-            Application.Current.Properties["timeStamp"] = "";
+            var today = DateTime.Now;
+            Application.Current.Properties["timeStamp"] = today;
             Application.Current.Properties["accessToken"] = "";
             Application.Current.Properties["refreshToken"] = "";
             Application.Current.Properties["platform"] = "";
@@ -126,10 +127,10 @@ namespace Manifest.Views
                 }
               
             }
-            catch (FeatureNotSupportedException fnsEx)
+            catch (Exception c)
             {
                 // Handle not supported on device exception
-            
+                Debug.WriteLine("LOCATION MESSAGE CA:" +  c.Message);
             }
 
         }

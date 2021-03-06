@@ -763,5 +763,10 @@ namespace Manifest.Views
         {
             Navigation.PushAsync(new SettingsPage(), false);
         }
+
+        void ClickGestureRecognizer_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Debug.WriteLine("YOU HAVE TOUCH THE IMAGE");
+        }
     }
 }

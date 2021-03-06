@@ -164,7 +164,7 @@ namespace Manifest.Views
                 coolLabel.TextColor = Color.FromHex("#0C1E21");
                 cottonLabel.TextColor = Color.FromHex("#0C1E21");
                 classicLabel.TextColor = Color.FromHex("#0C1E21");
-                SaveColorScheme(selectedFrame.ClassId, "#F4F9E9", "#153243", "#B4B8AB", "#EEF0EB", "#284B63", "#F5948D");
+                SaveColorScheme(selectedFrame.ClassId, "#F4F9E9", "#153243", "#EEF0EB", "#B4B8AB", "#284B63", "#F5948D");
             }
             else if (selectedFrame.ClassId == "vibrant")
             {
@@ -178,7 +178,7 @@ namespace Manifest.Views
                 coolLabel.TextColor = Color.FromHex("#0C1E21");
                 cottonLabel.TextColor = Color.FromHex("#0C1E21");
                 classicLabel.TextColor = Color.FromHex("#0C1E21");
-                SaveColorScheme(selectedFrame.ClassId, "#FFFFFF", "#4DC4B6", "#F6A01F", "#CBF3F0", "#482728", "#F8C069");
+                SaveColorScheme(selectedFrame.ClassId, "#FFFFFF", "#4DC4B6", "#CBF3F0", "#F6A01F", "#482728", "#F8C069");
             }
             else if (selectedFrame.ClassId == "cool")
             {
@@ -192,7 +192,7 @@ namespace Manifest.Views
                 coolLabel.TextColor = Color.FromHex("#FFFFFF");
                 cottonLabel.TextColor = Color.FromHex("#0C1E21");
                 classicLabel.TextColor = Color.FromHex("#0C1E21");
-                SaveColorScheme(selectedFrame.ClassId, "#FDFDFD", "#03182B", "#93A0AF", "#A7EEFF", "#59A3B7", "#5AA6F5");
+                SaveColorScheme(selectedFrame.ClassId, "#FDFDFD", "#03182B", "#A7EEFF" , "#93A0AF", "#59A3B7", "#5AA6F5");
             }
             else if (selectedFrame.ClassId == "cotton")
             {
@@ -206,7 +206,7 @@ namespace Manifest.Views
                 coolLabel.TextColor = Color.FromHex("#0C1E21");
                 cottonLabel.TextColor = Color.FromHex("#FFFFFF");
                 classicLabel.TextColor = Color.FromHex("#0C1E21");
-                SaveColorScheme(selectedFrame.ClassId, "#FCE4E0", "#F38375", "#EF6351", "#F59C9C", "#F6A399", "#7A5980");
+                SaveColorScheme(selectedFrame.ClassId, "#FCE4E0", "#F38375", "#F59C9C", "#EF6351", "#F6A399", "#7A5980");
             }
             else if (selectedFrame.ClassId == "classic")
             {
@@ -220,7 +220,7 @@ namespace Manifest.Views
                 coolLabel.TextColor = Color.FromHex("#0C1E21");
                 cottonLabel.TextColor = Color.FromHex("#0C1E21");
                 classicLabel.TextColor = Color.FromHex("#FFFFFF");
-                SaveColorScheme(selectedFrame.ClassId, "#F2F7FC", "#889AB5", "#376DAC", "#F8BE28", "#F26D4B", "#67ABFC");
+                SaveColorScheme(selectedFrame.ClassId, "#F2F7FC", "#889AB5", "#F8BE28", "#376DAC", "#F26D4B", "#67ABFC");
             }
         }
 

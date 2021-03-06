@@ -26,39 +26,47 @@ namespace Manifest
             {
                 if (Application.Current.Properties.ContainsKey("timeStamp"))
                 {
-                    DateTime today = DateTime.Now;
-                    DateTime expTime = (DateTime)Application.Current.Properties["timeStamp"];
-
-                    if (today <= expTime)
+                    var time = (DateTime)Application.Current.Properties["timeStamp"];
+                    if (time != null)
                     {
-                        MainPage = new MainPage();
+                        DateTime today = DateTime.Now;
+                        DateTime expTime = (DateTime)Application.Current.Properties["timeStamp"];
+
+                        if (today <= expTime)
+                        {
+                            MainPage = new MainPage();
+                        }
+                        else
+                        {
+                            LogInPage client = new LogInPage();
+                            MainPage = client;
+
+                            if (Application.Current.Properties.ContainsKey("timeStamp"))
+                            {
+                                string socialPlatform = (string)Application.Current.Properties["platform"];
+
+                                if (socialPlatform.Equals(AppConstants.Facebook))
+                                {
+                                    client.FacebookLogInClick(new object(), new EventArgs());
+                                }
+                                else if (socialPlatform.Equals(AppConstants.Google))
+                                {
+                                    client.GoogleLogInClick(new object(), new EventArgs());
+                                }
+                                else if (socialPlatform.Equals(AppConstants.Apple))
+                                {
+                                    client.AppleLogInClick(new object(), new EventArgs());
+                                }
+                                else
+                                {
+                                    MainPage = new LogInPage();
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        LogInPage client = new LogInPage();
-                        MainPage = client;
-
-                        if (Application.Current.Properties.ContainsKey("timeStamp"))
-                        {
-                            string socialPlatform = (string)Application.Current.Properties["platform"];
-
-                            if (socialPlatform.Equals(AppConstants.Facebook))
-                            {
-                                client.FacebookLogInClick(new object(), new EventArgs());
-                            }
-                            else if (socialPlatform.Equals(AppConstants.Google))
-                            {
-                                client.GoogleLogInClick(new object(), new EventArgs());
-                            }
-                            else if (socialPlatform.Equals(AppConstants.Apple))
-                            {
-                                client.AppleLogInClick(new object(), new EventArgs());
-                            }
-                            else
-                            {
-                                MainPage = new LogInPage();
-                            }
-                        }
+                        MainPage = new LogInPage();
                     }
                 }
                 else

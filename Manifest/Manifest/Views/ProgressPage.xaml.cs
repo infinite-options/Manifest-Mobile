@@ -49,8 +49,9 @@ namespace Manifest.Views
         GridLength lastRowHeight;
         ObservableCollection<HeaderInfo> dates;
         ObservableCollection<ProgressRow> rows;
+        string goalId;
 
-        public ProgressPage()
+        public ProgressPage(string goalId)
         {
             InitializeComponent();
             setting = false;
@@ -73,10 +74,182 @@ namespace Manifest.Views
             dateTitle.Text = helperObject.GetCurrentTime();
             dates = new ObservableCollection<HeaderInfo>();
             rows = new ObservableCollection<ProgressRow>();
-            GetUserProgress();
-            GetUserRoutineProgress();
+
+            //this.goalId = goalId;
+
+            //GetUserProgress();
+            //GetUserRoutineProgress();
+            GetGoalProgress(goalId);
             NavigationPage.SetHasNavigationBar(this, false);
         }
+
+
+        async void GetGoalProgress(string id)
+        {
+            try
+            {
+                var client = new HttpClient();
+                var startDate = DateTime.Now;
+                var endDate = DateTime.Now;
+                var userId = (string)Application.Current.Properties["userId"];
+                for (int i = 6; i > 0; i--)
+                {
+                    startDate = startDate.AddDays(-1);
+                }
+                Debug.WriteLine("START: " + startDate);
+                Debug.WriteLine("END: " + endDate);
+
+                //dates.Add(new HeaderInfo() { name = "Goals", date = "" });
+                //for (int i = 0; i < 7; i++)
+                //{
+                //    var temp = startDate.AddDays(i);
+
+                //    dates.Add(new HeaderInfo() { name = temp.ToString("ddd"), date = temp.ToString("MM/dd") });
+                //}
+
+                //DatesList.ItemsSource = dates;
+
+                client.DefaultRequestHeaders.Add("start-date", startDate.ToString("yyyy-MM-dd"));
+                client.DefaultRequestHeaders.Add("end-date", endDate.ToString("yyyy-MM-dd"));
+                client.DefaultRequestHeaders.Add("goal_routine_id", id);
+                var response = await client.GetAsync(AppConstants.BaseUrl + AppConstants.particularGoalHistory + userId);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                    var data = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine("GOALS DATA: " + data);
+                    //var user = JsonConvert.DeserializeObject<History>(data);
+                    //Debug.WriteLine("HISTORY DATA: " + user.result);
+                    //var dates = JsonConvert.DeserializeObject<IDictionary<string, object>>(user.result.ToString());
+
+
+
+                    //var dateItems = new List<string>();
+                    //var goalsItems = new List<string>();
+
+                    //goalsItems.Clear();
+                    //foreach (string key in dates.Keys)
+                    //{
+                    //    dateItems.Add(key);
+                    //}
+
+                    //foreach (string key in dates.Keys)
+                    //{
+                    //    var subSet = JsonConvert.DeserializeObject<IDictionary<string, object>>(dates[key].ToString());
+
+                    //    foreach (string subKey in subSet.Keys)
+                    //    {
+                    //        if (!goalsItems.Contains(subKey))
+                    //        {
+                    //            goalsItems.Add(subKey);
+                    //        }
+                    //    }
+                    //}
+
+                    //var grid = new List<List<int>>();
+                    //foreach (string key in dates.Keys)
+                    //{
+                    //    var item = JsonConvert.DeserializeObject<IDictionary<string, object>>(dates[key].ToString());
+                    //    var row = new List<int>();
+                    //    foreach (string subKey in goalsItems)
+                    //    {
+                    //        var value = 0;
+                    //        if (item.ContainsKey(subKey))
+                    //        {
+                    //            if (item[subKey].ToString() == "not started")
+                    //            {
+                    //                value = -1;
+                    //            }
+                    //            else if (item[subKey].ToString() == "in_progress")
+                    //            {
+                    //                value = 0;
+                    //            }
+                    //            else if (item[subKey].ToString() == "completed")
+                    //            {
+                    //                value = 1;
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            value = -1;
+                    //        }
+                    //        row.Add(value);
+                    //    }
+                    //    grid.Add(row);
+                    //}
+
+                    ////Debug.WriteLine("ELEMENTS IN GRID: " + grid.Count);
+                    ////Debug.WriteLine("ELEMENTS IN GRID: " + grid[0].Count);
+
+                    //int j = 0;
+                    //rows.Clear();
+                    //foreach (string key in goalsItems)
+                    //{
+                    //    var element = new ProgressRow();
+                    //    element.name = key;
+
+                    //    if (0 < grid.Count)
+                    //    {
+                    //        element.strokeColorA = StrokeFill(grid[0][j]);
+                    //        element.fillA = Fill(grid[0][j]);
+                    //    }
+
+                    //    if (1 < grid.Count)
+                    //    {
+                    //        element.strokeColorB = StrokeFill(grid[1][j]);
+                    //        element.fillB = Fill(grid[1][j]);
+                    //    }
+
+                    //    if (2 < grid.Count)
+                    //    {
+                    //        element.strokeColorC = StrokeFill(grid[2][j]);
+                    //        element.fillC = Fill(grid[2][j]);
+                    //    }
+
+                    //    if (3 < grid.Count)
+                    //    {
+                    //        element.strokeColorD = StrokeFill(grid[3][j]);
+                    //        element.fillD = Fill(grid[3][j]);
+                    //    }
+
+                    //    if (4 < grid.Count)
+                    //    {
+                    //        element.strokeColorE = StrokeFill(grid[4][j]);
+                    //        element.fillE = Fill(grid[4][j]);
+                    //    }
+
+                    //    if (5 < grid.Count)
+                    //    {
+                    //        element.strokeColorF = StrokeFill(grid[5][j]);
+                    //        element.fillF = Fill(grid[5][j]);
+                    //    }
+
+                    //    if (6 < grid.Count)
+                    //    {
+                    //        element.strokeColorG = StrokeFill(grid[6][j]);
+                    //        element.fillG = Fill(grid[6][j]);
+                    //    }
+
+                    //    rows.Add(element);
+                    //    j++;
+                    //}
+
+                    //GoalsStatusList.ItemsSource = rows;
+                }
+                else
+                {
+                    await DisplayAlert("Oops", "We weren't able to fulfill your request. Please try again later", "OK");
+                }
+            }
+            catch (Exception progress)
+            {
+                await DisplayAlert("Oops", progress.Message, "OK");
+            }
+        }
+
+
+
 
         async void GetUserProgress()
         {

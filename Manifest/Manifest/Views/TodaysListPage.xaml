@@ -343,24 +343,23 @@
                 <StackLayout Grid.Column="0" Margin="0,-14,0,0">
                     <RelativeLayout >
                         
-                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" IsEnabled="False">
                         </Frame>
-                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True" >
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True" IsEnabled="False">
                             <Grid>
-                                <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>
+                                <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"
+                                       >
+                                    <Image.GestureRecognizers>
+                                        <ClickGestureRecognizer Clicked="ClickGestureRecognizer_Clicked"></ClickGestureRecognizer>
+                                    </Image.GestureRecognizers>
+                                </Image>
                                 <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TodaysListPageClicked"></TapGestureRecognizer>
-                            </Frame.GestureRecognizers>
                         </Frame>
-                        
                     </RelativeLayout>
-                    <!--<StackLayout Margin="0,-80,0,25" BackgroundColor="Transparent" HeightRequest="64">
-                        <StackLayout.GestureRecognizers>
+                    <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="TodaysListPageClicked"></TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>-->
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
                 <StackLayout Grid.Column="1" Margin="0,-14,0,0">
                     <RelativeLayout >

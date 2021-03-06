@@ -395,7 +395,8 @@ namespace Manifest.Views
 
         void progressClicked(System.Object sender, System.EventArgs e)
         {
-            Navigation.PushAsync(new ProgressPage(),false);
+            var goalId = passedOccurance.Id;
+            Navigation.PushAsync(new ProgressPage(goalId),false);
         }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
