@@ -46,7 +46,7 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
-            bindParticles(passedOccurance);
+            bindParticles();
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
@@ -195,13 +195,22 @@ namespace Manifest.Views
                 IsComplete3.SetBinding(Image.IsVisibleProperty, completeVisible3);
             }
             else Navigation.PopAsync();
+            //if (passedOccurance.NumSubOccurances == 1 && subTasks[0].instructions.Count > 0)
+            //{
+            //    goStraightToSteps();
+            //}
         }
 
-        private void bindParticles(Occurance occurance)
+        private async void goStraightToSteps()
+        {
+            await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subTasks[0], actionFrame1.BackgroundColor.ToHex().ToString()), false);
+        }
+
+        private void bindParticles()
         {
             Binding particlesActive = new Binding("IsComplete");
-            particlesActive.Source = occurance;
-            showParticles.BindingContext = occurance;
+            particlesActive.Source = passedOccurance;
+            showParticles.BindingContext = passedOccurance;
             showParticles.SetBinding(Particle.Forms.ParticleView.IsActiveProperty, particlesActive);
         }
 
