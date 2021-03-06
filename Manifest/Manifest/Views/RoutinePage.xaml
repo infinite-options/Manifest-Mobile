@@ -57,7 +57,7 @@
                 <!--NEW UI GOES HERE-->
                 <!--<Button Text="? instructions" Clicked="Button_Clicked"></Button>-->
                 <!--NEW UI GOES HERE-->
-                <ScrollView>
+                <ScrollView x:Name="routinesScroll">
                     <StackLayout x:Name="routines" HorizontalOptions="Center" VerticalOptions="Start" Orientation="Vertical" Padding="20,10,20,10">
                     </StackLayout>
                 </ScrollView>

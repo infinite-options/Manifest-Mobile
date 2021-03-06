@@ -46,7 +46,7 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
-            bindParticles(passedOccurance);
+            bindParticles();
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
             frameColor.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
@@ -197,11 +197,11 @@ namespace Manifest.Views
             else Navigation.PopAsync();
         }
 
-        private void bindParticles(Occurance occurance)
+        private void bindParticles()
         {
             Binding particlesActive = new Binding("IsComplete");
-            particlesActive.Source = occurance;
-            showParticles.BindingContext = occurance;
+            particlesActive.Source = passedOccurance;
+            showParticles.BindingContext = passedOccurance;
             showParticles.SetBinding(Particle.Forms.ParticleView.IsActiveProperty, particlesActive);
         }
 
@@ -401,6 +401,7 @@ namespace Manifest.Views
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
+            Debug.WriteLine("Nume elements in navigation stack = " + Application.Current.MainPage.Navigation.NavigationStack.Count.ToString());
             Navigation.PopAsync(false);
         }
 

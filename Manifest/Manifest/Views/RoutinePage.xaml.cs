@@ -31,6 +31,8 @@ namespace Manifest.Views
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         float rowHeight;
 
+        float scrollHeight = 0;
+        bool scrollSet = false;
         public RoutinePage()
         {
             InitializeComponent();
@@ -91,7 +93,7 @@ namespace Manifest.Views
             });
         }
 
-        private void CreateList()
+        private async void CreateList()
         {
 
             TapGestureRecognizer doneRecognizer = new TapGestureRecognizer();
@@ -177,7 +179,7 @@ namespace Manifest.Views
                         },
                         MinimumHeightRequest = 150
                     };
-                float fontsize = rowHeight / 4;
+                float fontsize = 24;
                 string timespan = toAdd.StartDayAndTime.ToString("hh:mm tt") + " - " + toAdd.EndDayAndTime.ToString("hh:mm tt");
                 gridToAdd.Children.Add(
                     new Label
@@ -265,6 +267,19 @@ namespace Manifest.Views
                 Debug.WriteLine("SubTasks Completed = " + toAdd.SubOccurancesCompleted);
                 routineExpander.Header = gridFrame;
                 newGrid.Children.Add(routineExpander, 0, 0);
+
+                //Set the scroll height
+                if (!routineExpander.IsExpanded && !scrollSet)
+                {
+                    //scrollHeight += (float)gridToAdd.Height;
+                    scrollHeight += 100;
+                }
+                else
+                {
+                    scrollSet = true;
+                }
+                //
+
                 if (toAdd.NumSubOccurances != 0)
                 {
                     Grid routineExpanderChildren = new Grid() {
@@ -273,10 +288,10 @@ namespace Manifest.Views
                     int rowToAdd = 0;
                     foreach (SubOccurance subTask in subTasks)
                     {
-                        float subGridHeight = rowHeight / (float)1.5;
+                        //float subGridHeight = rowHeight / (float)1.5;
                         routineExpanderChildren.RowDefinitions.Add(new RowDefinition
                         {
-                            Height = new GridLength(subGridHeight, GridUnitType.Absolute)
+                            Height = new GridLength(1, GridUnitType.Star)
                         });
                         Grid subGrid =
                         new Grid
@@ -362,6 +377,10 @@ namespace Manifest.Views
                 }
                 routines.Children.Add(newGrid);
             }
+            //scrollHeight = Math.Min(scrollHeight, (float)routines.Height);
+            Debug.WriteLine("Scrollheight = " + scrollHeight.ToString());
+            
+            //await routinesScroll.ScrollToAsync(0, scrollHeight, true);
         }
 
         public async void subTaskComplete(object sender, EventArgs args)

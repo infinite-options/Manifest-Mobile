@@ -47,6 +47,11 @@ namespace Manifest.Views
         double deviceHeight = DeviceDisplay.MainDisplayInfo.Height;
         double deviceWidth = DeviceDisplay.MainDisplayInfo.Width;
         List<Occurance> commonOccur;
+
+        bool hasItems = false;
+        bool scrollViewSet = false;
+        float scrollViewY = 0;
+        float totalHeight = 0;
         public TodaysListPage()
         {
             Debug.WriteLine("Displaying time format");
@@ -169,9 +174,6 @@ namespace Manifest.Views
             }
         }
 
-        bool hasItems = false;
-        bool scrollViewSet = false;
-        float scrollViewY = 0;
         //This function takes the response from the endpoint, and formats it into Occurances
         private void SortOccurancesAndGroupGoals()
         {
@@ -413,6 +415,7 @@ namespace Manifest.Views
                             todaysTasks[i].updateBorderWidth(5);
                             Debug.WriteLine("Center task = " + todaysTasks[i].Title);
                         }
+                        totalHeight += 115;
                         occuranceHappeningNow(todaysTasks[i]);
                         morningTaskCount++;
                         i++;
@@ -426,6 +429,7 @@ namespace Manifest.Views
                 {
                     scrollViewY += 135;
                 }
+                totalHeight += 135;
                 while (i < todaysTasks.Count)
                 {
                     todaysTaskTime = DateTime.Today + todaysTasks[i].StartDayAndTime.TimeOfDay;
@@ -444,6 +448,7 @@ namespace Manifest.Views
                             todaysTasks[i].updateBorderWidth(5);
                             Debug.WriteLine("Center task = " + todaysTasks[i].Title);
                         }
+                        totalHeight += 115;
                         occuranceHappeningNow(todaysTasks[i]);
                         afternoonTaskCount++;
                         i++;
@@ -457,6 +462,7 @@ namespace Manifest.Views
                 {
                     scrollViewY += 135;
                 }
+                totalHeight += 135;
                 while (i < todaysTasks.Count)
                 {
                     todaysTasks[i].borderWidth = 0;
@@ -473,6 +479,7 @@ namespace Manifest.Views
                         todaysTasks[i].updateBorderWidth(5);
                         Debug.WriteLine("Center task = " + todaysTasks[i].Title);
                     }
+                    totalHeight += 115;
                     occuranceHappeningNow(todaysTasks[i]);
                     eveningTaskCount++;
                     i++;
@@ -490,6 +497,10 @@ namespace Manifest.Views
                 taskListEvening.HeightRequest = (eveningTaskCount * 115) + 60;
                 if (eveningTaskCount == 0)
                     taskListEvening.HeightRequest = 60;
+
+                totalHeight -= (float)deviceHeight;
+                Debug.WriteLine("Total height = " + totalHeight.ToString() + ", scrollview = " + scrollViewY.ToString());
+                scrollViewY = Math.Min(totalHeight, scrollViewY);
                 await todaysSchedule.ScrollToAsync(0, scrollViewY, true);
             }
             catch (Exception e)
@@ -641,9 +652,24 @@ namespace Manifest.Views
             }
         }
 
-        void navigateToGoals(System.Object sender, System.EventArgs e)
+        //void navigateToGoals(System.Object sender, System.EventArgs e)
+        //{
+        //    //Application.Current.MainPage = new Goals();
+        //}
+
+        async void goToGoalsSpecialPage(Occurance goal)
         {
-            //Application.Current.MainPage = new Goals();
+            string url = AppConstants.BaseUrl + AppConstants.actionsAndInstructions + "/" + goal.Id;
+            //Occurance currGoal = await RdsConnect.getGoal(url);
+            List<Occurance> goalList = await RdsConnect.getOccurances(url);
+            Occurance currGoal = goalList[0];
+            Debug.WriteLine("Num suboccurances = " + currGoal.NumSubOccurances.ToString());
+            Navigation.PushAsync(new GoalsSpecialPage(currGoal), false);
+            if (currGoal.NumSubOccurances == 1 && currGoal.subOccurances[0].instructions.Count > 0)
+            {
+                Navigation.PushAsync(new GoalStepsPage(currGoal, currGoal.subOccurances[0], Color.Blue.ToString()), false);
+            }
+
         }
 
         async void goToEventsPage(Occurance eventOccurance)
@@ -696,7 +722,8 @@ namespace Manifest.Views
                         await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
                     else
                     {
-                        await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
+                        goToGoalsSpecialPage(currOccurance);
+                        //await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
                     }
                     //old code
                     //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);

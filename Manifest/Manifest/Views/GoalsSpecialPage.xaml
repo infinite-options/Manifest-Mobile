@@ -71,7 +71,7 @@
 
 
             <!--imported ui-->
-            <particle:ParticleView x:Name="showParticles" Grid.Row="1" IsActive="True" HasFallingParticles="True" FallingParticlesPerSecond="30" ParticleColors="{StaticResource ConfettiColors}"></particle:ParticleView>
+            <particle:ParticleView x:Name="showParticles" Grid.Row="1" IsActive="False" HasFallingParticles="True" FallingParticlesPerSecond="30" ParticleColors="{StaticResource ConfettiColors}"></particle:ParticleView>
             <Grid Grid.Row="1" Margin="15,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
