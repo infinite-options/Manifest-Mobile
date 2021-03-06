@@ -34,6 +34,7 @@ namespace Manifest.Config
         public const string goalsAndRoutinesUrl = "/api/v2/getgoalsandroutines";
         public const string UserIdFromEmailUrl = "/api/v2/userLogin";
         public const string actionAndTaskUrl = "/api/v2/actionsTasks";
+        public const string actionsAndInstructions = "/api/v2/actionsInstructions";
         public const string updateGoalAndRoutine = "/api/v2/udpateGRWatchMobile";
         public const string updateActionAndTask = "/api/v2/updateATWatchMobile";
         public const string timeSettingsUrl = "/api/v2/timeSettings"; //plus userId

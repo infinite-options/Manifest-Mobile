@@ -641,9 +641,20 @@ namespace Manifest.Views
             }
         }
 
-        void navigateToGoals(System.Object sender, System.EventArgs e)
+        //void navigateToGoals(System.Object sender, System.EventArgs e)
+        //{
+        //    //Application.Current.MainPage = new Goals();
+        //}
+
+        async void goToGoalsSpecialPage(Occurance goal)
         {
-            //Application.Current.MainPage = new Goals();
+            string url = AppConstants.BaseUrl + AppConstants.actionsAndInstructions + "/" + goal.Id;
+            //Occurance currGoal = await RdsConnect.getGoal(url);
+            List<Occurance> goalList = await RdsConnect.getOccurances(url);
+            Occurance currGoal = goalList[0];
+            Debug.WriteLine("Num suboccurances = " + currGoal.NumSubOccurances.ToString());
+            await Navigation.PushAsync(new GoalsSpecialPage(currGoal), false);
+
         }
 
         async void goToEventsPage(Occurance eventOccurance)
@@ -696,7 +707,8 @@ namespace Manifest.Views
                         await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
                     else
                     {
-                        await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
+                        goToGoalsSpecialPage(currOccurance);
+                        //await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
                     }
                     //old code
                     //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
