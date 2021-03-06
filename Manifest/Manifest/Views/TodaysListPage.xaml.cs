@@ -664,7 +664,11 @@ namespace Manifest.Views
             List<Occurance> goalList = await RdsConnect.getOccurances(url);
             Occurance currGoal = goalList[0];
             Debug.WriteLine("Num suboccurances = " + currGoal.NumSubOccurances.ToString());
-            await Navigation.PushAsync(new GoalsSpecialPage(currGoal), false);
+            Navigation.PushAsync(new GoalsSpecialPage(currGoal), false);
+            if (currGoal.NumSubOccurances == 1 && currGoal.subOccurances[0].instructions.Count > 0)
+            {
+                Navigation.PushAsync(new GoalStepsPage(currGoal, currGoal.subOccurances[0], Color.Blue.ToString()), false);
+            }
 
         }
 

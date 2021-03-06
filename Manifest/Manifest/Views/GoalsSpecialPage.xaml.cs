@@ -195,15 +195,6 @@ namespace Manifest.Views
                 IsComplete3.SetBinding(Image.IsVisibleProperty, completeVisible3);
             }
             else Navigation.PopAsync();
-            //if (passedOccurance.NumSubOccurances == 1 && subTasks[0].instructions.Count > 0)
-            //{
-            //    goStraightToSteps();
-            //}
-        }
-
-        private async void goStraightToSteps()
-        {
-            await Navigation.PushAsync(new GoalStepsPage(passedOccurance, subTasks[0], actionFrame1.BackgroundColor.ToHex().ToString()), false);
         }
 
         private void bindParticles()
@@ -409,6 +400,7 @@ namespace Manifest.Views
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
+            Debug.WriteLine("Nume elements in navigation stack = " + Application.Current.MainPage.Navigation.NavigationStack.Count.ToString());
             Navigation.PopAsync(false);
         }
 
