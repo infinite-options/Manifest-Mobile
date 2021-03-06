@@ -499,6 +499,7 @@ namespace Manifest.Views
                     taskListEvening.HeightRequest = 60;
 
                 totalHeight -= (float)deviceHeight;
+                totalHeight = Math.Max(0, totalHeight);
                 Debug.WriteLine("Total height = " + totalHeight.ToString() + ", scrollview = " + scrollViewY.ToString());
                 scrollViewY = Math.Min(totalHeight, scrollViewY);
                 await todaysSchedule.ScrollToAsync(0, scrollViewY, true);
@@ -664,6 +665,10 @@ namespace Manifest.Views
             List<Occurance> goalList = await RdsConnect.getOccurances(url);
             Occurance currGoal = goalList[0];
             Debug.WriteLine("Num suboccurances = " + currGoal.NumSubOccurances.ToString());
+            //if (currGoal.NumSubOccurances == 0)
+            //{
+
+            //}
             Navigation.PushAsync(new GoalsSpecialPage(currGoal), false);
             if (currGoal.NumSubOccurances == 1 && currGoal.subOccurances[0].instructions.Count > 0)
             {
