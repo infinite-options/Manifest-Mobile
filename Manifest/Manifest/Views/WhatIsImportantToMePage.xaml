@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:forms="clr-namespace:Xamarin.RangeSlider.Forms;assembly=Xamarin.RangeSlider.Forms" x:Class="Manifest.Views.WhatIsImportantToMePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch"  xmlns:forms="clr-namespace:Xamarin.RangeSlider.Forms;assembly=Xamarin.RangeSlider.Forms" x:Class="Manifest.Views.WhatIsImportantToMePage">
     <ContentPage.Content>
 <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -85,7 +85,7 @@
                                                     <BoxView HeightRequest="{Binding height}" Color="{Binding color}"  WidthRequest="10" HorizontalOptions="CenterAndExpand"></BoxView>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="1">
-                                                    <Label Grid.Row="1" Text="{Binding name}" TextColor="Black" FontSize="12" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
+                                                    <f9p:Label Grid.Row="1" Text="{Binding name}" AutoFit="Width" TextColor="Black" FontSize="12" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center" HeightRequest="50"></f9p:Label>
                                                 </StackLayout>
                                             </Grid>
                                         </StackLayout>
@@ -114,7 +114,7 @@
                                                     <BoxView HeightRequest="{Binding height}" Color="{Binding color}"  WidthRequest="10" HorizontalOptions="CenterAndExpand"></BoxView>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="1">
-                                                    <Label Grid.Row="1" Text="{Binding name}" TextColor="Black" FontSize="12" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
+                                                    <f9p:Label Grid.Row="1" AutoFit="Width" Text="{Binding name}" TextColor="Black" FontSize="12" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center" HeightRequest="50"></f9p:Label>
                                                 </StackLayout>
                                             </Grid>
                                         </StackLayout>
@@ -143,7 +143,7 @@
                                                     <BoxView HeightRequest="{Binding height}" Color="{Binding color}"  WidthRequest="10" HorizontalOptions="CenterAndExpand"></BoxView>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="1">
-                                                    <Label Grid.Row="1" Text="{Binding name}" TextColor="Black" FontSize="12" MaxLines="2" LineBreakMode="TailTruncation"  HorizontalTextAlignment="Center" HeightRequest="50"></Label>
+                                                    <f9p:Label Grid.Row="1" AutoFit="Width" Text="{Binding name}" TextColor="Black" FontSize="12" MaxLines="2" LineBreakMode="TailTruncation"  HorizontalTextAlignment="Center" HeightRequest="50"></f9p:Label>
                                                 </StackLayout>
                                             </Grid>
                                         </StackLayout>
@@ -158,22 +158,21 @@
 
                         <Grid HeightRequest="60"  Grid.Column="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="180"></ColumnDefinition>
+                                <ColumnDefinition x:Name="devices" Width="150"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label WidthRequest="150" Grid.Column="0" Text="Goals" FontSize="12" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></Label>
-                            <CollectionView x:Name="DatesList" Grid.Column="1" ItemsLayout="HorizontalList" >
+                            <Label WidthRequest="150" Grid.Column="0" Text="Goals" FontSize="16" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></Label>
+                            <CollectionView x:Name="DatesList" Grid.Column="1" ItemsLayout="HorizontalList">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <StackLayout WidthRequest="28" Spacing="0">
-                                            <Label Margin="0,15,0,0" Text="{Binding name}" WidthRequest="28" HorizontalTextAlignment="Center" ></Label>
+                                            <Label Margin="0,25,0,0" Text="{Binding name}" FontSize="10" WidthRequest="28" HorizontalTextAlignment="Center" ></Label>
                                             <!--<Label Text="{Binding date}" HorizontalTextAlignment="Center"></Label>-->
                                         </StackLayout>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
                         </Grid>
-                
               
                         <StackLayout Margin="10,-20,10,0">
                             <BoxView HeightRequest="1" Color="Gray" ></BoxView>
@@ -251,12 +250,12 @@
                                 <ColumnDefinition Width="180"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label WidthRequest="150" Grid.Column="0" Text="Routines" FontSize="12" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></Label>
+                            <Label WidthRequest="150" Grid.Column="0" Text="Routines" FontSize="16" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></Label>
                             <CollectionView Grid.Column="1" ItemsLayout="HorizontalList" >
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <StackLayout WidthRequest="28" Spacing="0">
-                                            <Label Margin="0,15,0,0" Text="{Binding name}" WidthRequest="28" HorizontalTextAlignment="Center" ></Label>
+                                            <Label Margin="0,30,0,0" Text="{Binding name}" WidthRequest="28" HorizontalTextAlignment="Center" ></Label>
                                             <!--<Label Text="{Binding date}" HorizontalTextAlignment="Center"></Label>-->
                                         </StackLayout>
                                     </DataTemplate>
@@ -336,7 +335,9 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
                             </StackLayout>
-
+                        <StackLayout Margin="10,10,10,0">
+                            <BoxView HeightRequest="1" Color="Gray" ></BoxView>
+                        </StackLayout>
                 <Grid Margin="5,0,0,0">
                     <StackLayout Grid.Column="0" HorizontalOptions="Center" >
                         <StackLayout WidthRequest="30" HorizontalOptions="Center">

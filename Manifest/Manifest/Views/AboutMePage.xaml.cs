@@ -206,9 +206,21 @@ namespace Manifest.Views
                     }
                     else
                     {
+                        var firstName = "";
+                        foreach(char a in dto.people_name)
+                        {
+                            if(a != ' ')
+                            {
+                                firstName += a;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
                         Person toAdd = new Person()
                         {
-                            Name = dto.people_name,
+                            Name = firstName,
                             Relation = dto.relation_type,
                             PicUrl = dto.ta_picture,
                             Id = dto.ta_people_id,
@@ -320,6 +332,7 @@ namespace Manifest.Views
                     }, col, 0);;;
                     tempGrid.Children.Add(new Label
                     {
+                        HorizontalTextAlignment = TextAlignment.Center,
                         Text = importantPeople[i].Name,
                         TextColor = Color.Black
                     }, col, 1);

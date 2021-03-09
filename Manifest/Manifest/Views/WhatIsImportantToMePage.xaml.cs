@@ -54,7 +54,7 @@ namespace Manifest.Views
 
             goalNotStarted.Color = Color.FromHex((string)Application.Current.Properties["goal"]);
             goalStarted.Color = Color.FromHex((string)Application.Current.Properties["routine"]);
-            goalCompleted.Color = Color.FromHex((string)Application.Current.Properties["event"]);
+            goalCompleted.Color = Color.FromHex((string)Application.Current.Properties["routine"]);
 
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
@@ -65,6 +65,16 @@ namespace Manifest.Views
             scheduleFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+
+
+            if(Device.RuntimePlatform == Device.iOS)
+            {
+                devices.Width = 150;
+            }
+            else
+            {
+                devices.Width = 180;
+            }
 
             //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "My Values";
@@ -81,16 +91,6 @@ namespace Manifest.Views
                 startDate = startDate.AddDays(1);
                 totalDays++;
             }
-
-
-
-
-
-
-
-
-
-
 
             //var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             //var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
@@ -127,7 +127,7 @@ namespace Manifest.Views
                 var startDate = DateTime.Now;
                 var endDate = DateTime.Now;
                 var userId = (string)Application.Current.Properties["userId"];
-                for (int i = 7; i > 0; i--)
+                for (int i = 6; i > 0; i--)
                 {
                     startDate = startDate.AddDays(-1);
                 }
@@ -138,8 +138,14 @@ namespace Manifest.Views
                 for (int i = 0; i < 7; i++)
                 {
                     var temp = startDate.AddDays(i);
-
-                    dates.Add(new HeaderInfo() { name = temp.ToString("ddd"), date = temp.ToString("MM/dd") });
+                    if(i != 6)
+                    {
+                        dates.Add(new HeaderInfo() { name = temp.ToString("ddd"), date = temp.ToString("MM/dd") });
+                    }
+                    else
+                    {
+                        dates.Add(new HeaderInfo() { name = "Today", date = temp.ToString("MM/dd") });
+                    }
                 }
 
                 DatesList.ItemsSource = dates;
@@ -295,7 +301,7 @@ namespace Manifest.Views
                 var startDate = DateTime.Now;
                 var endDate = DateTime.Now;
                 var userId = (string)Application.Current.Properties["userId"];
-                for (int i = 7; i > 0; i--)
+                for (int i = 6; i > 0; i--)
                 {
                     startDate = startDate.AddDays(-1);
                 }
@@ -487,7 +493,7 @@ namespace Manifest.Views
             }
             else if (val == 1)
             {
-                color = (string)Application.Current.Properties["event"];
+                color = (string)Application.Current.Properties["routine"];
             }
             return color;
         }
