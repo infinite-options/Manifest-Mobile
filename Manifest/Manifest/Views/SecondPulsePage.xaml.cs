@@ -281,7 +281,9 @@ namespace Manifest.Views
         void navigatetoActionsFrame(System.Object sender, System.EventArgs e)
         {
             var myStack = (StackLayout)sender;
-            int index = Int16.Parse(myStack.ClassId);
+            int index = Int16.Parse(myStack.ClassId) -1;
+
+            Debug.WriteLine("INDEX CLASSID: " + index);
 
             if (myStack.ClassId == "1")
             {
