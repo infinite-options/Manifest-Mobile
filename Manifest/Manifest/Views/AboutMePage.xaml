@@ -15,7 +15,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="1"></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="AUTO"></RowDefinition>
                             <RowDefinition Height="0"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
@@ -116,7 +116,7 @@
                                         HeightRequest="117"
                                         WidthRequest="117">
                                     </Ellipse>
-                                    <Label Text="Whats important to me" TextColor="White" FontAttributes="Bold" FontSize="16" WidthRequest="117" HeightRequest="117" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+                                    <Label Text="Whats important to me" Padding="15,0,15,0" TextColor="White" FontAttributes="Bold" FontSize="16" WidthRequest="117" HeightRequest="117" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
                             </RelativeLayout>
                              <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="navigateToWhatMotivatesMe"/>

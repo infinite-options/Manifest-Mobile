@@ -15,7 +15,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="1"></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="AUTO"></RowDefinition>
                             <RowDefinition Height="0"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
@@ -54,6 +54,8 @@
  
             </Frame>
             <StackLayout Grid.Row="1" Padding="0,20,0,0">
+                <ScrollView>
+                    <StackLayout>
                  <Grid>
                         <StackLayout HorizontalOptions="CenterAndExpand" Grid.Column="0">
                         <Frame x:Name="userFrame" HasShadow="False" IsClippedToBounds="True" WidthRequest="140" HeightRequest="140" CornerRadius="70" Padding="0">
@@ -105,6 +107,8 @@
                          <Label Padding="10,0,0,0" x:Name="messageDay" TextColor="Black" FontSize="12" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
                     </StackLayout>
                 </Grid>-->
+                        </StackLayout>
+                    </ScrollView>
             </StackLayout>
             <StackLayout Grid.Row="2">
                

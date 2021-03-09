@@ -10,6 +10,7 @@ using Xamarin.Forms;
 using Xamarin.Auth;
 using Manifest.LogIn.Classes;
 using Manifest.RDS;
+using Xamarin.Forms.Shapes;
 
 namespace Manifest.Views
 {
@@ -146,353 +147,539 @@ namespace Manifest.Views
                 goalsExist = true;
                 if (goalsInRange.Count == 1)
                 {
-                    setProperties1();
-                    show7();
-                    //first7.Text = goalsInRange[0].gr_title;
                     text1.Text = goalsInRange[0].Title;
-                    occuranceDict.Add(text1, goalsInRange[0]);
+                    occuranceDict.Add(text1.Text, goalsInRange[0]);
 
-                    foreach(Occurance occur in goalsInRange)
+                    if (goalsInRange[0].IsInProgress)
                     {
-                        if (occur.IsInProgress == true)
-                            occur.GoalBackground = Color.FromHex("#FFE07E");
-                        else if (occur.IsComplete == true)
-                            occur.GoalBackground = Color.FromHex("#D3E6D3");
-                        else occur.GoalBackground = Color.Transparent;
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[0].IsComplete)
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.Transparent);
                     }
 
-                    first7.BindingContext = goalsInRange[0];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[0];
-                    first7.SetBinding(Frame.BackgroundColorProperty, color);
+                    stack2.IsEnabled = false;
+                    stack2.IsVisible = false;
+
+                    stack3.IsEnabled = false;
+                    stack3.IsVisible = false;
+
+                    stack4.IsEnabled = false;
+                    stack4.IsVisible = false;
+
+                    stack5.IsEnabled = false;
+                    stack5.IsVisible = false;
+
+                    stack6.IsEnabled = false;
+                    stack6.IsVisible = false;
+
+                    stack7.IsEnabled = false;
+                    stack7.IsVisible = false;
                 }
                 else if (goalsInRange.Count == 2)
                 {
-                    setProperties2();
-                    show7();
-                    //first7.Text = goalsInRange[0].gr_title;
-                    //second7.Text = goalsInRange[1].gr_title;
                     text1.Text = goalsInRange[0].Title;
-                    occuranceDict.Add(text1, goalsInRange[0]);
-                    //occuranceDict.Add(first7, goalsInRange[0]);
+                    occuranceDict.Add(text1.Text, goalsInRange[0]);
 
                     text2.Text = goalsInRange[1].Title;
-                    occuranceDict.Add(text2, goalsInRange[1]);
-                    //occuranceDict.Add(second7, goalsInRange[1]);
+                    occuranceDict.Add(text2.Text, goalsInRange[1]);
 
-                    foreach (Occurance occur in goalsInRange)
+                    stack2.Margin = new Thickness(50, 0, 0, 0);
+
+                    if (goalsInRange[0].IsInProgress)
                     {
-                        if (occur.IsInProgress == true)
-                            occur.GoalBackground = Color.FromHex("#FFE07E");
-                        else if (occur.IsComplete == true)
-                            occur.GoalBackground = Color.FromHex("#D3E6D3");
-                        else occur.GoalBackground = Color.Transparent;
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[0].IsComplete)
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.Transparent);
                     }
 
-                    first7.BindingContext = goalsInRange[0];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[0];
-                    first7.SetBinding(Frame.BackgroundColorProperty, color);
+                    if (goalsInRange[1].IsInProgress)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[1].IsComplete)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    second7.BindingContext = goalsInRange[1];
-                    Binding color2 = new Binding("GoalBackground");
-                    color2.Source = goalsInRange[1];
-                    second7.SetBinding(Frame.BackgroundColorProperty, color2);
+                    stack3.IsEnabled = false;
+                    stack3.IsVisible = false;
+
+                    stack4.IsEnabled = false;
+                    stack4.IsVisible = false;
+
+                    stack5.IsEnabled = false;
+                    stack5.IsVisible = false;
+
+                    stack6.IsEnabled = false;
+                    stack6.IsVisible = false;
+
+                    stack7.IsEnabled = false;
+                    stack7.IsVisible = false;
                 }
                 else if (goalsInRange.Count == 3)
                 {
-                    setProperties3();
-                    show3();
-
                     text1.Text = goalsInRange[0].Title;
-                    occuranceDict.Add(text1, goalsInRange[0]);
-                    //occuranceDict.Add(first7, goalsInRange[0]);
+                    occuranceDict.Add(text1.Text, goalsInRange[0]);
 
                     text2.Text = goalsInRange[1].Title;
-                    occuranceDict.Add(text2, goalsInRange[1]);
-                    //occuranceDict.Add(second7, goalsInRange[1]);
+                    occuranceDict.Add(text2.Text, goalsInRange[1]);
 
                     text3.Text = goalsInRange[2].Title;
-                    occuranceDict.Add(text3, goalsInRange[2]);
-                    //occuranceDict.Add(third7, goalsInRange[2]);
+                    occuranceDict.Add(text3.Text, goalsInRange[2]);
 
-                    foreach (Occurance occur in goalsInRange)
+                    stack2.Margin = new Thickness(50, 0, 0, 0);
+
+                    if (goalsInRange[0].IsInProgress)
                     {
-                        if (occur.IsInProgress == true)
-                            occur.GoalBackground = Color.FromHex("#FFE07E");
-                        else if (occur.IsComplete == true)
-                            occur.GoalBackground = Color.FromHex("#D3E6D3");
-                        else occur.GoalBackground = Color.Transparent;
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }else if (goalsInRange[0].IsComplete)
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.Transparent);
                     }
 
-                    first7.BindingContext = goalsInRange[0];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[0];
-                    first7.SetBinding(Frame.BackgroundColorProperty, color);
+                    if (goalsInRange[1].IsInProgress)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[1].IsComplete)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    second7.BindingContext = goalsInRange[1];
-                    Binding color2 = new Binding("GoalBackground");
-                    color2.Source = goalsInRange[1];
-                    second7.SetBinding(Frame.BackgroundColorProperty, color2);
+                    if (goalsInRange[2].IsInProgress)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[2].IsComplete)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    third7.BindingContext = goalsInRange[2];
-                    Binding color3 = new Binding("GoalBackground");
-                    color3.Source = goalsInRange[2];
-                    third7.SetBinding(Frame.BackgroundColorProperty, color3);
+                    stack4.IsEnabled = false;
+                    stack4.IsVisible = false;
+
+                    stack5.IsEnabled = false;
+                    stack5.IsVisible = false;
+
+                    stack6.IsEnabled = false;
+                    stack6.IsVisible = false;
+
+                    stack7.IsEnabled = false;
+                    stack7.IsVisible = false;
                 }
                 else if (goalsInRange.Count == 4)
                 {
-                    setProperties4();
-                    show7();
                     text1.Text = goalsInRange[0].Title;
-                    occuranceDict.Add(text1, goalsInRange[0]);
-                    //occuranceDict.Add(first7, goalsInRange[0]);
+                    occuranceDict.Add(text1.Text, goalsInRange[0]);
 
                     text2.Text = goalsInRange[1].Title;
-                    occuranceDict.Add(text2, goalsInRange[1]);
-                    //occuranceDict.Add(second7, goalsInRange[1]);
+                    occuranceDict.Add(text2.Text, goalsInRange[1]);
 
                     text3.Text = goalsInRange[2].Title;
-                    occuranceDict.Add(text3, goalsInRange[2]);
-                    //occuranceDict.Add(third7, goalsInRange[2]);
+                    occuranceDict.Add(text3.Text, goalsInRange[2]);
 
                     text4.Text = goalsInRange[3].Title;
-                    occuranceDict.Add(text4, goalsInRange[3]);
-                    //occuranceDict.Add(fourth7, goalsInRange[3]);
+                    occuranceDict.Add(text4.Text, goalsInRange[3]);
 
-                    foreach (Occurance occur in goalsInRange)
+                    stack2.Margin = new Thickness(70, 0, 0, 0);
+
+                    if (goalsInRange[0].IsInProgress)
                     {
-                        if (occur.IsInProgress == true)
-                            occur.GoalBackground = Color.FromHex("#FFE07E");
-                        else if (occur.IsComplete == true)
-                            occur.GoalBackground = Color.FromHex("#D3E6D3");
-                        else occur.GoalBackground = Color.Transparent;
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[0].IsComplete)
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.Transparent);
                     }
 
-                    first7.BindingContext = goalsInRange[0];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[0];
-                    first7.SetBinding(Frame.BackgroundColorProperty, color);
+                    if (goalsInRange[1].IsInProgress)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[1].IsComplete)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    second7.BindingContext = goalsInRange[1];
-                    Binding color2 = new Binding("GoalBackground");
-                    color2.Source = goalsInRange[1];
-                    second7.SetBinding(Frame.BackgroundColorProperty, color2);
+                    if (goalsInRange[2].IsInProgress)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[2].IsComplete)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    third7.BindingContext = goalsInRange[2];
-                    Binding color3 = new Binding("GoalBackground");
-                    color3.Source = goalsInRange[2];
-                    third7.SetBinding(Frame.BackgroundColorProperty, color3);
+                    if (goalsInRange[3].IsInProgress)
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[3].IsComplete)
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    fourth7.BindingContext = goalsInRange[3];
-                    Binding color4 = new Binding("GoalBackground");
-                    color4.Source = goalsInRange[3];
-                    fourth7.SetBinding(Frame.BackgroundColorProperty, color4);
+                    stack5.IsEnabled = false;
+                    stack5.IsVisible = false;
+
+                    stack6.IsEnabled = false;
+                    stack6.IsVisible = false;
+
+                    stack7.IsEnabled = false;
+                    stack7.IsVisible = false;
                 }
                 else if (goalsInRange.Count == 5)
                 {
-                    setProperties5();
-                    show7();
-                    //first5.Text = goalsInRange[0].gr_title;
                     text1.Text = goalsInRange[0].Title;
-                    occuranceDict.Add(text1, goalsInRange[0]);
-                    //occuranceDict.Add(first7, goalsInRange[0]);
+                    occuranceDict.Add(text1.Text, goalsInRange[0]);
 
                     text2.Text = goalsInRange[1].Title;
-                    occuranceDict.Add(text2, goalsInRange[1]);
-                    //occuranceDict.Add(second7, goalsInRange[1]);
+                    occuranceDict.Add(text2.Text, goalsInRange[1]);
 
                     text3.Text = goalsInRange[2].Title;
-                    occuranceDict.Add(text3, goalsInRange[2]);
-                    //occuranceDict.Add(third7, goalsInRange[2]);
+                    occuranceDict.Add(text3.Text, goalsInRange[2]);
 
                     text4.Text = goalsInRange[3].Title;
-                    occuranceDict.Add(text4, goalsInRange[3]);
-                    //occuranceDict.Add(fourth7, goalsInRange[3]);
+                    occuranceDict.Add(text4.Text, goalsInRange[3]);
 
                     text5.Text = goalsInRange[4].Title;
-                    occuranceDict.Add(text5, goalsInRange[4]);
-                    //occuranceDict.Add(fifth7, goalsInRange[4]);
+                    occuranceDict.Add(text5.Text, goalsInRange[4]);
 
-                    foreach (Occurance occur in goalsInRange)
+                    stack2.Margin = new Thickness(0,0,0,0);
+                    stack5.Margin = new Thickness(15,5,0,0);
+
+                    if (goalsInRange[0].IsInProgress)
                     {
-                        if (occur.IsInProgress == true)
-                            occur.GoalBackground = Color.FromHex("#FFE07E");
-                        else if (occur.IsComplete == true)
-                            occur.GoalBackground = Color.FromHex("#D3E6D3");
-                        else occur.GoalBackground = Color.Transparent;
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[0].IsComplete)
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.Transparent);
                     }
 
-                    first7.BindingContext = goalsInRange[0];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[0];
-                    first7.SetBinding(Frame.BackgroundColorProperty, color);
+                    if (goalsInRange[1].IsInProgress)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[1].IsComplete)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    second7.BindingContext = goalsInRange[1];
-                    Binding color2 = new Binding("GoalBackground");
-                    color2.Source = goalsInRange[1];
-                    second7.SetBinding(Frame.BackgroundColorProperty, color2);
+                    if (goalsInRange[2].IsInProgress)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[2].IsComplete)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    third7.BindingContext = goalsInRange[2];
-                    Binding color3 = new Binding("GoalBackground");
-                    color3.Source = goalsInRange[2];
-                    third7.SetBinding(Frame.BackgroundColorProperty, color3);
+                    if (goalsInRange[3].IsInProgress)
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[3].IsComplete)
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    fourth7.BindingContext = goalsInRange[3];
-                    Binding color4 = new Binding("GoalBackground");
-                    color4.Source = goalsInRange[3];
-                    fourth7.SetBinding(Frame.BackgroundColorProperty, color4);
+                    if (goalsInRange[4].IsInProgress)
+                    {
+                        goal5.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[4].IsComplete)
+                    {
+                        goal5.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal5.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    fifth7.BindingContext = goalsInRange[4];
-                    Binding color5 = new Binding("GoalBackground");
-                    color5.Source = goalsInRange[4];
-                    fifth7.SetBinding(Frame.BackgroundColorProperty, color5);
+                    stack6.IsEnabled = false;
+                    stack6.IsVisible = false;
+
+                    stack7.IsEnabled = false;
+                    stack7.IsVisible = false;
                 }
                 else if (goalsInRange.Count == 6)
                 {
-                    setProperties6();
-                    show7();
                     text1.Text = goalsInRange[0].Title;
-                    occuranceDict.Add(text1, goalsInRange[0]);
-                    //occuranceDict.Add(first7, goalsInRange[0]);
+                    occuranceDict.Add(text1.Text, goalsInRange[0]);
 
                     text2.Text = goalsInRange[1].Title;
-                    occuranceDict.Add(text2, goalsInRange[1]);
-                    //occuranceDict.Add(second7, goalsInRange[1]);
+                    occuranceDict.Add(text2.Text, goalsInRange[1]);
 
                     text3.Text = goalsInRange[2].Title;
-                    occuranceDict.Add(text3, goalsInRange[2]);
-                    //occuranceDict.Add(third7, goalsInRange[2]);
+                    occuranceDict.Add(text3.Text, goalsInRange[2]);
 
                     text4.Text = goalsInRange[3].Title;
-                    occuranceDict.Add(text4, goalsInRange[3]);
-                    //occuranceDict.Add(fourth7, goalsInRange[3]);
+                    occuranceDict.Add(text4.Text, goalsInRange[3]);
 
                     text5.Text = goalsInRange[4].Title;
-                    occuranceDict.Add(text5, goalsInRange[4]);
-                    //occuranceDict.Add(fifth7, goalsInRange[4]);
+                    occuranceDict.Add(text5.Text, goalsInRange[4]);
 
                     text6.Text = goalsInRange[5].Title;
-                    occuranceDict.Add(text6, goalsInRange[5]);
-                    //occuranceDict.Add(sixth7, goalsInRange[5]);
+                    occuranceDict.Add(text6.Text, goalsInRange[5]);
 
-                    foreach (Occurance occur in goalsInRange)
+                    if (goalsInRange[0].IsInProgress)
                     {
-                        if (occur.IsInProgress == true)
-                            occur.GoalBackground = Color.FromHex("#FFE07E");
-                        else if (occur.IsComplete == true)
-                            occur.GoalBackground = Color.FromHex("#D3E6D3");
-                        else occur.GoalBackground = Color.Transparent;
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[0].IsComplete)
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.Transparent);
                     }
 
-                    first7.BindingContext = goalsInRange[0];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[0];
-                    first7.SetBinding(Frame.BackgroundColorProperty, color);
+                    if (goalsInRange[1].IsInProgress)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[1].IsComplete)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    second7.BindingContext = goalsInRange[1];
-                    Binding color2 = new Binding("GoalBackground");
-                    color2.Source = goalsInRange[1];
-                    second7.SetBinding(Frame.BackgroundColorProperty, color2);
+                    if (goalsInRange[2].IsInProgress)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[2].IsComplete)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    third7.BindingContext = goalsInRange[2];
-                    Binding color3 = new Binding("GoalBackground");
-                    color3.Source = goalsInRange[2];
-                    third7.SetBinding(Frame.BackgroundColorProperty, color3);
+                    if (goalsInRange[3].IsInProgress)
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[3].IsComplete)
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    fourth7.BindingContext = goalsInRange[3];
-                    Binding color4 = new Binding("GoalBackground");
-                    color4.Source = goalsInRange[3];
-                    fourth7.SetBinding(Frame.BackgroundColorProperty, color4);
+                    if (goalsInRange[4].IsInProgress)
+                    {
+                        goal5.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[4].IsComplete)
+                    {
+                        goal5.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal5.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    fifth7.BindingContext = goalsInRange[4];
-                    Binding color5 = new Binding("GoalBackground");
-                    color5.Source = goalsInRange[4];
-                    fifth7.SetBinding(Frame.BackgroundColorProperty, color5);
+                    if (goalsInRange[5].IsInProgress)
+                    {
+                        goal6.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[5].IsComplete)
+                    {
+                        goal6.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal6.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    sixth7.BindingContext = goalsInRange[5];
-                    Binding color6 = new Binding("GoalBackground");
-                    color6.Source = goalsInRange[5];
-                    sixth7.SetBinding(Frame.BackgroundColorProperty, color6);
+                    stack7.IsEnabled = false;
+                    stack7.IsVisible = false;
                 }
                 else
                 {
-                    setProperties7();
-                    show7();
                     text1.Text = goalsInRange[0].Title;
-                    occuranceDict.Add(text1, goalsInRange[0]);
-                    //occuranceDict.Add(first7, goalsInRange[0]);
+                    occuranceDict.Add(text1.Text, goalsInRange[0]);
 
                     text2.Text = goalsInRange[1].Title;
-                    occuranceDict.Add(text2, goalsInRange[1]);
-                    //occuranceDict.Add(second7, goalsInRange[1]);
-
+                    occuranceDict.Add(text2.Text, goalsInRange[1]);
+ 
                     text3.Text = goalsInRange[2].Title;
-                    occuranceDict.Add(text3, goalsInRange[2]);
-                    //occuranceDict.Add(third7, goalsInRange[2]);
+                    occuranceDict.Add(text3.Text, goalsInRange[2]);
 
                     text4.Text = goalsInRange[3].Title;
-                    occuranceDict.Add(text4, goalsInRange[3]);
-                    //occuranceDict.Add(fourth7, goalsInRange[3]);
+                    occuranceDict.Add(text4.Text, goalsInRange[3]);
 
                     text5.Text = goalsInRange[4].Title;
-                    occuranceDict.Add(text5, goalsInRange[4]);
-                    //occuranceDict.Add(fifth7, goalsInRange[4]);
+                    occuranceDict.Add(text5.Text, goalsInRange[4]);
 
                     text6.Text = goalsInRange[5].Title;
-                    occuranceDict.Add(text6, goalsInRange[5]);
-                    //occuranceDict.Add(sixth7, goalsInRange[5]);
+                    occuranceDict.Add(text6.Text, goalsInRange[5]);
 
                     text7.Text = goalsInRange[6].Title;
-                    occuranceDict.Add(text7, goalsInRange[6]);
-                    //occuranceDict.Add(seventh7, goalsInRange[6]);
+                    occuranceDict.Add(text7.Text, goalsInRange[6]);
 
-                    foreach (Occurance occur in goalsInRange)
+                    if (goalsInRange[0].IsInProgress)
                     {
-                        if (occur.IsInProgress == true)
-                            occur.GoalBackground = Color.FromHex("#FFE07E");
-                        else if (occur.IsComplete == true)
-                            occur.GoalBackground = Color.FromHex("#D3E6D3");
-                        else occur.GoalBackground = Color.Transparent;
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[0].IsComplete)
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal1.Fill = new SolidColorBrush(Color.Transparent);
                     }
 
-                    first7.BindingContext = goalsInRange[0];
-                    Binding color = new Binding("GoalBackground");
-                    color.Source = goalsInRange[0];
-                    first7.SetBinding(Frame.BackgroundColorProperty, color);
+                    if (goalsInRange[1].IsInProgress)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[1].IsComplete)
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal2.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    second7.BindingContext = goalsInRange[1];
-                    Binding color2 = new Binding("GoalBackground");
-                    color2.Source = goalsInRange[1];
-                    second7.SetBinding(Frame.BackgroundColorProperty, color2);
+                    if (goalsInRange[2].IsInProgress)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[2].IsComplete)
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal3.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    third7.BindingContext = goalsInRange[2];
-                    Binding color3 = new Binding("GoalBackground");
-                    color3.Source = goalsInRange[2];
-                    third7.SetBinding(Frame.BackgroundColorProperty, color3);
+                    if (goalsInRange[3].IsInProgress)
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[3].IsComplete)
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal4.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    fourth7.BindingContext = goalsInRange[3];
-                    Binding color4 = new Binding("GoalBackground");
-                    color4.Source = goalsInRange[3];
-                    fourth7.SetBinding(Frame.BackgroundColorProperty, color4);
+                    if (goalsInRange[4].IsInProgress)
+                    {
+                        goal5.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[3].IsComplete)
+                    {
+                        goal5.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal5.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    fifth7.BindingContext = goalsInRange[4];
-                    Binding color5 = new Binding("GoalBackground");
-                    color5.Source = goalsInRange[4];
-                    fifth7.SetBinding(Frame.BackgroundColorProperty, color5);
+                    if (goalsInRange[5].IsInProgress)
+                    {
+                        goal6.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[5].IsComplete)
+                    {
+                        goal6.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal6.Fill = new SolidColorBrush(Color.Transparent);
+                    }
 
-                    sixth7.BindingContext = goalsInRange[5];
-                    Binding color6 = new Binding("GoalBackground");
-                    color6.Source = goalsInRange[5];
-                    sixth7.SetBinding(Frame.BackgroundColorProperty, color6);
-
-                    seventh7.BindingContext = goalsInRange[6];
-                    Binding color7 = new Binding("GoalBackground");
-                    color7.Source = goalsInRange[6];
-                    seventh7.SetBinding(Frame.BackgroundColorProperty, color7);
+                    if (goalsInRange[6].IsInProgress)
+                    {
+                        goal7.Fill = new SolidColorBrush(Color.FromHex("#FFE07E"));
+                    }
+                    else if (goalsInRange[6].IsComplete)
+                    {
+                        goal7.Fill = new SolidColorBrush(Color.FromHex("#D3E6D3"));
+                    }
+                    else
+                    {
+                        goal7.Fill = new SolidColorBrush(Color.Transparent);
+                    }
                 }
 
-
+                gridDisplay.IsVisible = true;
                 return;
             }
             catch (Exception e)
@@ -519,18 +706,19 @@ namespace Manifest.Views
             return new DateTime();
         }
 
+        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new SettingsPage(), false);
+        }
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
             int navigationStackCount = Application.Current.MainPage.Navigation.NavigationStack.Count;
             Debug.WriteLine("navigationStackCount: " + navigationStackCount.ToString());
 
-
             if (navigationStackCount > 2)
             {
-                //Navigation.RemovePage(Navigation.NavigationStack(2));
                 Navigation.PopToRootAsync(false);
-                //Navigation.PopAsync(false);
             }
             else if (navigationStackCount != 1)
             {
@@ -541,388 +729,6 @@ namespace Manifest.Views
             {
                 Application.Current.MainPage = new MainPage();
             }
-        }
-
-        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
-        {
-            Navigation.PushAsync(new SettingsPage(),false);
-        }
-
-        void setProperties1()
-        {
-            AbsoluteLayout.SetLayoutBounds(first7, new Rectangle(0.5, 0.5, deviceWidth * 0.35, deviceWidth * 0.35));
-            first7.CornerRadius = (int)((deviceWidth * 0.35) / 2);
-            //first7.Text = "Goal 1";
-            //first7.FontSize = deviceWidth / 23;
-            text1.FontSize = deviceWidth / 23;
-
-            AbsoluteLayout.SetLayoutBounds(second7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(third7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(fourth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(fifth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(sixth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0, 0, 0, 0));
-            fourth7.HeightRequest = 0;
-            fifth7.HeightRequest = 0;
-            sixth7.HeightRequest = 0;
-            seventh7.HeightRequest = 0;
-        }
-
-        void setProperties2()
-        {
-            AbsoluteLayout.SetLayoutBounds(first7, new Rectangle(0.10, 0.07, deviceWidth * 0.23, deviceWidth * 0.23));
-            first7.HeightRequest = deviceWidth * 0.23;
-            first7.WidthRequest = deviceWidth * 0.23;
-            first7.CornerRadius = (int)((deviceWidth * 0.23) / 2);
-            //first7.Text = "Goal 1";
-            text1.FontSize = deviceWidth / 28;
-
-            AbsoluteLayout.SetLayoutBounds(second7, new Rectangle(0.85, 0.46, deviceWidth * 0.30, deviceWidth * 0.30));
-            second7.HeightRequest = deviceWidth * 0.30;
-            second7.WidthRequest = deviceWidth * 0.30;
-            second7.CornerRadius = (int)((deviceWidth * 0.30) / 2);
-            //second7.Text = "Goal 2";
-            //second7.FontSize = deviceWidth / 24;
-            text2.Text = "Goal 2";
-            text2.FontSize = deviceWidth / 24;
-
-            AbsoluteLayout.SetLayoutBounds(third7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(fourth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(fifth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(sixth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0, 0, 0, 0));
-            fourth7.HeightRequest = 0;
-            fifth7.HeightRequest = 0;
-            sixth7.HeightRequest = 0;
-            seventh7.HeightRequest = 0;
-
-        }
-
-        void setProperties3()
-        {
-            AbsoluteLayout.SetLayoutBounds(first7, new Rectangle(0.10, 0.07, deviceWidth * 0.23, deviceWidth * 0.23));
-            first7.HeightRequest = deviceWidth * 0.23;
-            first7.WidthRequest = deviceWidth * 0.23;
-            first7.CornerRadius = (int)((deviceWidth * 0.23) / 2);
-            //first7.Text = "Goal 1";
-            //first7.FontSize = deviceWidth / 28;
-            text1.FontSize = deviceWidth / 28;
-
-            AbsoluteLayout.SetLayoutBounds(second7, new Rectangle(0.85, 0.45, deviceWidth * 0.30, deviceWidth * 0.30));
-            second7.HeightRequest = deviceWidth * 0.30;
-            second7.WidthRequest = deviceWidth * 0.30;
-            second7.CornerRadius = (int)((deviceWidth * 0.30) / 2);
-
-            text2.FontSize = deviceWidth / 24;
-
-            AbsoluteLayout.SetLayoutBounds(third7, new Rectangle(0.14, 0.80, deviceWidth * 0.22, deviceWidth * 0.22));
-            third7.HeightRequest = deviceWidth * 0.22;
-            third7.WidthRequest = deviceWidth * 0.22;
-            third7.CornerRadius = (int)((deviceWidth * 0.22) / 2);
-
-            text3.Text = "Goal 3";
-            text3.FontSize = deviceWidth / 28;
-
-            AbsoluteLayout.SetLayoutBounds(fourth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(fifth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(sixth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0, 0, 0, 0));
-            fourth7.HeightRequest = 0;
-            fifth7.HeightRequest = 0;
-            sixth7.HeightRequest = 0;
-            seventh7.HeightRequest = 0;
-
-        }
-
-        void setProperties4()
-        {
-            AbsoluteLayout.SetLayoutBounds(first7, new Rectangle(0.10, 0.07, deviceWidth * 0.23, deviceWidth * 0.23));
-            first7.HeightRequest = deviceWidth * 0.23;
-            first7.WidthRequest = deviceWidth * 0.23;
-            first7.CornerRadius = (int)((deviceWidth * 0.23) / 2);
-
-            text1.FontSize = deviceWidth / 25;
-
-            AbsoluteLayout.SetLayoutBounds(second7, new Rectangle(0.85, 0.45, deviceWidth * 0.30, deviceWidth * 0.30));
-            second7.HeightRequest = deviceWidth * 0.30;
-            second7.WidthRequest = deviceWidth * 0.30;
-            second7.CornerRadius = (int)((deviceWidth * 0.30) / 2);
-
-            text2.FontSize = deviceWidth / 22;
-
-            AbsoluteLayout.SetLayoutBounds(third7, new Rectangle(0.14, 0.81, deviceWidth * 0.22, deviceWidth * 0.22));
-            third7.HeightRequest = deviceWidth * 0.22;
-            third7.WidthRequest = deviceWidth * 0.22;
-            third7.CornerRadius = (int)((deviceWidth * 0.22) / 2);
-
-            text3.FontSize = deviceWidth / 26;
-
-            AbsoluteLayout.SetLayoutBounds(fourth7, new Rectangle(0.82, 0.84, deviceWidth * 0.16, deviceWidth * 0.16));
-            fourth7.HeightRequest = deviceWidth * 0.16;
-            fourth7.WidthRequest = deviceWidth * 0.16;
-            fourth7.CornerRadius = (int)((deviceWidth * 0.16) / 2);
-            //fourth7.Text = "Goal 4";
-            //fourth7.FontSize = deviceWidth / 33;
-            text4.FontSize = deviceWidth / 33;
-
-            AbsoluteLayout.SetLayoutBounds(fifth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(sixth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0, 0, 0, 0));
-
-        }
-
-        void setProperties5()
-        {
-            AbsoluteLayout.SetLayoutBounds(first7, new Rectangle(0.10, 0.03, deviceWidth * 0.21, deviceWidth * 0.21));
-            first5.HeightRequest = deviceWidth * 0.21;
-            first5.WidthRequest = deviceWidth * 0.21;
-            first7.CornerRadius = (int)((deviceWidth * 0.21) / 2);
-
-            text1.FontSize = deviceWidth / 26;
-
-            AbsoluteLayout.SetLayoutBounds(second7, new Rectangle(0.75, 0.32, deviceWidth * 0.26, deviceWidth * 0.26));
-            second7.HeightRequest = deviceWidth * 0.26;
-            second7.WidthRequest = deviceWidth * 0.26;
-            second7.CornerRadius = (int)((deviceWidth * 0.26) / 2);
-            //second7.Text = "Goal 2";
-            //second7.FontSize = deviceWidth / 24;
-            text2.FontSize = deviceWidth / 24;
-
-            AbsoluteLayout.SetLayoutBounds(third7, new Rectangle(0.12, 0.66, deviceWidth * 0.21, deviceWidth * 0.21));
-            third7.HeightRequest = deviceWidth * 0.21;
-            third7.WidthRequest = deviceWidth * 0.21;
-            third7.CornerRadius = (int)((deviceWidth * 0.21) / 2);
-            //third7.Text = "Goal 3";
-            //third7.FontSize = deviceWidth / 27;
-            text3.FontSize = deviceWidth / 27;
-
-            AbsoluteLayout.SetLayoutBounds(fourth7, new Rectangle(0.9, 0.68, deviceWidth * 0.16, deviceWidth * 0.16));
-            fourth7.HeightRequest = deviceWidth * 0.16;
-            fourth7.WidthRequest = deviceWidth * 0.16;
-            fourth7.CornerRadius = (int)((deviceWidth * 0.16) / 2);
-            //fourth7.Text = "Goal 4";
-            //fourth7.FontSize = deviceWidth / 33;
-            text4.FontSize = deviceWidth / 33;
-
-            AbsoluteLayout.SetLayoutBounds(fifth7, new Rectangle(0.65, 0.93, deviceWidth * 0.17, deviceWidth * 0.17));
-            fifth7.HeightRequest = deviceWidth * 0.17;
-            fifth7.WidthRequest = deviceWidth * 0.17;
-            fifth7.CornerRadius = (int)((deviceWidth * 0.17) / 2);
-            //fifth7.Text = "Goal 5";
-            //fifth7.FontSize = deviceWidth / 32;
-            text5.FontSize = deviceWidth / 32;
-
-            AbsoluteLayout.SetLayoutBounds(sixth7, new Rectangle(0, 0, 0, 0));
-            AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0, 0, 0, 0));
-
-        }
-
-        void setProperties6()
-        {
-            AbsoluteLayout.SetLayoutBounds(first7, new Rectangle(0.10, 0.05, deviceWidth * 0.20, deviceWidth * 0.20));
-            first7.HeightRequest = deviceWidth * 0.20;
-            first7.WidthRequest = deviceWidth * 0.20;
-            first7.CornerRadius = (int)((deviceWidth * 0.20) / 2);
-            //first7.Text = "Goal 1";
-            //first7.FontSize = deviceWidth / 26;
-            text1.FontSize = deviceWidth / 26;
-
-            AbsoluteLayout.SetLayoutBounds(second7, new Rectangle(0.91, 0.23, deviceWidth * 0.26, deviceWidth * 0.26));
-            second7.HeightRequest = deviceWidth * 0.26;
-            second7.WidthRequest = deviceWidth * 0.26;
-            second7.CornerRadius = (int)((deviceWidth * 0.26) / 2);
-            //second7.Text = "Goal 2";
-            //second7.FontSize = deviceWidth / 25;
-            text2.FontSize = deviceWidth / 25;
-
-            AbsoluteLayout.SetLayoutBounds(third7, new Rectangle(0.08, 0.49, deviceWidth * 0.22, deviceWidth * 0.22));
-            third7.HeightRequest = deviceWidth * 0.22;
-            third7.WidthRequest = deviceWidth * 0.22;
-            third7.CornerRadius = (int)((deviceWidth * 0.22) / 2);
-            //third7.Text = "Goal 3";
-            //third7.FontSize = deviceWidth / 26;
-            text3.FontSize = deviceWidth / 26;
-
-            AbsoluteLayout.SetLayoutBounds(fourth7, new Rectangle(0.78, 0.64, deviceWidth * 0.17, deviceWidth * 0.17));
-            fourth7.HeightRequest = deviceWidth * 0.17;
-            fourth7.WidthRequest = deviceWidth * 0.17;
-            fourth7.CornerRadius = (int)((deviceWidth * 0.17) / 2);
-            //fourth7.Text = "Goal 4";
-            //fourth7.FontSize = deviceWidth / 31;
-            text4.FontSize = deviceWidth / 31;
-
-            AbsoluteLayout.SetLayoutBounds(fifth7, new Rectangle(0.11, 0.83, deviceWidth * 0.16, deviceWidth * 0.16));
-            fifth7.HeightRequest = deviceWidth * 0.16;
-            fifth7.WidthRequest = deviceWidth * 0.16;
-            fifth7.CornerRadius = (int)((deviceWidth * 0.16) / 2);
-            //fifth7.Text = "Goal 5";
-            //fifth7.FontSize = deviceWidth / 34;
-            text5.FontSize = deviceWidth / 34;
-
-            AbsoluteLayout.SetLayoutBounds(sixth7, new Rectangle(0.68, 0.93, deviceWidth * 0.17, deviceWidth * 0.17));
-            sixth7.HeightRequest = deviceWidth * 0.17;
-            sixth7.WidthRequest = deviceWidth * 0.17;
-            sixth7.CornerRadius = (int)((deviceWidth * 0.17) / 2);
-            //sixth7.Text = "Goal 6";
-            //sixth7.FontSize = deviceWidth / 31;
-            text6.FontSize = deviceWidth / 31;
-
-            AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0, 0, 0, 0));
-
-        }
-
-        void setProperties7()
-        {
-            AbsoluteLayout.SetLayoutBounds(first7, new Rectangle(0.10, 0.05, deviceWidth * 0.20, deviceWidth * 0.20));
-            first7.HeightRequest = deviceWidth * 0.20;
-            first7.WidthRequest = deviceWidth * 0.20;
-            first7.CornerRadius = (int)((deviceWidth * 0.20) / 2);
-            //first7.Text = "Goal 1";
-            //first7.FontSize = deviceWidth / 27;
-            text1.FontSize = deviceWidth / 27;
-
-            AbsoluteLayout.SetLayoutBounds(second7, new Rectangle(0.90, 0.23, deviceWidth * 0.26, deviceWidth * 0.26));
-            second7.HeightRequest = deviceWidth * 0.26;
-            second7.WidthRequest = deviceWidth * 0.26;
-            second7.CornerRadius = (int)((deviceWidth * 0.26) / 2);
-            //second7.Text = "Goal 2";
-            //second7.FontSize = deviceWidth / 25;
-            text2.FontSize = deviceWidth / 25;
-
-            AbsoluteLayout.SetLayoutBounds(third7, new Rectangle(0.09, 0.39, deviceWidth * 0.17, deviceWidth * 0.17));
-            third7.HeightRequest = deviceWidth * 0.17;
-            third7.WidthRequest = deviceWidth * 0.17;
-            third7.CornerRadius = (int)((deviceWidth * 0.17) / 2);
-            //third7.Text = "Goal 3";
-            //third7.FontSize = deviceWidth / 31;
-            text3.FontSize = deviceWidth / 31;
-
-            AbsoluteLayout.SetLayoutBounds(fourth7, new Rectangle(0.78, 0.63, deviceWidth * 0.17, deviceWidth * 0.17));
-            fourth7.HeightRequest = deviceWidth * 0.17;
-            fourth7.WidthRequest = deviceWidth * 0.17;
-            fourth7.CornerRadius = (int)((deviceWidth * 0.17) / 2);
-            //fourth7.Text = "Goal 4";
-            //fourth7.FontSize = deviceWidth / 30;
-            text4.FontSize = deviceWidth / 30;
-
-            AbsoluteLayout.SetLayoutBounds(fifth7, new Rectangle(0.10, 0.64, deviceWidth * 0.13, deviceWidth * 0.13));
-            fifth7.HeightRequest = deviceWidth * 0.13;
-            fifth7.WidthRequest = deviceWidth * 0.13;
-            fifth7.CornerRadius = (int)((deviceWidth * 0.13) / 2);
-            //fifth7.Text = "Goal 5";
-            //fifth7.FontSize = deviceWidth / 39;
-            text5.FontSize = deviceWidth / 39;
-
-            AbsoluteLayout.SetLayoutBounds(sixth7, new Rectangle(0.93, 0.91, deviceWidth * 0.17, deviceWidth * 0.17));
-            sixth7.HeightRequest = deviceWidth * 0.17;
-            sixth7.WidthRequest = deviceWidth * 0.17;
-            sixth7.CornerRadius = (int)((deviceWidth * 0.17) / 2);
-            //sixth7.Text = "Goal 6";
-            //sixth7.FontSize = deviceWidth / 31;
-            text6.FontSize = deviceWidth / 31;
-
-            AbsoluteLayout.SetLayoutBounds(seventh7, new Rectangle(0.31, 0.92, deviceWidth * 0.19, deviceWidth * 0.19));
-            seventh7.HeightRequest = deviceWidth * 0.19;
-            seventh7.WidthRequest = deviceWidth * 0.19;
-            seventh7.CornerRadius = (int)((deviceWidth * 0.19) / 2);
-            //seventh7.Text = "Goal 7";
-            //seventh7.FontSize = deviceWidth / 30;
-            text7.FontSize = deviceWidth / 30;
-        }
-
-
-        void show7()
-        {
-            goals7.IsVisible = true;
-            goals6.IsVisible = false;
-            goals3.IsVisible = false;
-            goals4.IsVisible = false;
-            goals5.IsVisible = false;
-        }
-
-        void show6()
-        {
-            goals7.IsVisible = false;
-            goals6.IsVisible = true;
-            goals3.IsVisible = false;
-            goals4.IsVisible = false;
-            goals5.IsVisible = false;
-        }
-
-        void show5()
-        {
-            goals7.IsVisible = false;
-            goals6.IsVisible = false;
-            goals3.IsVisible = false;
-            goals4.IsVisible = false;
-            goals5.IsVisible = true;
-        }
-
-        void show4()
-        {
-            goals7.IsVisible = false;
-            goals6.IsVisible = false;
-            goals3.IsVisible = false;
-            goals5.IsVisible = false;
-            goals4.IsVisible = true;
-        }
-
-        void show3()
-        {
-            goals7.IsVisible = true;
-            goals6.IsVisible = false;
-            goals3.IsVisible = false;
-            goals5.IsVisible = false;
-            goals4.IsVisible = false;
-        }
-
-        void clickedShow7(System.Object sender, System.EventArgs e)
-        {
-            //show7();
-            setProperties7();
-            show7();
-        }
-
-        void clickedShow6(System.Object sender, System.EventArgs e)
-        {
-            //show6();
-            setProperties6();
-            show7();
-        }
-
-        void clickedShow5(System.Object sender, System.EventArgs e)
-        {
-            //show5();
-            setProperties5();
-            show7();
-        }
-
-        void clickedShow4(System.Object sender, System.EventArgs e)
-        {
-            //show4();
-            setProperties4();
-            show7();
-        }
-
-        void clickedShow3(System.Object sender, System.EventArgs e)
-        {
-            //show3();
-            setProperties3();
-            show3();
-        }
-
-        void clickedShow2(System.Object sender, System.EventArgs e)
-        {
-            //show3();
-            setProperties2();
-            show3();
-        }
-
-        void clickedShow1(System.Object sender, System.EventArgs e)
-        {
-            //show3();
-            setProperties1();
-            show3();
         }
 
         void navigatetoTodaysList(System.Object sender, System.EventArgs e)
@@ -983,210 +789,97 @@ namespace Manifest.Views
             }
         }
 
-        void navigatetoActions(System.Object sender, System.EventArgs e)
-        {
-            Debug.WriteLine("NavigateToActions called");
-            Label receiving = (Label)sender;
-            chosenOccurance = occuranceDict[receiving];
-            if (receiving == text1)
-            {
-                first7.BorderColor = Color.Blue;
-            }
-            else if (receiving == text2)
-            {
-                second7.BorderColor = Color.Blue;
-                //second7.BackgroundColor = Color.FromHex("#FFBD27");
-            }
-            else if (receiving == text3)
-            {
-
-                third7.BackgroundColor = Color.FromHex("#FFBD27"); 
-
-            }
-            else if (receiving == text4)
-            {
-                first7.BackgroundColor = Color.Transparent;
-                second7.BackgroundColor = Color.Transparent;
-                third7.BackgroundColor = Color.Transparent;
-                fourth7.BackgroundColor = Color.FromHex("#FFBD27");
-                fifth7.BackgroundColor = Color.Transparent;
-                sixth7.BackgroundColor = Color.Transparent;
-                seventh7.BackgroundColor = Color.Transparent;
-            }
-            else if (receiving == text5)
-            {
-                first7.BackgroundColor = Color.Transparent;
-                second7.BackgroundColor = Color.Transparent;
-                third7.BackgroundColor = Color.Transparent;
-                fourth7.BackgroundColor = Color.Transparent;
-                fifth7.BackgroundColor = Color.FromHex("#FFBD27"); 
-                sixth7.BackgroundColor = Color.Transparent;
-                seventh7.BackgroundColor = Color.Transparent;
-            }
-            else if (receiving == text6)
-            {
-                first7.BackgroundColor = Color.Transparent;
-                second7.BackgroundColor = Color.Transparent;
-                third7.BackgroundColor = Color.Transparent;
-                fourth7.BackgroundColor = Color.Transparent;
-                fifth7.BackgroundColor = Color.Transparent;
-                sixth7.BackgroundColor = Color.FromHex("#FFBD27"); 
-                seventh7.BackgroundColor = Color.Transparent;
-            }
-            else
-            {
-                first7.BackgroundColor = Color.Transparent;
-                second7.BackgroundColor = Color.Transparent; 
-                third7.BackgroundColor = Color.Transparent;
-                fourth7.BackgroundColor = Color.Transparent;
-                fifth7.BackgroundColor = Color.Transparent;
-                sixth7.BackgroundColor = Color.Transparent;
-                seventh7.BackgroundColor = Color.FromHex("#FFBD27");
-            }
-        }
 
         //only one used when the user clicks a goal circle
         void navigatetoActionsFrame(System.Object sender, System.EventArgs e)
         {
-            Frame receiving = (Frame)sender;
-            Debug.WriteLine("Entered navigateToActionsFrame");
-            receiving.BorderColor = selectedBorderColor;
-            if (prevFrame != null && prevFrame != receiving)
+            var myStack = (StackLayout)sender;
+            var key = "";
+            if(myStack.ClassId == "1")
             {
-                prevFrame.BorderColor = unselectedBorderColor;
-                //prevFrame.BindingContext = goalsInRange[prevIndex];
-                //Binding color = new Binding("GoalBackground");
-                //color.Source = goalsInRange[prevIndex];
-                //prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
+                key = text1.Text;
+                goal1.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
+                goal2.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal3.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal4.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal5.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal6.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal7.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
             }
-            prevFrame = receiving;
-            Element child = receiving.Children[0];
-            Label childAsLabel = (Label) child;
-            Debug.WriteLine(childAsLabel.Text);
-            chosenOccurance = occuranceDict[childAsLabel];
-            //if (receiving == first7)
-            //{
-            //    first7.BorderColor = selectedBorderColor;
-            //    if (prevFrame != null)
-            //    {
-            //        prevFrame.BorderColor = unselectedBorderColor;
-            //        prevFrame.BindingContext = goalsInRange[prevIndex];
-            //        Binding color = new Binding("GoalBackground");
-            //        color.Source = goalsInRange[prevIndex];
-            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-            //    }
-
-
-            //    //first7.BackgroundColor = Color.FromHex("#FFBD27");
-            //    prevFrame = first7;
-            //    prevIndex = 0;
-
-            //    chosenOccurance = occuranceDict[text1];
-            //}
-            //else if (receiving == second7)
-            //{
-            //    chosenOccurance = occuranceDict[text2];
-
-            //    if (prevFrame != null)
-            //    {
-            //        prevFrame.BindingContext = goalsInRange[prevIndex];
-            //        Binding color = new Binding("GoalBackground");
-            //        color.Source = goalsInRange[prevIndex];
-            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-            //    }
-
-
-            //    second7.BackgroundColor = Color.FromHex("#FFBD27");
-            //    prevFrame = second7;
-            //    prevIndex = 1;
-            //}
-            //else if (receiving == third7)
-            //{
-            //    chosenOccurance = occuranceDict[text3];
-
-            //    if (prevFrame != null)
-            //    {
-            //        prevFrame.BindingContext = goalsInRange[prevIndex];
-            //        Binding color = new Binding("GoalBackground");
-            //        color.Source = goalsInRange[prevIndex];
-            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-            //    }
-
-
-            //    third7.BackgroundColor = Color.FromHex("#FFBD27");
-            //    prevFrame = third7;
-            //    prevIndex = 2;
-            //}
-            //else if (receiving == fourth7)
-            //{
-            //    chosenOccurance = occuranceDict[text4];
-
-            //    if (prevFrame != null)
-            //    {
-            //        prevFrame.BindingContext = goalsInRange[prevIndex];
-            //        Binding color = new Binding("GoalBackground");
-            //        color.Source = goalsInRange[prevIndex];
-            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-            //    }
-
-
-            //    fourth7.BackgroundColor = Color.FromHex("#FFBD27");
-            //    prevFrame = fourth7;
-            //    prevIndex = 3;
-            //}
-            //else if (receiving == fifth7)
-            //{
-            //    chosenOccurance = occuranceDict[text5];
-
-            //    if (prevFrame != null)
-            //    {
-            //        prevFrame.BindingContext = goalsInRange[prevIndex];
-            //        Binding color = new Binding("GoalBackground");
-            //        color.Source = goalsInRange[prevIndex];
-            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-            //    }
-
-
-            //    fifth7.BackgroundColor = Color.FromHex("#FFBD27");
-            //    prevFrame = fifth7;
-            //    prevIndex = 4;
-            //}
-            //else if (receiving == sixth7)
-            //{
-            //    chosenOccurance = occuranceDict[text6];
-
-            //    if (prevFrame != null)
-            //    {
-            //        prevFrame.BindingContext = goalsInRange[prevIndex];
-            //        Binding color = new Binding("GoalBackground");
-            //        color.Source = goalsInRange[prevIndex];
-            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-            //    }
-
-
-            //    sixth7.BackgroundColor = Color.FromHex("#FFBD27");
-            //    prevFrame = sixth7;
-            //    prevIndex = 5;
-            //}
-            //else if (receiving == seventh7)
-            //{
-            //    chosenOccurance = occuranceDict[text7];
-
-            //    if (prevFrame != null)
-            //    {
-            //        prevFrame.BindingContext = goalsInRange[prevIndex];
-            //        Binding color = new Binding("GoalBackground");
-            //        color.Source = goalsInRange[prevIndex];
-            //        prevFrame.SetBinding(Frame.BackgroundColorProperty, color);
-            //    }
-
-
-            //    seventh7.BackgroundColor = Color.FromHex("#FFBD27");
-            //    prevFrame = seventh7;
-            //    prevIndex = 6;
-            //}
-            //else DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
-
+            else if (myStack.ClassId == "2")
+            {
+                key = text2.Text;
+                goal1.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal2.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
+                goal3.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal4.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal5.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal6.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal7.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+            }
+            else if (myStack.ClassId == "3")
+            {
+                key = text3.Text;
+                goal1.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal2.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal3.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
+                goal4.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal5.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal6.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal7.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+            }
+            else if (myStack.ClassId == "4")
+            {
+                key = text4.Text;
+                goal1.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal2.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal3.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal4.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
+                goal5.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal6.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal7.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+            }
+            else if (myStack.ClassId == "5")
+            {
+                key = text5.Text;
+                goal1.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal2.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal3.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal4.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal5.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
+                goal6.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal7.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+            }
+            else if (myStack.ClassId == "6")
+            {
+                key = text6.Text;
+                goal1.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal2.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal3.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal4.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal5.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal6.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
+                goal7.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+            }
+            else if (myStack.ClassId == "7")
+            {
+                key = text7.Text;
+                goal1.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal2.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal3.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal4.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal5.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal6.Stroke = new SolidColorBrush(Color.FromHex("#FFBD27"));
+                goal7.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
+            }
+            try
+            {
+                chosenOccurance = occuranceDict[key];
+            }
+            catch (Exception keyIssue)
+            {
+                Debug.WriteLine(keyIssue.Message);
+            }
         }
     }
 }

@@ -68,19 +68,42 @@ namespace Manifest.Views
 
             //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "My Values";
-            var date = DateTime.Now;
-            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-            start = firstDayOfMonth;
-            rangeSliderAge.MinimumValue = (float)Double.Parse(firstDayOfMonth.ToString("dd"));
-            rangeSliderAge.LowerValue = (float)Double.Parse(firstDayOfMonth.ToString("dd"));
-            rangeSliderAge.MaximumValue = (float)Double.Parse(lastDayOfMonth.ToString("dd"));
-            rangeSliderAge.UpperValue = (float)Double.Parse(lastDayOfMonth.ToString("dd"));
+            var endDate = DateTime.Now;
+            var dateString = endDate.Year.ToString() + "/01/01";
+            var firstDayOfYear = DateTime.Parse(dateString);
+
+            startDateLabel.Text = firstDayOfYear.ToString("MM/dd/yyyy");
+            endDateLabel.Text = endDate.ToString("MM/dd/yyyy");
+            var startDate = DateTime.Parse(dateString);
+            int totalDays = 1;
+            while (startDate <= endDate)
+            {
+                startDate = startDate.AddDays(1);
+                totalDays++;
+            }
+
+
+
+
+
+
+
+
+
+
+
+            //var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            //var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+            start = firstDayOfYear;
+            rangeSliderAge.MinimumValue = 1;
+            rangeSliderAge.LowerValue = 1;
+            rangeSliderAge.MaximumValue = (float)totalDays;
+            rangeSliderAge.UpperValue = (float)totalDays;
 
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = GetCurrentTime();
            
-            GetHistoryData(firstDayOfMonth.ToString("yyyy-MM-dd"), lastDayOfMonth.ToString("yyyy-MM-dd"));
+            GetHistoryData(firstDayOfYear.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
 
         }
 

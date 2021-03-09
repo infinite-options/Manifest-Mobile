@@ -15,7 +15,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="1"></RowDefinition>
-                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="AUTO"></RowDefinition>
                         <RowDefinition Height="0"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
@@ -38,7 +38,7 @@
                         <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
                     </Grid>
                     <Grid Grid.Row="3">
-                            <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
                     </Grid>
                 </Grid>
             </Frame>
