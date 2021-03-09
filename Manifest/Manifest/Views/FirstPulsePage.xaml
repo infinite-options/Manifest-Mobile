@@ -184,16 +184,16 @@
                     </Grid.ColumnDefinitions>
                     <StackLayout Grid.Column="0" VerticalOptions="CenterAndExpand" >
                          <StackLayout ClassId="5" Margin="0,0,0,10">
-                            <RelativeLayout  HorizontalOptions="EndAndExpand">
+                            <RelativeLayout  HorizontalOptions="EndAndExpand" WidthRequest="90" HeightRequest="90">
                                 <Ellipse
                                     x:Name="mood_five"
-                                    Fill="white"
                                     HeightRequest="90"
                                     WidthRequest="90"
-                                    Stroke="#67ABFC"
-                                    StrokeThickness="10">
+                                    StrokeThickness="0">
                                 </Ellipse>
-                                <Image Margin="2.5,2.5,0,0" Source="mood_five.png" HeightRequest="85" WidthRequest="85"></Image>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                     <Image  Source="mood_five.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
@@ -203,13 +203,13 @@
                             <RelativeLayout HorizontalOptions="EndAndExpand">
                                 <Ellipse
                                     x:Name="mood_three"
-                                    Fill="white"
                                     HeightRequest="90"
                                     WidthRequest="90"
-                                    Stroke="#67ABFC"
-                                    StrokeThickness="10">
+                                    StrokeThickness="0">
                                 </Ellipse>
-                                <Image Margin="2.5,2.5,0,0" Source="mood_three.png" HeightRequest="85" WidthRequest="85"></Image>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image Source="mood_three.png"  HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
@@ -221,13 +221,13 @@
                             <RelativeLayout  HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
                                 <Ellipse
                                     x:Name="mood_six"
-                                    Fill="white"
                                     HeightRequest="90"
                                     WidthRequest="90"
-                                    Stroke="#67ABFC"
-                                    StrokeThickness="10">
+                                    StrokeThickness="0">
                                 </Ellipse>
-                                <Image Margin="2.5,2.5,0,0" Source="mood_six.png" HeightRequest="85" WidthRequest="85"></Image>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image Source="mood_six.png"  HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
@@ -237,13 +237,13 @@
                             <RelativeLayout  HorizontalOptions="CenterAndExpand">
                                 <Ellipse
                                     x:Name="mood_four"
-                                    Fill="white"
                                     HeightRequest="90"
                                     WidthRequest="90"
-                                    Stroke="#67ABFC"
-                                    StrokeThickness="10">
+                                    StrokeThickness="0">
                                 </Ellipse>
-                                <Image Margin="2.5,2.5,0,0" Source="mood_four.png" HeightRequest="85" WidthRequest="85"></Image>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image  Source="mood_four.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
@@ -253,13 +253,13 @@
                             <RelativeLayout  HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
                                 <Ellipse
                                     x:Name="mood_two"
-                                    Fill="white"
                                     HeightRequest="90"
                                     WidthRequest="90"
-                                    Stroke="#67ABFC"
-                                    StrokeThickness="10">
+                                    StrokeThickness="0">
                                 </Ellipse>
-                                <Image Margin="2.5,2.5,0,0" Source="mood_two.png" HeightRequest="85" WidthRequest="85"></Image>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image Source="mood_two.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
@@ -271,13 +271,13 @@
                             <RelativeLayout>
                                 <Ellipse
                                     x:Name="mood_seven"
-                                    Fill="white"
                                     HeightRequest="90"
                                     WidthRequest="90"
-                                    Stroke="#67ABFC"
-                                    StrokeThickness="10">
+                                    StrokeThickness="0">
                                 </Ellipse>
-                                <Image Margin="2.5,2.5,0,0" Source="mood_seven.png" HeightRequest="85" WidthRequest="85"></Image>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image Source="mood_seven.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
@@ -287,13 +287,13 @@
                             <RelativeLayout >
                                 <Ellipse
                                     x:Name="mood_one"
-                                    Fill="white"
                                     HeightRequest="90"
                                     WidthRequest="90"
-                                    Stroke="#67ABFC"
-                                    StrokeThickness="10">
+                                    StrokeThickness="0">
                                 </Ellipse>
-                                <Image Margin="2.5,2.5,0,0" Source="mood_one.png" HeightRequest="85" WidthRequest="85"></Image>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image  Source="mood_one.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
