@@ -85,7 +85,7 @@
                                                     <BoxView HeightRequest="{Binding height}" Color="{Binding color}"  WidthRequest="10" HorizontalOptions="CenterAndExpand"></BoxView>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="1">
-                                                    <Label Grid.Row="1" Text="{Binding name}" TextColor="Black" FontSize="12" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
+                                                    <Label Grid.Row="1" Text="{Binding name}" TextColor="Black" FontSize="12" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
                                                 </StackLayout>
                                             </Grid>
                                         </StackLayout>
@@ -114,7 +114,7 @@
                                                     <BoxView HeightRequest="{Binding height}" Color="{Binding color}"  WidthRequest="10" HorizontalOptions="CenterAndExpand"></BoxView>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="1">
-                                                    <Label Grid.Row="1" Text="{Binding name}" TextColor="Black" FontSize="12" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
+                                                    <Label Grid.Row="1" Text="{Binding name}" TextColor="Black" FontSize="12" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
                                                 </StackLayout>
                                             </Grid>
                                         </StackLayout>
@@ -143,7 +143,7 @@
                                                     <BoxView HeightRequest="{Binding height}" Color="{Binding color}"  WidthRequest="10" HorizontalOptions="CenterAndExpand"></BoxView>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="1">
-                                                    <Label Grid.Row="1" Text="{Binding name}" TextColor="Black" FontSize="12" HorizontalTextAlignment="Center" HeightRequest="50"></Label>
+                                                    <Label Grid.Row="1" Text="{Binding name}" TextColor="Black" FontSize="12" MaxLines="2" LineBreakMode="TailTruncation"  HorizontalTextAlignment="Center" HeightRequest="50"></Label>
                                                 </StackLayout>
                                             </Grid>
                                         </StackLayout>
