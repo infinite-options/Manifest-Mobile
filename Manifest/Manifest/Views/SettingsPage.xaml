@@ -351,7 +351,7 @@
                         </Frame>
                         <BoxView HeightRequest="1" Color="#70707057" Margin="0,0,20,0"></BoxView>
                         <Frame Padding="0" Margin="120,0,140,0" CornerRadius="19" HeightRequest="40" HasShadow="False" x:Name="logOutFrame" BackgroundColor="#376DAC">
-                            <Button Text="Log out" TextColor="#FFFFFF" FontSize="20" FontAttributes="Bold" WidthRequest="100" BackgroundColor="Transparent" Clicked="LogOutClick"></Button>
+                            <Button Padding="0,-3,0,0" Text="Log out" TextColor="#FFFFFF" FontSize="20" FontAttributes="Bold" WidthRequest="100" BackgroundColor="Transparent" Clicked="LogOutClick"></Button>
                         </Frame>
                         <Label Margin="-20,0,0,0" x:Name="appVersion" HorizontalTextAlignment="Center"></Label>
                     </StackLayout>
