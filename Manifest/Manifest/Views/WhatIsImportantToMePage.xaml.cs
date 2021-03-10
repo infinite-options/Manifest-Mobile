@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using Manifest.Config;
 using Manifest.Models;
+using Manifest.RDS;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 
@@ -21,6 +22,7 @@ namespace Manifest.Views
 
     public partial class WhatIsImportantToMePage : ContentPage
     {
+        public Models.User user;
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
@@ -76,35 +78,101 @@ namespace Manifest.Views
                 devices.Width = 180;
             }
 
-            //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
-            title.Text = "My Values";
-            var endDate = DateTime.Now;
-            var dateString = endDate.Year.ToString() + "/01/01";
-            var firstDayOfYear = DateTime.Parse(dateString);
-
-            startDateLabel.Text = firstDayOfYear.ToString("MM/dd/yyyy");
-            endDateLabel.Text = endDate.ToString("MM/dd/yyyy");
-            var startDate = DateTime.Parse(dateString);
-            int totalDays = 1;
-            while (startDate < endDate)
-            {
-                startDate = startDate.AddDays(1);
-                totalDays++;
-            }
-
-            //var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            //var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-            start = firstDayOfYear;
-            rangeSliderAge.MinimumValue = 1;
-            rangeSliderAge.LowerValue = 1;
-            rangeSliderAge.MaximumValue = (float)totalDays;
-            rangeSliderAge.UpperValue = (float)totalDays;
-
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = GetCurrentTime();
-           
-            GetHistoryData(firstDayOfYear.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
+            title.Text = "My Values";
+            var userId = (string)Application.Current.Properties["userId"];
+            initializeUser(userId);
 
+
+        }
+
+        private async void initializeUser(string uid)
+        {
+            try
+            {
+                string res = await RdsConnect.getUser(uid);
+                if (res == "Failure")
+                {
+                    await DisplayAlert("Alert", "Error in getUser() in initializeUser() in AboutMePage", "OK");
+                    return;
+                }
+                Debug.WriteLine("ABOUT ME: " + res);
+                UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(res);
+                ToUser(userResponse);
+
+                var startDate = DateTime.Parse(user.datetime);
+                var startDateCopy = DateTime.Parse(user.datetime);
+                var endDate = DateTime.Now;
+
+                startDateLabel.Text = startDate.ToString("MM/dd/yyyy");
+                endDateLabel.Text = endDate.ToString("MM/dd/yyyy");
+
+                int totalDays = -1;
+                while (startDateCopy < endDate)
+                {
+                    startDateCopy = startDateCopy.AddDays(1);
+                    totalDays++;
+                }
+
+                //var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+                //var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+                start = startDate;
+                rangeSliderAge.MinimumValue = 0;
+                rangeSliderAge.LowerValue = 0;
+                rangeSliderAge.MaximumValue = (float)totalDays;
+                rangeSliderAge.UpperValue = (float)totalDays;
+
+                GetHistoryData(startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
+
+            }
+            catch (Exception a)
+            {
+
+            }
+
+        }
+
+        private void ToUser(UserResponse userResponse)
+        {
+            if (userResponse.result != null)
+            {
+                foreach (UserDto dto in userResponse.result)
+                {
+                    if (dto.user_email_id != null)
+                    {
+                        user = new Models.User()
+                        {
+                            FirstName = dto.user_first_name,
+                            LastName = dto.user_last_name,
+                            Email = dto.user_email_id,
+                            HavePic = DataParser.ToBool(dto.have_pic),
+                            PicUrl = dto.user_picture,
+                            MessageCard = dto.message_card,
+                            MessageDay = dto.message_day,
+                            MajorEvents = dto.user_major_events,
+                            MyHistory = dto.user_history,
+                            TimeSettings = ToTimeSettings(dto),
+                            user_birth_date = dto.user_birth_date,
+                            datetime = dto.datetime,
+                        };
+                        break;
+                    }
+                }
+            }
+        }
+
+        private TimeSettings ToTimeSettings(UserDto dto)
+        {
+            TimeSettings timeSettings = new TimeSettings();
+            timeSettings.TimeZone = dto.time_zone;
+            timeSettings.MorningStartTime = DataParser.ToTimeSpan(dto.morning_time);
+            timeSettings.AfterNoonStartTime = DataParser.ToTimeSpan(dto.afternoon_time);
+            timeSettings.EveningStartTime = DataParser.ToTimeSpan(dto.evening_time);
+            timeSettings.NightStartTime = DataParser.ToTimeSpan(dto.night_time);
+            timeSettings.DayStart = DataParser.ToTimeSpan(dto.day_start);
+            timeSettings.DayEnd = DataParser.ToTimeSpan(dto.day_end);
+            return timeSettings;
         }
 
         void rangeSliderAge_DragCompleted(System.Object sender, System.EventArgs e)
@@ -113,10 +181,10 @@ namespace Manifest.Views
 
             var startDate = start.AddDays(rangeSliderAge.LowerValue);
             var endDate = start.AddDays(rangeSliderAge.UpperValue);
-            Debug.WriteLine("START:" + startDate.ToString("yyyy-MM-dd"));
-            Debug.WriteLine("END:" + endDate.ToString("yyyy-MM-dd"));
+
             startDateLabel.Text = startDate.ToString("MM/dd/yyyy");
             endDateLabel.Text = endDate.ToString("MM/dd/yyyy");
+
             GetHistoryData(startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
         }
 

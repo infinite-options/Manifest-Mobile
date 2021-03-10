@@ -17,6 +17,7 @@ namespace Manifest.Models
         public List<Person> ImportantPeople { get; set; }
         public TimeSettings TimeSettings { get; set; }
         public string user_birth_date { get; set; }
+        public string datetime { get; set; }
     }
 
     public class UserResponse
@@ -44,6 +45,7 @@ namespace Manifest.Models
         public string user_birth_date { get; set; }
         public string user_history { get; set; }
         public string user_major_events { get; set; }
+        public string datetime { get; set; }
 
         // Important People or TA details below
         public string ta_people_id { get; set; }
