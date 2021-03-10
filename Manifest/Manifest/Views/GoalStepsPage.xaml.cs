@@ -199,7 +199,6 @@ namespace Manifest.Views
 
         async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
-
             if(processedInstructions.Count != 0)
             {
                 foreach (int i in processedInstructions)
@@ -217,17 +216,22 @@ namespace Manifest.Views
                 }
                 else
                 {
+                    // QUESTION FOR PRASHANT
                     string urlSub = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
                     await RdsConnect.updateOccurance(parent, true, false, urlSub);
-                    var url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
-                    await RdsConnect.updateOccurance(passedOccurance, true, false, url);
-                    //passedOccurance.IsInProgress = true;
+
+                    //UPDATE PASSEDOCCURANCE TO WRITE DATABASE IN PROGRESS...
+                    string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                    await RdsConnect.updateOccurance(passedOccurance, true, false, url2);
                 }
             }
             else
             {
                 string urlSub = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
                 await RdsConnect.updateOccurance(parent, false, false, urlSub);
+
+                string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                await RdsConnect.updateOccurance(passedOccurance, false, false, url2);
             }
 
             await Navigation.PopAsync(false);
@@ -238,6 +242,7 @@ namespace Manifest.Views
         {
             Navigation.PushAsync(new SettingsPage(), false);
         }
+
         private DateTime ToDateTime(string dateString)
         {
             try
@@ -264,46 +269,6 @@ namespace Manifest.Views
                 parentIsComplete();
             }
             await Navigation.PopAsync(false);
-
-            //foreach (int i in processedInstructions)
-            //{
-            //    await RdsConnect.updateInstruction(true, items[i]);
-            //}
-            //parentIsComplete();
-            //await Navigation.PopAsync(false);
-
-            //foreach (int i in processedInstructions)
-            //{
-            //    await RdsConnect.updateInstruction(true, items[i]);
-            //}
-
-            //if (processedInstructions.Count == parent.instructions.Count)
-            //{
-            //    parentIsComplete();
-            //}
-            //else
-            //{
-            //    string urlOccur = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
-            //    await RdsConnect.updateOccurance(passedOccurance, true, false, urlOccur);
-            //    await Navigation.PopAsync(false);
-            //}
-
-            //foreach (int i in processedInstructions)
-            //{
-            //    await RdsConnect.updateInstruction(true, items[i]);
-            //}
-
-            //if (processedInstructions.Count == parent.instructions.Count)
-            //{
-            //    parentIsComplete();
-            //    await Navigation.PopAsync(false);
-            //}
-            //else
-            //{
-            //    await Navigation.PopAsync(false);
-            //   // Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
-            //}
-            //Navigation.PushAsync(new Completed(passedTitle, passedPhoto, passedColor));
         }
 
         void boredButon_Clicked(System.Object sender, System.EventArgs e)

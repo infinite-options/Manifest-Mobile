@@ -68,7 +68,7 @@ namespace Manifest.Views
 
             goalNotStarted.Color = Color.FromHex((string)Application.Current.Properties["goal"]);
             goalStarted.Color = Color.FromHex((string)Application.Current.Properties["routine"]);
-            goalCompleted.Color = Color.FromHex((string)Application.Current.Properties["event"]);
+            goalCompleted.Color = Color.FromHex((string)Application.Current.Properties["routine"]);
 
             title.Text = "Progress";
             subTitle.Text = goalTitle;
@@ -342,14 +342,14 @@ namespace Manifest.Views
                 Debug.WriteLine("END: " + endDate);
 
                 var startDateToDisplay = DateTime.Now;
-                var arrayKeys = new List<string>();
-                for (int i = 7; i > 0; i--)
-                {
+                //var arrayKeys = new List<string>();
+                //for (int i = 7; i > 0; i--)
+                //{
                     
-                    Debug.WriteLine("DATES: " + startDateToDisplay.ToString("yyyy-MM-dd"));
-                    arrayKeys.Add(startDateToDisplay.ToString("yyyy-MM-dd"));
-                    startDateToDisplay = startDateToDisplay.AddDays(-1);
-                }
+                //    Debug.WriteLine("DATES: " + startDateToDisplay.ToString("yyyy-MM-dd"));
+                //    arrayKeys.Add(startDateToDisplay.ToString("yyyy-MM-dd"));
+                //    startDateToDisplay = startDateToDisplay.AddDays(-1);
+                //}
 
                 //DatesList.ItemsSource = dates;
 
@@ -376,94 +376,121 @@ namespace Manifest.Views
                     var dates = JsonConvert.DeserializeObject<IDictionary<string, object>>(user.result.ToString());
                     var dataDictionary = new Dictionary<string, object>();
 
+                    //STEP 1:GET KEYS.
+                    var arrayKeys = new List<string>();
+                    int count = 7;
                     foreach(string key in dates.Keys)
                     {
-                        DateTime today = DateTime.Parse(key);
-                        var localTime = today.ToLocalTime();
-                        Debug.WriteLine("LOCAL TIME: " + localTime);
-                        dataDictionary.Add(localTime.ToString("yyyy-MM-dd"), dates[key]);
+                        arrayKeys.Add(key);
+                        count--;
                     }
 
-
-                    var date = DateTime.Now;
-                    foreach (string key in arrayKeys)
+                    if(arrayKeys.Count != 0)
                     {
-                        
-                        var actionsArray = new List<int>();
-
-                        for (int i = 0; i < 3; i++)
+                        var firstDate = DateTime.Parse(arrayKeys[0]);
+                        for (int i = count; i > 0; i--)
                         {
-                            actionsArray.Add(-1);
+                            firstDate = firstDate.AddDays(-1);
+                            arrayKeys.Add(firstDate.ToString("yyyy-MM-dd"));
                         }
-                        Debug.WriteLine("Key: " + key);
-                        if (dataDictionary.ContainsKey(key))
+
+                        var date = DateTime.Now;
+                        var indexSubKeys = 0;
+
+                        foreach (string key in arrayKeys)
                         {
 
-                            var value = JsonConvert.DeserializeObject<IDictionary<string, object>>(dataDictionary[key].ToString());
-                            if (value.ContainsKey("actions"))
-                            {
-                                if(value["actions"] != null)
-                                {
-                                    var actions = JsonConvert.DeserializeObject<IDictionary<string, object>>(value["actions"].ToString());
+                            var actionsArray = new List<int>();
 
-                                    var j = 0;
-                                    foreach (string subKey in actions.Keys)
+                            for (int i = 0; i < 3; i++)
+                            {
+                                actionsArray.Add(-1);
+                            }
+                            Debug.WriteLine("Key: " + key);
+                            if (dates.ContainsKey(key))
+                            {
+
+                                var value = JsonConvert.DeserializeObject<IDictionary<string, object>>(dates[key].ToString());
+                                if (value.ContainsKey("actions"))
+                                {
+                                    if (value["actions"] != null)
                                     {
-                                        if (!actionNames.ContainsKey(subKey))
+                                        var actions = JsonConvert.DeserializeObject<IDictionary<string, object>>(value["actions"].ToString());
+                                        var indexAction = 0;
+                                        foreach (string subKey in actions.Keys)
                                         {
-                                            actionNames.Add(subKey, "");
-                                            actionNameArray[j] = subKey;
-                                            j++;
-                                        }
-                                        if (actions[subKey].ToString() == "not started")
-                                        {
-                                            actionsArray[j] = -1;
-                                        }
-                                        else if (actions[subKey].ToString() == "in_progress")
-                                        {
-                                            actionsArray[j] = 0;
-                                        }
-                                        else if (actions[subKey].ToString() == "completed")
-                                        {
-                                            actionsArray[j] = 1;
+                                            if (!actionNames.ContainsKey(subKey))
+                                            {
+                                                actionNames.Add(subKey, "");
+                                                actionNameArray[indexSubKeys] = subKey;
+                                                indexSubKeys++;
+                                            }
+                                            if (actions[subKey].ToString() == "not started")
+                                            {
+                                                actionsArray[indexAction] = -1;
+                                            }
+                                            else if (actions[subKey].ToString() == "in_progress")
+                                            {
+                                                actionsArray[indexAction] = 0;
+                                            }
+                                            else if (actions[subKey].ToString() == "completed")
+                                            {
+                                                actionsArray[indexAction] = 1;
+                                            }
+                                            indexAction++;
                                         }
                                     }
                                 }
                             }
+
+                            rows.Add(new ProgressRow()
+                            {
+                                name = date.DayOfWeek.ToString(),
+                                strokeColorA = StrokeFill(actionsArray[0]),
+                                fillA = Fill(actionsArray[0]),
+                                displayA = Display(actionNameArray[0]),
+                                strokeColorB = StrokeFill(actionsArray[1]),
+                                fillB = Fill(actionsArray[1]),
+                                displayB = Display(actionNameArray[1]),
+                                strokeColorC = StrokeFill(actionsArray[2]),
+                                fillC = Fill(actionsArray[2]),
+                                displayC = Display(actionNameArray[2]),
+                            });
+                            date = date.AddDays(1);
                         }
 
-                        rows.Add(new ProgressRow()
+                        if (0 < actionNameArray.Count)
                         {
-                            name = date.DayOfWeek.ToString(),
-                            strokeColorA = StrokeFill(actionsArray[0]),
-                            fillA = Fill(actionsArray[0]),
-                            displayA = Display(actionNameArray[0]),
-                            strokeColorB = StrokeFill(actionsArray[1]),
-                            fillB = Fill(actionsArray[1]),
-                            displayB = Display(actionNameArray[1]),
-                            strokeColorC = StrokeFill(actionsArray[2]),
-                            fillC = Fill(actionsArray[2]),
-                            displayC = Display(actionNameArray[2]),
-                        }) ;
-                        date = date.AddDays(1);
-                    }
+                            actionA.Text = actionNameArray[0];
+                        }
 
-                    if (0 < actionNameArray.Count)
+                        if (1 < actionNameArray.Count)
+                        {
+                            actionB.Text = actionNameArray[1];
+                        }
+
+                        if (2 < actionNameArray.Count)
+                        {
+                            actionC.Text = actionNameArray[2];
+                        }
+
+                        GoalsStatusList.ItemsSource = rows;
+                    }
+                    else
                     {
-                        actionA.Text = actionNameArray[0];
+                        //Display an alert saying there is no data or display an empty grid.
+                        await DisplayAlert("Oops", "Progress not available. Complete a goal to see your progress", "OK");
+                        return;
                     }
 
-                    if (1 < actionNameArray.Count)
-                    {
-                        actionB.Text = actionNameArray[1];
-                    }
 
-                    if (2 < actionNameArray.Count)
-                    {
-                        actionC.Text = actionNameArray[2];
-                    }
-
-                    GoalsStatusList.ItemsSource = rows;
+                    //foreach(string key in dates.Keys)
+                    //{
+                    //    DateTime today = DateTime.Parse(key);
+                    //    var localTime = today.ToLocalTime();
+                    //    Debug.WriteLine("LOCAL TIME: " + localTime);
+                    //    dataDictionary.Add(localTime.ToString("yyyy-MM-dd"), dates[key]);
+                    //}
 
                 }
                 else
@@ -519,7 +546,7 @@ namespace Manifest.Views
             }
             else if (val == 1)
             {
-                color = (string)Application.Current.Properties["event"];
+                color = (string)Application.Current.Properties["routine"];
             }
             return color;
         }

@@ -343,16 +343,11 @@
                 <StackLayout Grid.Column="0" Margin="0,-14,0,0">
                     <RelativeLayout >
                         
-                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" IsEnabled="False">
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False">
                         </Frame>
-                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True" IsEnabled="False">
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True">
                             <Grid>
-                                <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"
-                                       >
-                                    <Image.GestureRecognizers>
-                                        <ClickGestureRecognizer Clicked="ClickGestureRecognizer_Clicked"></ClickGestureRecognizer>
-                                    </Image.GestureRecognizers>
-                                </Image>
+                                <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
                                 <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
@@ -371,11 +366,11 @@
                                 <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
                                 <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="AboutMeClicked"></TapGestureRecognizer>
-                            </Frame.GestureRecognizers>
                         </Frame>
                     </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="AboutMeClicked"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
 
                 <StackLayout Grid.Column="2" Margin="0,-14,0,0">
@@ -387,12 +382,12 @@
                             <Grid>
                                 <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
                                 <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
-                            </Grid>
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="HelpClicked"></TapGestureRecognizer>
-                            </Frame.GestureRecognizers>   
+                            </Grid>  
                         </Frame>
                     </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="HelpClicked"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers> 
                 </StackLayout>
             </Grid>
         </Grid>

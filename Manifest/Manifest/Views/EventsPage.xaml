@@ -6,7 +6,7 @@
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
                 <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="64"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="50"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
@@ -98,7 +98,9 @@
             <StackLayout Grid.Row="2">
 
             </StackLayout>
-            <Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,-20" >
+
+
+            <!--<Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,-20" >
                 <Frame Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
                     <Grid>
                         <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>
@@ -126,10 +128,59 @@
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2"></TapGestureRecognizer>
                     </Frame.GestureRecognizers>   
                 </Frame>
+            </Grid>-->
+
+            <Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,0">
+                <StackLayout Grid.Column="0" Margin="0,-7,0,0">
+                    <RelativeLayout >
+                        
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False">
+                        </Frame>
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
+                            <Grid>
+                                <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
+                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            </Grid>
+                        </Frame>
+                    </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout Grid.Column="1" Margin="0,-7,0,0">
+                    <RelativeLayout >
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                        </Frame>
+
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
+                            <Grid>
+                                <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
+                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            </Grid>
+                        </Frame>
+                    </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2" Margin="0,-7,0,0">
+                    <RelativeLayout >
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                        </Frame>
+
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
+                            <Grid>
+                                <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
+                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            </Grid>
+                        </Frame>
+                    </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>   
+                </StackLayout>
             </Grid>
-            <StackLayout Grid.Row="4">
-                               
-            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
