@@ -251,7 +251,9 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                <f9p:Label x:Name="text4" AutoFit="Width" Text=""  Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                    <f9p:Label x:Name="text4" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
@@ -267,7 +269,9 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                <f9p:Label x:Name="text7" AutoFit="Width" Text=""  Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                    <f9p:Label x:Name="text7" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
@@ -285,7 +289,9 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                 <f9p:Label  x:Name="text3" AutoFit="Width" Text=""  Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                    <f9p:Label  x:Name="text3" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
@@ -301,7 +307,9 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                 <f9p:Label x:Name="text1" Text="" AutoFit="Width" Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                    <f9p:Label x:Name="text1" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
@@ -319,7 +327,9 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                 <f9p:Label x:Name="text5" AutoFit="Width" Text=""  Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                <f9p:Label x:Name="text5" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
@@ -335,7 +345,9 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                 <f9p:Label x:Name="text6" AutoFit="Width" Text=""  Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                <f9p:Label x:Name="text6" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
@@ -351,7 +363,9 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                 <f9p:Label x:Name="text2" AutoFit="Width" Text=""  Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                    <f9p:Label x:Name="text2" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
@@ -368,7 +382,9 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                 <f9p:Label Text="" AutoFit="Width"  Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                    <f9p:Label Text="" AutoFit="Width"  Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                </StackLayout>
                                 </RelativeLayout>
                             </StackLayout>
                             <StackLayout Margin="50,20,0,0" WidthRequest="128" HeightRequest="128" HorizontalOptions="End">
@@ -380,7 +396,9 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                 <f9p:Label Text="" AutoFit="Width" Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                    <f9p:Label Text="" AutoFit="Width" Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                </StackLayout>
                                 </RelativeLayout>
                             </StackLayout>
                         </StackLayout>

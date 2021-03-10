@@ -97,6 +97,7 @@
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorA}"
                                         IsChecked="{Binding fillA}"
+                                        IsVisible="{Binding displayA}"
                                         IsEnabled="False">
                                     </CheckBox>
                                 </StackLayout>
@@ -105,6 +106,7 @@
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorB}"
                                         IsChecked="{Binding fillB}"
+                                        IsVisible="{Binding displayB}"
                                         IsEnabled="False">
                                     </CheckBox>
                                 </StackLayout>
@@ -113,6 +115,7 @@
                                     <CheckBox HeightRequest="20" WidthRequest="20"
                                         Color="{Binding strokeColorC}"
                                         IsChecked="{Binding fillC}"
+                                        IsVisible="{Binding displayC}"
                                         IsEnabled="False">
                                     </CheckBox>
                                 </StackLayout>

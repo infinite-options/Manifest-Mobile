@@ -211,6 +211,7 @@ namespace Manifest.Views
                 {
                     if (parent.IsComplete != true)
                     {
+                        //passedOccurance.IsComplete = true;
                         parentIsComplete();
                     }
                 }
@@ -218,6 +219,9 @@ namespace Manifest.Views
                 {
                     string urlSub = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
                     await RdsConnect.updateOccurance(parent, true, false, urlSub);
+                    var url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                    await RdsConnect.updateOccurance(passedOccurance, true, false, url);
+                    //passedOccurance.IsInProgress = true;
                 }
             }
             else

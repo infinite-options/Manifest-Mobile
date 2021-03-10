@@ -11,7 +11,7 @@
                         HeightRequest="230"
                         HorizontalOptions="Center">
                     </Ellipse>
-                    <Label Padding="30,0,30,0" Text="Manifest Your Space" TextColor="White" FontSize="30" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="230"></Label>
+                    <Label Padding="30,0,30,0" Text="Manifest Your Life" TextColor="White" FontSize="30" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="230"></Label>
                 </RelativeLayout>
             </StackLayout>
             <Grid HeightRequest="170">

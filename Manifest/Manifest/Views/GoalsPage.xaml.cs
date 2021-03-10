@@ -775,6 +775,8 @@ namespace Manifest.Views
                 }
                 else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true && chosenOccurance.subOccurances.Count == 1 && chosenOccurance.IsComplete == false)
                 {
+                    //var nextPage = new GoalStepsPage(chosenOccurance, chosenOccurance.subOccurances[0], "#F8BE28");
+                    
                     await Navigation.PushAsync(new GoalStepsPage(chosenOccurance, chosenOccurance.subOccurances[0], "#F8BE28"));
                 }
                 else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true)
@@ -788,6 +790,7 @@ namespace Manifest.Views
                 await DisplayAlert("Oops",goals.Message,"OK");
             }
         }
+
 
 
         //only one used when the user clicks a goal circle

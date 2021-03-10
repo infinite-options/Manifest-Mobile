@@ -16,6 +16,9 @@ namespace Manifest.Views
 {
     public partial class GoalsSpecialPage : ContentPage
     {
+
+        public event EventHandler<EventArgs> OperationCompeleted;
+
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
@@ -46,6 +49,7 @@ namespace Manifest.Views
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
 
+            BindingContext = this;
             bindParticles();
 
             mainGridLayout.BackgroundColor = Color.FromHex((string)Application.Current.Properties["background"]);
@@ -79,7 +83,7 @@ namespace Manifest.Views
                 Debug.WriteLine(subOccur.Title + " status: in progress: " + subOccur.IsInProgress + " completed: " + subOccur.IsComplete);
             }
 
-            checkPlatform();
+            //checkPlatform();
             NavigationPage.SetHasNavigationBar(this, false);
 
             if (subTasks.Count == 1)
@@ -205,49 +209,49 @@ namespace Manifest.Views
             showParticles.SetBinding(Particle.Forms.ParticleView.IsActiveProperty, particlesActive);
         }
 
-        void checkPlatform()
-        {
-            goalFrame.HeightRequest = deviceHeight / 14;
-            goalFrame.WidthRequest = goalFrame.HeightRequest;
-            goalFrame.CornerRadius = (int)(deviceHeight / 21);
-            goalLabel.FontSize = deviceHeight / 70;
+        //void checkPlatform()
+        //{
+        //    goalFrame.HeightRequest = deviceHeight / 14;
+        //    goalFrame.WidthRequest = goalFrame.HeightRequest;
+        //    goalFrame.CornerRadius = (int)(deviceHeight / 21);
+        //    goalLabel.FontSize = deviceHeight / 70;
 
-            progIcon.HeightRequest = deviceHeight / 28;
-            progIcon.WidthRequest = deviceHeight / 28;
-            //progIcon.CornerRadius = (int)(deviceHeight / 100);
-            progLabel.FontSize = deviceHeight / 140;
+        //    progIcon.HeightRequest = deviceHeight / 28;
+        //    progIcon.WidthRequest = deviceHeight / 28;
+        //    //progIcon.CornerRadius = (int)(deviceHeight / 100);
+        //    progLabel.FontSize = deviceHeight / 140;
 
 
-            actionFrame1.HeightRequest = deviceWidth / 10;
-            actionFrame1.WidthRequest = deviceWidth / 10;
-            actionFrame1.CornerRadius = (int)(deviceWidth / 13.5);
-            actionLabel1.FontSize = deviceWidth / 45;
+        //    actionFrame1.HeightRequest = deviceWidth / 10;
+        //    actionFrame1.WidthRequest = deviceWidth / 10;
+        //    actionFrame1.CornerRadius = (int)(deviceWidth / 13.5);
+        //    actionLabel1.FontSize = deviceWidth / 45;
 
-            InProgress1.HeightRequest = deviceWidth / 18;
-            InProgress1.WidthRequest = deviceWidth / 18;
-            IsComplete1.HeightRequest = deviceWidth / 18;
-            IsComplete1.WidthRequest = deviceWidth / 18;
+        //    InProgress1.HeightRequest = deviceWidth / 18;
+        //    InProgress1.WidthRequest = deviceWidth / 18;
+        //    IsComplete1.HeightRequest = deviceWidth / 18;
+        //    IsComplete1.WidthRequest = deviceWidth / 18;
 
-            actionFrame2.HeightRequest = deviceWidth / 10;
-            actionFrame2.WidthRequest = deviceWidth / 10;
-            actionFrame2.CornerRadius = (int)(deviceWidth / 13.5);
-            actionLabel2.FontSize = deviceWidth / 45;
+        //    actionFrame2.HeightRequest = deviceWidth / 10;
+        //    actionFrame2.WidthRequest = deviceWidth / 10;
+        //    actionFrame2.CornerRadius = (int)(deviceWidth / 13.5);
+        //    actionLabel2.FontSize = deviceWidth / 45;
 
-            InProgress2.HeightRequest = deviceWidth / 18;
-            InProgress2.WidthRequest = deviceWidth / 18;
-            IsComplete2.HeightRequest = deviceWidth / 18;
-            IsComplete2.WidthRequest = deviceWidth / 18;
+        //    InProgress2.HeightRequest = deviceWidth / 18;
+        //    InProgress2.WidthRequest = deviceWidth / 18;
+        //    IsComplete2.HeightRequest = deviceWidth / 18;
+        //    IsComplete2.WidthRequest = deviceWidth / 18;
 
-            actionFrame3.HeightRequest = deviceWidth / 10;
-            actionFrame3.WidthRequest = deviceWidth / 10;
-            actionFrame3.CornerRadius = (int)(deviceWidth / 13.5);
-            actionLabel3.FontSize = deviceWidth / 45;
+        //    actionFrame3.HeightRequest = deviceWidth / 10;
+        //    actionFrame3.WidthRequest = deviceWidth / 10;
+        //    actionFrame3.CornerRadius = (int)(deviceWidth / 13.5);
+        //    actionLabel3.FontSize = deviceWidth / 45;
 
-            InProgress3.HeightRequest = deviceWidth / 18;
-            InProgress3.WidthRequest = deviceWidth / 18;
-            IsComplete3.HeightRequest = deviceWidth / 18;
-            IsComplete3.WidthRequest = deviceWidth / 18;
-        }
+        //    InProgress3.HeightRequest = deviceWidth / 18;
+        //    InProgress3.WidthRequest = deviceWidth / 18;
+        //    IsComplete3.HeightRequest = deviceWidth / 18;
+        //    IsComplete3.WidthRequest = deviceWidth / 18;
+        //}
 
         void goBackToGoals(System.Object sender, System.EventArgs e)
         {

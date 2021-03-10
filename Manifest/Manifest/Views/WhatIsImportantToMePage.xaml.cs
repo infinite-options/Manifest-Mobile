@@ -69,7 +69,7 @@ namespace Manifest.Views
 
             if(Device.RuntimePlatform == Device.iOS)
             {
-                devices.Width = 150;
+                devices.Width = 135;
             }
             else
             {
@@ -86,7 +86,7 @@ namespace Manifest.Views
             endDateLabel.Text = endDate.ToString("MM/dd/yyyy");
             var startDate = DateTime.Parse(dateString);
             int totalDays = 1;
-            while (startDate <= endDate)
+            while (startDate < endDate)
             {
                 startDate = startDate.AddDays(1);
                 totalDays++;
@@ -111,11 +111,12 @@ namespace Manifest.Views
         {
             Debug.WriteLine("DRAG IS COMPLETED");
 
-            var startDate = start.AddDays(rangeSliderAge.LowerValue - 1);
-            var endDate = start.AddDays(rangeSliderAge.UpperValue - 1);
+            var startDate = start.AddDays(rangeSliderAge.LowerValue);
+            var endDate = start.AddDays(rangeSliderAge.UpperValue);
             Debug.WriteLine("START:" + startDate.ToString("yyyy-MM-dd"));
             Debug.WriteLine("END:" + endDate.ToString("yyyy-MM-dd"));
-
+            startDateLabel.Text = startDate.ToString("MM/dd/yyyy");
+            endDateLabel.Text = endDate.ToString("MM/dd/yyyy");
             GetHistoryData(startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd"));
         }
 
