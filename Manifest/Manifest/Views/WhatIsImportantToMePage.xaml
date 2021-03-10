@@ -13,7 +13,7 @@
                 <!--SPACE FOR HEADER-->
                 <Grid Margin="0,30,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="AUTO"></RowDefinition>
                         <RowDefinition Height="1"></RowDefinition>
                         <RowDefinition Height="AUTO"></RowDefinition>
                         <RowDefinition Height="0"></RowDefinition>
@@ -338,7 +338,7 @@
                         <StackLayout Margin="10,10,10,0">
                             <BoxView HeightRequest="1" Color="Gray" ></BoxView>
                         </StackLayout>
-                <Grid Margin="5,0,0,0">
+                <Grid Margin="5,0,0,0" HeightRequest="60">
                     <StackLayout Grid.Column="0" HorizontalOptions="Center" >
                         <StackLayout WidthRequest="30" HorizontalOptions="Center">
                             <CheckBox x:Name="goalNotStarted" HeightRequest="20" WidthRequest="20"
