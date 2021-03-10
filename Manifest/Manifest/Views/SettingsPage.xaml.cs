@@ -59,6 +59,73 @@ namespace Manifest.Views
 
             appVersion.Text = "App version: " + version +", App build: " + build;
 
+
+            var colorTheme = (string)Application.Current.Properties["colorScheme"];
+            if(colorTheme == "retro")
+            {
+                retroScheme.BackgroundColor = Color.FromHex("#0C1E21");
+                vibrantScheme.BackgroundColor = Color.Transparent;
+                coolScheme.BackgroundColor = Color.Transparent;
+                cottonScheme.BackgroundColor = Color.Transparent;
+                classicScheme.BackgroundColor = Color.Transparent;
+                retroLabel.TextColor = Color.FromHex("#FFFFFF");
+                vibrantLabel.TextColor = Color.FromHex("#0C1E21");
+                coolLabel.TextColor = Color.FromHex("#0C1E21");
+                cottonLabel.TextColor = Color.FromHex("#0C1E21");
+                classicLabel.TextColor = Color.FromHex("#0C1E21");
+            }
+            else if (colorTheme == "vibrant")
+            {
+                retroScheme.BackgroundColor = Color.Transparent;
+                vibrantScheme.BackgroundColor = Color.FromHex("#0C1E21");
+                coolScheme.BackgroundColor = Color.Transparent;
+                cottonScheme.BackgroundColor = Color.Transparent;
+                classicScheme.BackgroundColor = Color.Transparent;
+                retroLabel.TextColor = Color.FromHex("#0C1E21");
+                vibrantLabel.TextColor = Color.FromHex("#FFFFFF");
+                coolLabel.TextColor = Color.FromHex("#0C1E21");
+                cottonLabel.TextColor = Color.FromHex("#0C1E21");
+                classicLabel.TextColor = Color.FromHex("#0C1E21");
+            }
+            else if (colorTheme == "cool")
+            {
+                retroScheme.BackgroundColor = Color.Transparent;
+                vibrantScheme.BackgroundColor = Color.Transparent;
+                coolScheme.BackgroundColor = Color.FromHex("#0C1E21");
+                cottonScheme.BackgroundColor = Color.Transparent;
+                classicScheme.BackgroundColor = Color.Transparent;
+                retroLabel.TextColor = Color.FromHex("#0C1E21");
+                vibrantLabel.TextColor = Color.FromHex("#0C1E21");
+                coolLabel.TextColor = Color.FromHex("#FFFFFF");
+                cottonLabel.TextColor = Color.FromHex("#0C1E21");
+                classicLabel.TextColor = Color.FromHex("#0C1E21");
+            }
+            else if (colorTheme == "cotton")
+            {
+                retroScheme.BackgroundColor = Color.Transparent;
+                vibrantScheme.BackgroundColor = Color.Transparent;
+                coolScheme.BackgroundColor = Color.Transparent;
+                cottonScheme.BackgroundColor = Color.FromHex("#0C1E21");
+                classicScheme.BackgroundColor = Color.Transparent;
+                retroLabel.TextColor = Color.FromHex("#0C1E21");
+                vibrantLabel.TextColor = Color.FromHex("#0C1E21");
+                coolLabel.TextColor = Color.FromHex("#0C1E21");
+                cottonLabel.TextColor = Color.FromHex("#FFFFFF");
+                classicLabel.TextColor = Color.FromHex("#0C1E21");
+            }
+            else if (colorTheme == "classic")
+            {
+                retroScheme.BackgroundColor = Color.Transparent;
+                vibrantScheme.BackgroundColor = Color.Transparent;
+                coolScheme.BackgroundColor = Color.Transparent;
+                cottonScheme.BackgroundColor = Color.Transparent;
+                classicScheme.BackgroundColor = Color.FromHex("#0C1E21");
+                retroLabel.TextColor = Color.FromHex("#0C1E21");
+                vibrantLabel.TextColor = Color.FromHex("#0C1E21");
+                coolLabel.TextColor = Color.FromHex("#0C1E21");
+                cottonLabel.TextColor = Color.FromHex("#0C1E21");
+                classicLabel.TextColor = Color.FromHex("#FFFFFF");
+            }
         }
 
         public string GetCurrentTime()
