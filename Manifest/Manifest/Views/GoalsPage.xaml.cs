@@ -76,7 +76,10 @@ namespace Manifest.Views
                 var helperObject = new MainPage();
                 locationTitle.Text = (string)Application.Current.Properties["location"];
                 dateTitle.Text = helperObject.GetCurrentTime();
-
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    titleGrid.Margin = new Thickness(0, 10, 0, 0);
+                }
                 NavigationPage.SetHasNavigationBar(this, false);
             }
             catch (Exception goalPage)
@@ -108,7 +111,7 @@ namespace Manifest.Views
         }
 
         //This function takes the response from the endpoint, and formats it into Occurances
-        private void setGoals()
+        private async void setGoals()
         {
             try
             {
@@ -132,6 +135,7 @@ namespace Manifest.Views
                             Debug.WriteLine(dto.Title + " status: in progress: " + dto.IsInProgress + " completed: " + dto.IsComplete);
                             goalsInRange.Add(dto);
                         }
+
                     }
                 }
 
@@ -140,9 +144,26 @@ namespace Manifest.Views
 
                 if (goalsInRange.Count == 0)
                 {
-                    DisplayAlert("Oops", "no goals available at this time", "OK");
-                    goalsExist = false;
-                    return;
+                    var response = await DisplayAlert("Notice", "There are no goals schedule for you at this time. Press 'See Future Goals' to see upcoming goals or 'Return To Lobby.'", "See Future Goals", "Return To Lobby");
+                    if (response)
+                    {
+                        foreach (Occurance dto in currentOccurances)
+                        {
+                            goalsInRange.Add(dto);
+                        }
+                        if (goalsInRange.Count == 0)
+                        {
+                            goalsExist = false;
+                            await DisplayAlert("Oops", "Our records show that you have no future goals.", "OK");
+                            Application.Current.MainPage = new MainPage();
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Application.Current.MainPage = new MainPage();
+                        return;
+                    }
                 }
                 goalsExist = true;
                 if (goalsInRange.Count == 1)
@@ -564,7 +585,7 @@ namespace Manifest.Views
                     stack7.IsEnabled = false;
                     stack7.IsVisible = false;
                 }
-                else
+                else if (goalsInRange.Count == 7)
                 {
                     text1.Text = goalsInRange[0].Title;
                     occuranceDict.Add(text1.Text, goalsInRange[0]);
@@ -777,10 +798,10 @@ namespace Manifest.Views
                 {
                     //var nextPage = new GoalStepsPage(chosenOccurance, chosenOccurance.subOccurances[0], "#F8BE28");
                     
-                    await Navigation.PushAsync(new GoalStepsPage(chosenOccurance, chosenOccurance.subOccurances[0], "#F8BE28"));
+                    await Navigation.PushAsync(new GoalStepsPage(chosenOccurance, chosenOccurance.subOccurances[0], "#F8BE28"),false);
                 }
                 else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == true)
-                    await Navigation.PushAsync(new GoalsSpecialPage(chosenOccurance));
+                    await Navigation.PushAsync(new GoalsSpecialPage(chosenOccurance),false);
                 //else if (chosenOccurance != null && chosenOccurance.IsSublistAvailable == false)
                 //    await DisplayAlert("Error", "this goal doesn't have subtasks", "OK");
                 else await DisplayAlert("Oops", "please select a goal first", "OK");

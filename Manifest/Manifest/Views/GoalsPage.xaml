@@ -9,16 +9,16 @@
                 <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="70"></RowDefinition>
             </Grid.RowDefinitions>
-            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
+            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
                 <!--SPACE FOR HEADER-->
                     <Grid Margin="0,30,0,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="1"></RowDefinition>
+                            <RowDefinition Height="AUTO"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
                             <RowDefinition Height="0"></RowDefinition>
                             <RowDefinition Height="AUTO"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
+                        <Grid Grid.Row="0" x:Name="titleGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="60"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -47,9 +47,10 @@
                             <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
                             <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
                         </Grid>
-                        <Grid Grid.Row="3">
-                             <Label Padding="0,0,0,0" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="16" FontAttributes="Bold"></Label>
-                        </Grid>
+                        <StackLayout Grid.Row="3">
+                            <BoxView HeightRequest="1" Color="White"></BoxView>
+                            <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        </StackLayout>
                     </Grid>
  
             </Frame>
@@ -290,7 +291,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label  x:Name="text3" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                    <f9p:Label x:Name="text3" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
                                 </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
@@ -317,7 +318,7 @@
                             </StackLayout>
                         </StackLayout>
                         <StackLayout Grid.Row="2" Orientation="Horizontal">
-                            <StackLayout Margin="0,-10,0,0" WidthRequest="128" HeightRequest="128" ClassId="5" x:Name="stack5">
+                            <StackLayout Margin="0,-10,0,0" WidthRequest="120" HeightRequest="120" ClassId="5" x:Name="stack5">
                                 <RelativeLayout>
                                 <Ellipse
                                     x:Name="goal5" 
@@ -353,7 +354,7 @@
                                     <TapGestureRecognizer Tapped="navigatetoActionsFrame"></TapGestureRecognizer>
                                 </StackLayout.GestureRecognizers>
                             </StackLayout>
-                            <StackLayout Margin="-31,-40,0,0" WidthRequest="128" HeightRequest="128" ClassId="2" x:Name="stack2">
+                            <StackLayout Margin="-31,-40,0,0" WidthRequest="120" HeightRequest="120" ClassId="2" x:Name="stack2">
                                 <RelativeLayout>
                                 <Ellipse
                                     x:Name="goal2"
@@ -363,7 +364,7 @@
                                     WidthRequest="128"
                                     HeightRequest="128">
                                 </Ellipse>
-                                <StackLayout HeightRequest="128" WidthRequest="128">
+                                <StackLayout HeightRequest="128" WidthRequest="128" >
                                     <f9p:Label x:Name="text2" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
                                 </StackLayout>
                                 </RelativeLayout>
@@ -383,7 +384,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label Text="" AutoFit="Width"  Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                    <f9p:Label Text="" AutoFit="Width" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
                                 </StackLayout>
                                 </RelativeLayout>
                             </StackLayout>
@@ -397,7 +398,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label Text="" AutoFit="Width" Padding="20,15,20,15" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
+                                    <f9p:Label Text="" AutoFit="Width" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="128" WidthRequest="128"></f9p:Label>
                                 </StackLayout>
                                 </RelativeLayout>
                             </StackLayout>

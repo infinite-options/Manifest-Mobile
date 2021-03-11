@@ -68,7 +68,10 @@ namespace Manifest.Views
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = helperObject.GetCurrentTime();
-
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                titleGrid.Margin = new Thickness(0, 10, 0, 0);
+            }
             //parent = occurance;
             numTasks = 0;
             numCompleted = 0;

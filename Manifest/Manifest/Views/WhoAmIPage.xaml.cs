@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Manifest.Config;
 using Manifest.LogIn.Classes;
@@ -7,6 +8,7 @@ using Manifest.Models;
 using Manifest.RDS;
 using Newtonsoft.Json;
 using Xamarin.Auth;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using static Manifest.Views.AboutMePage;
 
@@ -20,6 +22,8 @@ namespace Manifest.Views
         string city;
         string time;
         public Models.User user;
+        ObservableCollection<Person> family = new ObservableCollection<Person>();
+        ObservableCollection<Person> friend = new ObservableCollection<Person>();
         public WhoAmIPage()
         {
             InitializeComponent();
@@ -35,6 +39,14 @@ namespace Manifest.Views
             lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             title.Text = "My Story";
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                titleGrid.Margin = new Thickness(0, 10, 0, 0);
+            }
+            frameMessageCard.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            frameMessageDay.BackgroundColor = Color.FromHex((string)Application.Current.Properties["goal"]);
+            frameMajorEvent.BackgroundColor = Color.FromHex((string)Application.Current.Properties["routine"]);
+            frameMyHistory.BackgroundColor = Color.FromHex((string)Application.Current.Properties["event"]);
 
             var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
@@ -103,6 +115,16 @@ namespace Manifest.Views
                     userPic.Source = user.PicUrl;
                 }
 
+                double height = Math.Max(messageCard.Text.Length + messageCard.Text.Length, messageDay.Text.Length + messageDay.Text.Length);
+                Debug.WriteLine("HEIGHT: " + height);
+                frameMessageCard.HeightRequest = height;
+                frameMessageDay.HeightRequest = height;
+
+                height = Math.Max(majorEvents.Text.Length + majorEvents.Text.Length, myHistory.Text.Length + myHistory.Text.Length);
+                Debug.WriteLine("HEIGHT: " + height);
+                frameMajorEvent.HeightRequest = height;
+                frameMyHistory.HeightRequest = height;
+
             }
             catch (Exception a)
             {
@@ -113,6 +135,12 @@ namespace Manifest.Views
 
         private void ToUser(UserResponse userResponse)
         {
+            family.Clear();
+            friend.Clear();
+            var familyCounter = 1;
+            var friendCounter = 1;
+            var height1 = 90;
+            var height2 = 90;
             if (userResponse.result != null)
             {
                 foreach (UserDto dto in userResponse.result)
@@ -133,9 +161,57 @@ namespace Manifest.Views
                             TimeSettings = ToTimeSettings(dto),
                             user_birth_date = dto.user_birth_date
                         };
-                        break;
+                    }
+                    else
+                    {
+                        var firstName = "";
+                        foreach (char a in dto.people_name)
+                        {
+                            if (a != ' ')
+                            {
+                                firstName += a;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        Person toAdd = new Person()
+                        {
+                            Name = firstName,
+                            Relation = dto.relation_type,
+                            PicUrl = dto.ta_picture,
+                            Id = dto.ta_people_id,
+                            PhoneNumber = dto.ta_phone
+                        };
+                        if (toAdd.PicUrl == null || toAdd.PicUrl == "")
+                        {
+                            toAdd.PicUrl = "aboutme.png";
+                        }
+                        if(toAdd.Relation == "Family")
+                        {
+                            family.Add(toAdd);
+                            if (familyCounter % 5 == 0)
+                            {
+                                height1 += 90;
+                            }
+                            familyCounter++;
+                        }
+                        if (toAdd.Relation == "Family")
+                        {
+                            friend.Add(toAdd);
+                            if (friendCounter % 5 == 0)
+                            {
+                                height2 += 90;
+                            }
+                            friendCounter++;
+                        }
                     }
                 }
+                familyMembersList.ItemsSource = family;
+                friendMembersList.ItemsSource = friend;
+                familyMembersList.HeightRequest = height1;
+                friendMembersList.HeightRequest = height2;
             }
         }
 
@@ -175,6 +251,44 @@ namespace Manifest.Views
         void Button_Clicked_3(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new AboutMePage();
+        }
+
+        void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
+        {
+            var myStack = (StackLayout)sender;
+            var phone = (Label)myStack.Children[2];
+            PerformCall(phone.Text);
+        }
+
+        async void PerformCall(string phoneNumber)
+        {
+            if (phoneNumber == "")
+            {
+                await Application.Current.MainPage.DisplayAlert("Sorry!", $"Hmmm... We don't have a phone number on file", "OK");
+            }
+            else
+            {
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                Debug.WriteLine("Manifest.ViewModels.AboutViewModel: Dialing Number:" + phoneNumber);
+                //Console.WriteLine("ZZZZZZZZZZZZZZZ");
+                try
+                {
+                    PhoneDialer.Open(phoneNumber);
+                    Debug.WriteLine("IN ABOUTVIEWMODEL. LAUNCHING PHONE");
+                }
+                catch (Exception e)
+                {
+                    await DisplayAlert("Error", "Unable to perform a phone call", "OK");
+                }
+                //await Launcher.OpenAsync(new Uri("tel:" + phoneNumber));
+            }
+        }
+
+        void TapGestureRecognizer_Tapped_2(System.Object sender, System.EventArgs e)
+        {
+            var myStack = (StackLayout)sender;
+            var phone = (Label)myStack.Children[2];
+            PerformCall(phone.Text);
         }
     }
 }

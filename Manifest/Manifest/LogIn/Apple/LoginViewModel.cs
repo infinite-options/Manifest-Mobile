@@ -114,22 +114,24 @@ namespace Manifest.LogIn.Apple
                     else
                     {
                         var client = new HttpClient();
-                        var getAppleEmail = new AppleEmail();
-                        getAppleEmail.social_id = account.UserId;
+                        //var getAppleEmail = new AppleEmail();
+                        //getAppleEmail.social_id = account.UserId;
 
-                        var socialLogInPostSerialized = JsonConvert.SerializeObject(getAppleEmail);
+                        //var socialLogInPostSerialized = JsonConvert.SerializeObject(getAppleEmail);
 
-                        System.Diagnostics.Debug.WriteLine(socialLogInPostSerialized);
+                        //System.Diagnostics.Debug.WriteLine(socialLogInPostSerialized);
 
-                        var postContent = new StringContent(socialLogInPostSerialized, Encoding.UTF8, "application/json");
-                        var RDSResponse = await client.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/AppleEmail", postContent);
+                        //var postContent = new StringContent(socialLogInPostSerialized, Encoding.UTF8, "application/json");
+                        //var RDSResponse = await client.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/AppleEmail", postContent);
+                        var userId = (string)Application.Current.Properties["userId"];
+                        var RDSResponse = await client.GetAsync(AppConstants.BaseUrl + AppConstants.appleEmail + userId);
                         var responseContent = await RDSResponse.Content.ReadAsStringAsync();
 
                         System.Diagnostics.Debug.WriteLine(responseContent);
                         if (RDSResponse.IsSuccessStatusCode)
                         {
                             var data = JsonConvert.DeserializeObject<AppleUser>(responseContent);
-                            Application.Current.Properties[account.UserId.ToString()] = data.result[0].customer_email;
+                            Application.Current.Properties[account.UserId.ToString()] = data.message;
                             account.Email = (string)Application.Current.Properties[account.UserId.ToString()];
                             string url = AppConstants.BaseUrl + AppConstants.addGuid;
                             Debug.WriteLine("WRITE GUID: " + url);

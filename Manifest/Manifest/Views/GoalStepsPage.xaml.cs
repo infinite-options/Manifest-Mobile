@@ -83,7 +83,10 @@ namespace Manifest.Views
             doneButton.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             boredButon.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
 
-
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                titleGrid.Margin = new Thickness(0, 10, 0, 0);
+            }
 
             goalsEllipse.Fill = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["routine"]));
 
@@ -117,7 +120,6 @@ namespace Manifest.Views
         {
             var instructionStep = 0;
             items.Clear();
-
             foreach (Instruction step in parent.instructions)
             {
                 if (step.IsComplete == true)

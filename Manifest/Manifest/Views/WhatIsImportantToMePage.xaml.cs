@@ -78,6 +78,11 @@ namespace Manifest.Views
                 devices.Width = 180;
             }
 
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                titleGrid.Margin = new Thickness(0, 10, 0, 0);
+            }
+
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = GetCurrentTime();
             title.Text = "My Values";
@@ -219,8 +224,8 @@ namespace Manifest.Views
 
                 DatesList.ItemsSource = dates;
 
-                client.DefaultRequestHeaders.Add("start-date", startDate.ToString("yyyy-MM-dd"));
-                client.DefaultRequestHeaders.Add("end-date", endDate.ToString("yyyy-MM-dd"));
+                client.DefaultRequestHeaders.Add("start_date", startDate.ToString("yyyy-MM-dd"));
+                client.DefaultRequestHeaders.Add("end_date", endDate.ToString("yyyy-MM-dd"));
 
                 var response = await client.GetAsync(AppConstants.BaseUrl + AppConstants.goalsHistory + userId);
 
@@ -232,8 +237,6 @@ namespace Manifest.Views
                     var user = JsonConvert.DeserializeObject<History>(data);
                     Debug.WriteLine("HISTORY DATA: " + user.result);
                     var dates = JsonConvert.DeserializeObject<IDictionary<string, object>>(user.result.ToString());
-
-
 
                     var dateItems = new List<string>();
                     var goalsItems = new List<string>();

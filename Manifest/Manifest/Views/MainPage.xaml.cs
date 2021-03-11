@@ -66,6 +66,10 @@ namespace Manifest.Views
             //barStackLayoutProperties.BackgroundColor = Color.FromHex((string)Application.Current.Properties["navBar"]);
             title.Text = "Manifest";
 
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                titleGrid.Margin = new Thickness(0, 10, 0, 0);
+            }
 
             locationTitle.Text = (string)Application.Current.Properties["location"];
             dateTitle.Text = GetCurrentTime();

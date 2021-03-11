@@ -62,7 +62,7 @@ namespace Manifest.Views
 
             if(option == "1")
             {
-                mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_one.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
                 mood_one.StrokeThickness = 5;
 
                 mood_two.StrokeThickness = 0;
@@ -74,7 +74,7 @@ namespace Manifest.Views
             }
             else if(option == "2")
             {
-                mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_two.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
                 mood_two.StrokeThickness = 5;
 
                 mood_one.StrokeThickness = 0;
@@ -86,7 +86,7 @@ namespace Manifest.Views
             }
             else if (option == "3")
             {
-                mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_three.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
                 mood_three.StrokeThickness = 5;
 
                 mood_one.StrokeThickness = 0;
@@ -98,7 +98,7 @@ namespace Manifest.Views
             }
             else if (option == "4")
             {
-                mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_four.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
                 mood_four.StrokeThickness = 5;
 
                 mood_one.StrokeThickness = 0;
@@ -110,7 +110,7 @@ namespace Manifest.Views
             }
             else if (option == "5")
             {
-                mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_five.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
                 mood_five.StrokeThickness = 5;
 
                 mood_one.StrokeThickness = 0;
@@ -122,7 +122,7 @@ namespace Manifest.Views
             }
             else if (option == "6")
             {
-                mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_six.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
                 mood_six.StrokeThickness = 5;
 
                 mood_one.StrokeThickness = 0;
@@ -134,7 +134,7 @@ namespace Manifest.Views
             }
             else if (option == "7")
             {
-                mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["event"]));
+                mood_seven.Stroke = new SolidColorBrush(Color.FromHex((string)Application.Current.Properties["header"]));
                 mood_seven.StrokeThickness = 5;
   
                 mood_one.StrokeThickness = 0;

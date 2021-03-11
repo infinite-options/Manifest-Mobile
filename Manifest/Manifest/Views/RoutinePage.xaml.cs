@@ -50,7 +50,10 @@ namespace Manifest.Views
                 supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
 
                 title.Text = "Routines";
-
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    titleGrid.Margin = new Thickness(0, 10, 0, 0);
+                }
                 var helperObject = new MainPage();
                 locationTitle.Text = (string)Application.Current.Properties["location"];
                 dateTitle.Text = helperObject.GetCurrentTime();

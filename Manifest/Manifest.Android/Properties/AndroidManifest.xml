@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="2.2.2" android:installLocation="auto" android:versionCode="61" package="com.infiniteoptions_manifestmy.space">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="2.2.2" android:installLocation="auto" android:versionCode="62" package="com.infiniteoptions_manifestmy.space">
 	<uses-sdk android:minSdkVersion="28" android:targetSdkVersion="29" />
 	<!-- Adding stuff for notifications-->
 	<uses-permission android:name="android.permission.INTERNET" />

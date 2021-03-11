@@ -47,7 +47,7 @@ namespace Manifest.Config
         public const string goalsHistory = "/api/v2/goalHistory/";
         public const string routineHistory = "/api/v2/routineHistory/";
         public const string particularGoalHistory = "/api/v2/particularGoalHistory/";
-
+        public const string appleEmail = "/api/v2/getEmailId/";
         // --- /api/v2/getVersionNumber
         // --- /api/v2/updateVersionNumber
 

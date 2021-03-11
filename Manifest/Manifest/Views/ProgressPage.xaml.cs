@@ -77,7 +77,10 @@ namespace Manifest.Views
             dateTitle.Text = helperObject.GetCurrentTime();
             dates = new ObservableCollection<HeaderInfo>();
             rows = new ObservableCollection<ProgressRow>();
-            
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                titleGrid.Margin = new Thickness(0, 10, 0, 0);
+            }
             GetGoalProgress(goalId);
             NavigationPage.SetHasNavigationBar(this, false);
         }
@@ -357,11 +360,11 @@ namespace Manifest.Views
 
                 Debug.WriteLine("INPUT 2:" + endDate.ToString("yyyy-MM-dd"));
 
-                client.DefaultRequestHeaders.Add("start-date", startDate.ToString("yyyy-MM-dd"));
-                client.DefaultRequestHeaders.Add("end-date", endDate.ToString("yyyy-MM-dd"));
+                client.DefaultRequestHeaders.Add("start_date", startDate.ToString("yyyy-MM-dd"));
+                client.DefaultRequestHeaders.Add("end_date", endDate.ToString("yyyy-MM-dd"));
                 client.DefaultRequestHeaders.Add("goal_routine_id", id);
-                var response = await client.GetAsync(AppConstants.BaseUrl + AppConstants.particularGoalHistory + userId);
 
+                var response = await client.GetAsync(AppConstants.BaseUrl + AppConstants.particularGoalHistory + userId);
                 var actionNames = new Dictionary<string, string>();
                 var actionNameArray = new List<string>();
                 actionNameArray.Add("");
@@ -377,43 +380,43 @@ namespace Manifest.Views
                     var dataDictionary = new Dictionary<string, object>();
 
                     //STEP 1:GET KEYS.
-                    var arrayKeys = new List<string>();
+                    var arrayKeys = new List<DateTime>();
                     int count = 7;
                     foreach(string key in dates.Keys)
                     {
-                        arrayKeys.Add(key);
+                        arrayKeys.Add(DateTime.Parse(key));
                         count--;
                     }
 
+                    arrayKeys.Sort();
+
                     if(arrayKeys.Count != 0)
                     {
-                        var firstDate = DateTime.Parse(arrayKeys[0]);
+                        var firstDate = arrayKeys[0];
                         for (int i = count; i > 0; i--)
                         {
                             firstDate = firstDate.AddDays(-1);
-                            arrayKeys.Add(firstDate.ToString("yyyy-MM-dd"));
+                            arrayKeys.Add(firstDate);
                         }
-
+                        arrayKeys.Sort();
                         var date = DateTime.Now;
                         var indexSubKeys = 0;
-
-                        foreach (string key in arrayKeys)
+                        var first = false;
+                        for(int key = 6; key >= 0; key--)
                         {
-
                             var actionsArray = new List<int>();
 
                             for (int i = 0; i < 3; i++)
                             {
                                 actionsArray.Add(-1);
                             }
-                            Debug.WriteLine("Key: " + key);
-                            if (dates.ContainsKey(key))
+                            Debug.WriteLine("Key: " + arrayKeys[key]);
+                            if (dates.ContainsKey(arrayKeys[key].ToString("yyyy-MM-dd")))
                             {
-
-                                var value = JsonConvert.DeserializeObject<IDictionary<string, object>>(dates[key].ToString());
+                                var value = JsonConvert.DeserializeObject<IDictionary<string, object>>(dates[arrayKeys[key].ToString("yyyy-MM-dd")].ToString());
                                 if (value.ContainsKey("actions"))
                                 {
-                                    if (value["actions"] != null)
+                                    if (value["actions"] != null && value.Count ==2)
                                     {
                                         var actions = JsonConvert.DeserializeObject<IDictionary<string, object>>(value["actions"].ToString());
                                         var indexAction = 0;
@@ -422,20 +425,33 @@ namespace Manifest.Views
                                             if (!actionNames.ContainsKey(subKey))
                                             {
                                                 actionNames.Add(subKey, "");
-                                                actionNameArray[indexSubKeys] = subKey;
-                                                indexSubKeys++;
+                                                if(indexSubKeys < 3)
+                                                {
+                                                    actionNameArray[indexSubKeys] = subKey;
+                                                    indexSubKeys++;
+                                                }
                                             }
                                             if (actions[subKey].ToString() == "not started")
                                             {
-                                                actionsArray[indexAction] = -1;
+                                                if (indexAction < 3)
+                                                {
+                                                    actionsArray[indexAction] = -1;
+                                                }
                                             }
                                             else if (actions[subKey].ToString() == "in_progress")
                                             {
-                                                actionsArray[indexAction] = 0;
+                                                if (indexAction < 3)
+                                                {
+                                                    actionsArray[indexAction] = 0;
+                                                }
                                             }
                                             else if (actions[subKey].ToString() == "completed")
                                             {
-                                                actionsArray[indexAction] = 1;
+                                                if (indexAction < 3)
+                                                {
+                                                    actionsArray[indexAction] = 1;
+                                                }
+                                                
                                             }
                                             indexAction++;
                                         }
@@ -443,9 +459,20 @@ namespace Manifest.Views
                                 }
                             }
 
+                            var dateLabel = "";
+
+                            if (!first)
+                            {
+                                dateLabel = "Today";
+                                first = true;
+                            }
+                            else
+                            {
+                                dateLabel = date.DayOfWeek.ToString();
+                            }
                             rows.Add(new ProgressRow()
                             {
-                                name = date.DayOfWeek.ToString(),
+                                name = dateLabel,
                                 strokeColorA = StrokeFill(actionsArray[0]),
                                 fillA = Fill(actionsArray[0]),
                                 displayA = Display(actionNameArray[0]),
@@ -456,7 +483,8 @@ namespace Manifest.Views
                                 fillC = Fill(actionsArray[2]),
                                 displayC = Display(actionNameArray[2]),
                             });
-                            date = date.AddDays(1);
+
+                            date = date.AddDays(-1);
                         }
 
                         if (0 < actionNameArray.Count)

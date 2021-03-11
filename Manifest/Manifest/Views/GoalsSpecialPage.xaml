@@ -24,16 +24,16 @@
                 <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
-            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
+            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
                 <!--SPACE FOR HEADER-->
                     <Grid Margin="0,30,0,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="1"></RowDefinition>
+                            <RowDefinition Height="AUTO"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
                             <RowDefinition Height="0"></RowDefinition>
                             <RowDefinition Height="AUTO"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
+                        <Grid Grid.Row="0" x:Name="titleGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="60"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -62,9 +62,10 @@
                             <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
                             <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
                         </Grid>
-                        <Grid Grid.Row="3">
-                             <Label Padding="0,0,0,0" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="16" FontAttributes="Bold"></Label>
-                        </Grid>
+                        <StackLayout Grid.Row="3">
+                            <BoxView HeightRequest="1" Color="White"></BoxView>
+                            <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        </StackLayout>
                     </Grid>
  
             </Frame>
@@ -104,7 +105,9 @@
                     <StackLayout Grid.Column="0"></StackLayout>
                     <StackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" WidthRequest="120">
                         <Frame x:Name="goalFrame" BackgroundColor="#9DB2CB" Padding="0" WidthRequest="120" HeightRequest="120" CornerRadius="60" HasShadow="False">
-                            <f9p:Label x:Name="goalLabel" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goBackToGoals"/>
+                                <StackLayout HeightRequest="120" WidthRequest="120">
+                                    <f9p:Label x:Name="goalLabel" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                </StackLayout>
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="goBackToGoals"></TapGestureRecognizer>
                             </Frame.GestureRecognizers>
@@ -126,8 +129,9 @@
                     </Grid.ColumnDefinitions>
 
                     <Frame x:Name="actionFrame1" Grid.Column="0" Padding="0" WidthRequest="110" HeightRequest="110" CornerRadius="55" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#F26D4B" HasShadow="False">
-                        <f9p:Label x:Name="actionLabel1" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goToSteps"/>
-
+                        <StackLayout HeightRequest="120" WidthRequest="120">
+                            <f9p:Label x:Name="actionLabel1" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                        </StackLayout>
 
                         <!--<Label x:Name="actionLabel1"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
                         <Label.GestureRecognizers>
@@ -144,7 +148,9 @@
                     <Image x:Name="IsComplete1" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="50" WidthRequest="50"  IsVisible="false"/>
 
                     <Frame x:Name="actionFrame2" Padding="0" WidthRequest="110" HeightRequest="110" CornerRadius="55"  Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#F8BE28" HasShadow="False">
-                        <f9p:Label x:Name="actionLabel2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goToSteps"/>
+                        <StackLayout HeightRequest="120" WidthRequest="120">
+                            <f9p:Label x:Name="actionLabel2" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                        </StackLayout>
 
 
                         <!--<Label x:Name="actionLabel2"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
@@ -162,7 +168,9 @@
                     <Image x:Name="IsComplete2" Grid.Column="1" HorizontalOptions="Center"  HeightRequest="50" WidthRequest="50"  VerticalOptions="Start" IsVisible="false"/>
 
                     <Frame x:Name="actionFrame3" Padding="0" WidthRequest="110" HeightRequest="110" CornerRadius="55"  Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#67ABFC" HasShadow="False">
-                        <f9p:Label x:Name="actionLabel3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold" Lines="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ActionTagTapped="goToSteps"/>
+                        <StackLayout HeightRequest="120" WidthRequest="120">
+                            <f9p:Label x:Name="actionLabel3" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                        </StackLayout>
 
 
                         <!--<Label x:Name="actionLabel3"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">

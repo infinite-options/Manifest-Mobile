@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.GoalStepsPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch" x:Class="Manifest.Views.GoalStepsPage">
     <ContentPage.Content>
         <Grid x:Name="mainGridLayout" Padding="0">
             <Grid.RowDefinitions>
@@ -9,16 +9,16 @@
                 <RowDefinition x:Name="barStackLayoutRow" Height="90"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
-            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-16,0,0" >
+            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
                 <!--SPACE FOR HEADER-->
                 <Grid Margin="0,30,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="1"></RowDefinition>
+                        <RowDefinition Height="AUTO"></RowDefinition>
+                        <RowDefinition Height="0"></RowDefinition>
                         <RowDefinition Height="0"></RowDefinition>
                         <RowDefinition Height="AUTO"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
+                    <Grid Grid.Row="0" x:Name="titleGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="60"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -47,9 +47,10 @@
                         <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
                         <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
                     </Grid>
-                    <Grid Grid.Row="3">
-                            <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
-                    </Grid>
+                    <StackLayout Grid.Row="3">
+                        <BoxView HeightRequest="1" Color="White"></BoxView>
+                        <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                    </StackLayout>
                 </Grid>
             </Frame>
            
@@ -70,7 +71,9 @@
                             HeightRequest="100"
                             WidthRequest="100">
                         </Ellipse>
-                        <Label x:Name="routineName" Text="Routine" Padding="10" LineBreakMode="TailTruncation" MaxLines="3" FontSize="Large" TextColor="White" HeightRequest="100" WidthRequest="100"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+                        <StackLayout HeightRequest="100" WidthRequest="100">
+                            <f9p:Label x:Name="routineName" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                        </StackLayout>
                     </RelativeLayout>
                 </StackLayout>
                 <Image Grid.Row="1" x:Name="arrow" Source="downArrow.png" HeightRequest="100"></Image>
@@ -78,7 +81,7 @@
                     <Frame x:Name="goalsFrame" BackgroundColor="#889AB5" CornerRadius="15" VerticalOptions="FillAndExpand" Margin="0,0,0,-15" HasShadow="False">
                         <ScrollView Grid.Row="2" x:Name="stepsScroll">
                             <StackLayout x:Name="instructions">
-                                <Label Margin="16,0,0,0" Text="mins" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></Label>
+                                <Label Margin="16,0,0,0" Text="Steps" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></Label>
                                 <StackLayout Margin="16,0,0,0">
                                     <CollectionView x:Name="InstructionsList">
                                         <CollectionView.ItemTemplate>

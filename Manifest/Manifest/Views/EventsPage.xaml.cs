@@ -38,6 +38,10 @@ namespace Manifest.Views
             {
                 eventDescription.Text = "No description provided";
             }
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                titleGrid.Margin = new Thickness(0, 10, 0, 0);
+            }
             eventInfo.ItemsSource = datagrid;
             eventTime.Text = newEvent.StartTime.ToString("hh:mm tt") + " - " + newEvent.EndTime.ToString("hh:mm tt");
             //datagrid.Add(newEvent);
