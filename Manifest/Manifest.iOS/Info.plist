@@ -44,9 +44,9 @@
 	<string>Light</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleVersion</key>
+	<string>63</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.infiniteoptions-manifestmy.space</string>
-	<key>CFBundleVersion</key>
-	<string>62</string>
 </dict>
 </plist>
