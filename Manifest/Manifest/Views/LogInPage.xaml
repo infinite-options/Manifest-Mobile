@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.LogInPage">
+    <ContentPage.Content>
+        <StackLayout Padding="0,100,0,0">
+            <StackLayout WidthRequest="230" HeightRequest="230" HorizontalOptions="Center">
+                <RelativeLayout HeightRequest="300">
+                    <Ellipse
+                        StrokeThickness="0"
+                        Fill="#889AB5"
+                        WidthRequest="230"
+                        HeightRequest="230"
+                        HorizontalOptions="Center">
+                    </Ellipse>
+                    <Label Padding="30,0,30,0" Text="Manifest Your Life" TextColor="White" FontSize="30" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="230"></Label>
+                </RelativeLayout>
+            </StackLayout>
+            <Grid HeightRequest="170">
+                <ImageButton
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Source="facebook_login.png"
+                    Padding="60,-80,0,0"
+                    BackgroundColor="Transparent"
+                    Clicked="FacebookLogInClick">
+                </ImageButton>
+                <ImageButton
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Source="google_login.png"
+                    Padding="30,0,30,0"
+                    BackgroundColor="Transparent"
+                    Clicked="GoogleLogInClick">
+                </ImageButton>
+                <ImageButton
+                    x:Name="appleLogInButton"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Source="apple_login.png"
+                    Padding="0,-80,60,0"
+                    BackgroundColor="Transparent"
+                    Clicked="AppleLogInClick"
+                    Command = "{Binding SignInWithAppleCommand}">
+                </ImageButton>
+             </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

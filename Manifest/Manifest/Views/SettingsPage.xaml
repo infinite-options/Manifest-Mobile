@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.SettingsPage">
+<ContentPage.Content>
+        <Grid x:Name="mainGridLayout" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="139"></RowDefinition>
+                <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
+                <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="50"></RowDefinition>
+                <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0">
+                <!--SPACE FOR HEADER-->
+                <Grid Margin="0,30,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO"></RowDefinition>
+                        <RowDefinition Height="0"></RowDefinition>
+                        <RowDefinition Height="AUTO"></RowDefinition>
+                        <RowDefinition Height="0"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" x:Name="titleGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="30"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="" TextColor="White"></Label>
+                        <Label Grid.Column="1" Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                        <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent" Clicked="ImageButton_Clicked" IsVisible="false" IsEnabled="False"></ImageButton>
+                    </Grid>
+                    <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
+                    <StackLayout Grid.Row="2">
+                        <BoxView  HeightRequest="1" Color="White"></BoxView>
+                        <Grid Grid.Row="2" Padding="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                        <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        </Grid>
+                    </StackLayout>
+                    <Grid Grid.Row="3">
+                            <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                    </Grid>
+                </Grid>
+            </Frame>
+            <StackLayout Grid.Row="1">
+                <ScrollView>
+                    <StackLayout Padding="20,20,0,0" >
+                       <Grid>
+                           <Grid.ColumnDefinitions>
+                               <ColumnDefinition Width="*"></ColumnDefinition>
+                               <ColumnDefinition Width="60"></ColumnDefinition>
+                           </Grid.ColumnDefinitions>
+                           <Label Grid.Column="0" Text="Show Google Calendar" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                           <Switch x:Name="calendarSwitch" Grid.Column="1" Toggled="Switch_Toggled"></Switch>
+                       </Grid>
+                        <Label Text="Choose color scheme" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        <Frame x:Name="retroScheme" Padding="0" Margin="-20,0,0,0" CornerRadius="19" HeightRequest="87" HasShadow="False" ClassId="retro" BackgroundColor="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" HeightRequest="87">
+                                <RelativeLayout  HorizontalOptions="End">
+                                    <Ellipse
+                                        Margin="0,18,150,0"
+                                        StrokeThickness="0"
+                                        Fill="#F4F9E9"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="25,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#153243"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="50,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#B4B8AB"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="75,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#EEF0EB"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="100,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#284B63"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="125,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#F5948D"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                </RelativeLayout>
+                            </StackLayout>
+                            <Label x:Name="retroLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Retro" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <BoxView HeightRequest="1" Color="#70707057" Margin="0,0,20,0"></BoxView>
+                        <Frame x:Name="vibrantScheme"  Padding="0" Margin="-20,0,0,0" CornerRadius="19" HeightRequest="87" HasShadow="False" ClassId="vibrant" BackgroundColor="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0">
+                                <RelativeLayout  HorizontalOptions="End" HeightRequest="87">
+                                    <Ellipse
+                                        Margin="0,18,150,0"
+                                        StrokeThickness="0"
+                                        Fill="#FFFFFF"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="25,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#4DC4B6"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="50,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#F6A01F"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="75,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#CBF3F0"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="100,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#482728"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="125,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#F8C069"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                </RelativeLayout>
+                            </StackLayout>
+                            <Label x:Name="vibrantLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Vibrant" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <BoxView HeightRequest="1" Color="#70707057" Margin="0,0,20,0"></BoxView>
+                        <Frame  x:Name="coolScheme" Padding="0" Margin="-20,0,0,0" CornerRadius="19" HeightRequest="87" HasShadow="False" ClassId="cool" BackgroundColor="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" HeightRequest="87">
+                                <RelativeLayout  HorizontalOptions="End">
+                                    <Ellipse
+                                        Margin="0,18,150,0"
+                                        StrokeThickness="0"
+                                        Fill="#FDFDFD"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="25,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#03182B"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="50,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#93A0AF"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="75,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#A7EEFF"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="100,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#59A3B7"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="125,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#5AA6F5"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                </RelativeLayout>
+                            </StackLayout>
+                            <Label x:Name="coolLabel"  Grid.Column="1" VerticalTextAlignment="Center" Text="Cool" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <BoxView HeightRequest="1" Color="#70707057" Margin="0,0,20,0"></BoxView>
+                        <Frame x:Name="cottonScheme"  Padding="0" Margin="-20,0,0,0" CornerRadius="19" HeightRequest="87" HasShadow="False" ClassId="cotton" BackgroundColor="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" HeightRequest="87">
+                                <RelativeLayout  HorizontalOptions="End">
+                                    <Ellipse
+                                        Margin="0,18,150,0"
+                                        StrokeThickness="0"
+                                        Fill="#FCE4E0"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="25,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#F38375"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="50,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#EF6351"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="75,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#F59C9C"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="100,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#F6A399"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="125,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#7A5980"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                </RelativeLayout>
+                            </StackLayout>
+                            <Label x:Name="cottonLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Cotton candy" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <BoxView HeightRequest="1" Color="#70707057" Margin="0,0,20,0"></BoxView>
+                        <Frame  x:Name="classicScheme"  Padding="0" Margin="-20,0,0,0" CornerRadius="19" HeightRequest="87" HasShadow="False" ClassId="classic" BackgroundColor="#0C1E21">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" HeightRequest="87">
+                                <RelativeLayout  HorizontalOptions="End">
+                                    <Ellipse
+                                        Margin="0,18,150,0"
+                                        StrokeThickness="0"
+                                        Fill="#F2F7FC"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="25,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#889AB5"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="50,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#376DAC"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="75,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#F8BE28"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="100,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#F26D4B"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                    <Ellipse
+                                        Margin="125,18,0,0"
+                                        StrokeThickness="0"
+                                        Fill="#67ABFC"
+                                        WidthRequest="57"
+                                        HeightRequest="57">
+                                    </Ellipse>
+                                </RelativeLayout>
+                            </StackLayout>
+                            <Label x:Name="classicLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Classic" TextColor="White" FontSize="24" FontAttributes="Bold"></Label>
+                        </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <BoxView HeightRequest="1" Color="#70707057" Margin="0,0,20,0"></BoxView>
+                        <Frame Padding="0" Margin="120,0,140,0" CornerRadius="19" HeightRequest="40" HasShadow="False" x:Name="logOutFrame" BackgroundColor="#376DAC">
+                            <Button Padding="0,-3,0,0" Text="Log out" TextColor="#FFFFFF" FontSize="20" FontAttributes="Bold" WidthRequest="100" BackgroundColor="Transparent" Clicked="LogOutClick"></Button>
+                        </Frame>
+                        <Label HeightRequest="50" Margin="-20,0,0,0" x:Name="appVersion" HorizontalTextAlignment="Center"></Label>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+            <StackLayout Grid.Row="2">
+               
+            </StackLayout>
+            
+            <!--<Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,-15" >
+                <Frame Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
+                    <Grid>
+                        <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame Grid.Column="1" x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
+                    <Grid>
+                        <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
+                    <Grid>
+                        <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+            </Grid>-->
+            <Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,0">
+                <StackLayout Grid.Column="0" Margin="0,-14,0,0">
+                    <RelativeLayout >
+                        
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False">
+                        </Frame>
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
+                            <Grid>
+                                <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
+                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            </Grid>
+                        </Frame>
+                    </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout Grid.Column="1" Margin="0,-14,0,0">
+                    <RelativeLayout >
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                        </Frame>
+
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
+                            <Grid>
+                                <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
+                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            </Grid>
+                        </Frame>
+                    </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2" Margin="0,-14,0,0">
+                    <RelativeLayout >
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                        </Frame>
+
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
+                            <Grid>
+                                <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
+                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            </Grid>
+                        </Frame>
+                    </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers> 
+                </StackLayout>
+            </Grid>
+            <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
+                <Button Text="Next" HorizontalOptions="Center" VerticalOptions="Center"></Button>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

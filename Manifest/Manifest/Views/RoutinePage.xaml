@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.RoutinePage">
+    <ContentPage.Content>
+        <Grid x:Name="mainGridLayout" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="139"></RowDefinition>
+                <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
+                <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="50"></RowDefinition>
+                <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
+                <!--SPACE FOR HEADER-->
+                    <Grid Margin="0,30,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="AUTO"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                            <RowDefinition Height="AUTO"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" x:Name="titleGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="15"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="backIcon.png"></Image>
+                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                            <Label Grid.Column="1" Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
+                        </Grid>
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
+                        <!--<Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        </Grid>-->
+                        <StackLayout Grid.Row="2">
+                            <BoxView  HeightRequest="1" Color="White"></BoxView>
+                            <Grid Grid.Row="2" Padding="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                            </Grid>
+                        </StackLayout>
+                        <Grid Grid.Row="3">
+                             <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        </Grid>
+                    </Grid>
+ 
+            </Frame>
+            <StackLayout Grid.Row="1">
+                <!--NEW UI GOES HERE-->
+                <!--<Button Text="? instructions" Clicked="Button_Clicked"></Button>-->
+                <!--NEW UI GOES HERE-->
+                <ScrollView x:Name="routinesScroll">
+                    <StackLayout x:Name="routines" HorizontalOptions="Center" VerticalOptions="Start" Orientation="Vertical" Padding="20,10,20,10">
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+            <StackLayout Grid.Row="2">
+                
+            </StackLayout>
+            <!--<Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,-15" >
+                <Frame Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
+                    <Grid>
+                        <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Button_Clicked"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame Grid.Column="1" x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
+                    <Grid>
+                        <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Button_Clicked_1"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>  
+                </Frame>
+                <Frame Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
+                    <Grid>
+                        <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
+                        <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Button_Clicked_2"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>   
+                </Frame>
+            </Grid>-->
+            <Grid Grid.Row="3" x:Name="barStackLayoutProperties" Padding="0" ColumnSpacing="0" Margin="0,0,0,0">
+                <StackLayout Grid.Column="0" Margin="0,-14,0,0">
+                    <RelativeLayout >
+                        
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                        </Frame>
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
+                            <Grid>
+                                <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
+                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            </Grid>
+                        </Frame>
+                    </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Button_Clicked"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout Grid.Column="1" Margin="0,-14,0,0">
+                    <RelativeLayout >
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                        </Frame>
+
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
+                            <Grid>
+                                <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
+                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            </Grid>
+                        </Frame>
+                    </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Button_Clicked_1"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+                <StackLayout Grid.Column="2" Margin="0,-14,0,0">
+                    <RelativeLayout >
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" BackgroundColor="White" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" >
+                        </Frame>
+
+                        <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
+                            <Grid>
+                                <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
+                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            </Grid>
+                        </Frame>
+                    </RelativeLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Button_Clicked_2"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>   
+                </StackLayout>
+            </Grid>
+            <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
+                <Button Text="Next" HorizontalOptions="Center" VerticalOptions="Center"></Button>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

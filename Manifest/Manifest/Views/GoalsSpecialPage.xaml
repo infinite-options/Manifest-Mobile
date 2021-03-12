@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch"
+    xmlns:particle="clr-namespace:Particle.Forms;assembly=Particle.Forms"
+    x:Class="Manifest.Views.GoalsSpecialPage">
+    <ContentPage.Resources>
+        <x:Array Type="{x:Type Color}" x:Key="ConfettiColors">
+            <Color>#a864fd</Color>
+            <Color>#29cdff</Color>
+            <Color>#78ff44</Color>
+            <Color>#ff718d</Color>
+            <Color>#fdff6a</Color>
+            <Color>#ffcbf2</Color>
+        </x:Array>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid x:Name="mainGridLayout" Padding="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="139"></RowDefinition>
+                <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
+                <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
+                <!--SPACE FOR HEADER-->
+                    <Grid Margin="0,30,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="AUTO"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                            <RowDefinition Height="AUTO"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" x:Name="titleGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="15"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="backIcon.png"></Image>
+                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                            <Label Grid.Column="1"  Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
+                        </Grid>
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        </Grid>
+                        <StackLayout Grid.Row="3">
+                            <BoxView HeightRequest="1" Color="White"></BoxView>
+                            <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        </StackLayout>
+                    </Grid>
+ 
+            </Frame>
+
+
+            <!--imported ui-->
+            <particle:ParticleView x:Name="showParticles" Grid.Row="1" IsActive="False" HasFallingParticles="True" FallingParticlesPerSecond="30" ParticleColors="{StaticResource ConfettiColors}"></particle:ParticleView>
+            <Grid Grid.Row="1" Margin="15,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="90"/>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="1" Margin="0,-10,0,0" ColumnSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image x:Name="leftArrow" Grid.Column="0" Grid.ColumnSpan="3" Aspect="AspectFit" VerticalOptions="Fill" HorizontalOptions="End" Source="leftArrow.png"/>
+                    <Image x:Name="downArrow" Grid.Column="2" Grid.ColumnSpan="2" Aspect="AspectFit" VerticalOptions="Fill" HorizontalOptions="Center" Source="downArrow.png"/>
+                    <Image x:Name="rightArrow" Grid.Column="3" Grid.ColumnSpan="3" Aspect="AspectFit" VerticalOptions="Fill" HorizontalOptions="Start" Source="rightArrow.png"/>
+
+                </Grid>
+
+                <Grid Grid.Row="0" Margin="0,50,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="90"/>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0"></StackLayout>
+                    <StackLayout Grid.Column="1" HorizontalOptions="CenterAndExpand" WidthRequest="120">
+                        <Frame x:Name="goalFrame" BackgroundColor="#9DB2CB" Padding="0" WidthRequest="120" HeightRequest="120" CornerRadius="60" HasShadow="False">
+                                <StackLayout HeightRequest="120" WidthRequest="120">
+                                    <f9p:Label x:Name="goalLabel" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                </StackLayout>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="goBackToGoals"></TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center">
+                        <ImageButton x:Name="progIcon" HorizontalOptions="Fill" VerticalOptions="Fill" Source="progBar.png" HeightRequest="50" WidthRequest="50" BackgroundColor="Transparent" Clicked="progressClicked"/>
+                        <Label x:Name="progLabel" Text="Progress" TextColor="Black" HorizontalOptions="Center" Margin="0,2,0,0"/>
+                    </StackLayout>
+
+                </Grid>
+
+                <Grid Grid.Row="2" ColumnSpacing="7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Frame x:Name="actionFrame1" Grid.Column="0" Padding="0" WidthRequest="110" HeightRequest="110" CornerRadius="55" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#F26D4B" HasShadow="False">
+                        <StackLayout HeightRequest="120" WidthRequest="120">
+                            <f9p:Label x:Name="actionLabel1" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                        </StackLayout>
+
+                        <!--<Label x:Name="actionLabel1"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="goToSteps"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="goToStepsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                    </Frame>
+                    <Image x:Name="InProgress1" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="50" WidthRequest="50" IsVisible="false"/>
+                    <Image x:Name="IsComplete1" HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="50" WidthRequest="50"  IsVisible="false"/>
+
+                    <Frame x:Name="actionFrame2" Padding="0" WidthRequest="110" HeightRequest="110" CornerRadius="55"  Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#F8BE28" HasShadow="False">
+                        <StackLayout HeightRequest="120" WidthRequest="120">
+                            <f9p:Label x:Name="actionLabel2" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                        </StackLayout>
+
+
+                        <!--<Label x:Name="actionLabel2"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="goToSteps"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="goToStepsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                    </Frame>
+                    <Image x:Name="InProgress2" Grid.Column="1" HorizontalOptions="Center" HeightRequest="50" WidthRequest="50" VerticalOptions="Start" IsVisible="false"/>
+                    <Image x:Name="IsComplete2" Grid.Column="1" HorizontalOptions="Center"  HeightRequest="50" WidthRequest="50"  VerticalOptions="Start" IsVisible="false"/>
+
+                    <Frame x:Name="actionFrame3" Padding="0" WidthRequest="110" HeightRequest="110" CornerRadius="55"  Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="#67ABFC" HasShadow="False">
+                        <StackLayout HeightRequest="120" WidthRequest="120">
+                            <f9p:Label x:Name="actionLabel3" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                        </StackLayout>
+
+
+                        <!--<Label x:Name="actionLabel3"  TextColor="White" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="goToSteps"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>-->
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="goToStepsFrame"></TapGestureRecognizer>
+                    </Frame.GestureRecognizers>
+
+                    </Frame>
+                    <Image x:Name="InProgress3" Grid.Column="2" HorizontalOptions="Center" HeightRequest="50" WidthRequest="50" VerticalOptions="Start" IsVisible="false"/>
+                    <Image x:Name="IsComplete3" Grid.Column="2" HorizontalOptions="Center" HeightRequest="50" WidthRequest="50" VerticalOptions="Start" IsVisible="false"/>
+
+                    <!--<Button x:Name="action1" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White" Grid.Column="0" FontAttributes="Bold" BackgroundColor="#F26D4B" Clicked="goToSteps"/>-->
+                    <!--<Button x:Name="action2" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="1" FontAttributes="Bold" BackgroundColor="#F8BE28" Clicked="goToSteps"/>-->
+                    <!--<Button x:Name="action3" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" FontAttributes="Bold" BackgroundColor="#67ABFC" Clicked="goToSteps"/>-->
+
+                </Grid>
+            </Grid>
+            <!--imported ui-->
+
+
+
+            <StackLayout Grid.Row="2">
+                
+            </StackLayout>
+            <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
+                <Frame>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.Column="0" Text="icon1"></Button>
+                        <Button Grid.Row="0" Grid.Column="1" Text="icon2"></Button>
+                        <Button Grid.Row="0" Grid.Column="2" Text="icon3"></Button>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+            <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
+                <Button Text="Next" HorizontalOptions="Center" VerticalOptions="Center"></Button>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

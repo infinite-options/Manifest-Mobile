@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.FirstPulsePage">
+    <ContentPage.Content>
+        <Grid x:Name="mainGridLayout" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="139"></RowDefinition>
+                <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
+                <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="buttonStackLayoutRow" Height="80"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
+                <!--SPACE FOR HEADER-->
+                    <Grid Margin="0,30,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                            <RowDefinition Height="AUTO"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" x:Name="titleGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="" TextColor="White" VerticalTextAlignment="Center"></Label>
+                            <Label Grid.Column="1" Text="How do I feel?" x:Name="title" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End"></Label>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent" Clicked="ImageButton_Clicked"></ImageButton>
+                        </Grid>
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        </Grid>
+                        <StackLayout Grid.Row="3">
+                            <BoxView HeightRequest="1" Color="White"></BoxView>
+                            <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        </StackLayout>
+                        <!--<Grid Grid.Row="3">
+                             <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        </Grid>-->
+                    </Grid>
+ 
+            </Frame>
+            <StackLayout Grid.Row="1" VerticalOptions="Center" Margin="20,0,20,0" BackgroundColor="Transparent" >
+                <!--<Grid HeightRequest="90" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" ClassId="3">
+                        <RelativeLayout  HorizontalOptions="CenterAndExpand">
+                            <Ellipse
+                                x:Name="mood_three"
+                                Fill="white"
+                                HeightRequest="90"
+                                WidthRequest="90"
+                                Stroke="#67ABFC"
+                                StrokeThickness="10">
+                            </Ellipse>
+                            <Image Margin="2.5,2.5,0,0" Source="mood_three.png" HeightRequest="85" WidthRequest="85"></Image>
+                        </RelativeLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                     <StackLayout Grid.Column="1" ClassId="5">
+                        <RelativeLayout  HorizontalOptions="CenterAndExpand">
+                            <Ellipse
+                                x:Name="mood_five"
+                                Fill="white"
+                                HeightRequest="90"
+                                WidthRequest="90"
+                                Stroke="#67ABFC"
+                                StrokeThickness="10">
+                            </Ellipse>
+                            <Image Margin="2.5,2.5,0,0" Source="mood_five.png" HeightRequest="85" WidthRequest="85"></Image>
+                        </RelativeLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Grid>
+                <Grid HeightRequest="90">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" ClassId="2">
+                        <RelativeLayout  HorizontalOptions="EndAndExpand" Margin="0,0,5,0">
+                            <Ellipse
+                                x:Name="mood_two"
+                                Fill="white"
+                                HeightRequest="90"
+                                WidthRequest="90"
+                                Stroke="#67ABFC"
+                                StrokeThickness="10">
+                            </Ellipse>
+                            <Image Margin="2.5,2.5,0,0" Source="mood_two.png" HeightRequest="85" WidthRequest="85"></Image>
+                        </RelativeLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" ClassId="4">
+                        <RelativeLayout  HorizontalOptions="CenterAndExpand">
+                            <Ellipse
+                                x:Name="mood_four"
+                                Fill="white"
+                                HeightRequest="90"
+                                WidthRequest="90"
+                                Stroke="#67ABFC"
+                                StrokeThickness="10">
+                            </Ellipse>
+                            <Image Margin="2.5,2.5,0,0" Source="mood_four.png" HeightRequest="85" WidthRequest="85"></Image>
+                        </RelativeLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" ClassId="6">
+                        <RelativeLayout  HorizontalOptions="StartAndExpand" Margin="5,0,0,0">
+                            <Ellipse
+                                x:Name="mood_six"
+                                Fill="white"
+                                HeightRequest="90"
+                                WidthRequest="90"
+                                Stroke="#67ABFC"
+                                StrokeThickness="10">
+                            </Ellipse>
+                            <Image Margin="2.5,2.5,0,0" Source="mood_six.png" HeightRequest="85" WidthRequest="85"></Image>
+                        </RelativeLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Grid>
+                <Grid HeightRequest="90">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" ClassId="1">
+                        <RelativeLayout HorizontalOptions="StartAndExpand">
+                            <Ellipse
+                                x:Name="mood_one"
+                                Fill="white"
+                                HeightRequest="90"
+                                WidthRequest="90"
+                                Stroke="#67ABFC"
+                                StrokeThickness="10">
+                            </Ellipse>
+                            <Image Margin="2.5,2.5,0,0" Source="mood_one.png" HeightRequest="85" WidthRequest="85"></Image>
+                        </RelativeLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                     <StackLayout Grid.Column="1" ClassId="7">
+                        <RelativeLayout HorizontalOptions="EndAndExpand">
+                            <Ellipse
+                                x:Name="mood_seven"
+                                Fill="white"
+                                HeightRequest="90"
+                                WidthRequest="90"
+                                Stroke="#67ABFC"
+                                StrokeThickness="10">
+                            </Ellipse>
+                            <Image Margin="2.5,2.5,0,0" Source="mood_seven.png" HeightRequest="85" WidthRequest="85"></Image>
+                        </RelativeLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Grid>-->
+            <StackLayout Padding="20,0,20,0" >
+                <Grid VerticalOptions="CenterAndExpand" HeightRequest="400">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" VerticalOptions="CenterAndExpand" >
+                         <StackLayout ClassId="5" Margin="0,0,0,10">
+                            <RelativeLayout  HorizontalOptions="EndAndExpand" WidthRequest="90" HeightRequest="90">
+                                <Ellipse
+                                    x:Name="mood_five"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    StrokeThickness="0">
+                                </Ellipse>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                     <Image  Source="mood_five.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout Grid.Column="0" ClassId="3">
+                            <RelativeLayout HorizontalOptions="EndAndExpand">
+                                <Ellipse
+                                    x:Name="mood_three"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    StrokeThickness="0">
+                                </Ellipse>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image Source="mood_three.png"  HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" WidthRequest="150" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                        <StackLayout ClassId="6" Margin="0,0,0,15">
+                            <RelativeLayout  HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
+                                <Ellipse
+                                    x:Name="mood_six"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    StrokeThickness="0">
+                                </Ellipse>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image Source="mood_six.png"  HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout ClassId="4">
+                            <RelativeLayout  HorizontalOptions="CenterAndExpand">
+                                <Ellipse
+                                    x:Name="mood_four"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    StrokeThickness="0">
+                                </Ellipse>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image  Source="mood_four.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout ClassId="2" Margin="0,15,0,0">
+                            <RelativeLayout  HorizontalOptions="CenterAndExpand" Margin="0,0,0,0">
+                                <Ellipse
+                                    x:Name="mood_two"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    StrokeThickness="0">
+                                </Ellipse>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image Source="mood_two.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" VerticalOptions="CenterAndExpand" >
+                         <StackLayout ClassId="7" Margin="0,0,0,10">
+                            <RelativeLayout>
+                                <Ellipse
+                                    x:Name="mood_seven"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    StrokeThickness="0">
+                                </Ellipse>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image Source="mood_seven.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                          <StackLayout ClassId="1">
+                            <RelativeLayout >
+                                <Ellipse
+                                    x:Name="mood_one"
+                                    HeightRequest="90"
+                                    WidthRequest="90"
+                                    StrokeThickness="0">
+                                </Ellipse>
+                                <StackLayout HeightRequest="90" WidthRequest="90">
+                                    <Image  Source="mood_one.png" HorizontalOptions="Center" VerticalOptions="FillAndExpand" HeightRequest="80" WidthRequest="80"></Image>
+                                </StackLayout>
+                            </RelativeLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+            </StackLayout>
+            <StackLayout Grid.Row="2">
+           
+            </StackLayout>
+            <StackLayout Grid.Row="3" x:Name="barStackLayoutProperties">
+                <Frame CornerRadius="15" Padding="0, 10, 0, 18" BackgroundColor="Transparent">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" HeightRequest="20"/>
+                            <Label Grid.Row="1" Grid.Column="0" Text="Today's List" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+
+                            <Image Grid.Row="0" Grid.Column="1" Source="personIcon.png" HeightRequest="20"/>
+                            <Label Grid.Row="1" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+
+                            <Image Grid.Row="0" Grid.Column="2" Source="helpIcon.png"   HeightRequest="20"/>
+                            <Label Grid.Row="1" Grid.Column="2" Text="Get Help" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+
+                        <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="Transparent"></Button>
+                        <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  BackgroundColor="Transparent"></Button>
+                        <Button Grid.Column="2" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  BackgroundColor="Transparent"></Button>
+                    </Grid>
+                </Frame>
+
+            </StackLayout>
+            <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
+                <Button x:Name="submitButton" Text="Submit" TextColor="White" WidthRequest="140" HeightRequest="45" CornerRadius="20" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" BackgroundColor="#889AB5" Clicked="Button_Clicked"></Button>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

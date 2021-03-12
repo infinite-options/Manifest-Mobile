@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="2.2.2" android:installLocation="auto" android:versionCode="63" package="com.infiniteoptions_manifestmy.life">
+	<uses-sdk android:minSdkVersion="28" android:targetSdkVersion="29" />
+	<!-- Adding stuff for notifications-->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<!-- End of lines for notifications-->
+	<application android:label="Manifest MyLife" android:theme="@style/MainTheme" android:icon="@mipmap/ic_launcher">
+		<!-- Adding stuff for notifications-->
+		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
+		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+				<category android:name="${applicationId}" />
+			</intent-filter>
+		</receiver>
+		<!-- End of lines for notifications-->
+	</application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+</manifest>
+<!--<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="44" android:versionName="1.0" package="com.infiniteoptions_manifestmy.life">
+	<uses-sdk android:minSdkVersion="28" android:targetSdkVersion="29" />
+	<application android:label="Manifest.Android" android:theme="@style/MainTheme"></application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+</manifest>-->

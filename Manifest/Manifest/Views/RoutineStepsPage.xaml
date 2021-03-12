@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.RoutineStepsPage">
+    <ContentPage.Content>
+        <Grid x:Name="mainGridLayout" RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="139"></RowDefinition>
+                <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
+                <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="90"></RowDefinition>
+                <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
+                <!--SPACE FOR HEADER-->
+                    <Grid Margin="0,30,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="AUTO"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                            <RowDefinition Height="0"></RowDefinition>
+                            <RowDefinition Height="AUTO"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" x:Name="titleGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="30"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="15"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="backIcon.png"></Image>
+                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                            <Label Grid.Column="1" Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
+                        </Grid>
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
+                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        </Grid>
+                        <StackLayout Grid.Row="3">
+                            <BoxView HeightRequest="1" Color="White"></BoxView>
+                            <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        </StackLayout>
+                    </Grid>
+ 
+            </Frame>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="5,20,5,-10">
+                    <Frame x:Name="routinesStepsFrame" BackgroundColor="#F26D4B" CornerRadius="25" VerticalOptions="FillAndExpand" Margin="0,0,0,-30" HasShadow="False">
+                        <ScrollView Grid.Row="2" x:Name="stepsScroll">
+                            <StackLayout x:Name="instructions">
+                                <StackLayout>
+                                    <CollectionView x:Name="InstructionsList">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="15,0,0,10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="50"></ColumnDefinition>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Margin="15,5,0,0" Grid.Column="0"  HeightRequest="50" VerticalOptions="CenterAndExpand" >
+                                                        <StackLayout>
+                                                            <RelativeLayout>
+                                                                <Ellipse
+                                                                    StrokeThickness="1"
+                                                                    Stroke="white"
+                                                                    Fill="{Binding color}"
+                                                                    HeightRequest="50"
+                                                                    WidthRequest="50">
+                                                                </Ellipse>
+                                                                <!-- center image using -->
+                                                                <Image Scale="0.6" Source="{Binding Photo}" WidthRequest="50" HeightRequest="50" HorizontalOptions="CenterAndExpand" ></Image>
+                                                            </RelativeLayout>
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                    <Frame Grid.Column="1" Margin="25,10,10,0" BackgroundColor="{Binding color}" CornerRadius="20" BorderColor="White" Padding="10" HasShadow="False" ClassId="{Binding stepIndex}" >
+                                                        <StackLayout VerticalOptions="CenterAndExpand">
+                                                            <Label Margin="15,0,0,0" Text="{Binding title}" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></Label>
+                                                        </StackLayout>
+                                                        <Frame.GestureRecognizers>
+                                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                                                        </Frame.GestureRecognizers>
+                                                    </Frame>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </StackLayout>
+                            </StackLayout>
+                        </ScrollView>
+                    </Frame>
+                </Grid>
+            </Grid>
+            <StackLayout Grid.Row="2"></StackLayout>
+            <StackLayout Grid.Row="3" x:Name="buttonFrame" Margin="5,0,5,-10">
+                <Grid VerticalOptions="CenterAndExpand">
+                    <Button x:Name="doneButton"  Margin="0,-10,0,10" Padding="15,0,15,0" Text="I'm done" CornerRadius="10"  HeightRequest="45" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" TextColor="White" BackgroundColor="#889AB5" Clicked="userDone"/>
+                </Grid>
+            </StackLayout>
+            <StackLayout Grid.Row="4">
+                               
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
