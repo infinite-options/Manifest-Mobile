@@ -21,7 +21,6 @@ namespace Manifest
 
             // Application.Current.Properties.Clear();                                              // Resets user info in the app.  Use for debug
             // SecureStorage.RemoveAll();                                                           // Allows Xamarin to reset Apple security storage info stored in hardware.  Use for debug
-
             if (Application.Current.Properties.ContainsKey("userId"))
             {
                 if (Application.Current.Properties.ContainsKey("timeStamp"))

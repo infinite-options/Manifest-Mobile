@@ -45,7 +45,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleVersion</key>
-	<string>63</string>
+	<string>66</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.infiniteoptions-manifestmy.space</string>
 </dict>

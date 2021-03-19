@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch" x:Class="Manifest.Views.GoalStepsPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.GoalStepsPage">
     <ContentPage.Content>
         <Grid x:Name="mainGridLayout" Padding="0">
             <Grid.RowDefinitions>
@@ -30,12 +30,12 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Source="backIcon.png"></Image>
-                            <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                            <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                             </Grid.GestureRecognizers>
                         </Grid>
-                        <Label Grid.Column="1"  Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="1"  Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                         <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
                     </Grid>
                     <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
@@ -44,12 +44,12 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                        <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></interfaces:CustomizeFontLabel>
                     </Grid>
                     <StackLayout Grid.Row="3">
                         <BoxView HeightRequest="1" Color="White"></BoxView>
-                        <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        <interfaces:CustomizeFontLabel Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                 </Grid>
             </Frame>
@@ -72,7 +72,7 @@
                             WidthRequest="100">
                         </Ellipse>
                         <StackLayout HeightRequest="100" WidthRequest="100">
-                            <f9p:Label x:Name="routineName" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                            <interfaces:CustomizeFontLabel x:Name="routineName" Text="" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="White" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
                         </StackLayout>
                     </RelativeLayout>
                 </StackLayout>
@@ -81,7 +81,7 @@
                     <Frame x:Name="goalsFrame" BackgroundColor="#889AB5" CornerRadius="15" VerticalOptions="FillAndExpand" Margin="0,0,0,-15" HasShadow="False">
                         <ScrollView Grid.Row="2" x:Name="stepsScroll">
                             <StackLayout x:Name="instructions">
-                                <Label Margin="16,0,0,0" Text="Steps" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></Label>
+                                <interfaces:CustomizeFontLabel Margin="16,0,0,0" Text="Steps" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                                 <StackLayout Margin="16,0,0,0">
                                     <CollectionView x:Name="InstructionsList">
                                         <CollectionView.ItemTemplate>
@@ -101,13 +101,13 @@
                                                                     HeightRequest="30"
                                                                     WidthRequest="30">
                                                                 </Ellipse>
-                                                                <Label Text="{Binding time}" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold" WidthRequest="30" HeightRequest="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></Label>
+                                                                <interfaces:CustomizeFontLabel Text="{Binding time}" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold" WidthRequest="30" HeightRequest="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                                             </RelativeLayout>
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <Frame Grid.Column="1" Margin="25,10,10,0" BackgroundColor="{Binding color}" CornerRadius="15" BorderColor="White" Padding="10" HasShadow="False" Opacity="{Binding opacity}" ClassId="{Binding stepIndex}" >
                                                         <StackLayout VerticalOptions="CenterAndExpand">
-                                                            <Label Margin="15,0,0,0" Text="{Binding title}" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></Label>
+                                                            <interfaces:CustomizeFontLabel Margin="15,0,0,0" Text="{Binding title}" TextColor="#FFFFFF" FontSize="12" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                                                         </StackLayout>
                                                         <Frame.GestureRecognizers>
                                                             <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
@@ -126,8 +126,20 @@
             <StackLayout Grid.Row="2"></StackLayout>
             <StackLayout Grid.Row="3" x:Name="navBarFrame" BackgroundColor="#F2F7FC">
                 <Grid VerticalOptions="CenterAndExpand">
-                    <Button x:Name="doneButton" Grid.Column="0" Margin="0,-10,0,10" Padding="15,0,15,0" CornerRadius="10" Text="I'm done"  HeightRequest="45" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" TextColor="White" BackgroundColor="#889AB5" Clicked="doneClicked"/>
-                    <Button x:Name="boredButon" Grid.Column="1" Margin="0,-10,0,10" Padding="15,0,15,0" CornerRadius="10" Text="I'm bored"  HeightRequest="45" HorizontalOptions="CenterAndExpand" FontSize="20"  FontAttributes="Bold" TextColor="White" BackgroundColor="#889AB5" Clicked="boredButon_Clicked"/>
+                    <Button x:Name="doneButton" Grid.Column="0" Margin="0,-10,0,10" Padding="15,0,15,0" CornerRadius="10" Text="I'm done"  HeightRequest="45" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" TextColor="White" BackgroundColor="#889AB5" Clicked="doneClicked">
+                        <Button.FontFamily>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <On Platform="Android" Value="Roboto" />
+                            </OnPlatform>
+                        </Button.FontFamily>
+                    </Button>
+                    <Button x:Name="boredButon" Grid.Column="1" Margin="0,-10,0,10" Padding="15,0,15,0" CornerRadius="10" Text="I'm bored"  HeightRequest="45" HorizontalOptions="CenterAndExpand" FontSize="20"  FontAttributes="Bold" TextColor="White" BackgroundColor="#889AB5" Clicked="boredButon_Clicked">
+                        <Button.FontFamily>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <On Platform="Android" Value="Roboto" />
+                            </OnPlatform>
+                        </Button.FontFamily>
+                    </Button>
                 </Grid>
             </StackLayout>
             <StackLayout Grid.Row="4">

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch"  xmlns:forms="clr-namespace:Xamarin.RangeSlider.Forms;assembly=Xamarin.RangeSlider.Forms" x:Class="Manifest.Views.WhatIsImportantToMePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch"  xmlns:forms="clr-namespace:Xamarin.RangeSlider.Forms;assembly=Xamarin.RangeSlider.Forms" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.WhatIsImportantToMePage">
     <ContentPage.Content>
 <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -24,8 +24,8 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="30"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="" TextColor="White"></Label>
-                        <Label Grid.Column="1" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                        <interfaces:CustomizeFontLabel  Grid.Column="0" Text="" TextColor="White"></interfaces:CustomizeFontLabel >
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel >
                         <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked"  BackgroundColor="Transparent"></ImageButton>
                     </Grid>
                     <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
@@ -36,12 +36,12 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                        <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </StackLayout>
                     <Grid Grid.Row="3">
-                            <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                            <interfaces:CustomizeFontLabel  Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></interfaces:CustomizeFontLabel >
                     </Grid>
                 </Grid>
             </Frame>
@@ -62,8 +62,8 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Start Date" x:Name="startDateLabel" TextColor="Black" FontSize="12" FontAttributes="Bold"></Label>
-                        <Label Grid.Column="1" Text="End Date"  x:Name="endDateLabel" HorizontalTextAlignment="End" TextColor="Black" FontSize="12" FontAttributes="Bold"></Label>
+                        <interfaces:CustomizeFontLabel  Grid.Column="0" Text="Start Date" x:Name="startDateLabel" TextColor="Black" FontSize="12" FontAttributes="Bold"></interfaces:CustomizeFontLabel >
+                        <interfaces:CustomizeFontLabel  Grid.Column="1" Text="End Date"  x:Name="endDateLabel" HorizontalTextAlignment="End" TextColor="Black" FontSize="12" FontAttributes="Bold"></interfaces:CustomizeFontLabel >
                     </Grid>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -73,7 +73,7 @@
                     </Grid.RowDefinitions>
                 <Frame Grid.Row="0" Margin="0,10,0,0" Padding="5,5,0,5" HeightRequest="159" BorderColor="Black" CornerRadius="10" HasShadow="False">
                     <StackLayout>
-                        <Label Text="What is important you" TextColor="Black" FontSize="14" FontAttributes="Bold"></Label>
+                        <interfaces:CustomizeFontLabel  Text="What is important you" TextColor="Black" FontSize="14" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                         <StackLayout HeightRequest="150">
                             <CollectionView x:Name="ImportantList" ItemsLayout="HorizontalList">
                                 <CollectionView.ItemTemplate>
@@ -88,7 +88,7 @@
                                                     <BoxView HeightRequest="{Binding height}" Color="{Binding color}"  WidthRequest="10" HorizontalOptions="CenterAndExpand"></BoxView>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="1" HeightRequest="40">
-                                                    <f9p:Label Text="{Binding name}" AutoFit="Width" TextColor="Black" FontSize="10" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center"></f9p:Label>
+                                                    <interfaces:CustomizeFontLabel  Text="{Binding name}" TextColor="Black" FontSize="10" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                             </Grid>
                                         </StackLayout>
@@ -102,7 +102,7 @@
 
                 <Frame Grid.Row="1" Margin="0,10,0,0" Padding="5,5,0,5" HeightRequest="159" BorderColor="Black" CornerRadius="10"  HasShadow="False">
                     <StackLayout>
-                        <Label Text="What makes you happy" TextColor="Black" FontSize="14" FontAttributes="Bold"></Label>
+                        <interfaces:CustomizeFontLabel Text="What makes you happy" TextColor="Black" FontSize="14" FontAttributes="Bold"></interfaces:CustomizeFontLabel >
                         <StackLayout HeightRequest="150">
                             <CollectionView x:Name="HappyList" ItemsLayout="HorizontalList">
                                 <CollectionView.ItemTemplate>
@@ -117,7 +117,7 @@
                                                     <BoxView HeightRequest="{Binding height}" Color="{Binding color}"  WidthRequest="10" HorizontalOptions="CenterAndExpand"></BoxView>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="1">
-                                                    <f9p:Label Text="{Binding name}" AutoFit="Width" TextColor="Black" FontSize="9" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center"></f9p:Label>
+                                                    <interfaces:CustomizeFontLabel  Text="{Binding name}" TextColor="Black" FontSize="9" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel >
                                                 </StackLayout>
                                             </Grid>
                                         </StackLayout>
@@ -131,7 +131,7 @@
 
                 <Frame Grid.Row="2" Margin="0,10,0,0" Padding="5,5,0,5" HeightRequest="159" BorderColor="Black" CornerRadius="9"  HasShadow="False">
                     <StackLayout>
-                        <Label Text="What motivates you" TextColor="Black" FontSize="14" FontAttributes="Bold"></Label>
+                        <interfaces:CustomizeFontLabel  Text="What motivates you" TextColor="Black" FontSize="14" FontAttributes="Bold"></interfaces:CustomizeFontLabel >
                         <StackLayout HeightRequest="150">
                             <CollectionView x:Name="MotivationList" ItemsLayout="HorizontalList">
                                 <CollectionView.ItemTemplate>
@@ -146,7 +146,7 @@
                                                     <BoxView HeightRequest="{Binding height}" Color="{Binding color}"  WidthRequest="9" HorizontalOptions="CenterAndExpand"></BoxView>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="1">
-                                                    <f9p:Label Text="{Binding name}" AutoFit="Width" TextColor="Black" FontSize="10" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center"></f9p:Label>
+                                                    <interfaces:CustomizeFontLabel Text="{Binding name}" TextColor="Black" FontSize="10" MaxLines="2" LineBreakMode="TailTruncation" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel >
                                                 </StackLayout>
                                             </Grid>
                                         </StackLayout>
@@ -159,34 +159,64 @@
                 </Frame>
                 </Grid>
 
-                        <Grid HeightRequest="60"  Grid.Column="0">
+                        <!--<Grid HeightRequest="60"  Grid.Column="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition x:Name="devices" Width="150"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="AUTO"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label WidthRequest="150" Grid.Column="0" Text="Goals" FontSize="16" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></Label>
+                            <StackLayout WidthRequest="200" Grid.Column="0" Margin="0,15,0,0">
+                                <interfaces:CustomizeFontLabel  WidthRequest="150" Grid.Column="0" Text="Goals" FontSize="16" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></interfaces:CustomizeFontLabel >
+                            </StackLayout>
+                            <StackLayout Margin="0,25,0,0" x:Name="DatesList" Grid.Column="1" Orientation="Horizontal">
+
+                            </StackLayout>
                             <CollectionView x:Name="DatesList" Grid.Column="1" ItemsLayout="HorizontalList">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <StackLayout WidthRequest="30" Spacing="0">
-                                            <Label Margin="0,25,0,0" Text="{Binding name}" FontSize="10" WidthRequest="30" HorizontalTextAlignment="Center" ></Label>
-                                            <!--<Label Text="{Binding date}" HorizontalTextAlignment="Center"></Label>-->
+                                            <interfaces:CustomizeFontLabel  Margin="0,25,0,0" Text="{Binding name}" TextColor="Black" FontSize="9" WidthRequest="30" HorizontalTextAlignment="Center" ></interfaces:CustomizeFontLabel >
                                         </StackLayout>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-                        </Grid>
-              
-                        <StackLayout Margin="10,-20,10,0">
-                            <BoxView HeightRequest="1" Color="Gray" ></BoxView>
-                        </StackLayout>
+                        </Grid>-->
+                <StackLayout Margin="0,0,5,0"  Orientation="Horizontal" Padding="0" x:Name="DatesList">
+                    <StackLayout WidthRequest="200" >
+                        <interfaces:CustomizeFontLabel Text="Goals" HorizontalTextAlignment="Center" TextColor="Black" FontSize="16" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                    </StackLayout>
+                    <!--<StackLayout WidthRequest="30" >
+                        <interfaces:CustomizeFontLabel Text="Mon" TextColor="Black" FontSize="9"></interfaces:CustomizeFontLabel>
+                    </StackLayout>
+                    <StackLayout WidthRequest="30">
+                        <interfaces:CustomizeFontLabel Text="Mon" TextColor="Black" FontSize="9"></interfaces:CustomizeFontLabel>
+                    </StackLayout>
+                    <StackLayout WidthRequest="30">
+                        <interfaces:CustomizeFontLabel Text="Mon" TextColor="Black" FontSize="9"></interfaces:CustomizeFontLabel>
+                    </StackLayout>
+                    <StackLayout WidthRequest="30">
+                        <interfaces:CustomizeFontLabel Text="Mon" TextColor="Black" FontSize="9"></interfaces:CustomizeFontLabel>
+                    </StackLayout>
+                    <StackLayout WidthRequest="30">
+                        <interfaces:CustomizeFontLabel Text="Mon" TextColor="Black" FontSize="9"></interfaces:CustomizeFontLabel>
+                    </StackLayout>
+                    <StackLayout WidthRequest="30">
+                        <interfaces:CustomizeFontLabel Text="Mon" TextColor="Black" FontSize="9"></interfaces:CustomizeFontLabel>
+                    </StackLayout>
+                    <StackLayout WidthRequest="30">
+                        <interfaces:CustomizeFontLabel Text="Today" TextColor="Black" FontSize="8"></interfaces:CustomizeFontLabel>
+                    </StackLayout>-->
+                </StackLayout>
+
+                <StackLayout Margin="10,0,10,0">
+                    <BoxView HeightRequest="1" Color="Gray" ></BoxView>
+                </StackLayout>
                        
                 <CollectionView x:Name="GoalsStatusList" Margin="0,10,0,0" IsEnabled="False">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Margin="0,0,10,0" Orientation="Horizontal" Spacing="0">
                                 <StackLayout WidthRequest="200">
-                                    <Label Text="{Binding name}" Padding="10,0,0,0" HeightRequest="30" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></Label>
+                                    <interfaces:CustomizeFontLabel TextColor="Black" Text="{Binding name}" Padding="10,0,0,0" HeightRequest="35" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></interfaces:CustomizeFontLabel >
                                 </StackLayout>
                                 <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
@@ -248,26 +278,31 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                        <Grid HeightRequest="60"  Grid.Column="0">
+                        <!--<Grid HeightRequest="60"  Grid.Column="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="180"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label WidthRequest="150" Grid.Column="0" Text="Routines" FontSize="16" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></Label>
+                            <interfaces:CustomizeFontLabel  WidthRequest="150" Grid.Column="0" Text="Routines" FontSize="16" FontAttributes="Bold"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center" MaxLines="2" LineBreakMode="TailTruncation" TextColor="Black"></interfaces:CustomizeFontLabel >
                             <CollectionView Grid.Column="1" ItemsLayout="HorizontalList" >
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <StackLayout WidthRequest="28" Spacing="0">
-                                            <Label Margin="0,30,0,0" Text="{Binding name}" WidthRequest="28" HorizontalTextAlignment="Center" ></Label>
-                                            <!--<Label Text="{Binding date}" HorizontalTextAlignment="Center"></Label>-->
+                                            <interfaces:CustomizeFontLabel  Margin="0,30,0,0" Text="{Binding name}" WidthRequest="28" HorizontalTextAlignment="Center" ></interfaces:CustomizeFontLabel>
+                                            <f9p:Label  Text="{Binding date}" HorizontalTextAlignment="Center"></f9p:Label >
                                         </StackLayout>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-                        </Grid>
-                
+                        </Grid>-->
+                <StackLayout Margin="0,0,5,0"  Orientation="Horizontal" Padding="0">
+                    <StackLayout WidthRequest="200"  >
+                        <interfaces:CustomizeFontLabel Text="Routines" HorizontalTextAlignment="Center" TextColor="Black" FontSize="16" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                    </StackLayout>
+                    <StackLayout WidthRequest="210"></StackLayout>
+                </StackLayout>
               
-                        <StackLayout Margin="10,-20,10,0">
+                        <StackLayout Margin="10,0,10,0">
                             <BoxView HeightRequest="1" Color="Gray" ></BoxView>
                         </StackLayout>
                         <StackLayout>
@@ -276,7 +311,7 @@
                         <DataTemplate>
                             <StackLayout Margin="0,0,10,0" Orientation="Horizontal" Spacing="0">
                                 <StackLayout WidthRequest="200">
-                                    <Label Text="{Binding name}" Padding="10,0,0,0" HeightRequest="30" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></Label>
+                                    <interfaces:CustomizeFontLabel TextColor="Black" Text="{Binding name}" Padding="10,0,0,0" HeightRequest="35" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
@@ -348,7 +383,7 @@
                                 IsEnabled="False">
                              </CheckBox>
                         </StackLayout>
-                        <Label Text="Goals not started"></Label>
+                        <interfaces:CustomizeFontLabel Text="Goals not started" TextColor="Black"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                     <StackLayout  Grid.Column="1" HorizontalOptions="Center" >
                         <StackLayout WidthRequest="30" HorizontalOptions="Center">
@@ -356,7 +391,7 @@
                             IsEnabled="False">
                         </CheckBox>
                         </StackLayout>
-                        <Label Text="Goals started"></Label>
+                        <interfaces:CustomizeFontLabel Text="Goals started" TextColor="Black"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                     <StackLayout Grid.Column="2" >
                           <StackLayout WidthRequest="30" HorizontalOptions="Center">
@@ -365,7 +400,7 @@
                             IsChecked="True">
                         </CheckBox>
                               </StackLayout>
-                        <Label Text="Goals completed"></Label>
+                        <interfaces:CustomizeFontLabel Text="Goals completed" TextColor="Black"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                 </Grid>
 
@@ -380,7 +415,7 @@
                 <Frame Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                     <Grid>
                         <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>
-                        <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                        <f9p:Label  Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" ></TapGestureRecognizer>
@@ -389,7 +424,7 @@
                 <Frame Grid.Column="1" x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                     <Grid>
                         <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
-                        <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                        <f9p:Label  Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" ></TapGestureRecognizer>
@@ -398,7 +433,7 @@
                 <Frame Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                     <Grid>
                         <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
-                        <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                        <f9p:Label  Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" ></TapGestureRecognizer>
@@ -414,12 +449,12 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
                             <Grid>
                                 <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
-                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel  Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
                     <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                     </StackLayout.GestureRecognizers>
                 </StackLayout>
                 <StackLayout Grid.Column="1" Margin="0,-14,0,0">
@@ -430,7 +465,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                             <Grid>
                                 <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel  Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -447,7 +482,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                             <Grid>
                                 <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel  Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>  
                         </Frame>
                     </RelativeLayout>

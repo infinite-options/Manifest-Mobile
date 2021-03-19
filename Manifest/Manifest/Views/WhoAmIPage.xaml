@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.WhoAmIPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.WhoAmIPage">
     <ContentPage.Content>
         <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -30,12 +30,12 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
                             </Grid>
-                            <Label Grid.Column="1"  Margin="-30,0,0,0" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <interfaces:CustomizeFontLabel Grid.Column="1"  Margin="-30,0,0,0" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                             <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="Button_Clicked" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
@@ -46,12 +46,12 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                        <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </StackLayout>
                         <Grid Grid.Row="3">
-                             <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                             <interfaces:CustomizeFontLabel Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </Grid>
  
@@ -66,8 +66,8 @@
                         </Frame>
                         </StackLayout>
                         <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
-                        <Label x:Name="userName" Text="First Name Last Name" TextDecorations="Underline" TextColor="Black" FontSize="24" FontAttributes="Bold"></Label>
-                        <Label x:Name="userBirthDate" Text="Date of birth" TextColor="Black" FontSize="12" FontAttributes="Bold"></Label>
+                        <interfaces:CustomizeFontLabel x:Name="userName" Text="First Name Last Name" TextDecorations="Underline" TextColor="Black" FontSize="24" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel x:Name="userBirthDate" Text="Date of birth" TextColor="Black" FontSize="12" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                         </StackLayout>
                  </Grid>
                 <!--<StackLayout Padding="45,40,0,0">
@@ -77,34 +77,36 @@
                      <Label Text="Major events" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
                 </StackLayout>-->
 
-                <Label Margin="20,0,20,0" Text="Family" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
-                    <StackLayout Margin="40,0,40,0">
-                    <CollectionView x:Name="familyMembersList"  >
+                <interfaces:CustomizeFontLabel Margin="20,0,20,0" Text="Family" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                    <StackLayout Margin="40,0,40,0" Orientation="Horizontal" x:Name="familyMembersList" HeightRequest="60"></StackLayout>
+                    <!--<CollectionView x:Name="familyMembersList" ItemSizingStrategy="MeasureAllItems" >
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" Span="5" />               
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate >
                             <DataTemplate>
                                 <StackLayout HorizontalOptions="Center" WidthRequest="150" HeightRequest="150">
-                                    <StackLayout HorizontalOptions="Center" WidthRequest="60" HeightRequest="60">
+                                    <StackLayout HorizontalOptions="Center" WidthRequest="40" HeightRequest="40">
                                         <Frame IsClippedToBounds="True" Padding="0" WidthRequest="60" HeightRequest="60" HasShadow="False" CornerRadius="30" BorderColor="Black" >
                                             <Image Source="{Binding PicUrl}" Aspect="AspectFill"/>
                                         </Frame>
                                     </StackLayout>
-                                    <Label HorizontalTextAlignment="Center" Text="{Binding Name}"></Label>
-                                    <Label HorizontalTextAlignment="Center" Text="{Binding PhoneNumber}" IsVisible="False"></Label>
+                                    <interfaces:CustomizeFontLabel HorizontalTextAlignment="Center" Text="{Binding Name}" TextColor="Black" FontSize="9"></interfaces:CustomizeFontLabel>
+                                    <interfaces:CustomizeFontLabel HorizontalTextAlignment="Center" Text="{Binding PhoneNumber}" IsVisible="False"></interfaces:CustomizeFontLabel>
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" ></TapGestureRecognizer>
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
-                    </CollectionView>
-                    </StackLayout>
+                    </CollectionView>-->
+                    
+                   
+                        
 
-                <Label Margin="20,0,20,0" Text="Friends" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
-
-                    <StackLayout Margin="40,0,40,0">
+                <interfaces:CustomizeFontLabel Margin="20,0,20,0" Text="Friends" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                        <StackLayout Margin="40,0,40,0" Orientation="Horizontal" x:Name="friendMembersList" HeightRequest="60"></StackLayout>
+                    <!--<StackLayout Margin="40,0,40,0">
                         <CollectionView x:Name="friendMembersList" >
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" Span="5" />               
@@ -112,13 +114,13 @@
                             <CollectionView.ItemTemplate >
                                 <DataTemplate>
                                 <StackLayout HorizontalOptions="Center" WidthRequest="150" HeightRequest="150">
-                                    <StackLayout HorizontalOptions="Center" WidthRequest="60" HeightRequest="60">
+                                    <StackLayout HorizontalOptions="Center" WidthRequest="40" HeightRequest="40">
                                         <Frame IsClippedToBounds="True" Padding="0" WidthRequest="60" HeightRequest="60" HasShadow="False" CornerRadius="30" BorderColor="Black" >
                                             <Image Source="{Binding PicUrl}" Aspect="AspectFill"/>
                                         </Frame>
                                     </StackLayout>
-                                    <Label HorizontalTextAlignment="Center" Text="{Binding Name}"></Label>
-                                    <Label HorizontalTextAlignment="Center" Text="{Binding PhoneNumber}" IsVisible="False"></Label>
+                                    <interfaces:CustomizeFontLabel HorizontalTextAlignment="Center" Text="{Binding Name}" TextColor="Black" FontSize="9"></interfaces:CustomizeFontLabel>
+                                    <interfaces:CustomizeFontLabel HorizontalTextAlignment="Center" Text="{Binding PhoneNumber}" IsVisible="False"></interfaces:CustomizeFontLabel>
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2" ></TapGestureRecognizer>
                                     </StackLayout.GestureRecognizers>
@@ -126,35 +128,43 @@
                             </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
-                   </StackLayout>
+                   </StackLayout>-->
                
 
                  <Grid Margin="5,30,5,0">
                     <StackLayout Grid.Column="0">
-                         <Label Text="Message Card" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <interfaces:CustomizeFontLabel Text="Message Card" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                           <Frame x:Name="frameMessageCard">
-                                <Label Padding="20,0,0,0" x:Name="messageCard" TextColor="Black" FontSize="12" FontAttributes="Bold" ></Label>
+                              <StackLayout>
+                                    <interfaces:CustomizeFontLabel Padding="20,0,0,0" x:Name="messageCard" TextColor="Black" FontSize="12" FontAttributes="Bold" ></interfaces:CustomizeFontLabel>
+                              </StackLayout>
                           </Frame>
                     </StackLayout>
                     <StackLayout Grid.Column="1">
-                         <Label Text="Message Day" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <interfaces:CustomizeFontLabel Text="Message Day" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                          <Frame x:Name="frameMessageDay">
-                         <Label Padding="20,0,0,0" x:Name="messageDay" TextColor="Black" FontSize="12" FontAttributes="Bold" ></Label>
+                             <StackLayout>
+                         <interfaces:CustomizeFontLabel Padding="20,0,0,0" x:Name="messageDay" TextColor="Black" FontSize="12" FontAttributes="Bold" ></interfaces:CustomizeFontLabel>
+                                 </StackLayout>
                              </Frame>
                     </StackLayout>
                 </Grid>
 
                 <Grid Margin="5,30,5,10" >
                     <StackLayout Grid.Column="0">
-                         <Label Text="Major Events" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <interfaces:CustomizeFontLabel Text="Major Events" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                          <Frame x:Name="frameMajorEvent">
-                            <Label Padding="20,0,0,0" x:Name="majorEvents" TextColor="Black" FontSize="12" FontAttributes="Bold"></Label>
+                             <StackLayout>
+                            <interfaces:CustomizeFontLabel Padding="20,0,0,0" x:Name="majorEvents" TextColor="Black" FontSize="12" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                            </StackLayout>
                          </Frame>
                     </StackLayout>
                     <StackLayout Grid.Column="1" >
-                         <Label Text="My History" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                         <interfaces:CustomizeFontLabel Text="My History" TextColor="Black" FontSize="Medium" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                          <Frame x:Name="frameMyHistory">
-                            <Label Padding="20,0,0,0" x:Name="myHistory" TextColor="Black" FontSize="12" FontAttributes="Bold" ></Label>
+                             <StackLayout>
+                            <interfaces:CustomizeFontLabel Padding="20,0,0,0" x:Name="myHistory" TextColor="Black" FontSize="12" FontAttributes="Bold" ></interfaces:CustomizeFontLabel>
+                            </StackLayout>
                          </Frame>
                     </StackLayout>
                 </Grid>
@@ -214,7 +224,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
                             <Grid>
                                 <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
-                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -230,7 +240,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                             <Grid>
                                 <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -247,7 +257,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                             <Grid>
                                 <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>

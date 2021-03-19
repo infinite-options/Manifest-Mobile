@@ -210,7 +210,14 @@ namespace Manifest.Views
                     text2.Text = goalsInRange[1].Title;
                     occuranceDict.Add(text2.Text, goalsInRange[1]);
 
-                    stack2.Margin = new Thickness(50, 0, 0, 0);
+                    if(Device.RuntimePlatform == Device.iOS)
+                    {
+                        stack2.Margin = new Thickness(50, 0, 0, 0);
+                    }
+                    else
+                    {
+                        stack2.Margin = new Thickness(0.2, 0, 0, 0);
+                    }
 
                     if (goalsInRange[0].IsInProgress)
                     {

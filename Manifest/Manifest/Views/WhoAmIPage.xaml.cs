@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Manifest.Config;
+using Manifest.Interfaces;
 using Manifest.LogIn.Classes;
 using Manifest.Models;
 using Manifest.RDS;
@@ -139,8 +140,8 @@ namespace Manifest.Views
             friend.Clear();
             var familyCounter = 1;
             var friendCounter = 1;
-            var height1 = 90;
-            var height2 = 90;
+            var height1 = 30;
+            var height2 = 20;
             if (userResponse.result != null)
             {
                 foreach (UserDto dto in userResponse.result)
@@ -190,28 +191,114 @@ namespace Manifest.Views
                         }
                         if(toAdd.Relation == "Family")
                         {
-                            family.Add(toAdd);
-                            if (familyCounter % 5 == 0)
+                            //family.Add(toAdd);
+                            if (familyCounter <= 5)
                             {
-                                height1 += 90;
+                                var myStack = new StackLayout();
+                                myStack.HorizontalOptions = LayoutOptions.Center;
+                                myStack.WidthRequest = 40;
+                                myStack.HeightRequest = 40;
+
+                                var tap = new TapGestureRecognizer();
+                                tap.Tapped += TapGestureRecognizer_Tapped_1;
+                                myStack.GestureRecognizers.Add(tap);
+
+                                var myFrame = new Frame();
+                                myFrame.IsClippedToBounds = true;
+                                myFrame.Padding = 0;
+                                myFrame.WidthRequest = 60;
+                                myFrame.HeightRequest = 60;
+                                myFrame.HasShadow = false;
+                                myFrame.CornerRadius = 30;
+                                myFrame.BorderColor = Color.Black;
+
+                                var myImage = new Image();
+                                myImage.Source = toAdd.PicUrl;
+                                myImage.Aspect = Aspect.AspectFill;
+
+                                myFrame.Content = myImage;
+
+                                myStack.Children.Add(myFrame);
+
+                                
+
+                                var name = new CustomizeFontLabel();
+                                name.HorizontalTextAlignment = TextAlignment.Center;
+                                name.Text = toAdd.Name;
+                                name.TextColor = Color.Black;
+                                name.FontSize = 9;
+
+                                myStack.Children.Add(name);
+
+                                var phone = new CustomizeFontLabel();
+                                phone.HorizontalTextAlignment = TextAlignment.Center;
+                                phone.Text = toAdd.PhoneNumber;
+                                phone.IsVisible = false;
+
+                                myStack.Children.Add(phone);
+                                familyMembersList.Children.Add(myStack);
+                                //height1 += 60;
                             }
                             familyCounter++;
                         }
-                        if (toAdd.Relation == "Family")
+                        if (toAdd.Relation == "Friends" || toAdd.Relation == "Friend")
                         {
-                            friend.Add(toAdd);
-                            if (friendCounter % 5 == 0)
+                            //friend.Add(toAdd);
+                            if (friendCounter <= 5)
                             {
-                                height2 += 90;
+                                var myStack = new StackLayout();
+                                myStack.HorizontalOptions = LayoutOptions.Center;
+                                myStack.WidthRequest = 40;
+                                myStack.HeightRequest = 40;
+
+                                var tap = new TapGestureRecognizer();
+                                tap.Tapped += TapGestureRecognizer_Tapped_2;
+                                myStack.GestureRecognizers.Add(tap);
+
+                                var myFrame = new Frame();
+                                myFrame.IsClippedToBounds = true;
+                                myFrame.Padding = 0;
+                                myFrame.WidthRequest = 60;
+                                myFrame.HeightRequest = 60;
+                                myFrame.HasShadow = false;
+                                myFrame.CornerRadius = 30;
+                                myFrame.BorderColor = Color.Black;
+
+                                var myImage = new Image();
+                                myImage.Source = toAdd.PicUrl;
+                                myImage.Aspect = Aspect.AspectFill;
+
+                                myFrame.Content = myImage;
+
+                                myStack.Children.Add(myFrame);
+
+
+
+                                var name = new CustomizeFontLabel();
+                                name.HorizontalTextAlignment = TextAlignment.Center;
+                                name.Text = toAdd.Name;
+                                name.TextColor = Color.Black;
+                                name.FontSize = 9;
+
+                                myStack.Children.Add(name);
+
+                                var phone = new CustomizeFontLabel();
+                                phone.HorizontalTextAlignment = TextAlignment.Center;
+                                phone.Text = toAdd.PhoneNumber;
+                                phone.IsVisible = false;
+
+                                myStack.Children.Add(phone);
+                                friendMembersList.Children.Add(myStack);
+                                //height2 += 60;
                             }
                             friendCounter++;
                         }
                     }
                 }
-                familyMembersList.ItemsSource = family;
-                friendMembersList.ItemsSource = friend;
-                familyMembersList.HeightRequest = height1;
-                friendMembersList.HeightRequest = height2;
+                //familyMembersList.ItemsSource = family;
+                //friendMembersList.ItemsSource = friend;
+                //familyMembersList.HeightRequest = height1;
+                //friendMembersList.HeightRequest = height2;
             }
         }
 

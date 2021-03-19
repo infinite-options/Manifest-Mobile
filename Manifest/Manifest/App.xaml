@@ -91,5 +91,12 @@
             <Setter Property="HeightRequest" Value="1"/>
             <Setter Property="BackgroundColor" Value="LightGray"/>
         </Style>
+
+        <ResourceDictionary>
+            <Style x:Key="FontLabelStyle" TargetType="Label">
+              <Setter Property="FontFamily" Value="Roboto"/>
+            </Style>
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>

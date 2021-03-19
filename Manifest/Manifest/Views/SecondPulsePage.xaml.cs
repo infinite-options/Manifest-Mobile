@@ -12,7 +12,7 @@ namespace Manifest.Views
 {
     public class Result
     {
-        public string options { get; set; }
+        public object options { get; set; }
     }
 
     public class AboutMe
@@ -94,10 +94,14 @@ namespace Manifest.Views
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine("PULSE 2:" + content);
                 var data = JsonConvert.DeserializeObject<AboutMe>(content);
-                if(data.result.Count != 0)
+                if(data.result.Count != 0 && data.result != null)
                 {
-                    list = JsonConvert.DeserializeObject<List<string>>(data.result[0].options);
+                    if(data.result[0].options != null)
+                    {
+                        list = JsonConvert.DeserializeObject<List<string>>(data.result[0].options.ToString());
+                    }
                 }
             }
             return list;
@@ -108,7 +112,8 @@ namespace Manifest.Views
             try
             {
                 options = await GetOptions(category, userId);
-                if(options.Count != 0 && options != null)
+                
+                if(options.Count != 0)
                 {
                     setGoals();
                 }

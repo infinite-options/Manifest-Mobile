@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.TodaysListPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.TodaysListPage">
     <ContentPage.Content>
         <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -72,12 +72,12 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
                             </Grid>
-                            <Label Grid.Column="1"  Margin="-30,0,0,0" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <interfaces:CustomizeFontLabel Grid.Column="1"  Margin="-30,0,0,0" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                             <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
 
@@ -96,12 +96,12 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                        <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </StackLayout>
                         <Grid Grid.Row="3">
-                             <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                             <interfaces:CustomizeFontLabel Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </Grid>
  
@@ -117,7 +117,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Label x:Name="dotw" Text="" Grid.Row="0" FontAttributes="Bold" TextColor="Black" FontSize="35" Margin="20,30,0,0" HorizontalOptions="Start" VerticalOptions="End"/>
+                <interfaces:CustomizeFontLabel x:Name="dotw" Text="" Grid.Row="0" FontAttributes="Bold" TextColor="Black" FontSize="35" Margin="20,30,0,0" HorizontalOptions="Start" VerticalOptions="End"/>
 
 
                 <StackLayout x:Name="stack1" Grid.Row="1" Margin="20, 15, 20, 0">
@@ -132,7 +132,7 @@
                         </Grid.RowDefinitions>
 
                         <Image HeightRequest="50" Source="sunrisemid.png"/>
-                        <Label Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Morning" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
+                        <interfaces:CustomizeFontLabel Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Morning" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
                     </Grid>
 
                 <CollectionView x:Name="taskListMorning" SelectionMode="None">
@@ -161,14 +161,14 @@
                                                   <ColumnDefinition Width="100"></ColumnDefinition>
                                              </Grid.ColumnDefinitions>
                                                 <StackLayout Grid.Row="1" Grid.Column="0">
-                                                 <Label  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></Label>
+                                                 <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                  <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding Id}" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>-->
                                                 <StackLayout Grid.Row="2" Grid.Column="0">
-                                                  <Label Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></Label>
+                                                  <interfaces:CustomizeFontLabel Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="0" Grid.Column="0">
-                                                  <Label Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></Label>
+                                                  <interfaces:CustomizeFontLabel Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="{Binding PicUrl}" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="yellowclock.png" IsVisible="{Binding IsInProgress}" VerticalOptions="Start" AutomationProperties.Name="In Progress Image" HorizontalOptions="End" Margin="0,0,10,0"></Image> 
@@ -222,7 +222,7 @@
                         </Grid.RowDefinitions>
 
                         <Image HeightRequest="50" Aspect="AspectFill" Source="fullsun.png"/>
-                        <Label Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Afternoon" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
+                        <interfaces:CustomizeFontLabel Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Afternoon" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
                     </Grid>
 
                 <CollectionView x:Name="taskListAfternoon" SelectionMode="None">
@@ -251,14 +251,14 @@
                                                       <ColumnDefinition Width="100"></ColumnDefinition>
                                                  </Grid.ColumnDefinitions>
                                                     <StackLayout Grid.Row="1" Grid.Column="0">
-                                                     <Label  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></Label>
+                                                     <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></interfaces:CustomizeFontLabel>
                                                     </StackLayout>
                                                      <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding Id}" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>-->
                                                     <StackLayout Grid.Row="2" Grid.Column="0">
-                                                      <Label Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></Label>
+                                                      <interfaces:CustomizeFontLabel Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></interfaces:CustomizeFontLabel>
                                                     </StackLayout>
                                                     <StackLayout Grid.Row="0" Grid.Column="0">
-                                                      <Label Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></Label>
+                                                      <interfaces:CustomizeFontLabel Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                                                     </StackLayout>
                                                       <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="{Binding PicUrl}" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
                                                       <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="yellowclock.png" IsVisible="{Binding IsInProgress}" VerticalOptions="Start" AutomationProperties.Name="In Progress Image" HorizontalOptions="End" Margin="0,0,10,0"></Image> 
@@ -312,7 +312,7 @@
                         </Grid.RowDefinitions>
 
                         <Image HeightRequest="50" Aspect="AspectFill" Source="moon.png"/>
-                        <Label Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Evening" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
+                        <interfaces:CustomizeFontLabel Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Evening" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
                     </Grid>
 
                 <CollectionView x:Name="taskListEvening" SelectionMode="None">
@@ -341,14 +341,14 @@
                                                   <ColumnDefinition Width="100"></ColumnDefinition>
                                              </Grid.ColumnDefinitions>
                                                 <StackLayout Grid.Row="1" Grid.Column="0">
-                                                 <Label  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></Label>
+                                                 <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                  <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding Id}" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>-->
                                                 <StackLayout Grid.Row="2" Grid.Column="0">
-                                                  <Label Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></Label>
+                                                  <interfaces:CustomizeFontLabel Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="0" Grid.Column="0">
-                                                  <Label Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></Label>
+                                                  <interfaces:CustomizeFontLabel Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="{Binding PicUrl}" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="yellowclock.png" IsVisible="{Binding IsInProgress}" VerticalOptions="Start" AutomationProperties.Name="In Progress Image" HorizontalOptions="End" Margin="0,0,10,0"></Image> 
@@ -402,7 +402,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True">
                             <Grid>
                                 <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
-                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -418,7 +418,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                             <Grid>
                                 <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -435,7 +435,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                             <Grid>
                                 <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>  
                         </Frame>
                     </RelativeLayout>

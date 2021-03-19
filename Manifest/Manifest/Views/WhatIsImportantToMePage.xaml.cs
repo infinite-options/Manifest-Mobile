@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
 using Manifest.Config;
+using Manifest.Interfaces;
 using Manifest.Models;
 using Manifest.RDS;
 using Newtonsoft.Json;
@@ -69,14 +70,14 @@ namespace Manifest.Views
             supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
 
 
-            if(Device.RuntimePlatform == Device.iOS)
-            {
-                devices.Width = 135;
-            }
-            else
-            {
-                devices.Width = 180;
-            }
+            //if(Device.RuntimePlatform == Device.iOS)
+            //{
+            //    devices.Width = 135;
+            //}
+            //else
+            //{
+            //    devices.Width = 156;
+            //}
 
             if (Device.RuntimePlatform == Device.iOS)
             {
@@ -207,22 +208,31 @@ namespace Manifest.Views
                 }
                 Debug.WriteLine("START: " + startDate);
                 Debug.WriteLine("END: " + endDate);
-                dates.Clear();
+                //dates.Clear();
                 //dates.Add(new HeaderInfo() { name = "Goals", date = "" });
                 for (int i = 0; i < 7; i++)
                 {
                     var temp = startDate.AddDays(i);
                     if(i != 6)
                     {
-                        dates.Add(new HeaderInfo() { name = temp.ToString("ddd"), date = temp.ToString("MM/dd") });
+                        //dates.Add(new HeaderInfo() { name = temp.ToString("ddd"), date = temp.ToString("MM/dd") });
+                        var myStack = new StackLayout();
+                        myStack.WidthRequest = 30;
+                        myStack.Children.Add(new CustomizeFontLabel() { Text = temp.ToString("ddd"), Margin = new Thickness(0, 5, 0, 0), TextColor = Color.Black, FontSize = 9, WidthRequest = 30 });
+                        DatesList.Children.Add(myStack);
                     }
                     else
                     {
-                        dates.Add(new HeaderInfo() { name = "Today", date = temp.ToString("MM/dd") });
+                        //dates.Add(new HeaderInfo() { name = "Today", date = temp.ToString("MM/dd") });
+                        //DatesList.Children.Add(new CustomizeFontLabel() { Text = "Today", TextColor = Color.Black, FontSize = 10, WidthRequest=30 });
+                        var myStack = new StackLayout();
+                        myStack.WidthRequest = 30;
+                        myStack.Children.Add(new CustomizeFontLabel() { Text = "Today", Margin = new Thickness(0, 6, 0, 0), TextColor = Color.Black, FontSize = 8, WidthRequest = 30 });
+                        DatesList.Children.Add(myStack);
                     }
                 }
 
-                DatesList.ItemsSource = dates;
+                //DatesList.ItemsSource = dates;
 
                 client.DefaultRequestHeaders.Add("start_date", startDate.ToString("yyyy-MM-dd"));
                 client.DefaultRequestHeaders.Add("end_date", endDate.ToString("yyyy-MM-dd"));
@@ -258,7 +268,7 @@ namespace Manifest.Views
                             if (!goalsItems.Contains(subKey))
                             {
                                 goalsItems.Add(subKey);
-                                height = height + 30;
+                                height = height + 40;
                             }
                         }
                     }
@@ -425,7 +435,7 @@ namespace Manifest.Views
                             if (!goalsItems.Contains(subKey))
                             {
                                 goalsItems.Add(subKey);
-                                height = height + 30;
+                                height = height + 40;
                             }
                         }
                     }

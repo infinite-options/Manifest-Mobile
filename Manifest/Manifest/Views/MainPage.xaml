@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.MainPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.MainPage">
     <ContentPage.Content>
         <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -24,8 +24,8 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="30"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="" TextColor="White"></Label>
-                        <Label Grid.Column="1" Text="Manifest" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="0" Text="" TextColor="White"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Text="Manifest" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                         <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="Button_Clicked" BackgroundColor="Transparent"></ImageButton>
                     </Grid>
                     <StackLayout Grid.Row="2">
@@ -35,12 +35,12 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                        <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </StackLayout>
                     <Grid Grid.Row="3">
-                        <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                        <interfaces:CustomizeFontLabel Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                     </Grid>
                 </Grid>
             </Frame>
@@ -51,8 +51,8 @@
                         <ColumnDefinition Width="150"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <StackLayout Grid.Column="0" VerticalOptions="CenterAndExpand">
-                        <StackLayout WidthRequest="150" Padding="0,0,0,10">
+                    <StackLayout Grid.Column="0" VerticalOptions="CenterAndExpand" >
+                        <StackLayout WidthRequest="150" Padding="-10,0,0,10">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
                                     x:Name="pulseEllipse"
@@ -62,13 +62,13 @@
                                     HeightRequest="98">
                                 </Ellipse>
                                 <Image Margin="0,15,0,0" Source="pulseIcon.png" HeightRequest="35" WidthRequest="98"></Image>
-                                <Label Margin="0,-15,0,0" Text="Pulse" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" WidthRequest="98" HeightRequest="98" VerticalTextAlignment="End"></Label>
+                                <interfaces:CustomizeFontLabel Margin="0,-15,0,0" Text="Pulse" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" WidthRequest="98" HeightRequest="98" VerticalTextAlignment="End"></interfaces:CustomizeFontLabel>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="NoteToFutureSelfClick"></TapGestureRecognizer>
                             </StackLayout.GestureRecognizers>
                         </StackLayout>
-                        <StackLayout WidthRequest="150" Padding="0,10,0,0">
+                        <StackLayout WidthRequest="150" Padding="-10,10,0,0">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
                                     x:Name="scheduleEllipse"
@@ -78,7 +78,7 @@
                                     HeightRequest="98">
                                 </Ellipse>
                                 <Image Margin="0,15,0,0" Source="calendarIcon.png" HeightRequest="35" WidthRequest="98"></Image>
-                                <Label Margin="0,-15,0,0" Padding="0,0,0,0" Text="Schedule" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" WidthRequest="98" HeightRequest="98" VerticalTextAlignment="End"></Label>
+                                <interfaces:CustomizeFontLabel Margin="0,-15,0,0" Padding="0,0,0,0" Text="Schedule" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" WidthRequest="98" HeightRequest="98" VerticalTextAlignment="End"></interfaces:CustomizeFontLabel>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="TodayListClick"></TapGestureRecognizer>
@@ -96,7 +96,7 @@
                                     HeightRequest="98">
                                 </Ellipse>
                                 <Image Margin="0,15,0,0" Source="goalsIcon.png" HeightRequest="35" WidthRequest="98"></Image>
-                                <Label Margin="0,-15,0,0" Text="Goals" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98"   VerticalTextAlignment="End"></Label>
+                                <interfaces:CustomizeFontLabel Margin="0,-15,0,0" Text="Goals" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98"   VerticalTextAlignment="End"></interfaces:CustomizeFontLabel>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="GoalsClick"></TapGestureRecognizer>
@@ -123,8 +123,8 @@
                                     </Ellipse>
                                     </Grid>
                                 </StackLayout>
-                                <Label Margin="0,10,0,0"  Padding="20,0,20,0" Text="What are you currently doing?" TextColor="White" FontSize="12" FontAttributes="Bold" WidthRequest="150" HeightRequest="150" HorizontalTextAlignment="Center"></Label>
-                                <Label Padding="27,40,27,0" x:Name="CenterCircle" Text="" MaxLines="3" LineBreakMode="TailTruncation" TextDecorations="Underline" TextColor="White" FontSize="14" FontAttributes="Bold" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" WidthRequest="150"  HeightRequest="150"></Label>
+                                <interfaces:CustomizeFontLabel Margin="0,10,0,0"  Padding="20,0,20,0" Text="What are you currently doing?" TextColor="White" FontSize="12" FontAttributes="Bold" WidthRequest="150" HeightRequest="150" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                                <interfaces:CustomizeFontLabel Padding="27,40,27,0" x:Name="CenterCircle" Text="" MaxLines="3" LineBreakMode="TailTruncation" TextDecorations="Underline" TextColor="White" FontSize="14" FontAttributes="Bold" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" WidthRequest="150"  HeightRequest="150"></interfaces:CustomizeFontLabel>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="WhatAreYouCurrentlyDoingClick"></TapGestureRecognizer>
@@ -140,14 +140,14 @@
                                     HeightRequest="98">
                                 </Ellipse>
                                 <Image Margin="0,15,0,0" Source="personIcon.png" HeightRequest="35" WidthRequest="98"></Image>
-                                <Label Margin="0,-20,0,0" Text="Who am I?" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98" VerticalTextAlignment="End"></Label>
+                                <interfaces:CustomizeFontLabel Margin="0,-20,0,0" Text="Who am I?" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98" VerticalTextAlignment="End"></interfaces:CustomizeFontLabel>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="WhoAmIClick"></TapGestureRecognizer>
                             </StackLayout.GestureRecognizers>
                         </StackLayout>
                     </StackLayout>
-                    <StackLayout Grid.Column="2" VerticalOptions="CenterAndExpand">
+                    <StackLayout Grid.Column="2" VerticalOptions="CenterAndExpand" >
                         <StackLayout  WidthRequest="150" Padding="-10,0,0,10">
                             <RelativeLayout HorizontalOptions="CenterAndExpand">
                                 <Ellipse
@@ -158,7 +158,7 @@
                                     HeightRequest="98">
                                 </Ellipse>
                                 <Image Margin="0,15,0,0" Source="routinesIcon.png" HeightRequest="35" WidthRequest="98"></Image>
-                                <Label Margin="0,-15,0,0" Text="Routines" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98" VerticalTextAlignment="End"></Label>
+                                <interfaces:CustomizeFontLabel Margin="0,-15,0,0" Text="Routines" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98" VerticalTextAlignment="End"></interfaces:CustomizeFontLabel>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="RoutinesClick" ></TapGestureRecognizer>
@@ -174,8 +174,8 @@
                                     HeightRequest="98">
                                 </Ellipse>
                                 <!--<Image Margin="0,10,0,0" Source="questionIcon.png" HeightRequest="30" WidthRequest="98"></Image>-->
-                                <Label Margin="0,5,0,0" Text="?" TextColor="White" FontSize="50" FontAttributes="Bold" HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98" ></Label>
-                                <Label Margin="0,-15,0,0" Text="Info" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98" VerticalTextAlignment="End"></Label>
+                                <interfaces:CustomizeFontLabel Margin="0,5,0,0" Text="?" TextColor="White" FontSize="50" FontAttributes="Bold" HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98" ></interfaces:CustomizeFontLabel>
+                                <interfaces:CustomizeFontLabel Margin="0,-15,0,0" Text="Info" TextColor="White" FontSize="14" FontAttributes="Bold"  HorizontalTextAlignment="Center" HeightRequest="98" WidthRequest="98" VerticalTextAlignment="End"></interfaces:CustomizeFontLabel>
                             </RelativeLayout>
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="InfoClick"></TapGestureRecognizer>
@@ -191,7 +191,7 @@
                 <Frame Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                     <Grid>
                         <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"/>
-                        <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                        <interfaces:CustomizeFontLabel Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TodayListClick"></TapGestureRecognizer>
@@ -200,13 +200,13 @@
                 <Frame Grid.Column="1" x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True">
                     <Grid>
                         <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
-                        <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                        <interfaces:CustomizeFontLabel Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                 </Frame>
                 <Frame Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                     <Grid>
                         <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
-                        <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                        <interfaces:CustomizeFontLabel Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                     </Grid>
                     <Frame.GestureRecognizers>
                         <TapGestureRecognizer Tapped="InfoClick"></TapGestureRecognizer>
@@ -222,7 +222,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
                             <Grid>
                                 <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
-                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -238,7 +238,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True">
                             <Grid>
                                 <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -255,7 +255,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                             <Grid>
                                 <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid> 
                         </Frame>
                     </RelativeLayout>

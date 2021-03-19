@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch" x:Class="Manifest.Views.FourthPulsePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:f9p="clr-namespace:Forms9Patch;assembly=Forms9Patch" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.FourthPulsePage">
     <ContentPage.Content>
  <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -24,8 +24,8 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="30"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="" TextColor="White"></Label>
-                            <Label Grid.Column="1" Text="How do I feel?" x:Name="title" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" ></Label>
+                            <interfaces:CustomizeFontLabel Grid.Column="0" Text="" TextColor="White"></interfaces:CustomizeFontLabel>
+                            <interfaces:CustomizeFontLabel Grid.Column="1" Text="How do I feel?" x:Name="title" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="End" ></interfaces:CustomizeFontLabel>
                             <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent" Clicked="ImageButton_Clicked"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
@@ -34,12 +34,12 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                            <interfaces:CustomizeFontLabel Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
+                            <interfaces:CustomizeFontLabel Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></interfaces:CustomizeFontLabel>
                         </Grid>
                         <StackLayout Grid.Row="3">
                             <BoxView HeightRequest="1" Color="White"></BoxView>
-                            <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                            <interfaces:CustomizeFontLabel Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                         </StackLayout>
                     </Grid>
  
@@ -64,7 +64,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label x:Name="text4" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                    <interfaces:CustomizeFontLabel x:Name="text4" Text="" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
@@ -81,7 +81,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label x:Name="text7" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                    <interfaces:CustomizeFontLabel x:Name="text7" Text="" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
@@ -100,7 +100,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label  x:Name="text3" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                    <interfaces:CustomizeFontLabel  x:Name="text3" Text="" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
@@ -117,7 +117,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label x:Name="text1" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                    <interfaces:CustomizeFontLabel x:Name="text1" Text="" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
@@ -136,7 +136,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                <f9p:Label x:Name="text5" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                <interfaces:CustomizeFontLabel x:Name="text5" Text="" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
@@ -153,7 +153,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label x:Name="text6" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                    <interfaces:CustomizeFontLabel x:Name="text6" Text="" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
@@ -170,7 +170,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label x:Name="text2" Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                    <interfaces:CustomizeFontLabel x:Name="text2" Text=""  HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 </RelativeLayout>
                                 <StackLayout.GestureRecognizers>
@@ -188,7 +188,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                    <interfaces:CustomizeFontLabel Text=""  HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 </RelativeLayout>
                             </StackLayout>
@@ -201,7 +201,7 @@
                                     HeightRequest="128">
                                 </Ellipse>
                                 <StackLayout HeightRequest="128" WidthRequest="128">
-                                    <f9p:Label Text="" AutoFit="Width" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></f9p:Label>
+                                    <interfaces:CustomizeFontLabel Text=""  HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" MaxLines="4" LineBreakMode="TailTruncation" TextColor="Black" FontAttributes="Bold" FontSize="18"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 </RelativeLayout>
                             </StackLayout>
@@ -225,13 +225,13 @@
                             <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
                             <Image Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" HeightRequest="20"/>
-                            <Label Grid.Row="1" Grid.Column="0" Text="Today's List" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            <interfaces:CustomizeFontLabel Grid.Row="1" Grid.Column="0" Text="Today's List" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
 
                             <Image Grid.Row="0" Grid.Column="1" Source="personIcon.png" HeightRequest="20"/>
-                            <Label Grid.Row="1" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            <interfaces:CustomizeFontLabel Grid.Row="1" Grid.Column="1" Text="About Me" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
 
                             <Image Grid.Row="0" Grid.Column="2" Source="helpIcon.png"   HeightRequest="20"/>
-                            <Label Grid.Row="1" Grid.Column="2" Text="Get Help" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                            <interfaces:CustomizeFontLabel Grid.Row="1" Grid.Column="2" Text="Get Help" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
 
                         <Button Grid.Column="0" Grid.RowSpan="2"  HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="Transparent"></Button>
                         <Button Grid.Column="1" Grid.RowSpan="2" HorizontalOptions="Fill" VerticalOptions="Fill"  BackgroundColor="Transparent"></Button>
@@ -241,7 +241,13 @@
 
             </StackLayout>
             <StackLayout Grid.Row="4" x:Name="buttonStackLayoutProperties"  Padding="0">
-                <Button x:Name="submitButton" Text="Submit" TextColor="White" WidthRequest="140" HeightRequest="45" CornerRadius="20" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" BackgroundColor="#889AB5" Clicked="Button_Clicked"></Button>
+                <Button x:Name="submitButton" Text="Submit" TextColor="White" WidthRequest="140" HeightRequest="45" CornerRadius="20" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" BackgroundColor="#889AB5" Clicked="Button_Clicked">
+                    <Button.FontFamily>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <On Platform="Android" Value="Roboto" />
+                        </OnPlatform>
+                    </Button.FontFamily>
+                </Button>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
