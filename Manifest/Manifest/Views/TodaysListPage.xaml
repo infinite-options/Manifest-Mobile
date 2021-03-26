@@ -72,7 +72,7 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Lobby" FontSize="12" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
@@ -158,10 +158,10 @@
                                              </Grid.RowDefinitions>
                                              <Grid.ColumnDefinitions>
                                                   <ColumnDefinition Width="*"></ColumnDefinition>
-                                                  <ColumnDefinition Width="100"></ColumnDefinition>
+                                                  <ColumnDefinition Width="50"></ColumnDefinition>
                                              </Grid.ColumnDefinitions>
                                                 <StackLayout Grid.Row="1" Grid.Column="0">
-                                                 <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></interfaces:CustomizeFontLabel>
+                                                 <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" LineBreakMode="TailTruncation" MaxLines="2" FontSize="18" TextDecorations="Underline"  ></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                  <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding Id}" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>-->
                                                 <StackLayout Grid.Row="2" Grid.Column="0">
@@ -248,10 +248,10 @@
                                                  </Grid.RowDefinitions>
                                                  <Grid.ColumnDefinitions>
                                                       <ColumnDefinition Width="*"></ColumnDefinition>
-                                                      <ColumnDefinition Width="100"></ColumnDefinition>
+                                                      <ColumnDefinition Width="50"></ColumnDefinition>
                                                  </Grid.ColumnDefinitions>
                                                     <StackLayout Grid.Row="1" Grid.Column="0">
-                                                     <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></interfaces:CustomizeFontLabel>
+                                                     <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" LineBreakMode="TailTruncation" MaxLines="2" FontSize="18"></interfaces:CustomizeFontLabel>
                                                     </StackLayout>
                                                      <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding Id}" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>-->
                                                     <StackLayout Grid.Row="2" Grid.Column="0">
@@ -338,10 +338,10 @@
                                              </Grid.RowDefinitions>
                                              <Grid.ColumnDefinitions>
                                                   <ColumnDefinition Width="*"></ColumnDefinition>
-                                                  <ColumnDefinition Width="100"></ColumnDefinition>
+                                                  <ColumnDefinition Width="50"></ColumnDefinition>
                                              </Grid.ColumnDefinitions>
                                                 <StackLayout Grid.Row="1" Grid.Column="0">
-                                                 <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></interfaces:CustomizeFontLabel>
+                                                 <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" LineBreakMode="TailTruncation" MaxLines="2" FontSize="18"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                  <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding Id}" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>-->
                                                 <StackLayout Grid.Row="2" Grid.Column="0">

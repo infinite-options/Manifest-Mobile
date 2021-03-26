@@ -30,7 +30,7 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Source="backIcon.png"></Image>
-                            <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                            <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" FontSize="12" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="goToTodaysList"></TapGestureRecognizer>
                             </Grid.GestureRecognizers>
@@ -71,7 +71,7 @@
                 <Frame x:Name="eventFrame" BackgroundColor="#67ABFC" CornerRadius="20" Margin="10,20,10,-40">
                     <StackLayout>
                         <interfaces:CustomizeFontLabel x:Name="eventTime" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="12"/>
-                        <interfaces:CustomizeFontLabel Text="Purpose" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="24" TextDecorations="Underline"/>
+                        <interfaces:CustomizeFontLabel Text="" x:Name="eventTitle" FontAttributes="Bold" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" FontSize="24" TextDecorations="Underline"/>
                         <interfaces:CustomizeFontLabel x:Name="eventDescription" Text="Description" FontSize="15" HorizontalOptions="Start" TextColor="White" VerticalOptions="Center" LineBreakMode="WordWrap" MaxLines="2" Margin="30,0,10,10"/>
                         <CollectionView x:Name="eventInfo" SelectionMode="None">
                             <CollectionView.ItemTemplate>

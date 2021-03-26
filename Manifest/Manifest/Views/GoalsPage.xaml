@@ -30,7 +30,7 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" FontSize="12" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>

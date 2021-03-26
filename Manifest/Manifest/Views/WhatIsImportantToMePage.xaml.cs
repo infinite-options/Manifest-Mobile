@@ -217,7 +217,14 @@ namespace Manifest.Views
                     {
                         //dates.Add(new HeaderInfo() { name = temp.ToString("ddd"), date = temp.ToString("MM/dd") });
                         var myStack = new StackLayout();
-                        myStack.WidthRequest = 30;
+                        if(Device.RuntimePlatform == Device.iOS)
+                        {
+                            myStack.WidthRequest = 24;
+                        }
+                        else
+                        {
+                            myStack.WidthRequest = 30;
+                        }
                         myStack.Children.Add(new CustomizeFontLabel() { Text = temp.ToString("ddd"), Margin = new Thickness(0, 5, 0, 0), TextColor = Color.Black, FontSize = 9, WidthRequest = 30 });
                         DatesList.Children.Add(myStack);
                     }

@@ -66,7 +66,7 @@ namespace Manifest.Views
             }
             catch (Exception e)
             {
-                DisplayAlert("Error", "Error in InitializeComponent, RoutinePage:\n" + e.ToString(), "OK");
+                //DisplayAlert("Error", "Error in InitializeComponent, RoutinePage:\n" + e.ToString(), "OK");
             }
         }
 
@@ -83,7 +83,7 @@ namespace Manifest.Views
             }
             catch (Exception e)
             {
-                await DisplayAlert("Alert", "Error in Routines initialiseTodaysOccurances. Error: " + e.ToString(), "OK");
+                await DisplayAlert("Alert", "Please talk to your trusted advisor to add routines to your calendar. Thank you!", "OK");
             }
         }
 
@@ -182,7 +182,7 @@ namespace Manifest.Views
                         },
                         MinimumHeightRequest = 150
                     };
-                float fontsize = 24;
+                float fontsize = 18;
                 string timespan = toAdd.StartDayAndTime.ToString("hh:mm tt") + " - " + toAdd.EndDayAndTime.ToString("hh:mm tt");
                 gridToAdd.Children.Add(
                     new Label
@@ -346,7 +346,7 @@ namespace Manifest.Views
                                 {
                                     Text = subTask.Title,
                                     TextColor = toAdd.textColor,
-                                    BackgroundColor = toAdd.StatusColor
+                                    BackgroundColor = toAdd.StatusColor,
                                 }
                             }
                             , 1, 0

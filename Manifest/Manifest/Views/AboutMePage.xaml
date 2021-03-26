@@ -30,7 +30,7 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" FontSize="12" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
@@ -135,7 +135,7 @@
                         </StackLayout>
                     </Grid>
 
-                    <interfaces:CustomizeFontLabel Grid.Row="2" Text="People in my life" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Large" TextColor="#0C1E21"/>
+                    <interfaces:CustomizeFontLabel Grid.Row="2" Text="People in my life" FontSize="24" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#0C1E21"/>
                         <ScrollView Grid.Row="3">
                             <StackLayout x:Name="userAdvisors" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Orientation="Vertical" Padding="0,10,0,0">
                             </StackLayout>

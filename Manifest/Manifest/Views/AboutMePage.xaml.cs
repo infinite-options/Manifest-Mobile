@@ -167,7 +167,7 @@ namespace Manifest.Views
                     }
                     catch (Exception birthDate)
                     {
-                        await DisplayAlert("Oops", birthDate.Message, "OK");
+                        await DisplayAlert("Oops", "Please sign in again to retrieve your account information. Thank you!", "OK");
                         userBirthDate.Text = "Date of birth: N/A";
                     }
                 }

@@ -206,10 +206,10 @@ namespace Manifest.Views
                                 var myFrame = new Frame();
                                 myFrame.IsClippedToBounds = true;
                                 myFrame.Padding = 0;
-                                myFrame.WidthRequest = 60;
-                                myFrame.HeightRequest = 60;
+                                myFrame.WidthRequest = 40;
+                                myFrame.HeightRequest = 40;
                                 myFrame.HasShadow = false;
-                                myFrame.CornerRadius = 30;
+                                myFrame.CornerRadius = 20;
                                 myFrame.BorderColor = Color.Black;
 
                                 var myImage = new Image();
@@ -258,10 +258,10 @@ namespace Manifest.Views
                                 var myFrame = new Frame();
                                 myFrame.IsClippedToBounds = true;
                                 myFrame.Padding = 0;
-                                myFrame.WidthRequest = 60;
-                                myFrame.HeightRequest = 60;
+                                myFrame.WidthRequest = 40;
+                                myFrame.HeightRequest = 40;
                                 myFrame.HasShadow = false;
-                                myFrame.CornerRadius = 30;
+                                myFrame.CornerRadius = 20;
                                 myFrame.BorderColor = Color.Black;
 
                                 var myImage = new Image();

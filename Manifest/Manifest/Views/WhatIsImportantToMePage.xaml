@@ -216,7 +216,7 @@
                         <DataTemplate>
                             <StackLayout Margin="0,0,10,0" Orientation="Horizontal" Spacing="0">
                                 <StackLayout WidthRequest="200">
-                                    <interfaces:CustomizeFontLabel TextColor="Black" Text="{Binding name}" Padding="10,0,0,0" HeightRequest="35" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></interfaces:CustomizeFontLabel >
+                                    <interfaces:CustomizeFontLabel TextColor="Black" Text="{Binding name}" FontSize="14" VerticalTextAlignment="Center" Padding="10,0,0,0" HeightRequest="35" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></interfaces:CustomizeFontLabel >
                                 </StackLayout>
                                 <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
@@ -311,7 +311,7 @@
                         <DataTemplate>
                             <StackLayout Margin="0,0,10,0" Orientation="Horizontal" Spacing="0">
                                 <StackLayout WidthRequest="200">
-                                    <interfaces:CustomizeFontLabel TextColor="Black" Text="{Binding name}" Padding="10,0,0,0" HeightRequest="35" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></interfaces:CustomizeFontLabel>
+                                    <interfaces:CustomizeFontLabel TextColor="Black" Text="{Binding name}" Padding="10,0,0,0" FontSize="14" VerticalTextAlignment="Center"  HeightRequest="35" MaxLines="2" LineBreakMode="TailTruncation" WidthRequest="150"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 <StackLayout WidthRequest="30" VerticalOptions="CenterAndExpand">
                                     <CheckBox HeightRequest="20" WidthRequest="20"
@@ -383,7 +383,7 @@
                                 IsEnabled="False">
                              </CheckBox>
                         </StackLayout>
-                        <interfaces:CustomizeFontLabel Text="Goals not started" TextColor="Black"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Text="Goals not started" TextColor="Black" FontSize="12"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                     <StackLayout  Grid.Column="1" HorizontalOptions="Center" >
                         <StackLayout WidthRequest="30" HorizontalOptions="Center">
@@ -391,7 +391,7 @@
                             IsEnabled="False">
                         </CheckBox>
                         </StackLayout>
-                        <interfaces:CustomizeFontLabel Text="Goals started" TextColor="Black"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Text="Goals started" TextColor="Black" FontSize="12"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                     <StackLayout Grid.Column="2" >
                           <StackLayout WidthRequest="30" HorizontalOptions="Center">
@@ -400,7 +400,7 @@
                             IsChecked="True">
                         </CheckBox>
                               </StackLayout>
-                        <interfaces:CustomizeFontLabel Text="Goals completed" TextColor="Black"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Text="Goals completed" TextColor="Black" FontSize="12"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                 </Grid>
 

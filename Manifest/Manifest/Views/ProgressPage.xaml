@@ -30,7 +30,7 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" FontSize="12" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
@@ -91,7 +91,7 @@
                         <DataTemplate>
                             <StackLayout Margin="0,0,10,0" Orientation="Horizontal" Spacing="0" HeightRequest="50">
                                 <StackLayout WidthRequest="100">
-                                    <interfaces:CustomizeFontLabel Text="{Binding name}" TextColor="Black"  Padding="10,0,0,0" HeightRequest="50" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                                    <interfaces:CustomizeFontLabel Text="{Binding name}" FontSize="14" TextColor="Black"  Padding="10,0,0,0" HeightRequest="50" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 </StackLayout>
                                 
                                 <StackLayout  WidthRequest="30" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
@@ -133,7 +133,7 @@
                                 IsEnabled="False">
                              </CheckBox>
                         </StackLayout>
-                        <interfaces:CustomizeFontLabel Text="Goals not started" TextColor="Black"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Text="Goals not started" FontSize="12" TextColor="Black"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                     <StackLayout  Grid.Column="1" HorizontalOptions="Center" >
                         <StackLayout WidthRequest="30" HorizontalOptions="Center">
@@ -141,7 +141,7 @@
                             IsEnabled="False">
                         </CheckBox>
                         </StackLayout>
-                        <interfaces:CustomizeFontLabel Text="Goals started" TextColor="Black"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Text="Goals started" FontSize="12" TextColor="Black"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                     <StackLayout Grid.Column="2" >
                           <StackLayout WidthRequest="30" HorizontalOptions="Center">
@@ -150,7 +150,7 @@
                             IsChecked="True">
                         </CheckBox>
                               </StackLayout>
-                        <interfaces:CustomizeFontLabel Text="Goals completed" TextColor="Black"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Text="Goals completed" FontSize="12" TextColor="Black"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                 </Grid>
 

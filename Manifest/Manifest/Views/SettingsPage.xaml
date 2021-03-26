@@ -362,7 +362,7 @@
                                 </Button.FontFamily>
                             </Button>
                         </Frame>
-                        <interfaces:CustomizeFontLabel HeightRequest="50" Margin="-20,0,0,0" x:Name="appVersion" HorizontalTextAlignment="Center" TextColor="Black"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel HeightRequest="50" Margin="-20,0,0,0" x:Name="appVersion" FontSize="12" HorizontalTextAlignment="Center" TextColor="Black"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                 </ScrollView>
             </StackLayout>
