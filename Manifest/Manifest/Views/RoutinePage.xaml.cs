@@ -36,8 +36,9 @@ namespace Manifest.Views
         public Occurance parent = null;
         float scrollHeight = 0;
         bool scrollSet = false;
-        public string previousIconOption = "";
-        public string prvioudsSubTaskName = "";
+
+        public string previousColor = "";
+
         public RoutinePage()
         {
             InitializeComponent();
@@ -745,51 +746,109 @@ namespace Manifest.Views
             {
                 if (parent.subOccurances.Count > 0)
                 {
-                    string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
-                    var totalNumberOfSubTasks = 0;
-                    foreach (SubOccurance task in parent.subOccurances)
+
+                    //string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                    //var totalNumberOfSubTasks = 0;
+                    //foreach (SubOccurance task in parent.subOccurances)
+                    //{
+                    //    if (task.IsComplete == false)
+                    //    {
+                    //        totalNumberOfSubTasks++;
+                    //    }
+                    //}
+
+                    //if (totalNumberOfSubTasks == parent.subOccurances.Count)
+                    //{
+                    //    parent.IsComplete = false;
+                    //    parent.IsInProgress = false;
+                    //    string res = await RdsConnect.updateOccurance(parent, false, false, url);
+                    //    Application.Current.MainPage = new TodaysListPage();
+
+                    //}
+                    //else
+                    //{
+                    //    //string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                    //    var status = true;
+                    //    foreach (SubOccurance task in parent.subOccurances)
+                    //    {
+                    //        if (task.IsComplete != true)
+                    //        {
+                    //            status = false;
+                    //            break;
+                    //        }
+                    //    }
+
+                    //    if (status)
+                    //    {
+                    //        //update parent to in complete
+
+                    //        parent.IsComplete = true;
+                    //        parent.IsInProgress = false;
+                    //        string res = await RdsConnect.updateOccurance(parent, false, true, url);
+                    //    }
+                    //    else
+                    //    {
+                    //        //update parent to in progress
+                    //        parent.IsComplete = false;
+                    //        parent.IsInProgress = true;
+                    //        string res = await RdsConnect.updateOccurance(parent, true, false, url);
+                    //    }
+                    //}
+
+                    var status2 = "";
+
+                    foreach (SubOccurance i in subTaskSouce)
                     {
-                        if (task.IsComplete == false)
+                        if (i.IsComplete == false && i.IsInProgress == false)
                         {
-                            totalNumberOfSubTasks++;
-                        }
-                    }
-
-                    if (totalNumberOfSubTasks == parent.subOccurances.Count)
-                    {
-                        parent.IsComplete = false;
-                        parent.IsInProgress = false;
-                        string res = await RdsConnect.updateOccurance(parent, false, false, url);
-                        Application.Current.MainPage = new TodaysListPage();
-
-                    }
-                    else
-                    {
-                        //string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
-                        var status = true;
-                        foreach (SubOccurance task in parent.subOccurances)
-                        {
-                            if (task.IsComplete != true)
-                            {
-                                status = false;
-                                break;
-                            }
-                        }
-
-                        if (status)
-                        {
-                            //update parent to in complete
-
-                            parent.IsComplete = true;
-                            parent.IsInProgress = false;
-                            string res = await RdsConnect.updateOccurance(parent, false, true, url);
+                            status2 = "ALL NOT COMPLETE";
                         }
                         else
                         {
-                            //update parent to in progress
+                            status2 = "IN PROGRESS";
+                            break;
+
+                        }
+                    }
+
+                    string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                    if (status2 == "ALL NOT COMPLETE")
+                    {
+                        parent.IsComplete = false;
+                        parent.IsInProgress = false;
+                        routineIcon.Source = previousPicUrl;
+                        string res = await RdsConnect.updateOccurance(parent, false, false, url2);
+                    }
+                    else if (status2 == "IN PROGRESS")
+                    {
+                        var status3 = "";
+                        foreach (SubOccurance i in subTaskSouce)
+                        {
+                            if (i.IsComplete == true && i.IsInProgress == false)
+                            {
+                                status3 = "ALL COMPLETE";
+                            }
+                            else
+                            {
+                                status3 = "IN PROGRESS";
+                                break;
+
+                            }
+                        }
+
+                        if (status3 == "ALL COMPLETE")
+                        {
+                            parent.IsComplete = true;
+                            parent.IsInProgress = false;
+                            routineIcon.Source = "greenCheckMarkIcon";
+                            string res = await RdsConnect.updateOccurance(parent, false, true, url2);
+                        }
+                        else
+                        {
                             parent.IsComplete = false;
                             parent.IsInProgress = true;
-                            string res = await RdsConnect.updateOccurance(parent, true, false, url);
+                            routineIcon.Source = "yellowclock";
+                            string res = await RdsConnect.updateOccurance(parent, true, false, url2);
                         }
                     }
                 }
@@ -829,49 +888,37 @@ namespace Manifest.Views
             string url = AppConstants.BaseUrl + AppConstants.updateActionAndTask;
 
 
+
             Debug.WriteLine("SUBTASK: " + item.Title);
 
-            var incompleteInstructions = 0;
-            var completeInstructions = 0;
-            foreach (Instruction i in item.instructions)
-            {
-                Debug.WriteLine("ISINPROGRESS: {0}, ISCOMPLETE: {1} ", i.IsInProgress, i.IsComplete);
-                if (i.IsComplete == false && i.IsInProgress == false)
-                {
-                    incompleteInstructions++;
-                }
-                else
-                {
-                    completeInstructions++;
-                }
-            }
 
-            if (incompleteInstructions == item.instructions.Count || completeInstructions == item.instructions.Count)
+            if(item.PicUrl == "greenCheckMarkIcon")
             {
-                if (item.PicUrl == "whiteCheckMarkIcon")
+
+                // is everything white...
+
+                var status = true;
+
+                foreach(Instruction i in item.instructions)
                 {
-                    item.IsComplete = true;
-                    item.IsInProgress = false;
-                    item.PicUrlUpdate = "greenCheckMarkIcon";
-                    string res = await RdsConnect.updateOccurance(item, false, true, url);
+                    if (i.IsComplete == false && i.IsInProgress == false)
+                    {
+
+                    }
+                    else
+                    {
+                        status = false;
+                        break;
+                    }
                 }
-                else
+
+
+                if(status)
                 {
                     item.IsComplete = false;
                     item.IsInProgress = false;
                     item.PicUrlUpdate = "whiteCheckMarkIcon";
                     string res = await RdsConnect.updateOccurance(item, false, false, url);
-                }
-            }
-            else
-            {
-
-                if (item.PicUrl == "yellowCheckMarkIcon")
-                {
-                    item.IsComplete = true;
-                    item.IsInProgress = false;
-                    item.PicUrlUpdate = "greenCheckMarkIcon";
-                    string res = await RdsConnect.updateOccurance(item, false, true, url);
                 }
                 else
                 {
@@ -881,43 +928,135 @@ namespace Manifest.Views
                     string res = await RdsConnect.updateOccurance(item, true, false, url);
                 }
             }
-
-            
-
-            var status = true;
-            foreach (SubOccurance subTask in subTaskSouce)
-            {
-                if (subTask.IsComplete != true)
-                {
-                    status = false;
-                    break;
-                }
-            }
-
-            if (status)
-            {
-                routineIcon.Source = "greenCheckMarkIcon";
-            }
             else
             {
-                var j = 0;
-                foreach (SubOccurance subTask in subTaskSouce)
+                if(item.PicUrl == "whiteCheckMarkIcon")
                 {
-                    if (subTask.IsComplete == false && subTask.IsInProgress == false)
+                    if (item.PicUrl == "whiteCheckMarkIcon")
                     {
-                        j++;
+                        item.IsComplete = true;
+                        item.IsInProgress = false;
+                        item.PicUrlUpdate = "greenCheckMarkIcon";
+                        string res = await RdsConnect.updateOccurance(item, false, true, url);
+                    }
+                    else if (item.PicUrl == "greenCheckMarkIcon")
+                    {
+                        item.IsComplete = false;
+                        item.IsInProgress = false;
+                        item.PicUrlUpdate = "whiteCheckMarkIcon";
+                        string res = await RdsConnect.updateOccurance(item, false, false, url);
                     }
                 }
-                if (j == subTaskSouce.Count)
+                else if (item.PicUrl == "yellowCheckMarkIcon")
                 {
-                    routineIcon.Source = previousPicUrl;
+                    if (item.PicUrl == "yellowCheckMarkIcon")
+                    {
+                        item.IsComplete = true;
+                        item.IsInProgress = false;
+                        item.PicUrlUpdate = "greenCheckMarkIcon";
+                        string res = await RdsConnect.updateOccurance(item, false, true, url);
+                    }
+                    else if (item.PicUrl == "greenCheckMarkIcon")
+                    {
+                        item.IsComplete = false;
+                        item.IsInProgress = true;
+                        item.PicUrlUpdate = "yellowCheckMarkIcon";
+                        string res = await RdsConnect.updateOccurance(item, true, false, url);
+                    }
+                }
+            }
+
+            var status2 = "";
+
+            foreach (SubOccurance i in subTaskSouce)
+            {
+                if (i.IsComplete == false && i.IsInProgress == false)
+                {
+                    status2 = "ALL NOT COMPLETE";
                 }
                 else
                 {
-                    routineIcon.Source = "yellowclock";
+                    status2 = "IN PROGRESS";
+                    break;
+
+                }
+            }
+
+            string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            if (status2 == "ALL NOT COMPLETE")
+            {
+                parent.IsComplete = false;
+                parent.IsInProgress = false;
+                routineIcon.Source = previousPicUrl;
+                string res = await RdsConnect.updateOccurance(parent, false, false, url2);
+            }
+            else if (status2 == "IN PROGRESS")
+            {
+                var status3 = "";
+                foreach (SubOccurance i in subTaskSouce)
+                {
+                    if (i.IsComplete == true && i.IsInProgress == false)
+                    {
+                        status3 = "ALL COMPLETE";
+                    }
+                    else
+                    {
+                        status3 = "IN PROGRESS";
+                        break;
+
+                    }
                 }
 
+                if(status3 == "ALL COMPLETE")
+                {
+                    parent.IsComplete = true;
+                    parent.IsInProgress = false;
+                    routineIcon.Source = "greenCheckMarkIcon";
+                    string res = await RdsConnect.updateOccurance(parent, false, true, url2);
+                }
+                else
+                {
+                    parent.IsComplete = false;
+                    parent.IsInProgress = true;
+                    routineIcon.Source = "yellowclock";
+                    string res = await RdsConnect.updateOccurance(parent, true, false, url2);
+                }
             }
+
+            //var status2 = true;
+            //foreach (SubOccurance subTask in subTaskSouce)
+            //{
+            //    if (subTask.IsComplete != true)
+            //    {
+            //        status2 = false;
+            //        break;
+            //    }
+            //}
+
+            //if (status2)
+            //{
+            //    routineIcon.Source = "greenCheckMarkIcon";
+            //}
+            //else
+            //{
+            //    var j = 0;
+            //    foreach (SubOccurance subTask in subTaskSouce)
+            //    {
+            //        if (subTask.IsComplete == false && subTask.IsInProgress == false)
+            //        {
+            //            j++;
+            //        }
+            //    }
+            //    if (j == subTaskSouce.Count)
+            //    {
+            //        routineIcon.Source = previousPicUrl;
+            //    }
+            //    else
+            //    {
+            //        routineIcon.Source = "yellowclock";
+            //    }
+
+            //}
         }
 
         async void NavigateToInstructions(System.Object sender, System.EventArgs e)

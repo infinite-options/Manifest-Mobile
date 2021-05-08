@@ -128,6 +128,22 @@ namespace Manifest.Views
             parent.IsInProgress = false;
             string res = await RdsConnect.updateOccurance(parent, false, true, url);
 
+            if(currRoutine.subOccurances.Count == 1)
+            {
+                currRoutine.IsComplete = true;
+                currRoutine.IsInProgress = false;
+                string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                string res2 = await RdsConnect.updateOccurance(currRoutine, false, true, url2);
+            }
+            else
+            {
+                currRoutine.IsComplete = false;
+                currRoutine.IsInProgress = true;
+                string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                string res2 = await RdsConnect.updateOccurance(currRoutine, true, false, url2);
+
+            }
+
             Application.Current.MainPage = new RoutinePage();
         }
 
@@ -158,6 +174,11 @@ namespace Manifest.Views
                 parent.IsComplete = false;
                 parent.IsInProgress = true;
                 string res = await RdsConnect.updateOccurance(parent, true, false, url);
+
+                currRoutine.IsComplete = false;
+                currRoutine.IsInProgress = true;
+                string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                string res2 = await RdsConnect.updateOccurance(currRoutine, true, false, url2);
             }
 
             Application.Current.MainPage = new RoutinePage();
@@ -246,6 +267,22 @@ namespace Manifest.Views
                     parent.IsComplete = true;
                     parent.IsInProgress = false;
                     string res = await RdsConnect.updateOccurance(parent, false, true, url);
+
+                    if (currRoutine.subOccurances.Count == 1)
+                    {
+                        currRoutine.IsComplete = true;
+                        currRoutine.IsInProgress = false;
+                        string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                        string res2 = await RdsConnect.updateOccurance(currRoutine, false, true, url2);
+                    }
+                    else
+                    {
+                        currRoutine.IsComplete = false;
+                        currRoutine.IsInProgress = true;
+                        string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                        string res2 = await RdsConnect.updateOccurance(currRoutine, true, false, url2);
+
+                    }
                 }
                 else
                 {
@@ -254,6 +291,11 @@ namespace Manifest.Views
                     parent.IsComplete = false;
                     parent.IsInProgress = true;
                     string res = await RdsConnect.updateOccurance(parent, true, false, url);
+
+                    currRoutine.IsComplete = false;
+                    currRoutine.IsInProgress = true;
+                    string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                    string res2 = await RdsConnect.updateOccurance(currRoutine, true, false, url2);
                 }
             }
             Application.Current.MainPage = new RoutinePage();
