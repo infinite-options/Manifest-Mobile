@@ -106,9 +106,6 @@ namespace Manifest.Views
             //barStackLayoutProperties.BackgroundColor = Color.Salmon;
             //barStackLayoutRow.Height = 0;
             //buttonStackLayoutRow.Height = lastRowHeight;
-
-            
-
         }
 
         public async void UserVerification(AuthenticatorCompletedEventArgs user = null, AppleAccount appleCredentials = null, string platform = "")

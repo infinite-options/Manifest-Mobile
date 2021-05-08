@@ -19,6 +19,15 @@ namespace Manifest.Models
 
         public TimeSpan expected_completion_time { get; set; }
 
+        public string PhotoUpdate
+        {
+            set
+            {
+                Photo = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("Photo"));
+            }
+        }
+
         public void updateIsInProgress(bool updatedVal)
         {
             IsInProgress = updatedVal;

@@ -4,9 +4,9 @@
         <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
-                <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
+                <RowDefinition x:Name="mainStackLayoutRow" Height="*"></RowDefinition>
                 <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="50"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
@@ -35,8 +35,8 @@
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
                             </Grid>
-                            <interfaces:CustomizeFontLabel Grid.Column="1"  Margin="-30,0,0,0" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
-                            <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="Button_Clicked" BackgroundColor="Transparent"></ImageButton>
+                            <interfaces:CustomizeFontLabel Grid.Column="1"  Margin="-30,0,0,0" Text="Settings" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                            <ImageButton Grid.Column="2" IsVisible="false" IsEnabled="false" Source="settingsIcon.png" Clicked="Button_Clicked" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
                     <StackLayout Grid.Row="2">
@@ -56,7 +56,7 @@
                     </Grid>
  
             </Frame>
-            <StackLayout Grid.Row="1" Padding="0,20,0,0">
+            <StackLayout Grid.Row="1" Padding="0,20,0,0" BackgroundColor="#F2F7FC">
                 <ScrollView>
                     <StackLayout>
                  <Grid>
@@ -77,6 +77,80 @@
                      <Label Text="Major events" TextColor="Black" FontSize="Medium" FontAttributes="Bold"></Label>
                 </StackLayout>-->
 
+
+                <StackLayout Margin="16,15,16,0" HeightRequest="200">
+                    <interfaces:CustomizeFontLabel Margin="0,0,0,0" Text="Anxiety Scale" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                    <StackLayout HeightRequest="80">
+                        <FlexLayout JustifyContent="SpaceBetween">
+                            <interfaces:CustomizeFontLabel HeightRequest="12"  HorizontalTextAlignment="Center" Text="Not Anxious" FontSize="12" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                            <interfaces:CustomizeFontLabel HeightRequest="12"  HorizontalTextAlignment="Center" Text="Extremely anxious" FontSize="12" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                        </FlexLayout>
+                        <Grid HeightRequest="48">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="48"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0" HorizontalOptions="Fill" VerticalOptions="Fill">
+                                <StackLayout HeightRequest="48" WidthRequest="48" >
+                                <Frame IsClippedToBounds="True" Padding="0" HeightRequest="48" WidthRequest="48" HasShadow="False" CornerRadius="24" BorderColor="Black">
+                                    <StackLayout>
+                                        <interfaces:CustomizeFontLabel HeightRequest="48" WidthRequest="48" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="0" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                    </StackLayout>
+                                </Frame>
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Margin="0,-12,0,0">
+                                <interfaces:CustomizeFontLabel Margin="0,8,0,-8" x:Name="value1" FontSize="12" Text="0" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                <Slider  Minimum="0" x:Name="slider1" Maximum="100" MinimumTrackColor="Black" ThumbColor="Black" DragCompleted="Slider_DragCompleted"></Slider>
+                            </StackLayout>
+                            <StackLayout></StackLayout>
+                            <StackLayout Grid.Column="2" >
+                                <Frame Padding="0" IsClippedToBounds="True" HeightRequest="48" WidthRequest="48" HasShadow="False" CornerRadius="24" BorderColor="Black">
+                                     <StackLayout>
+                                        <interfaces:CustomizeFontLabel HeightRequest="48" WidthRequest="48" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="100" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </Grid>
+                      
+                    </StackLayout>
+                    <interfaces:CustomizeFontLabel Margin="0,0,0,0" Text="Mood Scale" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                    <StackLayout HeightRequest="80">
+                         <FlexLayout JustifyContent="SpaceBetween">
+                            <interfaces:CustomizeFontLabel HeightRequest="12"  HorizontalTextAlignment="Center" Text="Sad" FontSize="12" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                            <interfaces:CustomizeFontLabel HeightRequest="12"  HorizontalTextAlignment="Center" Text="Happy" FontSize="12" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                         </FlexLayout>
+                         <Grid HeightRequest="48">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="48"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0"  HorizontalOptions="Fill" VerticalOptions="Fill">
+                                <Frame Padding="0" IsClippedToBounds="True" HeightRequest="48" WidthRequest="48" HasShadow="False" CornerRadius="24" BorderColor="Black">
+                                     <StackLayout>
+                                        <interfaces:CustomizeFontLabel HeightRequest="48" WidthRequest="48" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="0" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                      
+                             <StackLayout Grid.Column="1" Margin="0,-12,0,0">
+                                <interfaces:CustomizeFontLabel Margin="0,8,0,-8" x:Name="value2" FontSize="12" Text="0" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                <Slider Grid.Column="1" ThumbColor="Black"  MinimumTrackColor="Black" x:Name="slider2" Minimum="0" Maximum="100" DragCompleted="Slider_DragCompleted_1"></Slider>
+                            </StackLayout>
+                            <StackLayout></StackLayout>
+                            <StackLayout Grid.Column="2" >
+                                <Frame Padding="0" IsClippedToBounds="True" HeightRequest="48" WidthRequest="48" HasShadow="False" CornerRadius="24" BorderColor="Black">
+                                     <StackLayout>
+                                        <interfaces:CustomizeFontLabel HeightRequest="48" WidthRequest="48" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="100" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout IsVisible="false">
                 <interfaces:CustomizeFontLabel Margin="20,0,20,0" Text="Family" TextColor="Black" FontSize="24" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                     <StackLayout Margin="40,0,40,0" Orientation="Horizontal" x:Name="familyMembersList" HeightRequest="60"></StackLayout>
                     <!--<CollectionView x:Name="familyMembersList" ItemSizingStrategy="MeasureAllItems" >
@@ -129,9 +203,53 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                    </StackLayout>-->
-               
+                </StackLayout>
 
-                 <Grid Margin="5,30,5,0">
+                        <StackLayout Spacing="20">
+                            <Frame x:Name="frameMessageCard" Margin="50,0,50,0" HeightRequest="218" CornerRadius="15" HasShadow="False" BackgroundColor="#889AB5">
+
+                                            <StackLayout>
+                                                <interfaces:CustomizeFontLabel Text="Current Medication" TextColor="White" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                                <interfaces:CustomizeFontLabel x:Name="messageCard" TextColor="Black" FontSize="12" FontAttributes="Bold" ></interfaces:CustomizeFontLabel>
+                                            </StackLayout>
+                                        </Frame>
+
+                            <Frame x:Name="frameMessageDay" Margin="50,0,50,0" HeightRequest="218" CornerRadius="15" HasShadow="False" BackgroundColor="#889AB5">
+                                            <StackLayout>
+                                               <interfaces:CustomizeFontLabel Text="Family Contacts" TextColor="White" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                        <interfaces:CustomizeFontLabel  x:Name="messageDay" TextColor="Black" FontSize="12" FontAttributes="Bold" ></interfaces:CustomizeFontLabel>
+                                                </StackLayout>
+                                            </Frame>
+
+                            <Frame x:Name="frameMajorEvent" Margin="50,0,50,0" HeightRequest="218" CornerRadius="15" HasShadow="False" BackgroundColor="#889AB5">
+                                            <StackLayout>
+                                                <interfaces:CustomizeFontLabel Text="Medicine Schedule" TextColor="White" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                        <interfaces:CustomizeFontLabel  x:Name="majorEvents" TextColor="Black" FontSize="12" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                        </StackLayout>
+                                        </Frame>
+
+                                <Frame IsVisible="false" x:Name="frameMyHistory" Margin="50,0,50,0" HeightRequest="218" CornerRadius="15" HasShadow="False" BackgroundColor="#889AB5">
+                                            <StackLayout>
+                                                <interfaces:CustomizeFontLabel Text="Current Medication" TextColor="White" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                        <interfaces:CustomizeFontLabel  x:Name="myHistory" TextColor="Black" FontSize="12" FontAttributes="Bold" ></interfaces:CustomizeFontLabel>
+                                        </StackLayout>
+                                        </Frame>
+                            </StackLayout>
+                            <StackLayout Margin="16,30,0,0" Spacing="20">
+                                <interfaces:CustomizeFontLabel Text="Design Credits" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                <interfaces:CustomizeFontLabel Text="Icons - Noun project" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                <interfaces:CustomizeFontLabel Margin="0,50,0,100" Text="Design and App by Infinite Options" TextColor="Black" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                            </StackLayout>
+
+                    <Button Grid.Column="0"  BorderWidth="1" BorderColor="Black" Margin="0,-50,0,50" Padding="15,0,15,0" Text="Log out" CornerRadius="10"  HeightRequest="45" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" TextColor="Black" BackgroundColor="#F2F7FC" Clicked="LogOut">
+                        <Button.FontFamily>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <On Platform="Android" Value="Roboto" />
+                            </OnPlatform>
+                        </Button.FontFamily>
+                    </Button>
+                        
+                 <!--<Grid Margin="5,30,5,0">
                     <StackLayout Grid.Column="0">
                          <interfaces:CustomizeFontLabel Text="Message Card" TextColor="Black" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                           <Frame x:Name="frameMessageCard">
@@ -148,9 +266,9 @@
                                  </StackLayout>
                              </Frame>
                     </StackLayout>
-                </Grid>
+                </Grid>-->
 
-                <Grid Margin="5,30,5,10" >
+                <!--<Grid Margin="5,30,5,10" >
                     <StackLayout Grid.Column="0">
                          <interfaces:CustomizeFontLabel Text="Major Events" TextColor="Black" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                          <Frame x:Name="frameMajorEvent">
@@ -167,7 +285,7 @@
                             </StackLayout>
                          </Frame>
                     </StackLayout>
-                </Grid>
+                </Grid>-->
 
 
                 <!--<Grid Margin="-5,30,0,0">

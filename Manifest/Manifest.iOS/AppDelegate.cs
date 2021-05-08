@@ -13,6 +13,7 @@ using WindowsAzure.Messaging;
 using Xamarin.Essentials;
 using Manifest.Config;
 using Xamarin.RangeSlider.Forms;
+using Acr.UserDialogs;
 
 
 #if NETFX_CORE
@@ -54,7 +55,7 @@ namespace Manifest.iOS
             //base.FinishedLaunching(app, options);
 
             RegisterForRemoteNotifications();
-
+            
 
             //Added for in app notifications
             UNUserNotificationCenter.Current.Delegate = new NotificationDelegate();

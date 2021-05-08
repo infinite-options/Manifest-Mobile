@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Gms.Common;
 using Android.Util;
 using Android.Content.Res;
+using Acr.UserDialogs;
 
 
 #if NETFX_CORE
@@ -19,7 +20,7 @@ using Android.Content.Res;
 
 namespace Manifest.Droid
 {
-    [Activity(Label = "Manifest MySpace", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Manifest MyLife", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
 
@@ -53,7 +54,7 @@ namespace Manifest.Droid
 
 
 
-
+            UserDialogs.Init(this);
 
 
             //Below lines are required for notifications

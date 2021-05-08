@@ -63,6 +63,7 @@ namespace Manifest.LogIn.Apple
         {
             try
             {
+                IAppleSignInService appleSignInService = DependencyService.Get<IAppleSignInService>();
                 var account = await appleSignInService.SignInAsync();
                 if (account != null)
                 {
@@ -109,7 +110,11 @@ namespace Manifest.LogIn.Apple
                         {
                             Application.Current.Properties["guid"] = "";
                         }
-                        Application.Current.MainPage = new MainPage(null, account, "APPLE");
+                        //Application.Current.MainPage = new MainPage(null, account, "APPLE");
+
+                        var mainPage = new MainPage(null, account, "APPLE");
+
+                        Application.Current.MainPage = new TodaysListPage();
                     }
                     else
                     {
@@ -154,7 +159,11 @@ namespace Manifest.LogIn.Apple
                             {
                                 Application.Current.Properties["guid"] = "";
                             }
-                            Application.Current.MainPage = new MainPage(null, account, "APPLE");
+                            //Application.Current.MainPage = new MainPage(null, account, "APPLE");
+
+                            var mainPage = new MainPage(null, account, "APPLE");
+
+                            Application.Current.MainPage = new TodaysListPage();
                         }
                         else
                         {

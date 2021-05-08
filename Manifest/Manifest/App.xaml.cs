@@ -33,7 +33,8 @@ namespace Manifest
 
                         if (today <= expTime)
                         {
-                            MainPage = new MainPage();
+                            //MainPage = new MainPage();
+                            MainPage = new TodaysListPage();
                         }
                         else
                         {

@@ -5,7 +5,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="50"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <!--<Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
                 SPACE FOR HEADER
@@ -71,13 +71,17 @@
                                     <ColumnDefinition Width="15"></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Lobby" FontSize="12" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                                <Image Grid.Column="0" Source="backIcon.png" IsVisible="false" IsEnabled="false"></Image>
+                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="" FontSize="12" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                    <TapGestureRecognizer></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
                             </Grid>
-                            <interfaces:CustomizeFontLabel Grid.Column="1"  Margin="-30,0,0,0" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
+                            <interfaces:CustomizeFontLabel Grid.Column="1"  Margin="-30,0,0,0" Text="" x:Name="title"  TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                                <interfaces:CustomizeFontLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                                </interfaces:CustomizeFontLabel.GestureRecognizers>
+                            </interfaces:CustomizeFontLabel>
                             <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
 
@@ -173,33 +177,33 @@
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="{Binding PicUrl}" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="yellowclock.png" IsVisible="{Binding IsInProgress}" VerticalOptions="Start" AutomationProperties.Name="In Progress Image" HorizontalOptions="End" Margin="0,0,10,0"></Image> 
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="greencheckmark.png" IsVisible="{Binding IsComplete}" VerticalOptions="Start" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
-                                                  <Image Grid.Column="1" Grid.Row="2" HeightRequest="18" WidthRequest="18" Aspect="AspectFill" HorizontalOptions="End">
-                                                  <Image.Triggers>
-                                                        <MultiTrigger TargetType="Image">
-                                                    <MultiTrigger.Conditions>
-                                                        <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                                        <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter Property="Source" Value="sublist.png" />
-                                                    <Setter Property="HeightRequest" Value="30"/>
-                                                    <Setter Property="WidthRequest" Value="30"/> 
-                                                </MultiTrigger>
-                                                <MultiTrigger TargetType="Image">
-                                                    <MultiTrigger.Conditions>
-                                                        <BindingCondition Binding="{Binding IsSublistAvailable}" Value="False"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter Property="Source" Value="" />
-                                                </MultiTrigger>
-                                                <MultiTrigger TargetType="Image">
-                                                    <MultiTrigger.Conditions>
-                                                        <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                                        <BindingCondition Binding="{Binding IsPersistent}" Value="False"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter Property="Source" Value="dots.png"/>
-                                                    <Setter Property="HeightRequest" Value="30"/>
-                                                    <Setter Property="WidthRequest" Value="30"/> 
-                                                </MultiTrigger>
-                                                </Image.Triggers>
+                                                  <Image Grid.Column="1" Grid.Row="2" HeightRequest="17" WidthRequest="20" IsVisible="{Binding IsSublistAvailable}" HorizontalOptions="Center" Source="listIcon.png">
+                                                      <!--<Image.Triggers>
+                                                            <MultiTrigger TargetType="Image">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
+                                                            <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Source" Value="listIcon.png"  />
+                                                        <Setter Property="HeightRequest" Value="30"/>
+                                                        <Setter Property="WidthRequest" Value="30"/> 
+                                                    </MultiTrigger>
+                                                    <MultiTrigger TargetType="Image">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding IsSublistAvailable}" Value="False"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Source" Value="" />
+                                                    </MultiTrigger>
+                                                    <MultiTrigger TargetType="Image">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
+                                                            <BindingCondition Binding="{Binding IsPersistent}" Value="False"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Source" Value="dots.png"/>
+                                                        <Setter Property="HeightRequest" Value="30"/>
+                                                        <Setter Property="WidthRequest" Value="30"/> 
+                                                    </MultiTrigger>
+                                                    </Image.Triggers>-->
                                                   </Image>
                                         </Grid>
                                     </Frame>
@@ -263,14 +267,14 @@
                                                       <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="{Binding PicUrl}" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
                                                       <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="yellowclock.png" IsVisible="{Binding IsInProgress}" VerticalOptions="Start" AutomationProperties.Name="In Progress Image" HorizontalOptions="End" Margin="0,0,10,0"></Image> 
                                                       <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="greencheckmark.png" IsVisible="{Binding IsComplete}" VerticalOptions="Start" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
-                                                      <Image Grid.Column="1" Grid.Row="2" HeightRequest="18" WidthRequest="18" Aspect="AspectFill" HorizontalOptions="End">
-                                                      <Image.Triggers>
+                                                      <Image Grid.Column="1" Grid.Row="2" HeightRequest="17" WidthRequest="20" IsVisible="{Binding IsSublistAvailable}" HorizontalOptions="Center" Source="listIcon.png">
+                                                      <!--<Image.Triggers>
                                                             <MultiTrigger TargetType="Image">
                                                         <MultiTrigger.Conditions>
                                                             <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
                                                             <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
                                                         </MultiTrigger.Conditions>
-                                                        <Setter Property="Source" Value="sublist.png" />
+                                                        <Setter Property="Source" Value="listIcon.png" />
                                                         <Setter Property="HeightRequest" Value="30"/>
                                                         <Setter Property="WidthRequest" Value="30"/> 
                                                     </MultiTrigger>
@@ -289,7 +293,7 @@
                                                         <Setter Property="HeightRequest" Value="30"/>
                                                         <Setter Property="WidthRequest" Value="30"/> 
                                                     </MultiTrigger>
-                                                    </Image.Triggers>
+                                                    </Image.Triggers>-->
                                                         </Image>
                                         </Grid>
                                     </Frame>
@@ -353,14 +357,14 @@
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="{Binding PicUrl}" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="yellowclock.png" IsVisible="{Binding IsInProgress}" VerticalOptions="Start" AutomationProperties.Name="In Progress Image" HorizontalOptions="End" Margin="0,0,10,0"></Image> 
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="greencheckmark.png" IsVisible="{Binding IsComplete}" VerticalOptions="Start" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
-                                                  <Image Grid.Column="1" Grid.Row="2" HeightRequest="18" WidthRequest="18" Aspect="AspectFill" HorizontalOptions="End">
-                                                  <Image.Triggers>
+                                                  <Image Grid.Column="1" Grid.Row="2" HeightRequest="17" IsVisible="{Binding IsSublistAvailable}" WidthRequest="20" HorizontalOptions="Center" Source="listIcon.png">
+                                                  <!--<Image.Triggers>
                                                         <MultiTrigger TargetType="Image">
                                                     <MultiTrigger.Conditions>
                                                         <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
                                                         <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
                                                     </MultiTrigger.Conditions>
-                                                    <Setter Property="Source" Value="sublist.png" />
+                                                    <Setter Property="Source" Value="listIcon.png" />
                                                     <Setter Property="HeightRequest" Value="30"/>
                                                     <Setter Property="WidthRequest" Value="30"/> 
                                                 </MultiTrigger>
@@ -379,7 +383,7 @@
                                                     <Setter Property="HeightRequest" Value="30"/>
                                                     <Setter Property="WidthRequest" Value="30"/> 
                                                 </MultiTrigger>
-                                                </Image.Triggers>
+                                                </Image.Triggers>-->
                                                     </Image>
                                         </Grid>
                                     </Frame>

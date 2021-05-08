@@ -20,6 +20,7 @@
     <PackageReference Include="Xamarin.Forms.RangeSlider" Version="1.0.2" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.0.3" />
     <PackageReference Include="particle.forms" Version="1.0.0" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config\" />

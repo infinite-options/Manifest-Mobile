@@ -25,6 +25,15 @@ namespace Manifest.Models
         public DateTime AvailableEndTime { get; set; }
         public List<Instruction> instructions { get; set; }
 
+        public string PicUrlUpdate
+        {
+            set
+            {
+                PicUrl = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("PicUrl"));
+            }
+        }
+
         public void updateIsInProgress(bool updatedVal)
         {
             IsInProgress = updatedVal;

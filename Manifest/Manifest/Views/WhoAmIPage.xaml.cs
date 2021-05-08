@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using Manifest.Config;
 using Manifest.Interfaces;
 using Manifest.LogIn.Classes;
@@ -39,7 +42,7 @@ namespace Manifest.Views
             scheduleFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            title.Text = "My Story";
+            title.Text = "Settings";
             if (Device.RuntimePlatform == Device.iOS)
             {
                 titleGrid.Margin = new Thickness(0, 10, 0, 0);
@@ -116,15 +119,15 @@ namespace Manifest.Views
                     userPic.Source = user.PicUrl;
                 }
 
-                double height = Math.Max(messageCard.Text.Length + messageCard.Text.Length, messageDay.Text.Length + messageDay.Text.Length);
-                Debug.WriteLine("HEIGHT: " + height);
-                frameMessageCard.HeightRequest = height;
-                frameMessageDay.HeightRequest = height;
+                //double height = Math.Max(messageCard.Text.Length + messageCard.Text.Length, messageDay.Text.Length + messageDay.Text.Length);
+                //Debug.WriteLine("HEIGHT: " + height);
+                //frameMessageCard.HeightRequest = height;
+                //frameMessageDay.HeightRequest = height;
 
-                height = Math.Max(majorEvents.Text.Length + majorEvents.Text.Length, myHistory.Text.Length + myHistory.Text.Length);
-                Debug.WriteLine("HEIGHT: " + height);
-                frameMajorEvent.HeightRequest = height;
-                frameMyHistory.HeightRequest = height;
+                //height = Math.Max(majorEvents.Text.Length + majorEvents.Text.Length, myHistory.Text.Length + myHistory.Text.Length);
+                //Debug.WriteLine("HEIGHT: " + height);
+                //frameMajorEvent.HeightRequest = height;
+                //frameMyHistory.HeightRequest = height;
 
             }
             catch (Exception a)
@@ -317,7 +320,7 @@ namespace Manifest.Views
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new MainPage();
+            Application.Current.MainPage.Navigation.PopModalAsync(false);
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
@@ -376,6 +379,50 @@ namespace Manifest.Views
             var myStack = (StackLayout)sender;
             var phone = (Label)myStack.Children[2];
             PerformCall(phone.Text);
+        }
+
+        async void Slider_DragCompleted(System.Object sender, System.EventArgs e)
+        {
+            Debug.WriteLine("VALUE1: " + (int)slider1.Value);
+            Debug.WriteLine("X VALUE: " + slider1.Width);
+            var f = slider1.Width / 120;
+            value1.Text = ((int)slider1.Value).ToString();
+            value1.Margin = new Thickness(11 + f* (int)slider1.Value, 8, 0, -8);
+
+            await SendRequest("anxiety_scale", ((int)slider1.Value).ToString());
+        }
+
+        async void Slider_DragCompleted_1(System.Object sender, System.EventArgs e)
+        {
+            Debug.WriteLine("VALUE2: " + (int)slider2.Value);
+            var f = slider2.Width / 120;
+            value2.Text = ((int)slider2.Value).ToString();
+            value2.Margin = new Thickness(11 + f * (int)slider2.Value, 8, 0, -8);
+            await SendRequest("mood_scale", ((int)slider2.Value).ToString());
+        }
+
+        public async Task<bool> SendRequest(string category, string option)
+        {
+            var client = new HttpClient();
+            var feedback = new Assessment();
+
+            feedback.user_id = (string)Application.Current.Properties["userId"];
+            feedback.category = category;
+            feedback.name = option;
+
+            var feedbackJSON = JsonConvert.SerializeObject(feedback);
+
+            Debug.WriteLine(feedbackJSON);
+
+            var postContent = new StringContent(feedbackJSON, Encoding.UTF8, "application/json");
+            var rdsResponse = await client.PostAsync(AppConstants.BaseUrl + AppConstants.addPulse, postContent);
+
+            return rdsResponse.IsSuccessStatusCode;
+        }
+
+        void LogOut(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new LogInPage();
         }
     }
 }

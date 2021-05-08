@@ -24,7 +24,7 @@ namespace Manifest.Views
         bool setting;
         GridLength height;
         GridLength lastRowHeight;
-
+        public static string routineId = "";
         HttpClient client = new HttpClient();
         HttpClient client2 = new HttpClient();
         public List<Occurance> todaysOccurances;
@@ -144,7 +144,6 @@ namespace Manifest.Views
             Application.Current.MainPage = new AboutMePage();
         }
 
-
         private async void initialiseTodaysOccurances(string userID)
         {
             try
@@ -163,10 +162,10 @@ namespace Manifest.Views
 
                 string url = AppConstants.BaseUrl + AppConstants.goalsAndRoutinesUrl + "/" + userID;
                 todaysOccurances = await RdsConnect.getOccurances(url);
-                if ((bool)Application.Current.Properties["showCalendar"])
-                {
-                    await CallGetEvents();
-                }
+                //if ((bool)Application.Current.Properties["showCalendar"])
+                //{
+                //    await CallGetEvents();
+                //}
                 todaysOccurances = todaysOccurances.Concat(todaysEvents).ToList();
                 SortOccurancesAndGroupGoals();
                 CreateList();
@@ -187,7 +186,8 @@ namespace Manifest.Views
                 {
                     Occurance dto = todaysOccurances[i];
                     if (dto.EndDayAndTime.TimeOfDay < DateTime.Now.TimeOfDay) {
-                        dto.StatusColor = Color.FromHex("#BBC7D7");
+                        //dto.StatusColor = Color.FromHex("#BBC7D7");// if they have past
+                        dto.StatusColor = Color.FromHex((string)Application.Current.Properties["routine"]);
                     }
                     else {
                         if (dto.IsPersistent) dto.StatusColor = Color.FromHex((string)Application.Current.Properties["routine"]);
@@ -249,21 +249,31 @@ namespace Manifest.Views
                             || commonOccur[0].EndDayAndTime.TimeOfDay > dto.EndDayAndTime.TimeOfDay))
                         {
                             Debug.WriteLine("not lumped together: " + dto.Title);
-                            displayedOccurances.Add(commonOccur[0]);
-                            commonOccur.Clear();
-                            commonOccur.Add(dto);
+                            if (dto.IsPersistent)
+                            {
+                                displayedOccurances.Add(dto);
+                            }
+                            //displayedOccurances.Add(commonOccur[0]);
+                            //commonOccur.Clear();
+                            //commonOccur.Add(dto);
                         }
                         else
                         {
                             Debug.WriteLine("else entered");
-                            displayedOccurances.Add(dto);
+                            if (dto.IsPersistent)
+                            {
+                                displayedOccurances.Add(dto);
+                            }
+                            //displayedOccurances.Add(dto);
                         }
                     }
                     else
                     {
                         addCommonOccur(commonOccur);
-                        displayedOccurances.Add(dto);
-
+                        if (dto.IsPersistent)
+                        {
+                            displayedOccurances.Add(dto);
+                        }
                     }
                 }
                 addCommonOccur(commonOccur);
@@ -331,11 +341,12 @@ namespace Manifest.Views
                 List<Occurance> holder = new List<Occurance>(commonOccur);
                 Debug.WriteLine("holder count before: " + holder.Count);
                 toAddPursue.commonTimeOccurs = holder;
-                displayedOccurances.Add(toAddPursue);
+
+                //displayedOccurances.Add(toAddPursue);
             }
             else if (commonOccur.Count == 1)
             {
-                displayedOccurances.Add(commonOccur[0]);
+                //displayedOccurances.Add(commonOccur[0]);
             }
             commonOccur.Clear();
             hasItems = false;
@@ -706,102 +717,147 @@ namespace Manifest.Views
         //This function is called whenever a tile is tapped. It checks for suboccurances, and navigates to a new page if there are any
         async void checkSubOccurance(object sender, EventArgs args)
         {
-            try
-            {
+            //try
+            //{
 
-                Debug.WriteLine("Tapped");
-                Debug.WriteLine(sender);
-                Debug.WriteLine(args);
-                Grid myvar = (Grid)sender;
-                Occurance currOccurance = myvar.BindingContext as Occurance;
-                if (currOccurance.IsEvent)
+            //    Debug.WriteLine("Tapped");
+            //    Debug.WriteLine(sender);
+            //    Debug.WriteLine(args);
+            //    Grid myvar = (Grid)sender;
+            //    Occurance currOccurance = myvar.BindingContext as Occurance;
+            //    if (currOccurance.IsEvent)
+            //    {
+            //        goToEventsPage(currOccurance);
+            //        return;
+            //    }
+            //    Debug.WriteLine(currOccurance.Id);
+            //    //var currSession = (Session)Application.Current.Properties["session"];
+            //    string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            //    //If there is a sublist available, go to goals page if its a Pursue A Goal
+            //    //if (currOccurance.Title == "Pursue A Goal")
+            //    if (currOccurance.IsPersistent == false)
+            //    {
+            //        if (currOccurance.Title == "Pursue A Goal")
+            //            await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
+            //        else
+            //        {
+            //            goToGoalsSpecialPage(currOccurance);
+            //            //await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
+            //        }
+            //        //old code
+            //        //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
+            //    }
+            //    else if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
+            //    {
+            //        routineId = currOccurance.Id;
+            //        await Navigation.PushModalAsync(new RoutinePage(), false);
+            //    }
+            //    else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
+            //    {
+            //        currOccurance.updateIsInProgress(true);
+            //        currOccurance.DateTimeStarted = DateTime.Now;
+            //        Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
+            //        //string toSend = updateOccurance(currOccurance);
+            //        UpdateOccurance updateOccur = new UpdateOccurance()
+            //        {
+            //            id = currOccurance.Id,
+            //            datetime_completed = currOccurance.DateTimeCompleted,
+            //            datetime_started = currOccurance.DateTimeStarted,
+            //            is_in_progress = currOccurance.IsInProgress,
+            //            is_complete = currOccurance.IsComplete
+            //        };
+            //        string toSend = updateOccur.updateOccurance();
+            //        var content = new StringContent(toSend);
+            //        var res = await client.PostAsync(url, content);
+            //        if (res.IsSuccessStatusCode)
+            //        {
+            //            Debug.WriteLine("Wrote to the datebase");
+            //        }
+            //        else
+            //        {
+            //            Debug.WriteLine("Some error");
+            //            Debug.WriteLine(toSend);
+            //            Debug.WriteLine(res.ToString());
+            //        }
+            //    }
+            //    else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
+            //    {
+            //        Debug.WriteLine("Should be changed to in complete");
+            //        currOccurance.updateIsInProgress(false);
+            //        currOccurance.updateIsComplete(true);
+            //        currOccurance.DateTimeCompleted = DateTime.Now;
+            //        UpdateOccurance updateOccur = new UpdateOccurance()
+            //        {
+            //            id = currOccurance.Id,
+            //            datetime_completed = currOccurance.DateTimeCompleted,
+            //            datetime_started = currOccurance.DateTimeStarted,
+            //            is_in_progress = currOccurance.IsInProgress,
+            //            is_complete = currOccurance.IsComplete
+            //        };
+            //        string toSend = updateOccur.updateOccurance();
+            //        var content = new StringContent(toSend);
+            //        _ = await client.PostAsync(url, content);
+
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    await DisplayAlert("Alert", "Error in TodaysList checkSubOccurance. Error: " + e.ToString(), "OK");
+            //}
+
+            Debug.WriteLine("Tapped");
+            Debug.WriteLine(sender);
+            Debug.WriteLine(args);
+            Grid myvar = (Grid)sender;
+            Occurance currOccurance = myvar.BindingContext as Occurance;
+            string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+            
+                //currOccurance.updateIsInProgress(false);
+                //currOccurance.updateIsComplete(true);
+            if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
+            {
+                routineId = currOccurance.Id;
+                await Navigation.PushModalAsync(new RoutinePage(), false);
+            }
+            else
+            {
+                if (currOccurance.IsComplete != true)
                 {
-                    goToEventsPage(currOccurance);
-                    return;
-                }
-                Debug.WriteLine(currOccurance.Id);
-                //var currSession = (Session)Application.Current.Properties["session"];
-                string url = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
-                //If there is a sublist available, go to goals page if its a Pursue A Goal
-                //if (currOccurance.Title == "Pursue A Goal")
-                if (currOccurance.IsPersistent == false)
-                {
-                    if (currOccurance.Title == "Pursue A Goal")
-                        await Navigation.PushAsync(new GoalsPage(currOccurance.commonTimeOccurs[0].StartDayAndTime.ToString("t"), currOccurance.commonTimeOccurs[0].EndDayAndTime.ToString("t")), false);
-                    else
-                    {
-                        goToGoalsSpecialPage(currOccurance);
-                        //await Navigation.PushAsync(new GoalsPage(currOccurance.StartDayAndTime.ToString("t"), currOccurance.EndDayAndTime.ToString("t")), false);
-                    }
-                    //old code
-                    //Application.Current.MainPage = new GoalsPage(currOccurance.commonTimeOccurs);
-                }
-                else if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
-                {
-                    await Navigation.PushAsync(new RoutinePage(),false);
-                }
-                else if (currOccurance.IsInProgress == false && currOccurance.IsComplete == false)
-                {
-                    currOccurance.updateIsInProgress(true);
-                    currOccurance.DateTimeStarted = DateTime.Now;
-                    Debug.WriteLine("Should be changed to in progress. InProgress = " + currOccurance.IsInProgress);
-                    //string toSend = updateOccurance(currOccurance);
-                    UpdateOccurance updateOccur = new UpdateOccurance()
-                    {
-                        id = currOccurance.Id,
-                        datetime_completed = currOccurance.DateTimeCompleted,
-                        datetime_started = currOccurance.DateTimeStarted,
-                        is_in_progress = currOccurance.IsInProgress,
-                        is_complete = currOccurance.IsComplete
-                    };
-                    string toSend = updateOccur.updateOccurance();
-                    var content = new StringContent(toSend);
-                    var res = await client.PostAsync(url, content);
-                    if (res.IsSuccessStatusCode)
-                    {
-                        Debug.WriteLine("Wrote to the datebase");
-                    }
-                    else
-                    {
-                        Debug.WriteLine("Some error");
-                        Debug.WriteLine(toSend);
-                        Debug.WriteLine(res.ToString());
-                    }
-                }
-                else if (currOccurance.IsInProgress == true && currOccurance.IsComplete == false)
-                {
-                    Debug.WriteLine("Should be changed to in complete");
                     currOccurance.updateIsInProgress(false);
                     currOccurance.updateIsComplete(true);
-                    currOccurance.DateTimeCompleted = DateTime.Now;
-                    UpdateOccurance updateOccur = new UpdateOccurance()
-                    {
-                        id = currOccurance.Id,
-                        datetime_completed = currOccurance.DateTimeCompleted,
-                        datetime_started = currOccurance.DateTimeStarted,
-                        is_in_progress = currOccurance.IsInProgress,
-                        is_complete = currOccurance.IsComplete
-                    };
-                    string toSend = updateOccur.updateOccurance();
-                    var content = new StringContent(toSend);
-                    _ = await client.PostAsync(url, content);
-
+                    string res = await RdsConnect.updateOccurance(currOccurance, false, true, url);
+                }
+                else
+                {
+                    currOccurance.updateIsInProgress(false);
+                    currOccurance.updateIsComplete(false);
+                    string res = await RdsConnect.updateOccurance(currOccurance, false, false, url);
                 }
             }
-            catch (Exception e)
-            {
-               await DisplayAlert("Alert", "Error in TodaysList checkSubOccurance. Error: " + e.ToString(), "OK");
-            }
+      
+
+            //if (currOccurance.IsPersistent == true && currOccurance.IsSublistAvailable == true)
+            //{
+            //    routineId = currOccurance.Id;
+            //    await Navigation.PushModalAsync(new RoutinePage(), false);
+            //}
+
         }
 
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {
-            Navigation.PushAsync(new SettingsPage(), false);
+            ///Navigation.PushAsync(new SettingsPage(), false);
+            Application.Current.MainPage.Navigation.PushModalAsync(new WhoAmIPage(), false);
         }
 
         void ClickGestureRecognizer_Clicked(System.Object sender, System.EventArgs e)
         {
             Debug.WriteLine("YOU HAVE TOUCH THE IMAGE");
+        }
+
+        void TapGestureRecognizer_Tapped_1(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new TodaysListPage();
         }
     }
 }
