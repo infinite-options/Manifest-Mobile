@@ -16,21 +16,28 @@ namespace Manifest.iOS.AppleSignIn
 
         public async Task<AppleSignInCredentialState> GetCredentialStateAsync(string userId)
         {
-            var appleIdProvider = new ASAuthorizationAppleIdProvider();
-            var credentialState = await appleIdProvider.GetCredentialStateAsync(userId);
-            switch (credentialState)
+            try { 
+                var appleIdProvider = new ASAuthorizationAppleIdProvider();
+                var credentialState = await appleIdProvider.GetCredentialStateAsync(userId);
+                switch (credentialState)
+                {
+                    case ASAuthorizationAppleIdProviderCredentialState.Authorized:
+                        // The Apple ID credential is valid.
+                        return AppleSignInCredentialState.Authorized;
+                    case ASAuthorizationAppleIdProviderCredentialState.Revoked:
+                        // The Apple ID credential is revoked.
+                        return AppleSignInCredentialState.Revoked;
+                    case ASAuthorizationAppleIdProviderCredentialState.NotFound:
+                        // No credential was found, so show the sign-in UI.
+                        return AppleSignInCredentialState.NotFound;
+                    default:
+                        return AppleSignInCredentialState.Unknown;
+                }
+            }
+            catch (Exception userNotFound)
             {
-                case ASAuthorizationAppleIdProviderCredentialState.Authorized:
-                    // The Apple ID credential is valid.
-                    return AppleSignInCredentialState.Authorized;
-                case ASAuthorizationAppleIdProviderCredentialState.Revoked:
-                    // The Apple ID credential is revoked.
-                    return AppleSignInCredentialState.Revoked;
-                case ASAuthorizationAppleIdProviderCredentialState.NotFound:
-                    // No credential was found, so show the sign-in UI.
-                    return AppleSignInCredentialState.NotFound;
-                default:
-                    return AppleSignInCredentialState.Unknown;
+                string credentailsError = userNotFound.Message;
+                return AppleSignInCredentialState.NotFound;
             }
 
         }
@@ -71,13 +78,13 @@ namespace Manifest.iOS.AppleSignIn
             tcsCredential?.TrySetResult(creds);
         }
 
-        //[Export("authorizationController:didCompleteWithError:")]
-        //public void DidComplete(ASAuthorizationController controller, NSError error)
-        //{
-        //    // Handle error
-        //    tcsCredential?.TrySetResult(null);
-        //    Console.WriteLine("This is the error " + error);
-        //}
+        [Export("authorizationController:didCompleteWithError:")]
+        public void DidComplete(ASAuthorizationController controller, NSError error)
+        {
+            // Handle error
+            tcsCredential?.TrySetResult(null);
+            Console.WriteLine("This is the error " + error);
+        }
 
         #endregion
 

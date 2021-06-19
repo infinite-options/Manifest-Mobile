@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Manifest.Config;
 using Manifest.Interfaces;
 using Manifest.LogIn.Classes;
 using Xamarin.Auth;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Manifest.Views
@@ -130,6 +132,9 @@ namespace Manifest.Views
                 classicLabel.TextColor = Color.FromHex("#FFFFFF");
             }
         }
+
+
+
 
         public string GetCurrentTime()
         {

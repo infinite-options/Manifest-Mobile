@@ -14,6 +14,7 @@ using System.Diagnostics;
 using Xamarin.Auth;
 using Manifest.Config;
 using Manifest.LogIn.Classes;
+using Manifest.Interfaces;
 
 namespace Manifest.Views
 {
@@ -166,7 +167,7 @@ namespace Manifest.Views
                     }
                     catch (Exception birthDate)
                     {
-                        await DisplayAlert("Oops", birthDate.Message, "OK");
+                        await DisplayAlert("Oops", "Please sign in again to retrieve your account information. Thank you!", "OK");
                         userBirthDate.Text = "Date of birth: N/A";
                     }
                 }
@@ -336,11 +337,13 @@ namespace Manifest.Views
                         },
                         GestureRecognizers = { tapGestureRecognizer }
                     }, col, 0);;;
-                    tempGrid.Children.Add(new Label
+                    tempGrid.Children.Add(new CustomizeFontLabel
                     {
                         HorizontalTextAlignment = TextAlignment.Center,
                         Text = importantPeople[i].Name,
-                        TextColor = Color.Black
+                        FontSize = 9,
+                        TextColor = Color.Black,
+                        LineBreakMode = LineBreakMode.TailTruncation,
                     }, col, 1);
                     col++;
                     i++;

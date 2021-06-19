@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.SettingsPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.SettingsPage">
 <ContentPage.Content>
         <Grid x:Name="mainGridLayout" RowSpacing="0">
             <Grid.RowDefinitions>
@@ -24,8 +24,8 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="30"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="" TextColor="White"></Label>
-                        <Label Grid.Column="1" Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="0" Text="" TextColor="White"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                         <ImageButton Grid.Column="2" Source="settingsIcon.png" BackgroundColor="Transparent" Clicked="ImageButton_Clicked" IsVisible="false" IsEnabled="False"></ImageButton>
                     </Grid>
                     <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
@@ -36,12 +36,12 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                        <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </StackLayout>
                     <Grid Grid.Row="3">
-                            <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                            <interfaces:CustomizeFontLabel Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                     </Grid>
                 </Grid>
             </Frame>
@@ -53,10 +53,10 @@
                                <ColumnDefinition Width="*"></ColumnDefinition>
                                <ColumnDefinition Width="60"></ColumnDefinition>
                            </Grid.ColumnDefinitions>
-                           <Label Grid.Column="0" Text="Show Google Calendar" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                           <interfaces:CustomizeFontLabel Grid.Column="0" Text="Show Google Calendar" FontSize="24" FontAttributes="Bold" TextColor="Black"></interfaces:CustomizeFontLabel>
                            <Switch x:Name="calendarSwitch" Grid.Column="1" Toggled="Switch_Toggled"></Switch>
                        </Grid>
-                        <Label Text="Choose color scheme" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                        <interfaces:CustomizeFontLabel Text="Choose color scheme" FontSize="24" FontAttributes="Bold" TextColor="Black"></interfaces:CustomizeFontLabel>
                         <Frame x:Name="retroScheme" Padding="0" Margin="-20,0,0,0" CornerRadius="19" HeightRequest="87" HasShadow="False" ClassId="retro" BackgroundColor="Transparent">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -109,7 +109,7 @@
                                     </Ellipse>
                                 </RelativeLayout>
                             </StackLayout>
-                            <Label x:Name="retroLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Retro" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                            <interfaces:CustomizeFontLabel x:Name="retroLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Retro" FontSize="24" FontAttributes="Bold" TextColor="Black"></interfaces:CustomizeFontLabel>
                         </Grid>
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
@@ -169,7 +169,7 @@
                                     </Ellipse>
                                 </RelativeLayout>
                             </StackLayout>
-                            <Label x:Name="vibrantLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Vibrant" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                            <interfaces:CustomizeFontLabel x:Name="vibrantLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Vibrant" FontSize="24" FontAttributes="Bold" TextColor="Black"></interfaces:CustomizeFontLabel>
                         </Grid>
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
@@ -228,7 +228,7 @@
                                     </Ellipse>
                                 </RelativeLayout>
                             </StackLayout>
-                            <Label x:Name="coolLabel"  Grid.Column="1" VerticalTextAlignment="Center" Text="Cool" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                            <interfaces:CustomizeFontLabel x:Name="coolLabel"  Grid.Column="1" VerticalTextAlignment="Center" Text="Cool" FontSize="24" FontAttributes="Bold" TextColor="Black"></interfaces:CustomizeFontLabel>
                         </Grid>
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
@@ -287,7 +287,7 @@
                                     </Ellipse>
                                 </RelativeLayout>
                             </StackLayout>
-                            <Label x:Name="cottonLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Cotton candy" FontSize="24" FontAttributes="Bold" TextColor="Black"></Label>
+                            <interfaces:CustomizeFontLabel x:Name="cottonLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Cotton candy" FontSize="24" FontAttributes="Bold" TextColor="Black"></interfaces:CustomizeFontLabel>
                         </Grid>
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
@@ -346,7 +346,7 @@
                                     </Ellipse>
                                 </RelativeLayout>
                             </StackLayout>
-                            <Label x:Name="classicLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Classic" TextColor="White" FontSize="24" FontAttributes="Bold"></Label>
+                            <interfaces:CustomizeFontLabel x:Name="classicLabel" Grid.Column="1" VerticalTextAlignment="Center" Text="Classic" TextColor="White" FontSize="24" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                         </Grid>
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="SetColorScheme" ></TapGestureRecognizer>
@@ -354,9 +354,15 @@
                         </Frame>
                         <BoxView HeightRequest="1" Color="#70707057" Margin="0,0,20,0"></BoxView>
                         <Frame Padding="0" Margin="120,0,140,0" CornerRadius="19" HeightRequest="40" HasShadow="False" x:Name="logOutFrame" BackgroundColor="#376DAC">
-                            <Button Padding="0,-3,0,0" Text="Log out" TextColor="#FFFFFF" FontSize="20" FontAttributes="Bold" WidthRequest="100" BackgroundColor="Transparent" Clicked="LogOutClick"></Button>
+                            <Button Padding="0,-3,0,0" Text="Log out" TextColor="#FFFFFF" FontSize="15" FontAttributes="Bold" WidthRequest="150" BackgroundColor="Transparent" Clicked="LogOutClick">
+                                <Button.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="Android" Value="Roboto" />
+                                    </OnPlatform>
+                                </Button.FontFamily>
+                            </Button>
                         </Frame>
-                        <Label HeightRequest="50" Margin="-20,0,0,0" x:Name="appVersion" HorizontalTextAlignment="Center"></Label>
+                        <interfaces:CustomizeFontLabel HeightRequest="50" Margin="-20,0,0,0" x:Name="appVersion" FontSize="12" HorizontalTextAlignment="Center" TextColor="Black"></interfaces:CustomizeFontLabel>
                     </StackLayout>
                 </ScrollView>
             </StackLayout>
@@ -402,7 +408,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
                             <Grid>
                                 <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
-                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -418,7 +424,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                             <Grid>
                                 <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -435,7 +441,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                             <Grid>
                                 <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>

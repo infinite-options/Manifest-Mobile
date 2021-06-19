@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.LogInPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.LogInPage">
     <ContentPage.Content>
         <StackLayout Padding="0,100,0,0">
             <StackLayout WidthRequest="230" HeightRequest="230" HorizontalOptions="Center">
@@ -11,7 +11,7 @@
                         HeightRequest="230"
                         HorizontalOptions="Center">
                     </Ellipse>
-                    <Label Padding="30,0,30,0" Text="Manifest Your Life" TextColor="White" FontSize="30" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="230"></Label>
+                    <interfaces:CustomizeFontLabel Padding="30,0,30,0" Text="Manifest Your Life" TextColor="White" FontSize="30" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HeightRequest="230"></interfaces:CustomizeFontLabel>
                 </RelativeLayout>
             </StackLayout>
             <Grid HeightRequest="170">

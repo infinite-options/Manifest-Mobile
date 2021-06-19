@@ -32,7 +32,9 @@ namespace Manifest.Views
             supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
 
 
-            title.Text = newEvent.Title;
+            //title.Text = newEvent.Title;
+            title.Text = "Event";
+            eventTitle.Text = newEvent.Title;
             eventDescription.Text = newEvent.Description;
             if (eventDescription.Text == "" || eventDescription.Text == null)
             {

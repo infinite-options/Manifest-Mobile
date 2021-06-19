@@ -19,9 +19,6 @@ namespace Manifest
         {
             InitializeComponent();
 
-            // Application.Current.Properties.Clear();                                              // Resets user info in the app.  Use for debug
-            // SecureStorage.RemoveAll();                                                           // Allows Xamarin to reset Apple security storage info stored in hardware.  Use for debug
-
             if (Application.Current.Properties.ContainsKey("userId"))
             {
                 if (Application.Current.Properties.ContainsKey("timeStamp"))
@@ -34,34 +31,12 @@ namespace Manifest
 
                         if (today <= expTime)
                         {
-                            MainPage = new MainPage();
+                            //MainPage = new MainPage();
+                            MainPage = new TodaysListPage();
                         }
                         else
                         {
-                            LogInPage client = new LogInPage();
-                            MainPage = client;
-
-                            if (Application.Current.Properties.ContainsKey("timeStamp"))
-                            {
-                                string socialPlatform = (string)Application.Current.Properties["platform"];
-
-                                if (socialPlatform.Equals(AppConstants.Facebook))
-                                {
-                                    client.FacebookLogInClick(new object(), new EventArgs());
-                                }
-                                else if (socialPlatform.Equals(AppConstants.Google))
-                                {
-                                    client.GoogleLogInClick(new object(), new EventArgs());
-                                }
-                                else if (socialPlatform.Equals(AppConstants.Apple))
-                                {
-                                    client.AppleLogInClick(new object(), new EventArgs());
-                                }
-                                else
-                                {
-                                    MainPage = new LogInPage();
-                                }
-                            }
+                            MainPage = new LogInPage();
                         }
                     }
                     else
@@ -83,26 +58,36 @@ namespace Manifest
         // Initialization function that checks if a user has logged in through Apple
         protected override async void OnStart()
         {
-            var appleSignInService = DependencyService.Get<IAppleSignInService>();
-
-            if (appleSignInService != null)
+            try
             {
-                userId = await SecureStorage.GetAsync(AppleUserIdKey);
-                if (appleSignInService.IsAvailable && !string.IsNullOrEmpty(userId))
+                var appleSignInService = DependencyService.Get<IAppleSignInService>();
+
+                if (appleSignInService != null)
                 {
-                    var credentialState = await appleSignInService.GetCredentialStateAsync(userId);
-                    switch (credentialState)
+                    userId = await SecureStorage.GetAsync(AppleUserIdKey);
+                    if (appleSignInService.IsAvailable && !string.IsNullOrEmpty(userId))
                     {
-                        case AppleSignInCredentialState.Authorized:
-                            break;
-                        case AppleSignInCredentialState.NotFound:
-                        case AppleSignInCredentialState.Revoked:
-                            SecureStorage.Remove(AppleUserIdKey);
-                            Preferences.Set(LoggedInKey, false);
-                            MainPage = new LogInPage();
-                            break;
+                        var credentialState = await appleSignInService.GetCredentialStateAsync(userId);
+                        switch (credentialState)
+                        {
+                            case AppleSignInCredentialState.Authorized:
+                                break;
+                            case AppleSignInCredentialState.NotFound:
+                            case AppleSignInCredentialState.Revoked:
+                                SecureStorage.Remove(AppleUserIdKey);
+                                Preferences.Set(LoggedInKey, false);
+                                MainPage = new LogInPage();
+                                break;
+                        }
                     }
                 }
+            }
+            catch (Exception resetStorage)
+            {
+                string error = resetStorage.Message;
+                Application.Current.Properties.Clear();   // Resets user info in the app.  Use for debug
+                SecureStorage.RemoveAll(); // Resets user info in the app.  Use for debug
+                MainPage = new LogInPage();
             }
         }
 
@@ -112,6 +97,7 @@ namespace Manifest
 
         protected override void OnResume()
         {
+
         }
     }
 }

@@ -8,6 +8,9 @@ using Android.Widget;
 using Android.OS;
 using Android.Gms.Common;
 using Android.Util;
+using Android.Content.Res;
+using Acr.UserDialogs;
+
 
 #if NETFX_CORE
 [assembly: Xamarin.Forms.Platform.WinRT.ExportRenderer(typeof(Xamarin.RangeSlider.Forms.RangeSlider), typeof(Xamarin.RangeSlider.Forms.RangeSliderRenderer))]
@@ -17,7 +20,7 @@ using Android.Util;
 
 namespace Manifest.Droid
 {
-    [Activity(Label = "Manifest MyLife", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
+    [Activity(Label = "Manifest MyLife", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
 
@@ -30,6 +33,29 @@ namespace Manifest.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
+
+            //// loading Japanese font from Assets folder
+            //var fontName = "Roboto-Regular.ttf";
+            //var fontPath = System.IO.Path.Combine(CacheDir.AbsolutePath, fontName);
+            //using (var asset = Assets.Open(fontName))
+            //{
+            //    using (var dest = System.IO.File.Open(fontPath, System.IO.FileMode.Create))
+            //    {
+            //        asset.CopyTo(dest);
+            //    }
+            //}
+
+            //// overriding default font with custom font that supports Japanese symbols
+            //var font = SkiaSharp.SKTypeface.FromFile(fontPath);
+            //Infragistics.Core.Controls.TypefaceManager.Instance.OverrideDefaultTypeface(font);
+
+
+
+
+
+            UserDialogs.Init(this);
+
 
             //Below lines are required for notifications
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
@@ -77,6 +103,17 @@ namespace Manifest.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public override Resources Resources
+        {
+            get
+            {
+                var config = new Configuration();
+                config.SetToDefaults();
+
+                return CreateConfigurationContext(config).Resources;
+            }
         }
 
         //This function checks if GooglePlayService is available

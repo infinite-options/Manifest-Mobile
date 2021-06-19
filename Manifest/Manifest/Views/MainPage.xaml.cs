@@ -106,9 +106,6 @@ namespace Manifest.Views
             //barStackLayoutProperties.BackgroundColor = Color.Salmon;
             //barStackLayoutRow.Height = 0;
             //buttonStackLayoutRow.Height = lastRowHeight;
-
-            
-
         }
 
         public async void UserVerification(AuthenticatorCompletedEventArgs user = null, AppleAccount appleCredentials = null, string platform = "")
@@ -132,6 +129,15 @@ namespace Manifest.Views
                     socialLogInPost.social_id = googleData.id;
                     socialLogInPost.mobile_access_token = user.Account.Properties["access_token"];
                     socialLogInPost.mobile_refresh_token = user.Account.Properties["refresh_token"];
+
+                    //socialLogInPost.email = "omarfacio2010@gmail.com";
+                    //socialLogInPost.social_id = "105601887216228109150";
+                    //socialLogInPost.mobile_access_token = "ya29.a0AfH6SMAEKLXHhpcDC2W7wBXIyUPWhxEUU9Cgm64ivSf3qC7-Y3L-sx0briU9mHIIRIk_Uc6n9g9RHwPTEAsBWDDOfOwOdNqVJO1CsmbL7_YUlxY-qyspF7RXLKFCTU2y7JqkkPDEleBNjPRASpSiZoE_VycL";
+                    //socialLogInPost.mobile_refresh_token = "1//06AnR3q70ZXOQCgYIARAAGAYSNwF-L9IrN3s1ncmDXu1_wNlxs5B-z981yv2v4YJRFTQMWRxTuR2IiyGOEMNA27jRQmZ5sjp6Ruc";
+
+                    //Application.Current.Properties["accessToken"] = "ya29.a0AfH6SMAEKLXHhpcDC2W7wBXIyUPWhxEUU9Cgm64ivSf3qC7-Y3L-sx0briU9mHIIRIk_Uc6n9g9RHwPTEAsBWDDOfOwOdNqVJO1CsmbL7_YUlxY-qyspF7RXLKFCTU2y7JqkkPDEleBNjPRASpSiZoE_VycL";
+                    //Application.Current.Properties["refreshToken"] = "1//06AnR3q70ZXOQCgYIARAAGAYSNwF-L9IrN3s1ncmDXu1_wNlxs5B-z981yv2v4YJRFTQMWRxTuR2IiyGOEMNA27jRQmZ5sjp6Ruc";
+
                 }
                 else if (platform == "FACEBOOK")
                 {

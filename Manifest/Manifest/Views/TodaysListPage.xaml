@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.TodaysListPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.TodaysListPage">
     <ContentPage.Content>
-        <Grid x:Name="mainGridLayout" RowSpacing="0">
+        <Grid x:Name="mainGridLayout" RowSpacing="0" BackgroundColor="#F2F7FC">
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="50"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <!--<Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
                 SPACE FOR HEADER
@@ -71,13 +71,17 @@
                                     <ColumnDefinition Width="15"></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <Image Grid.Column="0" Source="backIcon.png" IsVisible="false" IsEnabled="false"></Image>
+                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="" FontSize="12" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                    <TapGestureRecognizer></TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
                             </Grid>
-                            <Label Grid.Column="1"  Margin="-30,0,0,0" Text="My Story" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <interfaces:CustomizeFontLabel Grid.Column="1"  Margin="-30,0,0,0" Text="" x:Name="title"  TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                                <interfaces:CustomizeFontLabel.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                                </interfaces:CustomizeFontLabel.GestureRecognizers>
+                            </interfaces:CustomizeFontLabel>
                             <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
 
@@ -96,19 +100,19 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                        <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                        <interfaces:CustomizeFontLabel Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
+                        <interfaces:CustomizeFontLabel Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </StackLayout>
                         <Grid Grid.Row="3">
-                             <Label Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                             <interfaces:CustomizeFontLabel Padding="0,0,0,0" Text="Choose 2 goals to pursue today" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </Grid>
  
             </Frame>
             <!--imported ui-->
 
-            <ScrollView x:Name="todaysSchedule" Grid.Row="1" Margin="0,10,0,0">
+            <ScrollView x:Name="todaysSchedule" Grid.Row="1" BackgroundColor="Transparent">
             <Grid Grid.Row="1"> 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0"/>
@@ -117,7 +121,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Label x:Name="dotw" Text="" Grid.Row="0" FontAttributes="Bold" TextColor="Black" FontSize="35" Margin="20,30,0,0" HorizontalOptions="Start" VerticalOptions="End"/>
+                <interfaces:CustomizeFontLabel x:Name="dotw" Text="" Grid.Row="0" FontAttributes="Bold" TextColor="Black" FontSize="35" Margin="20,30,0,0" HorizontalOptions="Start" VerticalOptions="End"/>
 
 
                 <StackLayout x:Name="stack1" Grid.Row="1" Margin="20, 15, 20, 0">
@@ -132,7 +136,7 @@
                         </Grid.RowDefinitions>
 
                         <Image HeightRequest="50" Source="sunrisemid.png"/>
-                        <Label Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Morning" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
+                        <interfaces:CustomizeFontLabel Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Morning" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
                     </Grid>
 
                 <CollectionView x:Name="taskListMorning" SelectionMode="None">
@@ -158,48 +162,48 @@
                                              </Grid.RowDefinitions>
                                              <Grid.ColumnDefinitions>
                                                   <ColumnDefinition Width="*"></ColumnDefinition>
-                                                  <ColumnDefinition Width="100"></ColumnDefinition>
+                                                  <ColumnDefinition Width="50"></ColumnDefinition>
                                              </Grid.ColumnDefinitions>
                                                 <StackLayout Grid.Row="1" Grid.Column="0">
-                                                 <Label  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></Label>
+                                                 <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" LineBreakMode="TailTruncation" MaxLines="2" FontSize="18"  ></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                  <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding Id}" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>-->
                                                 <StackLayout Grid.Row="2" Grid.Column="0">
-                                                  <Label Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></Label>
+                                                  <interfaces:CustomizeFontLabel Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="0" Grid.Column="0">
-                                                  <Label Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></Label>
+                                                  <interfaces:CustomizeFontLabel Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="{Binding PicUrl}" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="yellowclock.png" IsVisible="{Binding IsInProgress}" VerticalOptions="Start" AutomationProperties.Name="In Progress Image" HorizontalOptions="End" Margin="0,0,10,0"></Image> 
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="greencheckmark.png" IsVisible="{Binding IsComplete}" VerticalOptions="Start" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
-                                                  <Image Grid.Column="1" Grid.Row="2" HeightRequest="18" WidthRequest="18" Aspect="AspectFill" HorizontalOptions="End">
-                                                  <Image.Triggers>
-                                                        <MultiTrigger TargetType="Image">
-                                                    <MultiTrigger.Conditions>
-                                                        <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                                        <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter Property="Source" Value="sublist.png" />
-                                                    <Setter Property="HeightRequest" Value="30"/>
-                                                    <Setter Property="WidthRequest" Value="30"/> 
-                                                </MultiTrigger>
-                                                <MultiTrigger TargetType="Image">
-                                                    <MultiTrigger.Conditions>
-                                                        <BindingCondition Binding="{Binding IsSublistAvailable}" Value="False"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter Property="Source" Value="" />
-                                                </MultiTrigger>
-                                                <MultiTrigger TargetType="Image">
-                                                    <MultiTrigger.Conditions>
-                                                        <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
-                                                        <BindingCondition Binding="{Binding IsPersistent}" Value="False"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter Property="Source" Value="dots.png"/>
-                                                    <Setter Property="HeightRequest" Value="30"/>
-                                                    <Setter Property="WidthRequest" Value="30"/> 
-                                                </MultiTrigger>
-                                                </Image.Triggers>
+                                                  <Image Grid.Column="1" Grid.Row="2" HeightRequest="17" WidthRequest="20" IsVisible="{Binding IsSublistAvailable}" HorizontalOptions="Center" Source="listIcon.png">
+                                                      <!--<Image.Triggers>
+                                                            <MultiTrigger TargetType="Image">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
+                                                            <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Source" Value="listIcon.png"  />
+                                                        <Setter Property="HeightRequest" Value="30"/>
+                                                        <Setter Property="WidthRequest" Value="30"/> 
+                                                    </MultiTrigger>
+                                                    <MultiTrigger TargetType="Image">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding IsSublistAvailable}" Value="False"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Source" Value="" />
+                                                    </MultiTrigger>
+                                                    <MultiTrigger TargetType="Image">
+                                                        <MultiTrigger.Conditions>
+                                                            <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
+                                                            <BindingCondition Binding="{Binding IsPersistent}" Value="False"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Source" Value="dots.png"/>
+                                                        <Setter Property="HeightRequest" Value="30"/>
+                                                        <Setter Property="WidthRequest" Value="30"/> 
+                                                    </MultiTrigger>
+                                                    </Image.Triggers>-->
                                                   </Image>
                                         </Grid>
                                     </Frame>
@@ -222,7 +226,7 @@
                         </Grid.RowDefinitions>
 
                         <Image HeightRequest="50" Aspect="AspectFill" Source="fullsun.png"/>
-                        <Label Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Afternoon" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
+                        <interfaces:CustomizeFontLabel Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Afternoon" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
                     </Grid>
 
                 <CollectionView x:Name="taskListAfternoon" SelectionMode="None">
@@ -248,29 +252,29 @@
                                                  </Grid.RowDefinitions>
                                                  <Grid.ColumnDefinitions>
                                                       <ColumnDefinition Width="*"></ColumnDefinition>
-                                                      <ColumnDefinition Width="100"></ColumnDefinition>
+                                                      <ColumnDefinition Width="50"></ColumnDefinition>
                                                  </Grid.ColumnDefinitions>
                                                     <StackLayout Grid.Row="1" Grid.Column="0">
-                                                     <Label  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></Label>
+                                                     <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}"  LineBreakMode="TailTruncation" MaxLines="2" FontSize="18"></interfaces:CustomizeFontLabel>
                                                     </StackLayout>
                                                      <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding Id}" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>-->
                                                     <StackLayout Grid.Row="2" Grid.Column="0">
-                                                      <Label Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></Label>
+                                                      <interfaces:CustomizeFontLabel Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></interfaces:CustomizeFontLabel>
                                                     </StackLayout>
                                                     <StackLayout Grid.Row="0" Grid.Column="0">
-                                                      <Label Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></Label>
+                                                      <interfaces:CustomizeFontLabel Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                                                     </StackLayout>
                                                       <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="{Binding PicUrl}" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
                                                       <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="yellowclock.png" IsVisible="{Binding IsInProgress}" VerticalOptions="Start" AutomationProperties.Name="In Progress Image" HorizontalOptions="End" Margin="0,0,10,0"></Image> 
                                                       <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="greencheckmark.png" IsVisible="{Binding IsComplete}" VerticalOptions="Start" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
-                                                      <Image Grid.Column="1" Grid.Row="2" HeightRequest="18" WidthRequest="18" Aspect="AspectFill" HorizontalOptions="End">
-                                                      <Image.Triggers>
+                                                      <Image Grid.Column="1" Grid.Row="2" HeightRequest="17" WidthRequest="20" IsVisible="{Binding IsSublistAvailable}" HorizontalOptions="Center" Source="listIcon.png">
+                                                      <!--<Image.Triggers>
                                                             <MultiTrigger TargetType="Image">
                                                         <MultiTrigger.Conditions>
                                                             <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
                                                             <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
                                                         </MultiTrigger.Conditions>
-                                                        <Setter Property="Source" Value="sublist.png" />
+                                                        <Setter Property="Source" Value="listIcon.png" />
                                                         <Setter Property="HeightRequest" Value="30"/>
                                                         <Setter Property="WidthRequest" Value="30"/> 
                                                     </MultiTrigger>
@@ -289,7 +293,7 @@
                                                         <Setter Property="HeightRequest" Value="30"/>
                                                         <Setter Property="WidthRequest" Value="30"/> 
                                                     </MultiTrigger>
-                                                    </Image.Triggers>
+                                                    </Image.Triggers>-->
                                                         </Image>
                                         </Grid>
                                     </Frame>
@@ -312,7 +316,7 @@
                         </Grid.RowDefinitions>
 
                         <Image HeightRequest="50" Aspect="AspectFill" Source="moon.png"/>
-                        <Label Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Evening" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
+                        <interfaces:CustomizeFontLabel Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="Evening" FontAttributes="Bold" FontSize="25" TextColor="Black"/> 
                     </Grid>
 
                 <CollectionView x:Name="taskListEvening" SelectionMode="None">
@@ -338,29 +342,29 @@
                                              </Grid.RowDefinitions>
                                              <Grid.ColumnDefinitions>
                                                   <ColumnDefinition Width="*"></ColumnDefinition>
-                                                  <ColumnDefinition Width="100"></ColumnDefinition>
+                                                  <ColumnDefinition Width="50"></ColumnDefinition>
                                              </Grid.ColumnDefinitions>
                                                 <StackLayout Grid.Row="1" Grid.Column="0">
-                                                 <Label  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" TextDecorations="Underline" FontSize="25" LineBreakMode="WordWrap" MaxLines="1"></Label>
+                                                 <interfaces:CustomizeFontLabel  Text="{Binding Title}" VerticalOptions="Start" FontAttributes="Bold" TextColor="{Binding textColor}" LineBreakMode="TailTruncation" MaxLines="2" FontSize="18"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                  <!--<Label Grid.Row="2" Grid.Column="0" Text="{Binding Id}" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>-->
                                                 <StackLayout Grid.Row="2" Grid.Column="0">
-                                                  <Label Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></Label>
+                                                  <interfaces:CustomizeFontLabel Text="{Binding CompletionTime}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="End" LineBreakMode="WordWrap"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                 <StackLayout Grid.Row="0" Grid.Column="0">
-                                                  <Label Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></Label>
+                                                  <interfaces:CustomizeFontLabel Text="{Binding TimeInterval}" TextColor="{Binding textColor}" FontSize="13" VerticalOptions="Center" LineBreakMode="WordWrap" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                                                 </StackLayout>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="{Binding PicUrl}" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="yellowclock.png" IsVisible="{Binding IsInProgress}" VerticalOptions="Start" AutomationProperties.Name="In Progress Image" HorizontalOptions="End" Margin="0,0,10,0"></Image> 
                                                   <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="greencheckmark.png" IsVisible="{Binding IsComplete}" VerticalOptions="Start" AutomationProperties.Name="Goal Incomplete Image" HorizontalOptions="End" Margin="0,0,10,0"></Image>
-                                                  <Image Grid.Column="1" Grid.Row="2" HeightRequest="18" WidthRequest="18" Aspect="AspectFill" HorizontalOptions="End">
-                                                  <Image.Triggers>
+                                                  <Image Grid.Column="1" Grid.Row="2" HeightRequest="17" IsVisible="{Binding IsSublistAvailable}" WidthRequest="20" HorizontalOptions="Center" Source="listIcon.png">
+                                                  <!--<Image.Triggers>
                                                         <MultiTrigger TargetType="Image">
                                                     <MultiTrigger.Conditions>
                                                         <BindingCondition Binding="{Binding IsSublistAvailable}" Value="True"/>
                                                         <BindingCondition Binding="{Binding IsPersistent}" Value="True"/>
                                                     </MultiTrigger.Conditions>
-                                                    <Setter Property="Source" Value="sublist.png" />
+                                                    <Setter Property="Source" Value="listIcon.png" />
                                                     <Setter Property="HeightRequest" Value="30"/>
                                                     <Setter Property="WidthRequest" Value="30"/> 
                                                 </MultiTrigger>
@@ -379,7 +383,7 @@
                                                     <Setter Property="HeightRequest" Value="30"/>
                                                     <Setter Property="WidthRequest" Value="30"/> 
                                                 </MultiTrigger>
-                                                </Image.Triggers>
+                                                </Image.Triggers>-->
                                                     </Image>
                                         </Grid>
                                     </Frame>
@@ -402,7 +406,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="True">
                             <Grid>
                                 <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
-                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -418,7 +422,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                             <Grid>
                                 <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -435,7 +439,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                             <Grid>
                                 <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>  
                         </Frame>
                     </RelativeLayout>

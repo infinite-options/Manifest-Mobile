@@ -1,12 +1,22 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Manifest.Views.RoutinePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:particle="clr-namespace:Particle.Forms;assembly=Particle.Forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:interfaces="clr-namespace:Manifest.Interfaces" x:Class="Manifest.Views.RoutinePage">
+     <ContentPage.Resources>
+        <x:Array Type="{x:Type Color}" x:Key="ConfettiColors">
+            <Color>#a864fd</Color>
+            <Color>#29cdff</Color>
+            <Color>#78ff44</Color>
+            <Color>#ff718d</Color>
+            <Color>#fdff6a</Color>
+            <Color>#ffcbf2</Color>
+        </x:Array>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid x:Name="mainGridLayout" RowSpacing="0">
+        <Grid x:Name="mainGridLayout" RowSpacing="0" BackgroundColor="#F2F7FC">
             <Grid.RowDefinitions>
                 <RowDefinition Height="139"></RowDefinition>
                 <RowDefinition x:Name="mainStackLayoutRow"  Height="*"></RowDefinition>
                 <RowDefinition x:Name="settingStackLayoutRow" Height="0"></RowDefinition>
-                <RowDefinition x:Name="barStackLayoutRow" Height="50"></RowDefinition>
+                <RowDefinition x:Name="barStackLayoutRow" Height="0"></RowDefinition>
                 <RowDefinition x:Name="buttonStackLayoutRow" Height="0"></RowDefinition>
             </Grid.RowDefinitions>
             <Frame Grid.Row="0" BackgroundColor="#889AB5" x:Name="frameColor" CornerRadius="24" HeightRequest="155" Margin="0,-30,0,0" >
@@ -25,17 +35,18 @@
                                 <ColumnDefinition Width="30"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0">
-                                <Grid.ColumnDefinitions>
+                                <!--<Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="15"></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="backIcon.png"></Image>
-                                <Label Grid.Column="1" Text="Back" TextColor="White" VerticalTextAlignment="Center"></Label>
+                                <interfaces:CustomizeFontLabel Grid.Column="1" Text="Back" FontSize="12" TextColor="White" VerticalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                                </Grid.GestureRecognizers>
+                                </Grid.GestureRecognizers>-->
+                                <ImageButton Source="backIcon" Clicked="TapGestureRecognizer_Tapped" BackgroundColor="Transparent"></ImageButton>
                             </Grid>
-                            <Label Grid.Column="1" Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+                            <interfaces:CustomizeFontLabel Grid.Column="1" Margin="-30,0,0,0" Text="GOALS" x:Name="title" TextColor="White" FontSize="36" FontAttributes="Bold" HorizontalTextAlignment="Center"></interfaces:CustomizeFontLabel>
                             <ImageButton Grid.Column="2" Source="settingsIcon.png" Clicked="ImageButton_Clicked" BackgroundColor="Transparent"></ImageButton>
                         </Grid>
                         <BoxView Grid.Row="1" HeightRequest="1" Color="White"></BoxView>
@@ -54,25 +65,115 @@
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></Label>
-                            <Label Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></Label>
+                            <interfaces:CustomizeFontLabel Grid.Column="0" Text="Location" x:Name="locationTitle" TextColor="White" VerticalTextAlignment="Center" HeightRequest="20" FontAttributes="Bold" FontSize="14"></interfaces:CustomizeFontLabel>
+                            <interfaces:CustomizeFontLabel Grid.Column="1" Text="Date" x:Name="dateTitle" TextColor="White"  VerticalTextAlignment="Center"  HeightRequest="20" HorizontalTextAlignment="End" FontAttributes="Bold"  FontSize="14"></interfaces:CustomizeFontLabel>
                             </Grid>
                         </StackLayout>
                         <Grid Grid.Row="3">
-                             <Label Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></Label>
+                             <interfaces:CustomizeFontLabel Padding="0,0,0,0" Text="" x:Name="subTitle" TextColor="White" HorizontalTextAlignment="Center" FontSize="19" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
                         </Grid>
                     </Grid>
- 
+                    
             </Frame>
+            <particle:ParticleView Grid.Row="1" x:Name="showParticles" IsActive="False" HasFallingParticles="True" FallingParticlesPerSecond="30" ParticleColors="{StaticResource ConfettiColors}"></particle:ParticleView>
             <StackLayout Grid.Row="1">
                 <!--NEW UI GOES HERE-->
                 <!--<Button Text="? instructions" Clicked="Button_Clicked"></Button>-->
                 <!--NEW UI GOES HERE-->
-                <ScrollView x:Name="routinesScroll">
-                    <StackLayout x:Name="routines" HorizontalOptions="Center" VerticalOptions="Start" Orientation="Vertical" Padding="20,10,20,10">
-                    </StackLayout>
+                <ScrollView x:Name="routinesScroll" BackgroundColor="Transparent">
+                    <StackLayout>
+                        <StackLayout Margin="12,30,12,0">
+                            
+                            <Frame Padding="10" HeightRequest="96" BackgroundColor="#F26D4B" CornerRadius="20" HasShadow="false">
+                                <StackLayout Margin="3,0,0,0">
+                                   <Grid HeightRequest="96">
+                                       <Grid.ColumnDefinitions>
+                                           <ColumnDefinition Width="*"></ColumnDefinition>
+                                           <ColumnDefinition Width="50"></ColumnDefinition>
+                                       </Grid.ColumnDefinitions>
+                                       <StackLayout Grid.Column="0" >
+                                           <Grid HeightRequest="96">
+                                               <Grid.RowDefinitions>
+                                                   <RowDefinition Height="*"></RowDefinition>
+                                                   <RowDefinition Height="40"></RowDefinition>
+                                               </Grid.RowDefinitions>
+                                               <StackLayout Grid.Row="0" >
+                                                   <interfaces:CustomizeFontLabel x:Name="routineTitle" Padding="0,0,0,0" Text="" TextColor="White" HorizontalOptions="Start" VerticalOptions="EndAndExpand" FontSize="24" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                               </StackLayout>
+                                               <StackLayout Grid.Row="1" >
+                                                   <interfaces:CustomizeFontLabel x:Name="routineTime"  Padding="0,0,0,0" Text="" TextColor="White" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" FontSize="12" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                               </StackLayout>
+                                           </Grid>
+                                       </StackLayout>
+                                       <StackLayout Grid.Column="1" >
+                                           <Grid HeightRequest="96">
+                                               <Grid.RowDefinitions>
+                                                   <RowDefinition Height="*"></RowDefinition>
+                                                   <RowDefinition Height="40"></RowDefinition>
+                                               </Grid.RowDefinitions>
+                                               <StackLayout Grid.Row="0" VerticalOptions="End">
+                                                   <Image Margin="0,0,10,0" x:Name="routineIcon"></Image>
+                                               </StackLayout>
+                                               <StackLayout Grid.Row="1" VerticalOptions="Center" x:Name="IsSubListAvailable">
+                                                    <Image Margin="5,0,0,0" Source="listIcon" HeightRequest="17" WidthRequest="20"></Image>
+                                               </StackLayout>
+                                           </Grid>
+                                       </StackLayout>
+                                   </Grid>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+                        </StackLayout>
+                        
+                            <ListView x:Name="subTaskList" Margin="0,0,0,0"  HasUnevenRows="True" BackgroundColor="Transparent" SeparatorVisibility="None" SeparatorColor="#F2F7FC">
+                                <ListView.ItemTemplate >
+                                    <DataTemplate>
+                                        <ViewCell Height="60" >
+                                            <StackLayout Margin="13,5,13,0" HeightRequest="56" VerticalOptions="Center">
+                                                <Grid HeightRequest="56">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="80"></ColumnDefinition>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Grid.Column="0" Margin="0,0,10,0" VerticalOptions="Center" HorizontalOptions="End" >
+                                                        <ImageButton Clicked="CheckMark" CommandParameter="{Binding .}" Source="{Binding PicUrl}" HeightRequest="39" WidthRequest="39" ></ImageButton>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1">
+                                                        <Frame VerticalOptions="FillAndExpand" Padding="0" BackgroundColor="#F8BE28" HasShadow="False" CornerRadius="20">
+                                                            <StackLayout VerticalOptions="Center">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                                        <ColumnDefinition Width="50"></ColumnDefinition>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <interfaces:CustomizeFontLabel Grid.Column="0" Margin="20,0,0,0" Text="{Binding Title}" TextColor="White" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" FontSize="16" FontAttributes="Bold"></interfaces:CustomizeFontLabel>
+                                                                    <StackLayout Grid.Column="1" HorizontalOptions="End" IsVisible="{Binding IsSublistAvailable}">
+                                                                        <Image Margin="0,0,20,0" Source="listIcon" HeightRequest="17" WidthRequest="20"></Image>
+                                                                    </StackLayout>
+                                                                </Grid>
+                                            
+                                                            </StackLayout>
+                                                            <Frame.GestureRecognizers>
+                                                                <TapGestureRecognizer Tapped="NavigateToInstructions" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                                            </Frame.GestureRecognizers>
+                                                        </Frame>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                      
+                        <StackLayout IsVisible="false" IsEnabled="False" x:Name="routines" HorizontalOptions="Center" VerticalOptions="Start" Orientation="Vertical" Padding="20,10,20,10">
+                        </StackLayout>
+                     </StackLayout>
                 </ScrollView>
             </StackLayout>
+            <!--<particle:ParticleView Grid.Row="1" x:Name="showParticles" IsActive="False" HasFallingParticles="True" FallingParticlesPerSecond="30" ParticleColors="{StaticResource ConfettiColors}"></particle:ParticleView>-->
             <StackLayout Grid.Row="2">
                 
             </StackLayout>
@@ -114,7 +215,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="0" x:Name="scheduleFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5">
                             <Grid>
                                 <Image Grid.Row="0" Source="calendarIcon.png" HeightRequest="20"></Image>
-                                <Label Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Schedule" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -130,7 +231,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70"  x:Name="lobbyFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5" >
                             <Grid>
                                 <Image Grid.Row="0" Source="flowerIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Lobby" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>
@@ -147,7 +248,7 @@
                         <Frame RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1.0}" HeightRequest="70" Grid.Column="2" x:Name="supportFrame" BackgroundColor="#889AB5" CornerRadius="14" Padding="0,5,0,0" HasShadow="False" Opacity="0.5"  >
                             <Grid>
                                 <Image Grid.Row="0" Source="helpIcon.png" HeightRequest="20"/>
-                                <Label Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
+                                <interfaces:CustomizeFontLabel Grid.Row="1" Text="Support" HorizontalOptions="Center" TextColor="White" FontSize="12"/>
                             </Grid>
                         </Frame>
                     </RelativeLayout>

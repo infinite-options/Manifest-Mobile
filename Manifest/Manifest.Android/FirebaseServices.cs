@@ -124,8 +124,8 @@ namespace Manifest.Droid
             // needed chanel and needed icon and need to get internt put extra out
             // I think we also beed to increase id num
             var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID);
-
-            notificationBuilder.SetContentTitle("Manifest My Space")
+            // title
+            notificationBuilder.SetContentTitle("Manifest MyLife")
                         .SetSmallIcon(Resource.Drawable.moon)
                         .SetContentText(body)
                         .SetAutoCancel(false)

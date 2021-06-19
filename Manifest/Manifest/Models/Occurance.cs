@@ -51,6 +51,15 @@ namespace Manifest.Models
         public int borderWidth { get; set; }
         public Color textColor { get; set; }
 
+        public string PicUrlUpdate
+        {
+            set
+            {
+                PicUrl = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("PicUrl"));
+            }
+        }
+
         public void updateIsInProgress(bool updatedVal)
         {
             IsInProgress = updatedVal;

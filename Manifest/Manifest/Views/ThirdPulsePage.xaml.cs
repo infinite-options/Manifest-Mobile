@@ -80,7 +80,7 @@ namespace Manifest.Views
             {
                 var helper = new SecondPulsePage();
                 options = await helper.GetOptions(category, userId);
-                if (options.Count != 0 && options != null)
+                if (options.Count != 0)
                 {
                     setGoals();
                 }

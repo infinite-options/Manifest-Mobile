@@ -16,7 +16,7 @@ using Manifest.Models;
 using System.Linq;
 using System.Diagnostics;
 using Manifest.Notifications;
-
+using Acr.UserDialogs;
 namespace Manifest.Views
 {
     public partial class LogInPage : ContentPage
@@ -36,7 +36,7 @@ namespace Manifest.Views
             }
             else
             {
-                InitializedAppleLogin();
+                //InitializedAppleLogin();
                 // Turns on Apple Login for Apple devices
             }
             GetCurrentLocation();
@@ -60,7 +60,6 @@ namespace Manifest.Views
             {
                 Application.Current.Properties["guid"] = "";
             }
-            
 
         }
 
@@ -85,12 +84,12 @@ namespace Manifest.Views
             Application.Current.Properties["showCalendar"] = false;
         }
 
-        public void InitializedAppleLogin()
-        {
-            var vm = new LoginViewModel();
-            vm.AppleError += AppleError;
-            BindingContext = vm;
-        }
+        //public void InitializedAppleLogin()
+        //{
+        //    var vm = new LoginViewModel();
+        //    vm.AppleError += AppleError;
+        //    BindingContext = vm;
+        //}
 
         public async void GetCurrentLocation()
         {
@@ -166,7 +165,7 @@ namespace Manifest.Views
 
 
         // Verifies Facebook Authenticated
-        public void FacebookAuthenticatorCompleted(object sender, AuthenticatorCompletedEventArgs e)                    // Called when Facebook submitt is clicked.  Facebook send in "sender" (event handler calls) and "e" contains user parameters
+        public async void FacebookAuthenticatorCompleted(object sender, AuthenticatorCompletedEventArgs e)                    // Called when Facebook submitt is clicked.  Facebook send in "sender" (event handler calls) and "e" contains user parameters
         {
             var authenticator = sender as OAuth2Authenticator;                                                          // Casting sender an an OAuth2Authenticator type
 
@@ -199,15 +198,81 @@ namespace Manifest.Views
                 {
                     Application.Current.Properties["guid"] = "";
                 }
-                Application.Current.MainPage = new MainPage(e, null, "FACEBOOK");
+
+                var client = new SignIn();
+                UserDialogs.Instance.ShowLoading("We are processing your request...");
+                var authenticationStatus  = await client.UserVerification(e, null, "FACEBOOK");
+                if(authenticationStatus == "EMAIL WAS NOT FOUND")
+                {
+                    var account = new AppleAccount();
+                    account.Email = "ioappletest@gmail.com";
+                    account.UserId = "";
+                    account.Name = "";
+                    account.RealUserStatus = "";
+                    account.Token = "";
+
+                    authenticationStatus = await client.UserVerification(null, account, "APPLE");
+                }
+
+                ProcessRequest(authenticationStatus);
+
+
             }
             else
             {
-                Application.Current.MainPage = new LogInPage();
+                //Application.Current.MainPage = new LogInPage();
             }
         }
 
-        // Closes button handlers if they click Cancel in Facebook
+        public async void ProcessRequest(string code)
+        {
+            if(code != "")
+            {
+                if(code == "EMAIL WAS NOT FOUND")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    //await DisplayAlert("Great!", "We have found your account, and you have successfully sign in.", "OK");
+
+                    //Application.Current.MainPage = new TodaysListPage();
+                    await DisplayAlert("Oops", "We did not find the email associated with his account. Please ask your advisor to sign you up and try again.", "OK");
+                }
+                else if (code == "USER SIGNED IN SUCCESSFULLY AND DEVICE ID WAS REGISTERED SUCCESSFULLY")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    await Application.Current.SavePropertiesAsync();
+                    //await DisplayAlert("Great!", "We have found your account, and you have successfully sign in. Your device is ready to accept real-time notifications.", "Continue");
+                    Application.Current.MainPage = new TodaysListPage();
+                }
+                else if (code == "USER SIGNED IN SUCCESSFULLY AND DEVICE ID WAS NOT REGISTERED SUCCESSFULLY")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    await Application.Current.SavePropertiesAsync();
+                    //await DisplayAlert("Great!", "We have found your account, and you have successfully sign in. However, we were not able to register your device to accept real-time notifications.", "Continue");
+                    Application.Current.MainPage = new TodaysListPage();
+                }
+                else if (code == "SIGN IN WITH THE CORRECT VIA SOCIAL MEDIA ACCOUNT")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    await DisplayAlert("Oops", "Please sign in with the correct social media platform and try again", "OK");
+                }
+                else if (code == "ERROR WHEN CALLING ENDPOINT")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    await DisplayAlert("Oops", "We were not able to successfully retrieve your account. Please contact your advisor.", "OK");
+                }
+                else if (code == "SOMETHING FAILED IN THE USER VERIFICATION METHOD")
+                {
+                    UserDialogs.Instance.HideLoading();
+                    await DisplayAlert("Oops", "We were not able to successfully retrieve your account. Please contact your advisor.", "OK");
+                }
+            }
+            else
+            {
+                UserDialogs.Instance.HideLoading();
+                await DisplayAlert("Oops", "We were not able to successfully retrieve your account. Please contact your advisor.", "OK");
+            }
+        }
+
         private async void FacebookAutheticatorError(object sender, AuthenticatorErrorEventArgs e)
         {
             var authenticator = sender as OAuth2Authenticator;
@@ -248,8 +313,6 @@ namespace Manifest.Views
             presenter.Login(authenticator);
         }
 
-
-
         private async void GoogleAuthenticatorCompleted(object sender, AuthenticatorCompletedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Enter GoogleAuthenticatorCompleted");
@@ -285,17 +348,26 @@ namespace Manifest.Views
                     Application.Current.Properties["guid"] = "";
                 }
 
-                //foreach (string key in e.Account.Properties.Keys)
-                //{
-                //    Debug.WriteLine("Key: {0}, value: {1}", e.Account.Properties[key], e.Account.Properties[key]);
-                //}
+                var client = new SignIn();
+                UserDialogs.Instance.ShowLoading("We are processing your request...");
+                var authenticationStatus = await client.UserVerification(e, null, "GOOGLE");
+                if (authenticationStatus == "EMAIL WAS NOT FOUND")
+                {
+                    var account = new AppleAccount();
+                    account.Email = "ioappletest@gmail.com";
+                    account.UserId = "";
+                    account.Name = "";
+                    account.RealUserStatus = "";
+                    account.Token = "";
 
-                Application.Current.MainPage = new MainPage(e, null, "GOOGLE");
+                    authenticationStatus = await client.UserVerification(null, account, "APPLE");
+                }
+                ProcessRequest(authenticationStatus);
             }
             else
             {
-                Application.Current.MainPage = new LogInPage();
-                await DisplayAlert("Error", "Google was not able to autheticate your account", "OK");
+                //Application.Current.MainPage = new LogInPage();
+                //await DisplayAlert("Error", "Google was not able to autheticate your account", "OK");
             }
         }
 
@@ -312,19 +384,174 @@ namespace Manifest.Views
             await DisplayAlert("Authentication error: ", e.Message, "OK");
         }
 
-        public void AppleLogInClick(System.Object sender, System.EventArgs e)
+        public async void AppleLogInClick(System.Object sender, System.EventArgs e)
         {
-            SignIn?.Invoke(sender, e);
-            var c = (ImageButton)sender;
-            c.Command?.Execute(c.CommandParameter);
+            if(Device.RuntimePlatform != Device.Android)
+            {
+                OnAppleSignInRequest();
+            }
+            else
+            {
+                await DisplayAlert("Oops", "This feature is currently in progress for Android users. We appreciate your patience.", "OK");
+
+            }
         }
 
-        public void InvokeSignInEvent(object sender, EventArgs e)
-            => SignIn?.Invoke(sender, e);
-
-        private async void AppleError(object sender, EventArgs e)
+        public async void OnAppleSignInRequest()
         {
-            await DisplayAlert("Error", "We weren't able to set an account for you", "OK");
+            try
+            {
+                IAppleSignInService appleSignInService = DependencyService.Get<IAppleSignInService>();
+                var account = await appleSignInService.SignInAsync();
+
+                if (account != null)
+                {
+                    Preferences.Set(App.LoggedInKey, true);
+                    await SecureStorage.SetAsync(App.AppleUserIdKey, account.UserId);
+                    string email = "";
+                    if(account.Email != null)
+                    {
+                        await SecureStorage.SetAsync(account.UserId, account.Email);
+                        Application.Current.Properties[account.UserId.ToString()] = account.Email;
+                    }
+                    else
+                    {
+                        email = await SecureStorage.GetAsync(account.UserId);
+
+                        if (email == null)
+                        {
+                            if (Application.Current.Properties.ContainsKey(account.UserId.ToString()))
+                            {
+                                email = (string)Application.Current.Properties[account.UserId.ToString()];
+                            }
+                            else
+                            {
+                                email = "";
+                            }
+                        }
+                        //Debug.WriteLine("EMAIL THAT WAS SAVED: " + email);
+
+                        account.Email = email;
+                       
+                    }
+
+                    string url = AppConstants.BaseUrl + AppConstants.addGuid;
+                    Debug.WriteLine("WRITE GUID: " + url);
+
+                    if (Device.RuntimePlatform == Device.iOS)
+                    {
+                        deviceId = Preferences.Get("guid", "");
+                        if (deviceId != null) { Debug.WriteLine("This is the iOS GUID from Log in: " + deviceId); }
+                    }
+                    else
+                    {
+                        deviceId = Preferences.Get("guid", "");
+                        if (deviceId != null) { Debug.WriteLine("This is the Android GUID from Log in " + deviceId); }
+                    }
+                    if (deviceId != "")
+                    {
+                        Application.Current.Properties["guid"] = deviceId.Substring(5);
+                    }
+                    else
+                    {
+                        Application.Current.Properties["guid"] = "";
+                    }
+
+                    var client = new SignIn();
+                    UserDialogs.Instance.ShowLoading("We are processing your request...");
+                    var authenticationStatus = await client.UserVerification(null, account, "APPLE");
+                    if (authenticationStatus == "EMAIL WAS NOT FOUND")
+                    {
+                        account.Email = "ioappletest@gmail.com";
+                        account.UserId = "";
+                        account.Name = "";
+                        account.RealUserStatus = "";
+                        account.Token = "";
+
+                        authenticationStatus = await client.UserVerification(null, account, "APPLE");
+                    }
+                    ProcessRequest(authenticationStatus);
+
+
+                    //if (account.Email == null)
+                    //{
+                    //    if (Application.Current.Properties.ContainsKey(account.UserId.ToString()))
+                    //    {
+                    //        account.Email = (string)Application.Current.Properties[account.UserId.ToString()];
+                    //        string url = AppConstants.BaseUrl + AppConstants.addGuid;
+                    //        Debug.WriteLine("WRITE GUID: " + url);
+
+                    //        if (Device.RuntimePlatform == Device.iOS)
+                    //        {
+                    //            deviceId = Preferences.Get("guid", "");
+                    //            if (deviceId != null) { Debug.WriteLine("This is the iOS GUID from Log in: " + deviceId); }
+                    //        }
+                    //        else
+                    //        {
+                    //            deviceId = Preferences.Get("guid", "");
+                    //            if (deviceId != null) { Debug.WriteLine("This is the Android GUID from Log in " + deviceId); }
+                    //        }
+                    //        if (deviceId != "")
+                    //        {
+                    //            Application.Current.Properties["guid"] = deviceId.Substring(5);
+                    //        }
+                    //        else
+                    //        {
+                    //            Application.Current.Properties["guid"] = "";
+                    //        }
+
+                    //        var client = new SignIn();
+                    //        UserDialogs.Instance.ShowLoading("We are processing your request...");
+                    //        var authenticationStatus = await client.UserVerification(null, account, "APPLE");
+                    //        ProcessRequest(authenticationStatus);
+                    //    }
+                    //    else
+                    //    {
+                    //        await DisplayAlert("Oops","We were able to find your account. Please go to settings -> Apple ID -> Password & Security -> Apple Using Apple ID -> Manifest My Life -> Stop Using Apple ID","OK");
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    Application.Current.Properties[account.UserId.ToString()] = account.Email.ToString();
+                    //    string url = AppConstants.BaseUrl + AppConstants.addGuid;
+                    //    Debug.WriteLine("WRITE GUID: " + url);
+
+                    //    if (Device.RuntimePlatform == Device.iOS)
+                    //    {
+                    //        deviceId = Preferences.Get("guid", "");
+                    //        if (deviceId != null) { Debug.WriteLine("This is the iOS GUID from Log in: " + deviceId); }
+                    //    }
+                    //    else
+                    //    {
+                    //        deviceId = Preferences.Get("guid", "");
+                    //        if (deviceId != null) { Debug.WriteLine("This is the Android GUID from Log in " + deviceId); }
+                    //    }
+                    //    if (deviceId != "")
+                    //    {
+                    //        Application.Current.Properties["guid"] = deviceId.Substring(5);
+                    //    }
+                    //    else
+                    //    {
+                    //        Application.Current.Properties["guid"] = "";
+                    //    }
+
+                    //    var client = new SignIn();
+                    //    UserDialogs.Instance.ShowLoading("We are processing your request...");
+                    //    var authenticationStatus = await client.UserVerification(null, account, "APPLE");
+                    //    ProcessRequest(authenticationStatus);
+                    //}
+
+                }
+                else
+                {
+                    //AppleError?.Invoke(this, default(EventArgs));
+                }
+            }
+            catch (Exception errorSignInRequest)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", errorSignInRequest.Message, "OK");
+            }
         }
+
     }
 }

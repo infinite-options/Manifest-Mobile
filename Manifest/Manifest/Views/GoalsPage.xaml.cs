@@ -210,7 +210,14 @@ namespace Manifest.Views
                     text2.Text = goalsInRange[1].Title;
                     occuranceDict.Add(text2.Text, goalsInRange[1]);
 
-                    stack2.Margin = new Thickness(50, 0, 0, 0);
+                    if(Device.RuntimePlatform == Device.iOS)
+                    {
+                        stack2.Margin = new Thickness(50, 0, 0, 0);
+                    }
+                    else
+                    {
+                        stack2.Margin = new Thickness(0.2, 0, 0, 0);
+                    }
 
                     if (goalsInRange[0].IsInProgress)
                     {
@@ -705,7 +712,7 @@ namespace Manifest.Views
             }
             catch (Exception e)
             {
-                DisplayAlert("Alert", "Error in TodaysListTest ToOccurances(). Error: " + e.ToString(), "OK");
+               await DisplayAlert("Note", "Please talk to your trusted advisor to add goals to your calendar. Thank you!", "OK");
             }
         }
 
@@ -761,7 +768,7 @@ namespace Manifest.Views
         {
             try
             {
-                Debug.WriteLine(chosenOccurance.Title + ", InProgress = " + chosenOccurance.IsInProgress.ToString() + ", IsComplete = " + chosenOccurance.IsComplete.ToString());
+                //Debug.WriteLine(chosenOccurance.Title + ", InProgress = " + chosenOccurance.IsInProgress.ToString() + ", IsComplete = " + chosenOccurance.IsComplete.ToString());
                 if (chosenOccurance == null)
                 {
                     await DisplayAlert("Note", "Please select a goal.", "OK");
@@ -808,7 +815,7 @@ namespace Manifest.Views
             }
             catch(Exception goals)
             {
-                await DisplayAlert("Oops",goals.Message,"OK");
+                await DisplayAlert("Oops", "please select a goal first", "OK");
             }
         }
 

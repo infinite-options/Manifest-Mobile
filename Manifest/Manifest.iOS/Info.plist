@@ -37,16 +37,16 @@
 		</dict>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We utilize Google, Facebook and Apple authentication.  Authentication using these social platforms provides ease of access and account security.  As part of the authentication process we receive your first name, last name, social ID and email address.  In the case of Google we also receive your profile image and location. All of this information is used exclusively by the app to pre-populate text fields and enhance the user experience.  Your information is never sold or released by Manifest MyLife or its parent company Infinite Options.  Please contact us at info@infiniteoptions.com if you have any questions or concerns.</string>
-	<key>CFBundleShortVersionString</key>
-	<string>2.2.2</string>
+	<string>Turning on location services allows us to display your current timezone, city and state. </string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.2.3</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.infiniteoptions-manifestmy.life</string>
 	<key>CFBundleVersion</key>
-	<string>63</string>
+	<string>77</string>
 </dict>
 </plist>

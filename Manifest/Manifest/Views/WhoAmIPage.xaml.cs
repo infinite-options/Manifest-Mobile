@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using Manifest.Config;
+using Manifest.Interfaces;
 using Manifest.LogIn.Classes;
 using Manifest.Models;
 using Manifest.RDS;
@@ -27,7 +32,7 @@ namespace Manifest.Views
         public WhoAmIPage()
         {
             InitializeComponent();
-
+            GetCurrentLocation();
             setting = false;
             height = mainStackLayoutRow.Height;
             lastRowHeight = barStackLayoutRow.Height;
@@ -38,21 +43,84 @@ namespace Manifest.Views
             scheduleFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             lobbyFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
             supportFrame.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            title.Text = "My Story";
+            title.Text = "Settings";
             if (Device.RuntimePlatform == Device.iOS)
             {
                 titleGrid.Margin = new Thickness(0, 10, 0, 0);
             }
-            frameMessageCard.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
-            frameMessageDay.BackgroundColor = Color.FromHex((string)Application.Current.Properties["goal"]);
-            frameMajorEvent.BackgroundColor = Color.FromHex((string)Application.Current.Properties["routine"]);
-            frameMyHistory.BackgroundColor = Color.FromHex((string)Application.Current.Properties["event"]);
+            //frameMessageCard.BackgroundColor = Color.FromHex((string)Application.Current.Properties["header"]);
+            //frameMessageDay.BackgroundColor = Color.FromHex((string)Application.Current.Properties["goal"]);
+            //frameMajorEvent.BackgroundColor = Color.FromHex((string)Application.Current.Properties["routine"]);
+            //frameMyHistory.BackgroundColor = Color.FromHex((string)Application.Current.Properties["event"]);
 
-            var helperObject = new MainPage();
             locationTitle.Text = (string)Application.Current.Properties["location"];
-            dateTitle.Text = helperObject.GetCurrentTime();
+            dateTitle.Text = GetCurrentTime();
+
+            string version = "";
+            string build = "";
+            version = DependencyService.Get<IAppVersionAndBuild>().GetVersionNumber();
+            build = DependencyService.Get<IAppVersionAndBuild>().GetBuildNumber();
+
+            appVersion.Text = "App version: " + version + ", App build: " + build;
+            //Debug.WriteLine("SIGNED IN WITH APPLE: USERID: " + userInfo);
+            //var helperObject = new MainPage();
+            //locationTitle.Text = (string)Application.Current.Properties["location"];
+            //dateTitle.Text = helperObject.GetCurrentTime();
             var userId = (string)Application.Current.Properties["userId"];
+
+            Debug.WriteLine("SIGNED IN WITH APPLE: USERID: " + userId);
+
             initializeUser(userId);
+        }
+
+        public string GetCurrentTime()
+        {
+            var currentTime = DateTime.Now;
+            var time = currentTime.ToString("MMMM d, yyyy");
+            return time;
+        }
+
+        public async void GetCurrentLocation()
+        {
+            try
+            {
+
+                var location = await Geolocation.GetLastKnownLocationAsync();
+
+                if (location != null)
+                {
+                    var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                    var placemark = placemarks?.FirstOrDefault();
+                    if (placemark != null)
+                    {
+                        var geocodeAddress =
+                            $"AdminArea:       {placemark.AdminArea}\n" +
+                            $"CountryCode:     {placemark.CountryCode}\n" +
+                            $"CountryName:     {placemark.CountryName}\n" +
+                            $"FeatureName:     {placemark.FeatureName}\n" +
+                            $"Locality:        {placemark.Locality}\n" +
+                            $"PostalCode:      {placemark.PostalCode}\n" +
+                            $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                            $"SubLocality:     {placemark.SubLocality}\n" +
+                            $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                            $"Thoroughfare:    {placemark.Thoroughfare}\n";
+
+                        Debug.WriteLine(geocodeAddress);
+                        Application.Current.Properties["location"] = "";
+
+                        Application.Current.Properties["location"] = placemark.Locality + ", " + placemark.AdminArea;
+                    }
+                    Debug.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                }
+
+            }
+            catch (Exception c)
+            {
+                // Handle not supported on device exception
+                Debug.WriteLine("LOCATION MESSAGE CA:" + c.Message);
+            }
+
         }
 
         private async void initializeUser(string uid)
@@ -62,7 +130,7 @@ namespace Manifest.Views
                 string res = await RdsConnect.getUser(uid);
                 if (res == "Failure")
                 {
-                    await DisplayAlert("Alert", "Error in getUser() in initializeUser() in AboutMePage", "OK");
+                    //await DisplayAlert("Alert", "Error in getUser() in initializeUser() in AboutMePage", "OK");
                 }
                 Debug.WriteLine("ABOUT ME: " + res);
                 UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(res);
@@ -73,31 +141,33 @@ namespace Manifest.Views
                 //userImage.Source = user.PicUrl;
                 if (user.user_birth_date == null)
                 {
-                    userBirthDate.Text = "Date of birth: N/A";
+                    userBirthDate.IsVisible = false;
+                    //userBirthDate.Text = "Date of birth: N/A";
                 }
                 else
                 {
                     try
                     {
                         var date = DateTime.Parse(user.user_birth_date);
-                        Debug.WriteLine("DATE OF BIRTH: " + date.ToString("dd MMMM yyyy"));
-                        userBirthDate.Text = "Date of birth: " + date.ToString("dd MMMM yyyy");
+                        //Debug.WriteLine("DATE OF BIRTH: " + date.ToString("dd MMMM yyyy"));
+                        userBirthDate.Text = "Date of birth: " + date.ToString("MMM dd yyyy");
                     }
                     catch (Exception birthDate)
                     {
-                        await DisplayAlert("Oops", birthDate.Message, "OK");
-                        userBirthDate.Text = "Date of birth: N/A";
+                        //await DisplayAlert("Oops", birthDate.Message, "OK");
+                        Debug.WriteLine("Error: " + birthDate.Message);
+                        userBirthDate.IsVisible = false;
                     }
                 }
 
                 if(user.MessageCard != null)
                 {
-                    messageCard.Text = user.MessageCard;
+                    messageCard.Text = user.MessageDay;
                 }
 
                 if (user.MessageDay != null)
                 {
-                    messageDay.Text = user.MessageDay;
+                    messageDay.Text = user.MessageCard;
                 }
 
                 if (user.MajorEvents != null)
@@ -115,15 +185,15 @@ namespace Manifest.Views
                     userPic.Source = user.PicUrl;
                 }
 
-                double height = Math.Max(messageCard.Text.Length + messageCard.Text.Length, messageDay.Text.Length + messageDay.Text.Length);
-                Debug.WriteLine("HEIGHT: " + height);
-                frameMessageCard.HeightRequest = height;
-                frameMessageDay.HeightRequest = height;
+                //double height = Math.Max(messageCard.Text.Length + messageCard.Text.Length, messageDay.Text.Length + messageDay.Text.Length);
+                //Debug.WriteLine("HEIGHT: " + height);
+                //frameMessageCard.HeightRequest = height;
+                //frameMessageDay.HeightRequest = height;
 
-                height = Math.Max(majorEvents.Text.Length + majorEvents.Text.Length, myHistory.Text.Length + myHistory.Text.Length);
-                Debug.WriteLine("HEIGHT: " + height);
-                frameMajorEvent.HeightRequest = height;
-                frameMyHistory.HeightRequest = height;
+                //height = Math.Max(majorEvents.Text.Length + majorEvents.Text.Length, myHistory.Text.Length + myHistory.Text.Length);
+                //Debug.WriteLine("HEIGHT: " + height);
+                //frameMajorEvent.HeightRequest = height;
+                //frameMyHistory.HeightRequest = height;
 
             }
             catch (Exception a)
@@ -139,8 +209,8 @@ namespace Manifest.Views
             friend.Clear();
             var familyCounter = 1;
             var friendCounter = 1;
-            var height1 = 90;
-            var height2 = 90;
+            var height1 = 30;
+            var height2 = 20;
             if (userResponse.result != null)
             {
                 foreach (UserDto dto in userResponse.result)
@@ -190,28 +260,114 @@ namespace Manifest.Views
                         }
                         if(toAdd.Relation == "Family")
                         {
-                            family.Add(toAdd);
-                            if (familyCounter % 5 == 0)
+                            //family.Add(toAdd);
+                            if (familyCounter <= 5)
                             {
-                                height1 += 90;
+                                var myStack = new StackLayout();
+                                myStack.HorizontalOptions = LayoutOptions.Center;
+                                myStack.WidthRequest = 40;
+                                myStack.HeightRequest = 40;
+
+                                var tap = new TapGestureRecognizer();
+                                tap.Tapped += TapGestureRecognizer_Tapped_1;
+                                myStack.GestureRecognizers.Add(tap);
+
+                                var myFrame = new Frame();
+                                myFrame.IsClippedToBounds = true;
+                                myFrame.Padding = 0;
+                                myFrame.WidthRequest = 40;
+                                myFrame.HeightRequest = 40;
+                                myFrame.HasShadow = false;
+                                myFrame.CornerRadius = 20;
+                                myFrame.BorderColor = Color.Black;
+
+                                var myImage = new Image();
+                                myImage.Source = toAdd.PicUrl;
+                                myImage.Aspect = Aspect.AspectFill;
+
+                                myFrame.Content = myImage;
+
+                                myStack.Children.Add(myFrame);
+
+                                
+
+                                var name = new CustomizeFontLabel();
+                                name.HorizontalTextAlignment = TextAlignment.Center;
+                                name.Text = toAdd.Name;
+                                name.TextColor = Color.Black;
+                                name.FontSize = 9;
+
+                                myStack.Children.Add(name);
+
+                                var phone = new CustomizeFontLabel();
+                                phone.HorizontalTextAlignment = TextAlignment.Center;
+                                phone.Text = toAdd.PhoneNumber;
+                                phone.IsVisible = false;
+
+                                myStack.Children.Add(phone);
+                                familyMembersList.Children.Add(myStack);
+                                //height1 += 60;
                             }
                             familyCounter++;
                         }
-                        if (toAdd.Relation == "Family")
+                        if (toAdd.Relation == "Friends" || toAdd.Relation == "Friend")
                         {
-                            friend.Add(toAdd);
-                            if (friendCounter % 5 == 0)
+                            //friend.Add(toAdd);
+                            if (friendCounter <= 5)
                             {
-                                height2 += 90;
+                                var myStack = new StackLayout();
+                                myStack.HorizontalOptions = LayoutOptions.Center;
+                                myStack.WidthRequest = 40;
+                                myStack.HeightRequest = 40;
+
+                                var tap = new TapGestureRecognizer();
+                                tap.Tapped += TapGestureRecognizer_Tapped_2;
+                                myStack.GestureRecognizers.Add(tap);
+
+                                var myFrame = new Frame();
+                                myFrame.IsClippedToBounds = true;
+                                myFrame.Padding = 0;
+                                myFrame.WidthRequest = 40;
+                                myFrame.HeightRequest = 40;
+                                myFrame.HasShadow = false;
+                                myFrame.CornerRadius = 20;
+                                myFrame.BorderColor = Color.Black;
+
+                                var myImage = new Image();
+                                myImage.Source = toAdd.PicUrl;
+                                myImage.Aspect = Aspect.AspectFill;
+
+                                myFrame.Content = myImage;
+
+                                myStack.Children.Add(myFrame);
+
+
+
+                                var name = new CustomizeFontLabel();
+                                name.HorizontalTextAlignment = TextAlignment.Center;
+                                name.Text = toAdd.Name;
+                                name.TextColor = Color.Black;
+                                name.FontSize = 9;
+
+                                myStack.Children.Add(name);
+
+                                var phone = new CustomizeFontLabel();
+                                phone.HorizontalTextAlignment = TextAlignment.Center;
+                                phone.Text = toAdd.PhoneNumber;
+                                phone.IsVisible = false;
+
+                                myStack.Children.Add(phone);
+                                friendMembersList.Children.Add(myStack);
+                                //height2 += 60;
                             }
                             friendCounter++;
                         }
                     }
                 }
-                familyMembersList.ItemsSource = family;
-                friendMembersList.ItemsSource = friend;
-                familyMembersList.HeightRequest = height1;
-                friendMembersList.HeightRequest = height2;
+                //familyMembersList.ItemsSource = family;
+                //friendMembersList.ItemsSource = friend;
+                //familyMembersList.HeightRequest = height1;
+                //friendMembersList.HeightRequest = height2;
             }
         }
 
@@ -230,7 +386,7 @@ namespace Manifest.Views
 
         void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new MainPage();
+            Application.Current.MainPage.Navigation.PopModalAsync(false);
         }
 
         void Button_Clicked(System.Object sender, System.EventArgs e)
@@ -289,6 +445,50 @@ namespace Manifest.Views
             var myStack = (StackLayout)sender;
             var phone = (Label)myStack.Children[2];
             PerformCall(phone.Text);
+        }
+
+        async void Slider_DragCompleted(System.Object sender, System.EventArgs e)
+        {
+            Debug.WriteLine("VALUE1: " + (int)slider1.Value);
+            Debug.WriteLine("X VALUE: " + slider1.Width);
+            var f = slider1.Width / 120;
+            value1.Text = ((int)slider1.Value).ToString();
+            value1.Margin = new Thickness(11 + f* (int)slider1.Value, 8, 0, -8);
+
+            await SendRequest("anxiety_scale", ((int)slider1.Value).ToString());
+        }
+
+        async void Slider_DragCompleted_1(System.Object sender, System.EventArgs e)
+        {
+            Debug.WriteLine("VALUE2: " + (int)slider2.Value);
+            var f = slider2.Width / 120;
+            value2.Text = ((int)slider2.Value).ToString();
+            value2.Margin = new Thickness(11 + f * (int)slider2.Value, 8, 0, -8);
+            await SendRequest("mood_scale", ((int)slider2.Value).ToString());
+        }
+
+        public async Task<bool> SendRequest(string category, string option)
+        {
+            var client = new HttpClient();
+            var feedback = new Assessment();
+
+            feedback.user_id = (string)Application.Current.Properties["userId"];
+            feedback.category = category;
+            feedback.name = option;
+
+            var feedbackJSON = JsonConvert.SerializeObject(feedback);
+
+            Debug.WriteLine(feedbackJSON);
+
+            var postContent = new StringContent(feedbackJSON, Encoding.UTF8, "application/json");
+            var rdsResponse = await client.PostAsync(AppConstants.BaseUrl + AppConstants.addPulse, postContent);
+
+            return rdsResponse.IsSuccessStatusCode;
+        }
+
+        void LogOut(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.MainPage = new LogInPage();
         }
     }
 }

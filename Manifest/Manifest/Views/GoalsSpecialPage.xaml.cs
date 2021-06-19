@@ -396,6 +396,23 @@ namespace Manifest.Views
                 {
                     await RdsConnect.updateOccurance(subOccDict[actionLabel3], true, false, url);
                 }
+            }else if (receiving == actionFrame3 && actionLabel3.Text != null && actionLabel3.Text != "" && subOccDict[actionLabel3].IsComplete == true && subOccDict[actionLabel3].instructions.Count <= 0)
+            {
+                //string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                //await RdsConnect.updateOccurance(passedOccurance, false, false, url2);
+                await RdsConnect.updateOccurance(subOccDict[actionLabel3], false, false, url);
+            }
+            else if (receiving == actionFrame2 && actionLabel2.Text != null && actionLabel2.Text != "" && subOccDict[actionLabel2].IsComplete == true && subOccDict[actionLabel2].instructions.Count <= 0)
+            {
+                //string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                //await RdsConnect.updateOccurance(passedOccurance, false, false, url2);
+                await RdsConnect.updateOccurance(subOccDict[actionLabel2], false, false, url);
+            }
+            else if (receiving == actionFrame1 && actionLabel1.Text != null && actionLabel1.Text != "" && subOccDict[actionLabel1].IsComplete == true && subOccDict[actionLabel1].instructions.Count <= 0)
+            {
+                //string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                //await RdsConnect.updateOccurance(passedOccurance, false, false, url2);
+                await RdsConnect.updateOccurance(subOccDict[actionLabel1], false, false, url);
             }
 
         }
@@ -407,10 +424,27 @@ namespace Manifest.Views
             Navigation.PushAsync(new ProgressPage(goalId, goalName),false);
         }
 
-        void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
+        async void TapGestureRecognizer_Tapped(System.Object sender, System.EventArgs e)
         {
+            var reset = true;
+            
+            foreach(SubOccurance i in passedOccurance.subOccurances)
+            {
+                if(i.IsComplete != false)
+                {
+                    reset = false;
+                }
+            }
+
+            if (reset)
+            {
+                string url2 = AppConstants.BaseUrl + AppConstants.updateGoalAndRoutine;
+                await RdsConnect.updateOccurance(passedOccurance, false, false, url2);
+            }
+
+
             Debug.WriteLine("Nume elements in navigation stack = " + Application.Current.MainPage.Navigation.NavigationStack.Count.ToString());
-            Navigation.PopAsync(false);
+            await Navigation.PopAsync(false);
         }
 
 
